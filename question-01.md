@@ -472,18 +472,35 @@ console.log("End");
 
 15. ### What is the currying function
 
-    Currying is the process of taking a function with multiple arguments and turning it into a sequence of functions each with only a single argument. Currying is named after a mathematician **Haskell Curry**. By applying currying, a n-ary function turns it into a unary function.
+    Currying is a powerful technique in JavaScript (and functional programming in general) that allows a function to be broken down into multiple smaller functions, each accepting one argument. It promotes code reusability and flexibility, particularly when working with functions that take multiple parameters.
 
     Let's take an example of n-ary function and how it turns into a currying function,
 
     ```javascript
-    const multiArgFunction = (a, b, c) => a + b + c;
-    console.log(multiArgFunction(1, 2, 3)); // 6
+    function multiply(a) {
+      return function(b) {
+        return function(c) {
+          return a * b * c;
+        };
+      };
+    }
 
-    const curryUnaryFunction = (a) => (b) => (c) => a + b + c;
-    curryUnaryFunction(1); // returns a function: b => c =>  1 + b + c
-    curryUnaryFunction(1)(2); // returns a function: c => 3 + c
-    curryUnaryFunction(1)(2)(3); // returns the number 6
+    const result = multiply(2)(3)(4); // Output: 24
+    console.log(result);
+    ```
+
+    ```javascript
+    function handleEvent(eventType) {
+      return function(message) {
+        console.log(`${eventType}: ${message}`);
+      };
+    }
+
+    const logClick = handleEvent('Click');
+    const logSubmit = handleEvent('Submit');
+
+    logClick('Button clicked!'); // Output: Click: Button clicked!
+    logSubmit('Form submitted!'); // Output: Submit: Form submitted!
     ```
 
     Curried functions are great to improve **code reusability** and **functional composition**.
