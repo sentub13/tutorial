@@ -2819,7 +2819,17 @@ State management refers to the practice of managing data within an application i
 
 - **Services + BehaviorSubjects**: In smaller apps or isolated parts of an application, you may choose to manage state locally using services and `BehaviorSubject` or `ReplaySubject` to share state between components. This is more lightweight than NgRx or Akita but can get cumbersome in larger apps.
 
----
+
+### **3\. How to debug angular application
+ 1. **Chrome Developer Tools**: Use the console, breakpoints, network monitoring, and element inspection.
+2. **Angular Debug Tools**: Utilize Augury, `ng.probe()`, and Angular-specific debugging methods.
+3. **Source Maps**: Enable source maps in production for better debugging.
+4. **`ng serve`**: Use development flags and commands for verbose logging.
+5. **Isolate the Problem**: Simplify the code and test isolated parts.
+6. **Lifecycle Hooks**: Use `ngOnChanges` and `ngDoCheck` for debugging data flows.
+7. **Logging and Error Tracking**: Integrate with tools like Sentry and LogRocket for production-level debugging.
+8. **Testing**: Ensure a good testing strategy with unit and E2E tests.
+
 
 ### **3\. Designing a Scalable, Maintainable, and Testable Angular Application**
 
