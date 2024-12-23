@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+   <meta name="viewport" content="width=device-width, initial-scale=1">
+   <title> Welcome </title>
+   <!--link href="css/bootstrap.min.css" /-->	
+   <link href="css/style.css" />
+   
+   <body>
+
+  <table>
+    <tr>
+      <td><input type="text" id="name" value="name" /></td>
+      <td><input type="text" id="phone" value="phone" /></td>
+      <td><button id="AddItem">Add</button></td>
+    </tr> 
+  </table>
+  <table id="addRow" width="100%">
+      
+  </table>
+
+<script>
+
+ var count = 0, content;
+document.getElementById("AddItem").addEventListener("click", function(){
+  console.log("Hello")
+  count++
+  var name = document.getElementById("name").value;
+  var phone = document.getElementById("phone").value;
+
+    console.log(name +"---"+ phone)
+    content += '<tr>';
+    content += '<td>'+name+'</td>';
+    content += '<td>'+phone+'</td>';
+    content += '<td><button onclick="fnDeleteItem(this)">Delete</button></td>';
+    content += '</tr>';
+    count ++
+    document.getElementById("addRow").innerHTML = content;
+})
+
+function fnDeleteItem(e){
+  //console.log(e)
+  var parentTr = e.parentElement.parentNode;
+  parentTr.style.display = "none"
+  console.log("fnDeleteItem")
+}
+
+function fnAddItem(){
+ 
+  var name = document.getElementById("name").value;
+  var phone = document.getElementById("phone").value;
+  console.log(name +"---"+ phone)
+
+    content += '<tr>';
+      content += '<td>'+name+'</td>';
+      content += '<td>'+phone+'</td>';
+      content += '<td><button onclick="fnDeleteItem()">Delete</button></td>';
+    content += '</tr>';
+    count ++
+  document.getElementById("addRow").innerHTML = content;
+  //count++
+}
+
+</script>
+   </body>
+</html>

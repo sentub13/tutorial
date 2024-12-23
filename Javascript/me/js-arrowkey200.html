@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+   <meta name="viewport" content="width=device-width, initial-scale=1">
+   <title> Welcome </title>
+   <!--link href="css/bootstrap.min.css" /-->	
+   <link href="css/style.css" />
+   <style>
+   	li.selected, .selected, .focus{background:yellow}
+   </style>
+   <body>      
+	
+	<ul id="nav-page-list">
+	    <li>Item 1</li>
+	    <li>Item 2</li>
+	    <li>Item 3</li>
+	    <li>Item 4</li>
+	    <li>Item 5</li>
+	    <li>Item 6</li>
+	</ul>
+	
+	<script type="text/javascript">
+		
+		
+		document.addEventListener("keydown", this.handleKeyEvents);
+		var elemList,nextIndex=0,selectedElem='',NUMBER_OF_ITEMS;
+
+		elemList = document.querySelectorAll('#nav-page-list li');;
+		NUMBER_OF_ITEMS=elemList.length;
+		var selectedElem = document.querySelector('.focus');
+
+		function handleKeyEvents(e){
+			if(e.code === "ArrowDown"){
+				moveDown(e);
+			}else if(e.code === "ArrowUp"){
+				moveUp(e);
+			}
+		}
+
+		function moveDown(e){
+		  var elem;
+			console.log(nextIndex);
+				if(nextIndex >= NUMBER_OF_ITEMS){
+					
+				}else if(nextIndex===0){
+					elem = elemList[nextIndex++];
+					selectedElem=elem;
+					selectedElem.classList.add('focus');
+				}
+				else{					
+					if(selectedElem.classList.contains('focus'))
+						selectedElem.classList.remove('focus');
+					
+					nextIndex>=NUMBER_OF_ITEMS-1?NUMBER_OF_ITEMS-1:nextIndex++;
+					elem = elemList[nextIndex];
+					selectedElem=elem;
+					selectedElem.classList.add('focus');
+				} 
+		  }
+		  function moveUp(e){
+			  var elem;
+				if(nextIndex === 0){
+					selectedElem=elemList[nextIndex];
+					elemList[nextIndex].classList.add('focus');
+					nextIndex = 1;
+				}else{
+					//console.log('element' +' ' +nextIndex);
+					if(selectedElem)
+						selectedElem.classList.remove('focus');
+					elem = elemList[--nextIndex];
+					selectedElem=elem;
+					selectedElem.classList.add('focus');
+				}
+		  }
+		
+	
+		
+		
+	</script>
+
+   </body>
+</html>

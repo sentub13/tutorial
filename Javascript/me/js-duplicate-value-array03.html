@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Welcome</title>
+
+
+</head>
+<body>
+
+<script type="text/javascript">
+
+var arr = [9, 9, 111, 2, 3, 4, 4, 5, 7];
+var sorted_arr = arr.sort(); // You can define the comparing function here. 
+                             // JS by default uses a crappy string compare.
+console.log(sorted_arr);
+var results = [];
+for (var i = 0; i < arr.length - 1; i++) {
+    if (sorted_arr[i + 1] == sorted_arr[i]) {
+        results.push(sorted_arr[i]);
+    }
+}
+console.log(results);
+
+</script>
+</body>
+</html>

@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html>
+   <meta name="viewport" content="width=device-width, initial-scale=1">
+   <title> Welcome </title>
+   <!--link href="css/bootstrap.min.css" /-->	
+   <link href="css/style.css" />
+   <body>      
+	
+	<div class="container">
+		<form class="form-horizontal">
+		  <div class="form-group">
+			<label for="inputEmail3" class="col-sm-2 control-label">Email</label>
+			<div class="col-sm-10">
+			  <input type="email" class="form-control" id="inputEmail" placeholder="Email">
+			</div>
+		  </div>
+		  <div class="form-group">
+			<label for="inputPassword3" class="col-sm-2 control-label">Password</label>
+			<div class="col-sm-10">
+			  <input type="password" class="form-control" id="inputPassword" placeholder="Password">
+			</div>
+		  </div>
+		  <div class="form-group">
+			<div class="col-sm-offset-2 col-sm-10">
+			  <button type="submit" class="btn btn-default" onclick="setData()">Submit</button>
+			  <button type="submit" class="btn btn-default" onclick="getData()">Get</button>
+			  <button type="submit" class="btn btn-default" onclick="resetData()">Reset</button>
+			</div>
+		  </div>
+		</form>
+		<table cellpadding="0" cellspacing="0" width="100%">
+			<tr>
+				<td id="txtEmail"> </td>
+				<td id="txtPassword">  </td>
+			</tr>
+		</table>
+	</div>
+	
+	<div id="demo"></div>
+
+	<script>
+		var activity = {
+					"activate_voice" : "Press * to activate voice",
+					"listen_msg_send" : "Listening Message to be sent...",
+					"Processing" : "Processing...",
+					"Sorry_catch" : "Sorry didn't catch",
+					"did_not_hear" : "Sorry! i didn't hear any thing",
+					"long_press_retry" : "Long press center key to retry",
+					"app_not_found" : "App not found",
+					"press_enter_send_msg" : "Press Enter to send message.",
+					"press_speak_msg" : "Press * and speak message",
+					"no_song_found" : "No song found",
+					"try_and_again" : "Press * and try again",
+					"Listening" : "Listening...",
+					"press_stop" : "Press * to stop",
+					"record_start" : "Recording will end in",
+					"record_end" : "seconds, or press * to stop",
+					"Wait" : "Wait",
+					"not_support_audio_elem" : "Your browser does not support the audio element.",
+					"Play" : "Play",
+					"Pause" : "Pause",
+					"Stop" : "Stop",
+					"Cancel_and_retry" : "Cancel and retry",
+					"Press_Center_key_retry" : "Press Center key to retry",
+					"oops_something_went_wrong" : "Oops! Something went wrong",
+					"Back_to_Voice" : "Back to Voice",
+					"Press_to_Speak" : "Press to Speak",
+					"Privacy_settings" : "Privacy settings",
+					"Terms_and_Conditions" : "Terms_and_Conditions",
+					"Help_me" : "Help me",
+					"Languages" : "Languages",
+					"Feedback" : "Feedback",
+					"Hi_How_can_help" : "Hi, How can I help you?",
+					"Select" : "Select",
+					"Send_Message" : "Send Message",
+					"Skip" : "Skip",
+					"Submit" : "Submit",
+					"Replay" : "Replay",
+					"Processing" : "Processing",
+					"Sorry_didnt_hear_anything" : "Sorry! I didnt hear anything",
+					"Oops_No_network_connectivity" : "Oops! No network connectivity",
+					"Try_again_after_sometime" : "Try again after sometime",
+					"Unable_to_capture_mic" : "Unable to capture mic",
+					"Please_restart_the_app_and_try_again" : "Please restart the app and try again",
+					"Contact_not_found" : "Contact not found",
+					"Contact_Saved" : "Contact Saved!",
+					"Save_Contact" : "Save Contact",
+					"Messaage_sent" : "Messaage sent",
+					"Send_Message" : "Send Message",
+					"Message_Sent_Successfully" : "Message Sent Successfully!",
+					"Message_Sent_Failure!" : " Message Sent Failure!",
+					"Your_message_will_appear_here" : "Your message will appear here",
+					"Done" : "Done",
+					"Are_you_sure_you_want_to_discard_this_message?" : " Are you sure you want to discard this message?",
+					"Yes" : "Yes",
+					"No" : "No",
+					"Exit" : "Exit",
+					"Back" : "Back",
+					"Options" : "Options",
+					"Save" : "Save",
+					"Retry" : "Retry",
+					"Search" : "Search",
+					"Internet" : "Internet",
+					"Authenticating" : "Authenticating...",
+					"Please_wait" : "Please wait",
+					"Clearing_user_history" : "Clearing user history...",
+					"Unable_to_authenticate" : "Unable to authenticate",
+					"Please_check_your_internet_connection_and_try_again" : "Please check your internet connection and try again",
+					"Closing_app" : "Closing app",
+					"Call_name" : "Call &lt;Name&gt;",
+					"Message_name" : "Message &lt;Name&gt;",
+					"Play_song_on_JioMusic" : "Play &lt;song&gt; on JioMusic",
+					"Open_app_name" : "Open &lt;app name&gt;",
+					"Play_movie_or_program_name_on_app_name" : "Play &lt;movie/program name&gt; on &lt;app name&gt;",
+					"search_text" : "&lt;search text&gt;",
+					"Take_a_photo" : "Take a photo",
+					"Getting Started" : "Getting Started",
+					"Failed_To_capture_The_mic":"Failed to capture the mic"
+				}
+				//console.log(activity);
+				var eachLi, element;
+				for (var key in activity) {
+					//if (activity.hasOwnProperty(key)) {
+						element = activity[key];
+						//console.log(element);
+						
+							eachLi +="<p>"+element+"</p>";
+							document.getElementById("demo").innerHTML = eachLi;
+					//}
+				}
+			
+
+	</script>
+		
+	
+   </body>
+</html>

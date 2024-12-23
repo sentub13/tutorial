@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>JS Bin</title>
+  <style type="text/css">
+    #thingy {
+      background: Pink;
+    }
+
+    #thingy2 {
+      background: LightBlue;
+    }
+
+    #thingy,
+    #thingy2 {
+      padding: 20px;
+      margin: 20px;
+      height: 100px;
+    }
+
+    #child-thingy {
+      background: LightYellow;
+      padding: 10px;
+    }
+  </style>
+</head>
+<body>
+  <div id="thingy"></div>
+  <div id="thingy2">
+    <div id="child-thingy">
+      This element was here all along.
+    </div>
+  </div>
+
+  <script type="text/javascript">
+    /**
+ * Append element
+ */
+
+// Grab an element
+var el = document.getElementById('thingy'),
+    // Make a new div
+    elChild = document.createElement("div");
+
+// Give the new div some content
+elChild.innerHTML = 'This is appended into the element.';
+
+// Chug in into the parent element
+el.appendChild(elChild);
+
+/**
+ * Prepend element
+ */
+
+// Grab an element
+var el = document.getElementById('thingy2'),
+    // Make a new div
+    elChild = document.createElement("div");
+
+// Give the new div some content
+elChild.innerHTML = 'This is prepended into the element.';
+
+// Prepend it to the parent element
+el.insertBefore(elChild, el.firstChild);
+
+  </script>
+
+</body>
+</html>

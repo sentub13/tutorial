@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Welcome</title>
+
+  <style type="text/css">
+  	#menu{
+  		width: 400px;
+  		height: 40px;
+  		line-height: 40px;
+  		margin: 0 auto;
+  		padding: 0px;
+  	}
+  	#menu li{
+  		float: left;
+  		width: 100px;
+  		text-align: center;
+  		border: 1px solid red;
+  		padding: 0px;
+  		margin: 0px;
+  		list-style-type: none;
+  		box-sizing: border-box;
+  	}
+  	#menu li>ul{
+  		border: 1px solid green;
+  		width: 100px;
+  		height: auto;;
+  		margin: 0px;
+  		padding: 0px;
+  		box-sizing: border-box;
+  		display: none;
+  	}
+  	#menu li>ul li{
+  		border: 1px solid green;
+  	}
+  </style>
+
+</head>
+<body>
+
+<ul id="menu">
+	<li> Home </li>
+	<li id="submenu"> 
+		<a>About </a>
+		<ul>
+			<li> Menu 1</li>
+			<li> Menu 1</li>
+			<li> Menu 1</li>
+		</ul>
+	</li>
+	<li> Service </li>
+	<li> Contact </li>
+</ul>
+
+<script>
+
+var submenu = document.getElementById("submenu");
+submenu.addEventListener("mouseover", function(){
+	this.querySelectorAll("ul")[0].style.display = "block"
+})
+submenu.addEventListener("mouseout", function(){
+	this.querySelectorAll("ul")[0].style.display = "none"
+})
+
+</script>
+</body>
+</html>

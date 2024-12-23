@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+   <meta name="viewport" content="width=device-width, initial-scale=1">
+   <title> Welcome </title>
+   <!--link href="css/bootstrap.min.css" /-->	
+   <link href="css/style.css" />
+   <style>
+   	li.selected, .selected, .focus {background:yellow}
+   </style>
+   <body>      
+	
+	<ul id="nav-page-list">
+	    <li>Item 1</li>
+	    <li>Item 2</li>
+	    <li>Item 3</li>
+	    <li>Item 4</li>
+	    <li>Item 5</li>
+	    <li>Item 6</li>
+	    <li>Item 7</li>
+	    <li>Item 8</li>
+	    <li>Item 9</li>
+	</ul>
+	
+	<script type="text/javascript">
+		document.addEventListener("keydown", this.handleKeyEvents);
+		var li, liNum, liSelected, nextLi = 0;
+		function handleKeyEvents(e){
+			li = document.querySelectorAll('#nav-page-list li');
+			liSelected = document.querySelector('.focus');
+			liNum = li.length;	
+
+			if(e.code === "ArrowDown"){
+				moveDown(e);
+			}else if(e.code === "ArrowUp"){
+				moveUp(e);
+			}
+		}
+
+		function moveDown(e){
+			if(liSelected){
+	            li[nextLi].classList.remove("focus");
+	            nextLi++;
+	            if(nextLi > 0){
+	            	if (nextLi > liNum - 1) { nextLi = liNum - 1; }
+	            	li[nextLi].classList.add("focus");
+	            }  
+	        }else{
+	        	li[0].classList.add("focus");
+	        }
+		}
+
+		function moveUp(e){
+			if(liSelected){
+	            li[nextLi].classList.remove("focus");
+	            nextLi--;
+	            if(nextLi => 0){
+	            	if (nextLi == -1) { nextLi = 0; }
+	            	li[nextLi].classList.add("focus");
+	            }
+	        }
+		}
+
+	</script>
+
+   </body>
+</html>

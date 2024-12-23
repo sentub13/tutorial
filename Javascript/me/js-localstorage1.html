@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title> Welcome </title>
+</head>
+<body>
+    
+	<form id="contactForm" action="contact.php" method="POST">
+	  <div class="field">
+	    <label for="name">Name</label>
+	    <input type="text" name="name" id="name">
+	  </div>
+	  <div class="field">
+	    <label for="email">Email</label>
+	    <input type="email" name="email" id="email">
+	  </div>
+	  <div class="field">
+	    <label for="message">Message</label>
+	    <textarea name="message" id="message"></textarea>
+	  </div>
+	  <div class="field">
+	    <input type="submit" value="send">
+	  </div>
+	</form>
+
+	
+	
+    <script type="text/javascript">
+    	window.onload = function() {
+		  // Check for LocalStorage support.
+		  if (localStorage) {
+		    // Add an event listener for form submissions
+		    document.getElementById('contactForm').addEventListener('submit', function() {
+		      // Get the value of the name field.
+		      var name = document.getElementById('name').value;
+
+		      // Save the name in localStorage.
+		      localStorage.setItem('name', name);
+		    });
+
+		  }
+
+		}
+	
+    </script>
+</body>
+
+</html>

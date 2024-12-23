@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+   <meta name="viewport" content="width=device-width, initial-scale=1">
+   <title> Welcome </title>
+   <!--link href="css/bootstrap.min.css" /-->	
+   <link href="css/style.css" />
+   <style>
+   	li.selected, .selected, .focus{background:yellow}
+   </style>
+   <body>      
+	
+	<ul id="nav-page-list">
+	    <li>Item 1</li>
+	    <li>Item 2</li>
+	    <li>Item 3</li>
+	    <li>Item 4</li>
+	    <li>Item 5</li>
+	    <li>Item 6</li>
+	</ul>
+	
+	<script type="text/javascript">
+		
+		
+		document.addEventListener("keydown", this.handleKeyEvents);
+		var navElement = 0;
+
+		function handleKeyEvents(e){			
+			navElement = document.querySelectorAll('#nav-page-list li');
+			console.log(navElement.length)
+			if(e.code === "ArrowDown"){
+				moveDown(e);
+			}else if(e.code === "ArrowUp"){
+				moveUp(e);
+			}
+		}
+
+		function moveDown(e){
+			var selectedElement = document.querySelector('.focus');
+			if(selectedElement==null){
+				navElement[0].classList.add('focus');
+				selectedElement=document.querySelector('.focus');
+			}else if(selectedElement.nextElementSibling !== null){
+				 selectedElement.classList.remove("focus");
+				 selectedElement.nextElementSibling.classList.add("focus");
+			 }
+		}
+		function moveUp(e) {
+			var prevElement = document.querySelector('.focus');	
+			if(prevElement.previousElementSibling !== null){
+				prevElement.classList.remove("focus");
+				prevElement.previousElementSibling.classList.add("focus");
+			} else{
+				prevElement.classList.remove("focus");
+			}
+		}
+
+
+		/*function moveDown(e){
+			var liSelected = document.querySelector('.selected');			
+			if(liSelected){
+	            li[nextElm].classList.remove("selected");
+	            nextElm++;
+	            if(nextElm.length > 0){
+	            	li[nextElm].nextElementSibling.classList.add("selected");
+	            }else{
+	            	li[nextElm].classList.add("selected");
+	            }
+	        }else{
+	        	li[0].classList.add("selected");
+	        }
+		}*/		
+	
+		
+		
+	</script>
+
+   </body>
+</html>

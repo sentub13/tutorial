@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html>
+   <meta name="viewport" content="width=device-width, initial-scale=1">
+   <title> Welcome </title>
+   <!--link href="css/bootstrap.min.css" /-->	
+   <link href="css/style.css" />
+   <style>
+   	ul, ul li{
+   		margin: 0px;
+   		padding: 0px;
+   		list-style-type: none;
+   	}
+   	#nav-page-list li{
+   		padding: 8px;
+   		border-bottom: 1px dashed #ebebeb;
+   		display: table;
+   		content: '';
+   		clear: both;
+   		width: 100%
+   	}
+   	.subItem div{
+   		width: 50px;
+   		height: 50px;
+   		text-align: center;
+   		line-height: 50px;
+   		float: left;
+   		margin: 5px;
+   		border: 1px solid #f2f2f2;
+   	}
+   	li.selected, .selected, .focus { background:yellow; }
+   
+   </style>
+   <body>      
+	
+	<ul id="nav-page-list">
+	    <li>Item 1</li>
+	    <li>
+	    	<div id="liDiv2" class="subItem">
+	    		<div> A </div>
+	    		<div> G </div>
+	    		<div> v </div>
+	    		<div> H </div>
+	    		<div> j </div>
+	    		<div> K </div>
+	    	</div>
+	    </li>
+	    <li>Item 3</li>
+	    <li>
+	    	<div id="" class="subItem">
+	    		<div> A </div>
+	    		<div> G </div>
+	    		<div> v </div>
+	    		<div> H </div>
+	    		<div> j </div>
+	    	</div>
+	    </li>
+	    <li>Item 5</li>
+	    <li>
+	    	<div id="" class="subItem">
+	    		<div> A </div>
+	    		<div> G </div>
+	    		<div> v </div>
+	    		<div> H </div>
+	    	</div>
+	    </li>
+	    <li>Item 7</li>
+	    <li>
+	    	<div id="" class="subItem">
+	    		<div> A </div>
+	    		<div> G </div>
+	    		<div> v </div>
+	    	</div>
+	    </li>
+	</ul>
+	
+	<script type="text/javascript">
+		document.addEventListener("keydown", this.handleKeyEvents);
+		var li, div, liNum, divNum, isSelected, count = 0;
+		function handleKeyEvents(e){
+			//console.log(e);
+			isSelected = document.querySelector('.focus');
+			//console.log(isSelected);
+			li = document.querySelectorAll('#nav-page-list li');
+			//console.log(li.length);
+			//div = li[count+1].querySelectorAll(".subItem div");
+			//console.log(div)
+			//console.log(count);
+			
+			liNum = li.length;	
+			if(e.code === "ArrowUp"){
+				ArrowUp(e);
+			}else if(e.code === "ArrowDown"){
+				ArrowDown(e);
+			}
+			else if(e.code === "ArrowLeft"){
+				ArrowLeft(e);
+			}else if(e.code === "ArrowRight"){
+				ArrowRight(e);
+			}
+		}
+		function ArrowDown(e){
+			//debugger;
+			if(count == 0){
+				li[0].classList.add("focus");
+				count ++;
+			}else if(count > 0){
+				li[count-1].classList.remove("focus");
+				if(count > liNum - 1){
+					count = liNum - 2;
+				}
+				li[count].classList.add("focus");
+				count ++;
+			}
+
+			/*if(isSelected){
+	            li[count].classList.remove("focus");
+	            count++;
+	            if(count > 0){
+	            	if (count > liNum - 1) { count = liNum - 1; }
+	            	li[count].classList.add("focus");
+	            }
+	        }else{
+	        	li[0].classList.add("focus");
+	        }*/
+		}
+		function ArrowUp(e){
+			if(count>0){
+	            li[count].classList.remove("focus");
+	            count--;
+	            console.log(count);
+	            if(count > 0){
+	            	if (count == -1) { count = 0; }
+	            	li[count].classList.add("focus");
+	            }
+	        }
+		
+			/*
+			if(isSelected){
+	            li[count].classList.remove("focus");
+	            count--;
+	            if(count => 0){
+	            	if (count == -1) { count = 0; }
+	            	li[count].classList.add("focus");
+	            }
+	        }*/
+		}		
+		function ArrowLeft(e){
+			console.log("ArrowLeft");
+		}
+		function ArrowRight(e){
+			console.log("ArrowRight");
+		}		
+
+	</script>
+
+<!--div>
+	Oxform Detal College
+	Bhonmahali Harus
+</div-->
+   </body>
+</html>

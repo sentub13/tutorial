@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title> Welcome </title>
+<!--link href="css/bootstrap.min.css" /-->
+<link href="css/style.css" />
+
+<body>
+    <ul>
+        <li>Item:
+            <ol>
+                <li>Point:
+                    <div>
+                        <ul>
+                            <li>elem1</li>
+                        </ul>
+                    </div>
+                </li>
+            </ol>
+        </li>
+        <li>elem2</li>
+    </ul>
+    <ul>
+        <li>simple list1</li>
+    </ul>
+    <ul>
+    </ul>
+
+    <script type="text/javascript">
+    var text = "DEE PORBNDR EXP";
+	
+	var capitalizeFirst = function(data) {
+		var arr = data.split(' ');
+		var lower = arr[0].toLowerCase();
+		lower = lower.split('');
+		lower[0] = lower[0].toUpperCase();
+		lower = lower.join('');
+		return lower;
+	}
+	
+	
+	var lowertxt = capitalizeFirst(text)
+	console.log(lowertxt)
+
+    </script>
+</body>
+
+</html>

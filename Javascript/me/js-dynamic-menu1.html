@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+   <meta name="viewport" content="width=device-width, initial-scale=1">
+   <title> Welcome </title>
+   <!--link href="css/bootstrap.min.css" /-->	
+   <link href="css/style.css" />
+   <style>
+   .imgRounr{
+		border: 1px solid red;
+		padding: 6px;
+		width: 300px;
+	}
+   </style>
+   <body>      
+	
+	
+	<!--p id="demo"></p-->
+	<div>
+		<ul id="nav-page-list" tabindex="1">
+		
+		</ul>
+	</div>
+<script>
+var configObj, i, index, context_menu, content = "";
+configObj = {
+		"lan_IN": {
+			"context_menu": [
+				"Call &lt;name / number&gt;", 
+				"SMS &lt;name / number&gt;", 
+				"&lt;Jio App Name&gt;", 
+				"&lt;App name&gt;", 
+				"Net &lt;search string&gt;", 
+				"Press # key to change the language"
+			]
+		},
+		"lan_hi": {
+			"context_menu": [
+				"कॉल &lt;नाम / नंबर&gt;", 
+				"एस एम एस &lt;नाम/ नंबर&gt;", 
+				"&lt;जियो एप्प नाम&gt;", 
+				"&lt;एप्प नाम&gt;", 
+				"नेट &lt;सर्च टेक्स्ट&gt;", 
+				"भाषा को बदलने के लिए # कुंजी दबाएं "
+			]
+		}
+	};
+
+
+
+/* for (var key in configObj.lan_IN.context_menu) {
+	console.log(configObj.lan_IN.context_menu[key]);
+
+	content += "<li id="+key+" tabindex="+key+" class='nav-page-list'>"+configObj.lan_IN.context_menu[key]+"</li>";
+	document.getElementById("nav-page-list").innerHTML = content;
+} */
+
+var context_menu = [
+				"Call &lt;name / number&gt;", 
+				"SMS &lt;name / number&gt;", 
+				"&lt;Jio App Name&gt;", 
+				"&lt;App name&gt;", 
+				"Net &lt;search string&gt;", 
+				"Press # key to change the language"
+			]
+
+/* context_menu.forEach(function(element) {
+	console.log(element);
+	content += "<li class='nav-page-list'>"+element+"</li>";
+	document.getElementById("nav-page-list").innerHTML = content;
+}, this); */
+
+/* for (var index = 0; index < context_menu.length; index++) {
+	var element = context_menu[index];
+	content += "<li class='nav-page-list'>"+element+"</li>";
+	document.getElementById("nav-page-list").innerHTML = content;
+	
+} */
+
+var menuList = configObj.lan_IN.context_menu;
+console.log(menuList);
+for (var index = 0; index < menuList.length; index++) {
+	var element = menuList[index];
+	content += "<li class='nav-page-list'>"+element+"</li>";
+	document.getElementById("nav-page-list").innerHTML = content;
+	
+}
+
+</script>	
+	
+<!-- 	function displayContextMenu() {
+        var contMenuItems = configObj[deviceLang].context_menu;
+        doLogging("contMenuItems:" + contMenuItems);
+        var str = '';
+        for (var i = 0; i < contMenuItems.length; i++) {
+            str += '<li id=' + i + ' tabindex="1" class="nav-page-list">' + contMenuItems[i] + '</li>';
+        }
+        doLogging("str:" + str);
+        var ul = document.getElementById('nav-page-list');
+        ul.innerHTML = str;
+    } -->
+
+		
+	
+   </body>
+</html>

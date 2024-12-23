@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+	<meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0">
+	<script src="js/jquery.min.js"></script>
+	<meta charset="utf-8">
+	<title>Welcome</title>
+</head>
+<body> 
+<body>
+	
+
+  <input type="text">
+  <h1></h1>
+  <button>Change name</button>
+
+<script type="text/javascript">
+
+  class EventEmitter {
+  constructor() {
+    this.events = {};
+  }
+  
+  emit(eventName, data) {
+    const event = this.events[eventName];
+    if( event ) {
+      event.forEach(fn => {
+        fn.call(null, data);
+      });
+    }
+  }
+  
+  subscribe(eventName, fn) {
+    if(!this.events[eventName]) {
+      this.events[eventName] = [];
+    }
+    
+    this.events[eventName].push(fn);
+    return () => {
+      this.events[eventName] = this.events[eventName].filter(eventFn => fn !== eventFn);
+    }
+  } 
+}
+
+  document.addEventListener("DOMContentLoaded", function(event) {
+    let input = document.querySelector('input[type="text"]');
+    let button = document.querySelector('button');
+    let h1 = document.querySelector('h1');
+
+    button.addEventListener('click', () => {
+      emitter.emit('event:name-changed', {name: input.value});
+    });
+
+    let emitter = new EventEmitter();
+    emitter.subscribe('event:name-changed', data => {
+            h1.innerHTML = `Your name is: ${data.name}`;
+        });
+    });
+
+</script>
+</body>
+</html>
+	
+	

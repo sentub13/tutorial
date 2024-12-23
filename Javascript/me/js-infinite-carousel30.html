@@ -1,0 +1,177 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Welcome to our site</title>
+
+<style>
+body{
+  font-size: 14px;
+  font-size: 1rem;
+  font-family: arial;
+}
+a.control_prev, a.control_next {
+  position: absolute;
+  top: 37%;
+  z-index: 999;
+  display: block;
+  padding: 6px;
+  width: auto;
+  height: auto;
+  background: #2a2a2a;
+  color: #fff;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 18px;
+  opacity: 0.8;
+  cursor: pointer;
+}
+
+a.control_prev:hover, a.control_next:hover {
+  opacity: 1;
+  -webkit-transition: all 0.2s ease;
+}
+a.control_prev {
+  border-radius: 0 2px 2px 0;
+}
+a.control_next {
+  right: 0;
+  border-radius: 2px 0 0 2px;
+}
+.main{
+  width: 300px;
+  margin: 0 auto;
+  position: relative;
+  background: #ccc;
+  border-radius: 4px;
+}
+#slider {
+  position: relative;
+  overflow: hidden;
+  margin: 0px auto 0 auto;
+}
+#slider ul {
+  position: relative;
+  margin: 0;
+  padding: 0;
+  height: 100px;
+  list-style: none;
+}
+#slider ul li {
+  position: relative;
+  display: block;
+  float: left;
+  margin: 0;
+  padding: 0;
+  width: 120px;
+  height: 100px;
+  text-align: center;
+  line-height: 100px;
+  background: #fff;
+}
+</style>
+
+</head>
+<body>
+
+<div class="main">
+    <a href="#" class="control_next"> > </a>
+    <a href="#" class="control_prev"> < </a>
+    <div id="slider">
+      <ul id="slideUl">
+        <li><img src="images/messi1.jpg" /></li>
+        <li><img src="images/messi2.jpg" /></li>
+        <li><img src="images/messi3.jpg" /></li>
+        <li><img src="images/messi4.jpg" /></li>
+        <li><img src="images/messi5.jpg" /></li>
+      </ul>  
+  </div>
+</div>
+
+<script>
+
+
+
+var slideEach  = document.querySelectorAll("#slider ul li");
+var slideCount  = document.querySelectorAll("#slider ul li").length;
+var slideWidth  = slideEach[0].offsetWidth;
+var slideHeight = slideEach[0].offsetHeight;
+var sliderUlWidth = slideCount * slideWidth;
+
+document.getElementById("slider").style.width = slideWidth;
+
+document.addEventListener("keydown", this.keyDownHandler);
+function keyDownHandler(e){
+  if(e.key === "ArrowRight"){
+      //console.log("ArrowRight");  
+      moveRight()    
+    }else if(e.key === "ArrowLeft"){
+      //console.log("ArrowLeft");
+      moveLeft()
+    }
+}
+function moveRight(){
+  console.log("moveRight");
+}
+function moveLeft(){
+  console.log("moveLeft");
+}
+
+//console.log("slideCount : "+slideCount+" slideWidth : "+slideWidth+" slideHeight : "+slideHeight+" sliderUlWidth : "+sliderUlWidth);
+
+
+document.getElementById("slideUl");
+//var slideUlLiLastChild = document.querySelectorAll("#slider ul li").lastChild;
+
+//slide.style.width = slideWidth;
+//slideUl.style.cssText = "width:100px; height:100px";
+
+
+ /*
+jQuery(document).ready(function ($) {
+  var slideCount    = $('#slider ul li').length;
+  var slideWidth    = $('#slider ul li').width();
+  var slideHeight   = $('#slider ul li').height();
+  var sliderUlWidth = slideCount * slideWidth;
+  
+  console.log("slideCount : "+slideCount+" slideWidth : "+slideWidth+" slideHeight : "+slideHeight+" sliderUlWidth : "+sliderUlWidth);
+
+  $('#slider').css({ width: slideWidth*2+50, height: slideHeight }); 
+  $('#slider ul').css({ width: sliderUlWidth, marginLeft: - slideWidth });  
+  $('#slider ul li:last-child').prependTo('#slider ul');
+
+  function moveLeft() {
+    $('#slider ul').animate( {
+        left: + slideWidth*2+50
+    }, 200, function () {
+        $('#slider ul li:last-child').prependTo('#slider ul');
+        $('#slider ul').css('left', '');
+    });
+  };
+
+  function moveRight() {
+    $('#slider ul').animate( {
+        left: - slideWidth*2+50
+    }, 200, function () {
+        $('#slider ul li:first-child').appendTo('#slider ul');
+        $('#slider ul').css('left', '');
+    });
+  };
+
+  $('a.control_prev').click(function () {
+      moveLeft();
+  });
+
+  $('a.control_next').click(function () {
+      moveRight();
+  });
+
+});    
+*/
+
+</script>
+
+
+</body>
+
+

@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SQLite in Browser</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sql.js/1.6.1/sql.js"></script>
+</head>
+<body>
+    <h1>SQLite Example in the Browser</h1>
+    <button onclick="runSQLite()">Run SQLite Query</button>
+    <pre id="output"></pre>
+
+    <script>
+        async function runSQLite() {
+            // Load SQL.js
+            const SQL = await initSqlJs({ locateFile: file => `https://cdnjs.cloudflare.com/ajax/libs/sql.js/1.6.1/${file}` });
+            
+            // Create a new database
+            const db = new SQL.Database();
+
+            // Create a table
+            db.run("CREATE TABLE test (id INTEGER PRIMARY KEY, name TEXT);");
+
+            // Insert data into the table
+            db.run("INSERT INTO test (name) VALUES (?)", ['Alice']);
+            db.run("INSERT INTO test (name) VALUES (?)", ['Bob']);
+
+            // Query data from the table
+            const res = db.exec("SELECT * FROM test;");
+
+            // Display the results
+            document.getElementById('output').textContent = JSON.stringify(res, null, 2);
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,78 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		<title>New Document</title>
+		<script type="text/javascript">
+			function init() {
+				document.onkeydown = keyPressHandler;
+				cleanElement(document.getElementById('nav'));
+			}
+
+			// removes all #text elements directly attached to the node.
+			function cleanElement(element) {
+				if (element == null) return 0;
+				var numTextElementsRemoved = 0;
+				var node = element.firstChild;
+				while (node != null){
+					var tmp = node.nextSibling;
+					if (node.nodeName == '#text'){
+						element.removeChild(node);
+						numTextElementsRemoved++;
+					}
+					node = tmp;
+				}
+				return numTextElementsRemoved;
+			}
+
+			function keyPressHandler(e) {
+				if (!e) e = window.event;
+				var selectedItem = document.getElementById('selectedItem');
+				if (e.keyCode == 38){
+					// up arrow
+					if (selectedItem){
+						selectedItem.id = '';
+						if (selectedItem.previousSibling) selectedItem.previousSibling.id = 'selectedItem';
+						else selectedItem.parentNode.lastChild.id = 'selectedItem';
+					}
+					else document.getElementById('nav').lastChild.id = 'selectedItem';
+				}
+				else if (e.keyCode == 40) {
+					// down arrow
+					if (selectedItem){
+						selectedItem.id = '';
+						if (selectedItem.nextSibling) selectedItem.nextSibling.id = 'selectedItem';
+						else selectedItem.parentNode.firstChild.id = 'selectedItem';
+					}
+					else document.getElementById('nav').firstChild.id = 'selectedItem';
+				}
+				else if (e.keyCode == 13){
+					// enter
+					if (selectedItem) window.location.href = selectedItem.firstChild.href;
+				}
+			}
+
+			window.onload = init;
+		</script>
+		<style type="text/css">
+			html, body {
+				margin: 0px;
+			}
+			#nav #selectedItem a{
+				background: blue;
+				color: white;
+			}
+		</style>
+	</head>
+	<body>
+		<ol id='nav'> 
+		  <li><a href="movies.php">MOVIES</a></li> 
+		  <li><a href="music.php" >MUSIC</a></li> 
+		  <li><a href="Pictures.php">PICTURES</A></li> 
+		  <li><a href="Browser.php">BROWSER</A></li> 
+		  <li><a href="Weather.php">WEATHER FORECAST</A></li> 
+		  <li><a href="News.php">NEWS FEEDS</A></li> 
+		  <li><a href="setup.php">SETUP</A></li> 
+		</ol> 
+	</body>
+</html>

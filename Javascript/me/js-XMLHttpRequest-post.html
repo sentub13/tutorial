@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title> Welcome </title>
+<!--link href="css/bootstrap.min.css" /-->
+<style>
+	.infoList .table1 th, .infoList .table2 td{
+		text-align: left;
+		width: 20%;
+		padding: 0 0 0 10px;
+	}
+	</style>
+</head>
+<body>
+	<script>
+	
+	function loadDoc() {
+	console.log("loadDoc");
+	var user = {
+        "name": "Pintuuu Biswassss",
+        "userid": "pintub13",
+        "email": "pintub13@gmail.com",
+        "password": "pintub13",
+        "mobile": 9922687770,
+        "dob": "30/12/1986",
+        "securityquestion": "What is your favourite pet name",
+        "securityanswer": "Dog",
+        "address": "Nazirpur, Birnagar",
+        "city": "Nadia",
+        "state": "West Bengal",
+        "zip": 743327,
+        "gender": "Male",
+        "materialstatus": "Single",
+        "language": "Hindi"
+    };
+	
+	  var xhttp = new XMLHttpRequest();
+	  xhttp.onreadystatechange = function() {
+		if (this.readyState == 4 && this.status == 200) {
+		  console.log(this.responseText);
+		}
+	  };
+	  xhttp.open("POST", "http://localhost:3004/users", true);
+	  xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+	  xhttp.send(JSON.stringify(user));
+	}
+	loadDoc();
+    </script>
+</body>
+
+</html>

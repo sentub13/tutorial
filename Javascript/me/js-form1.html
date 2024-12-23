@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title> Welcome </title>
+<!--link href="css/bootstrap.min.css" /-->
+<style>
+	.infoList .table1 th, .infoList .table2 td{
+		text-align: left;
+		width: 20%;
+		padding: 0 0 0 10px;
+	}
+	</style>
+</head>
+<body>
+    <div class="form">
+        <div>
+            <input type="text" id="name" value="" placeholder="Name" />
+        </div>
+        <div>
+            <input type="text" id="email" value="" placeholder="Email" />
+        </div>
+        <div>
+            <input type="text" id="phone" maxlength="10" value="" placeholder="Phone" />
+        </div>
+        <div>
+            <select id="gender">
+                <option>Male</option>
+                <option>Female</option>
+            </select>
+        </div>
+        <div>
+            <input type="text" id="password" value="" placeholder="password" /> </div>
+        <div>
+            <button id="formSubmit">Submit</button>
+        </div>
+    </div>
+	<div class="infoList">
+		<table class="table1" border="0" cellpadding="0" cellspacing="0" width="100%">
+			<tr>
+				<th> Name </th>
+				<th> Email </th>
+				<th> Phone </th>
+				<th> Gender </th>
+				<th> Status </th>
+			</tr>
+		</table>
+		<table class="table2" id="infoTable" border="0" cellpadding="0" cellspacing="0" width="100%">
+			<!-- <tr>
+				<td> Name </td>
+				<td> Email </td>
+				<td> Phone </td>
+				<td> Gender </td>
+				<td> Status </td>
+			</tr> -->
+		</table>
+	</div>
+	<style>
+		.vertial{
+			display:table-cell;
+			vertical-align:middle;
+			height: 60px;
+		}
+	</style>
+	<div class="vertial">
+		Hello
+	</div>
+	
+	
+    <script type="text/javascript">
+    var btn = document.getElementById("formSubmit");
+
+    /*	var name     = document.getElementById("name").value;
+    	var email    = document.getElementById("email").value;
+    	var phone    = document.getElementById("phone").value;
+    	var gender   = document.getElementById("gender").value;
+    	var password = document.getElementById("password").value;*/
+
+    var formValObj = {};
+    var userinfolist = [];
+    var numstatus;
+    btn.addEventListener("click", function() {
+        //console.log("Btn clicked...");
+        formValObj = {
+            name: document.getElementById("name").value,
+            email: document.getElementById("email").value,
+            phone: document.getElementById("phone").value,
+            gender: document.getElementById("gender").value,
+            password: document.getElementById("password").value
+        }
+        if (formValidation(formValObj)) {
+            console.log("Form is submited");
+			fnUserlist();
+        }
+    })
+
+    function formSubmited(obj) {    	
+		if (obj.name && !JSON.stringify(userinfolist).includes('"' + obj.name + '"')) { 
+			userinfolist.push({ "name": obj.name, "email": obj.email, "phone": obj.phone, "gender": obj.gender, "password": obj.password  });
+			localStorage.TrainListRecent = JSON.stringify(userinfolist);
+		}		
+		console.log(getUserinfolist.length)
+    }
+	
+	var getUserinfolist = JSON.parse(localStorage.TrainListRecent);
+	console.log(getUserinfolist.length)
+	
+	function fnUserlist(){
+		var str = "";
+		for(var i=0; i<getUserinfolist.length; i++){
+			str += "<tr>"+
+					"<td>" +getUserinfolist[i].name+ "</td>"+
+					"<td>" +getUserinfolist[i].email+ "</td>"+
+					"<td>" +getUserinfolist[i].phone+ "</td>"+
+					"<td>" +getUserinfolist[i].gender+ "</td>"+
+					"<td><button onclick='fnEditItem("+i+")'>Edit</button><button onclick='fnDeleteItem("+i+")'>Delete</button></td>"+
+				"</tr>"	
+			document.getElementById("infoTable").innerHTML = str;
+		}	
+	}
+	fnUserlist();
+	function fnEditItem(item){
+		console.log("fnEditItem", item)
+	}
+	function fnDeleteItem(item){
+		//getUserinfolist.splice(item, 1);
+		///debugger
+		var currentList = JSON.parse(localStorage.TrainListRecent)
+		currentList.splice(lo, 1);
+		fnUserlist();
+		console.log("fnDeleteItem", currentList);
+		console.log("fnDeleteItem", getUserinfolist);
+	}
+
+    function formValidation(obj) {
+        //console.log("formValidation===", obj)
+        if (obj.name == "") {
+            console.log("Please enter name.");
+        } else if (obj.email == "") {
+            console.log("Please enter email.");
+        } else if (obj.phone  == "") {
+            //console.log(numstatus);
+            console.log("Please enter phone number.");
+        } else if (obj.gender == "") {
+            console.log("Please enter gender.");
+        } else if (obj.password == "") {
+            console.log("Please enter password.");
+        } else {
+            formSubmited(obj);
+        }
+    }
+
+    function phoneNumberValid(num) {
+        if (num.length <= 10) {
+            return numstatus = "Please enter 10 digit number"
+        }
+    }
+
+    function existingValueCheck() {
+
+    }
+    </script>
+</body>
+
+</html>

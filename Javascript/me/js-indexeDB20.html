@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html>
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+      <title>Welcome</title>
+      <style type="text/css">
+         body{
+            font: normal 13px arial ;
+         }
+         .chatBox{
+            width: 320px;
+            height: auto;
+            padding: 6px;
+            margin: 10px auto;
+            border: 1px solid #ebebeb;
+         }
+         .chatBox p{
+            padding: 5px 0;
+            margin: 0px;
+            clear: both;
+            content: "";
+            display: table;
+            width: 100%;
+         }
+         .left{
+            display: inline-block;
+            border: 1px solid #ebebeb;            
+            padding: 6px 8px 6px 6px;
+            border-radius: 0 5px 5px 0;
+            background: #f2f2f2;
+            float: left;
+         }
+         .right{
+            float: right;
+            text-align: right;
+            display: inline-block;
+            border: 1px solid #ebebeb;           
+            padding: 6px 6px 6px 8px;
+            border-radius: 5px 0 0 5px;
+         }
+      </style>
+      <script type="text/javascript">
+         //prefixes of implementation that we want to test
+         window.indexedDB = window.indexedDB || window.mozIndexedDB || window.webkitIndexedDB || window.msIndexedDB;
+         
+         //prefixes of window.IDB objects
+         window.IDBTransaction = window.IDBTransaction || window.webkitIDBTransaction || window.msIDBTransaction;
+         window.IDBKeyRange = window.IDBKeyRange || window.webkitIDBKeyRange || window.msIDBKeyRange
+         
+         if (!window.indexedDB) {
+            window.alert("Your browser doesn't support a stable version of IndexedDB.")
+         }
+         
+         const chatbotData = [
+            { id: "00-01", time: "2017.10.10", position: "left", msgtype: "text",msg:"My Name is Sentu Biswas" },
+            { id: "00-02", time: "2017.10.11", position: "right", msgtype: "text",msg:"How can I help you?" },
+            { id: "00-03", time: "2017.10.12", position: "left", msgtype: "text",msg:"I want to see my PNR" },
+            { id: "00-04", time: "2017.10.13", position: "right", msgtype: "number",msg:"Please type your PNR" },
+            { id: "00-05", time: "2017.10.14", position: "left", msgtype: "number",msg:"53453455" },
+            { id: "00-06", time: "2017.10.15", position: "right", msgtype: "text",msg:"Waiting" }
+         ];
+
+         // DB initialize
+         var db;
+         var request = window.indexedDB.open("chatbotDB", 1);
+         
+         request.onerror = function(event) {
+            console.log("error: ");
+         };
+         
+         request.onsuccess = function(event) {
+            db = request.result;
+            console.log("success: "+ db);
+         };
+         
+         // Create table and insert data to the chatbot table
+         request.onupgradeneeded = function(event) {
+            var db = event.target.result;
+            var objectStore = db.createObjectStore("chatbot", {keyPath: "id"});
+            
+            for (var i in chatbotData) {
+               objectStore.add(chatbotData[i]);
+            }
+         }         
+         
+         // Add more data in to the table
+         function add() {
+            var request = db.transaction(["chatbot"], "readwrite").objectStore("chatbot")
+            .add({ id: "00-07", time: "2017.10.17", position: "dasd", msgtype: "text",msg:"Thank you" });            
+            request.onsuccess = function(event) {
+               alert("Data added Successfully");
+            };
+            request.onerror = function(event) {
+               alert("Unable to add data\r\00-07 is aready exist in your database! ");
+            }
+         }
+
+         // Read all data from the
+         function readAll() {
+             var objectStore = db.transaction("chatbot").objectStore("chatbot");
+             var content = '';
+            objectStore.openCursor().onsuccess = function(event) {
+               var cursor = event.target.result;
+               
+               if (cursor) {
+                  console.log(cursor.value.id+"---"+cursor.value.time+"---"+cursor.value.position+"---"+cursor.value.msgtype+"---"+cursor.value.msg);
+                  cursor.continue();                 
+                  if(cursor.value.position == "left") {
+                     content += '<div class="chatMsg"><p><span class="left">'+cursor.value.msg+'</span></p></div>';
+                  }else if(cursor.value.position == "right"){
+                     content += '<div class="chatMsg"><p><span class="right">'+cursor.value.msg+'</span></p></div>';
+                  } 
+                  document.getElementById("chatBox").innerHTML = content;
+               }               
+               else {
+                  console.log("No more entries!");
+               }
+            };
+         }
+      </script>
+      
+   </head>
+   <body>
+
+      <button onclick="add()">Add data </button>
+      <button onclick="readAll()">Read all </button>
+
+      <div class="chatBox" id="chatBox">
+         <!--div class="chatMsg">
+            <p><span class="left"></span></p>
+            <p><span class="right"></span></p>
+         <div-->
+      </div>
+
+      <!--div class="chatBox" id="chatBox">
+         <div class="chatMsg">
+            <p><span class="left"> Hi, my name is Sentu Biswas name is Sentu</span></p>
+            <p><span class="right"> How Can I help you? </span></p>
+            <p><span class="left"> I want to check My PNR number</span></p>
+            <p><span class="right"> Please provide you PRN Number</span></p>
+            <p><span class="left"> 4324094 </span>
+         <div>
+      </div-->
+
+   </body>
+</html>

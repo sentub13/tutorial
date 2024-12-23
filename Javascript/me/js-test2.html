@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+
+<body>
+    <table>
+        <tr>
+            <td>
+                <div> First Name </div>
+                <div>
+                    <input type="text" id="fname" value="" /> </div>
+            </td>
+            <td>
+                <div> Last Name </div>
+                <div>
+                    <input type="text" id="lname" value="" /> </div>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <div> Email Address </div>
+                <div>
+                    <input type="email" id="email" value="" /> </div>
+            </td>
+            <td>
+                <div> Password </div>
+                <div>
+                    <input type="password" id="password" value="" /> </div>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2">
+                <button onclick="formSubmit()"> Claim your free trial </button>
+            </td>
+        </tr>
+    </table>
+    <script>
+    function formSubmit() {
+        var fname = document.getElementById("fname").value;
+        var lname = document.getElementById("lname").value;
+        var email = document.getElementById("email").value;
+        var password = document.getElementById("password").value;
+
+        console.log(fname, lname, email, password)
+        var fnamecheck = /^[0-9]+$/;
+        var lnamecheck = /^[0-9]+$/;
+        var reEmail = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+
+        if (fname == "" && fname.match(fnamecheck)) {
+            alert("Please enter valid first name");
+        } else if (lname == "" && lname.match(fnamecheck)) {
+            alert("Please enter valid lname name");
+        } else if (email == "" && email.match(reEmail)) {
+            alert("Please enter valid email id");
+        } else if (password == "" && password <= 7) {
+            alert("Please enter valid password");
+        } else {
+            alert("Success");
+        }
+    }
+    </script>
+</body>
+
+</html>

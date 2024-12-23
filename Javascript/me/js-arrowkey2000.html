@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+   <meta name="viewport" content="width=device-width, initial-scale=1">
+   <title> Welcome </title>
+   <!--link href="css/bootstrap.min.css" /-->	
+   <link href="css/style.css" />
+   <style>
+   	li.selected, .selected, .focus {background:yellow}
+   </style>
+   <body>      
+	
+	<ul id="nav-page-list">
+	    <div>Item 1</div>
+	    <div>Item 2</div>
+	    <div>Item 3</div>
+	    <div>Item 4</div>
+	    <div>Item 5</div>
+	</ul>
+	
+	<script type="text/javascript">
+		document.addEventListener("keydown", this.handleKeyEvents);
+		var div, divNum, divSelected, nextdiv = 0;
+		function handleKeyEvents(e){
+			div = document.querySelectorAll('#nav-page-list div');
+			divSelected = document.querySelector('.focus');
+			divNum = div.length;	
+
+			if(e.code === "ArrowDown"){
+				moveDown(e);
+			}else if(e.code === "ArrowUp"){
+				moveUp(e);
+			}
+		}
+
+		function moveDown(e){
+			if(divSelected){
+	            div[nextdiv].classList.remove("focus");
+	            nextdiv++;
+	            if(nextdiv > 0){
+	            	if (nextdiv > divNum - 1) { nextdiv = divNum - 1; }
+	            	div[nextdiv].classList.add("focus");
+	            }  
+	        }else{
+	        	div[0].classList.add("focus");
+	        }
+		}
+
+		function moveUp(e){
+			if(divSelected){
+	            div[nextdiv].classList.remove("focus");
+	            nextdiv--;
+	            if(nextdiv => 0){
+	            	if (nextdiv == -1) { nextdiv = 0; }
+	            	div[nextdiv].classList.add("focus");
+	            }
+	        }
+		}
+
+	</script>
+
+   </body>
+</html>

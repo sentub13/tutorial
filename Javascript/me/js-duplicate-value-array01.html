@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Welcome</title>
+
+
+</head>
+<body>
+
+<script type="text/javascript">
+  function findDuplicate(arr) {
+    const result = arr.filter((value, index, array) => array.indexOf(value) !== index);
+    return result;
+}
+
+console.log(findDuplicate(["a", "a", "a", "b", "c", "c", -2, 2, -2, 5, 4, 5]));
+// "a", "a", "c", -2, 5
+</script>
+</body>
+</html>

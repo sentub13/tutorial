@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title> Welcome </title>
+<!--link href="css/bootstrap.min.css" /-->
+<style>
+	.infoList .table1 th, .infoList .table2 td{
+		text-align: left;
+		width: 20%;
+		padding: 0 0 0 10px;
+	}
+	</style>
+</head>
+<body>
+    <script type="text/javascript">
+	function getPromise(url) {
+	  // return a Promise here
+	  // send an async request to the url as a part of promise
+	  // after getting the result, resolve the promise with it
+	}
+
+	const promise = getPromise('http://localhost:3004/users');
+
+	promise.then((result) => {
+	  //we have our result here
+	  return getPromise(result); //return a promise here again
+	}).then((result) => {
+	  //handle the final result
+	});
+	
+    </script>
+</body>
+
+</html>

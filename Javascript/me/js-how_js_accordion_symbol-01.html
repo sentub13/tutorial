@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+   <meta name="viewport" content="width=device-width, initial-scale=1">
+   <title> Welcome </title>
+   <!--link href="css/bootstrap.min.css" /-->	
+   <link href="css/style.css" />
+   <style>
+	.accordion {
+		color: #fff;
+		padding: 8px;
+		width: 100%;
+		background: #808080;
+		border: 0px;
+		text-align: left;
+		border-bottom: 1px solid #ebebeb;
+		outline: none;
+	}
+	.panel {
+		border: 1px solid #ebebeb;
+		padding: 10px;
+		margin: 0 0 10px 0;
+		display: none;
+	}
+	.panel p{
+		padding: 0px;
+		margin: 0px;
+	}
+   </style>
+   <body>      
+	
+	<button class="accordion">Section 1</button>
+	<div class="panel">
+	  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+	</div>
+
+	<button class="accordion">Section 2</button>
+	<div class="panel">
+	  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+	</div>
+
+	<button class="accordion">Section 3</button>
+	<div class="panel">
+	  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+	</div>
+
+
+<script>
+	var btnLi, i;
+	btnLi = document.querySelectorAll("button");
+	//console.log(btnLi.length)
+
+	for(i=0; i<btnLi.length; i++){		
+		btnLi[i].onClick = function(){
+			console.log(i)
+		}
+	}
+
+
+
+</script>
+
+   </body>
+</html>

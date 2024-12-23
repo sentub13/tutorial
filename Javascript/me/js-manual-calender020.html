@@ -1,0 +1,135 @@
+<html>
+<head> 
+<title>JavaScript calendar</title>
+<style>
+html, body { margin: 0; padding: 0; }
+.availableDate{
+	display: table;
+	content: "";
+	clear: both;
+	width: 100%;
+	line-height: 24px;
+}
+.availableDate span{
+	float: left;
+	background: #fff;
+	text-align: center; 
+	color: #E6E6E6;  			
+}
+.availableDate span:nth-child(1){ width: 27%; }
+.availableDate span:nth-child(2){ width: 8%; color: #cc9017; cursor: pointer; }
+.availableDate span:nth-child(3){ width: 30%; color: #cc9017; font-size: 18px;}
+.availableDate span:nth-child(4){ width: 8%; color: #cc9017;  cursor: pointer;} 
+.availableDate span:nth-child(5){ width: 27%; }
+
+</style>
+</head> 
+ 
+<body>
+<div class="availableDate">  
+	<span> 1st Jan </span>
+	<span id="changeLeft"> < </span>
+	<span> 5th Jan </span>
+	<span id="changeRight"> > </span>
+	<span> 8th Jan </span>
+</div> 
+
+<script>
+var Months = ['01', '02'];
+var changeLeft = document.getElementById("changeLeft");
+changeLeft.addEventListener("click", function(){
+	console.log("changeLeft--")
+});
+
+var changeRight = document.getElementById("changeRight");
+changeRight.addEventListener("click", function(){
+	console.log("changeRight--")
+});
+
+
+
+function validDate(d) {
+  var bits = d.split('-');
+  var t = stringToDate(d);
+  return t.getFullYear() == bits[0] && 
+         t.getDate() == bits[2];
+}
+
+function stringToDate(s) {
+  var bits = s.split('-');
+  var monthNum = monthNameToNumber(bits[1]);
+  return new Date(bits[0], monthNum, bits[2]);
+}
+
+var monthNameToNumber = (function() {
+  var monthNames = (
+     'jan feb mar apr may jun jul aug sep oct nov dec ' +
+     'january february march april may june july august ' +
+     'september october november december'
+     ).split(' ');
+
+  return function(month) {
+    var i = monthNames.length;
+    month = month.toLowerCase(); 
+
+    while (i--) {
+      if (monthNames[i] == month) {
+        return i % 12;
+      }
+    }
+  }
+}());
+
+
+function getYesterday(d) {
+  d = stringToDate(d);
+  d.setDate(d.getDate() - 1)
+  return d;
+}
+function getNextday(d) {
+  d = stringToDate(d);
+  d.setDate(d.getDate() + 1)
+  return d;
+}
+
+var formatDate = (function() {
+  var months = 'jan feb mar apr may jun jul aug sep oct nov dec'.split(' ');
+  function addZ(n) {
+    return n<10? '0'+n : ''+n;
+  }
+  return function(d) {
+    return d.getFullYear() + '-' + 
+           months[d.getMonth()] + '-' + 
+           addZ(d.getDate());
+  }
+}());
+
+function doStuff(d) {
+
+  // Is it format year-month-date?
+  if (!validDate(d)) {
+    alert(d + ' is not a valid date');
+    return;
+  } else {
+    alert(d + ' is a valid date');
+  }
+  alert(
+    'Date in present: ' + d +
+    '\nDay before: ' + formatDate(getYesterday(d))+
+	'\nDay next: ' + formatDate(getNextday(d))
+  );
+}
+
+
+doStuff('2018-apr-18');
+// Shows 2011-feb-08 is a valid date
+//       Date in was: 2011-feb-08
+//       Day before: 2011-feb-07
+
+
+
+</script>
+
+
+</body>
+</html>

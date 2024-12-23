@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html>
+   <meta name="viewport" content="width=device-width, initial-scale=1">
+   <title> Welcome </title>
+   <!--link href="css/bootstrap.min.css" /-->	
+   <link href="css/style.css" />
+   <body>      
+	
+
+<script type="text/javascript">
+
+
+var hege = ["Cecilie", "Lone"];
+var stale = ["Emil", "Tobias", "Linus"];
+
+var children = hege.concat(stale);
+console.log(children); // ["Cecilie", "Lone", "Emil", "Tobias", "Linus"]
+
+var fruits = ["Banana", "Orange", "Apple", "Mango"];
+console.log(fruits.copyWithin(2,1)); // ["Banana", "Orange", "Orange", "Apple"]
+
+var fruits = ["Banana", "Orange", "Apple", "Mango"];
+console.log(fruits.fill("Deepa", 1)) // ["Banana", "Deepa", "Deepa", "Deepa"]
+
+var ages = [11,18,16,33,50];
+function checkAdult(age){
+    if(age>=18)
+    return age;    
+}
+console.log(ages.every(checkAdult)) // Output: false
+
+var numbers = [4, 9, 16, 25]
+function checkNUmber(num){
+  if(num>=9)
+    return num
+}
+console.log(numbers.some(checkNUmber)) // output: true
+
+var myAge = [11,18,16,33,50];
+function checkAdult(age){
+  if (age>= 33) {
+    return age
+  }
+}
+console.log(myAge.findIndex(checkAdult)); // Output: 3
+
+var busNumber = [11,18,16,33,50];
+function checkAdult(age){
+  if(age >= 33)
+    return age
+}
+console.log(busNumber.filter(checkAdult)) // Output: [33, 50]
+
+var carNumber = [11,18,16,33,50];
+function checkAdult(age){
+  if(age >= 18)
+    return age
+}
+console.log(carNumber.find(checkAdult)) // Output: 18
+
+var cabNumbers = [4, 9, 16, 25];
+function totalVal(total, num){
+  return total+num
+}
+console.log(cabNumbers.reduce(totalVal)) // 54
+
+var fruits = ["Banana", "Orange", "Apple", "Mango"];
+console.log(fruits.indexOf('Apple')); // Output: 2
+
+var fruits = ["Banana", "Orange", "Apple", "Mango"];
+console.log(Array.isArray(fruits)) // output: true
+
+var fruitss = ["Banana", "Orange", "Apple", "Mango"];
+console.log(fruitss.join()); // Banana,Orange,Apple,Mango
+
+var fruits = ["Banana", "Orange", "Apple", "Mango"]
+console.log(fruits.toString()) // Banana,Orange,Apple,Mango
+
+var fruits = ["Banana", "Orange", "Apple", "Mango"];
+console.log(fruits.lastIndexOf('Apple')); // 2
+
+var numbers = [4, 9, 16, 25];
+console.log(numbers.map(Math.sqrt)) // [2, 3, 4, 5]
+
+var fruits = ["Banana", "Orange", "Apple", "Mango"];
+console.log(fruits.pop());
+console.log(fruits); // ["Banana", "Orange", "Apple"]
+
+var fruits = ["Banana", "Orange", "Apple", "Mango"];
+console.log(fruits.push("Kiwi"));
+console.log(fruits); // ["Banana", "Orange", "Apple", "Mango", "Kiwi"]
+
+var fruits = ["Banana", "Orange", "Apple", "Mango"];
+console.log(fruits.reverse()); // ["Mango", "Apple", "Orange", "Banana"]
+console.log(fruits); // ["Mango", "Apple", "Orange", "Banana"]
+
+var fruits = ["Banana", "Orange", "Apple", "Mango"]
+console.log(fruits.shift()) // Banana
+console.log(fruits) //["Orange", "Apple", "Mango"]
+
+var fruits = ["Banana", "Orange", "Apple", "Mango"]
+console.log(fruits.slice(1,4))
+
+var fruits = ["Banana", "Orange", "Apple", "Mango"]
+console.log(fruits.sort())
+
+var fruits = ["Banana", "Orange", "Apple", "Mango"]
+console.log(fruits.splice(2,0));
+
+var fruits = ["Banana", "Orange", "Apple", "Mango"]
+console.log(fruits.unshift("Sentu"))
+console.log(fruits)
+
+var fruits = ["Banana", "Orange", "Apple", "Mango"]
+console.log(fruits.valueOf())
+
+function foo1()
+{
+  return {
+      bar: "hello"
+  };
+}
+
+function foo2()
+{
+  return
+  {
+      bar: "hello"
+  };
+}
+
+console.log(foo1(), );
+console.log(foo2());
+
+</script>
+	
+   </body>
+</html>

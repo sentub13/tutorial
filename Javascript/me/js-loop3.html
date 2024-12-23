@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+	<meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0">
+	<script src="js/jquery.min.js"></script>
+	<meta charset="utf-8">
+	<title>Welcome</title>
+</head>
+
+<body>
+	<style>
+		img {
+			/* filter: url(filters.svg#grayscale); Firefox 3.5+ */
+			filter:opacity(100%);
+			cursor: pointer;
+		}
+		img:hover {
+			filter:opacity(20%);			 
+			-webkit-transform: scale(1.01);
+		}
+
+	</style>
+	
+	<div>
+		<!-- <img src="http://49.40.2.239/internal-games/action_active.png" --> 
+		<img src="http://49.40.2.239/internal-games/action.png" />
+	</div>
+
+<ul class="menu">
+    <li> Menu 1 </li>
+    <li> Menu 2 </li>
+    <li> Menu 3 </li>
+    <li> Menu 4 </li>
+    <li> Menu 5 </li>
+    <li> Menu 6 </li>
+</ul>
+<div id="demo"></div>
+
+<script type="text/javascript">
+
+    //var menuLi = document.querySelectorAll(".menu li");
+    //var menuLi = ["Menu 1","Menu 2","Menu 3","Menu 4","Menu 5","Menu 6"]
+    var menuLi = {
+        menu:"menu 1",
+        menu:"menu 2",
+        menu:"menu 3",
+        menu:"menu 4",
+        menu:"menu 5",
+        menu:"menu 6"    
+    }
+    //console.log(menuLi.length);
+    
+    /*for(var i=0; i<menuLi.length; i++){
+        console.log(menuLi[i])
+    }
+    menuLi.forEach(function(element) {
+       console.log(element);
+    }, this);*/
+    
+   
+    for (var key in menuLi) {
+        console.log(menuLi)
+    }
+
+
+
+</script>
+</body>
+</html>
+	
+	

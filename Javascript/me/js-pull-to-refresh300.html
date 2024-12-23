@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,user-scalable=no,initial-scale=1">
+
+    <title>Hello World</title>
+
+    <style>
+     <style type="text/css">
+		body{
+			font-size: normal 14px/21px arial;
+		}
+		ul, ul li{
+			padding: 0px;
+			margin: 0px;
+			list-style-type: none;
+		}
+		.shown{
+		  display:block;
+		}
+		.hidden{
+		  display:none;
+		}
+		.scrollableArea{
+			padding: 5px 0px 20px 0;
+			/*width: 240px;
+			height: 294px;*/
+			margin: 0 auto;
+			overflow-y: scroll;
+			overflow-x: none;
+		}
+		#dataList li{
+			padding: 3px 0;
+		}
+		#dataList li a{
+			color: #fff;
+			background: #668cff;
+			border-radius: 3px;
+			padding: 6px;
+			text-align: center;
+			display: block;
+		}
+		#dataList li img{
+			width: 50px;
+		}
+		.arrow{
+			text-align: center;
+			position: fixed;			
+			background: #fff;
+			z-index: 11;
+			width: 100%;
+			text-align: cellpadding
+		}
+		#lessButton{
+			top: 0px;
+		}
+		#moreButton{
+			bottom: 0px;
+		}
+	</style>
+    </style>
+
+    <!-- Inline scripts are forbidden in Firefox OS apps (CSP restrictions),
+         so we use a script file. -->
+    <script src="app.js" defer></script>
+
+  </head>
+
+  <body> 
+  
+	<div class="scrollableArea">
+	<div class="arrow" id="lessButton" onclick="showLess()"> <img src="./images/arrow-up.png"/> </div>
+	<ul id="dataList">
+	    <li class="hidden"><a>Lorem Ipsum is </a></li>
+	    <li class="hidden">
+	    	<div>
+	    		<img src="./images/messi1.jpg"/>
+	    		<img src="./images/messi2.jpg"/>
+	    		<img src="./images/messi3.jpg"/>
+	    		<img src="./images/messi3.jpg"/>
+	    	</div>
+	    </li>
+	    <li class="hidden">
+	    	<div>
+	    		<img src="./images/messi1.jpg"/>
+	    		<img src="./images/messi2.jpg"/>
+	    		<img src="./images/messi3.jpg"/>
+	    		<img src="./images/messi3.jpg"/>
+	    	</div>
+	    </li>
+	    <li class="hidden"><a>Simply dummy</a></li>
+	    <li class="hidden"><a>long established</a></li>
+	    <li class="hidden">
+	    	<div>
+	    		<img src="./images/messi1.jpg"/>
+	    		<img src="./images/messi2.jpg"/>
+	    		<img src="./images/messi3.jpg"/>
+	    		<img src="./images/messi3.jpg"/>
+	    	</div>
+	    </li>
+	    <li class="hidden">
+	    	<div>
+	    		<img src="./images/messi1.jpg"/>
+	    		<img src="./images/messi2.jpg"/>
+	    		<img src="./images/messi3.jpg"/>
+	    		<img src="./images/messi3.jpg"/>
+	    	</div>
+	    </li>
+	    <li class="hidden">
+	    	<div>
+	    		<img src="./images/messi1.jpg"/>
+	    		<img src="./images/messi2.jpg"/>
+	    		<img src="./images/messi3.jpg"/>
+	    		<img src="./images/messi3.jpg"/>
+	    	</div>
+	    </li>
+	    <li class="hidden"><a>Variations of passages</a></li>
+	    <li class="hidden"><a>Characteristic words</a></li>
+	    <li class="hidden"><a>Finibus Bonorum </a></li>
+	    <li class="hidden"><a>Thirteen</a></li>
+	    <li class="hidden"><a>Embarrassing</a></li>
+	    <li class="hidden"><a>Characteristic words</a></li>
+	    <li class="hidden"><a>Finibus Bonorum </a></li>
+	    <li class="hidden"><a>Thirteen</a></li>
+	    <li class="hidden"><a>Embarrassing</a></li>
+	    <li class="hidden">
+	    	<div>
+	    		<img src="./images/messi1.jpg"/>
+	    		<img src="./images/messi2.jpg"/>
+	    		<img src="./images/messi3.jpg"/>
+	    		<img src="./images/messi3.jpg"/>
+	    	</div>
+	    </li>
+	    <li class="hidden">
+	    	<div>
+	    		<img src="./images/messi1.jpg"/>
+	    		<img src="./images/messi2.jpg"/>
+	    		<img src="./images/messi3.jpg"/>
+	    		<img src="./images/messi3.jpg"/>
+	    	</div>
+	    </li>
+	    <li class="hidden"><a>repeat predefined</a></li>
+	</ul>
+	
+	<div class="arrow" id="moreButton" onclick="showMore()"> <img src="./images/arrow-down.png"/> </div>
+	<!--input id="moreButton" type="button" value="More" onclick="showMore()"/><input id="lessButton" type="button" value="Less" onclick="showLess()"/-->
+
+</div>
+  
+	<script>
+	function fnTest(){
+		var listDatas = document.querySelectorAll('#dataList li:not(.shown)');
+		console.log(listDatas);
+	}
+	function showMore() {
+		var listData = Array.prototype.slice.call(document.querySelectorAll('#dataList li:not(.shown)')).slice(0, 3);
+		//console.log(listData);
+		for (var i=0; i < listData.length; i++) {
+			listData[i].className  = 'shown';
+		}
+		switchButtons();
+		fnTest();
+	}
+
+	function showLess() {
+	  var listData = Array.prototype.slice.call(document.querySelectorAll('#dataList li:not(.hidden)')).slice(-3);
+	  for (var i=2; i < listData.length; i++){
+		listData[i].className  = 'hidden';
+	  }
+	  switchButtons();
+	}
+
+	function switchButtons() {
+	  var hiddenElements = Array.prototype.slice.call(document.querySelectorAll('#dataList li:not(.shown)'));
+	  if(hiddenElements.length == 0){
+		document.getElementById('moreButton').style.display = 'none';
+		
+	  }
+	  else{
+		document.getElementById('moreButton').style.display = 'block';
+	  }
+
+	  var shownElements = Array.prototype.slice.call(document.querySelectorAll('#dataList li:not(.hidden)'));
+	  if(shownElements.length == 0){
+		document.getElementById('lessButton').style.display = 'none';
+	  }
+	  else{
+		document.getElementById('lessButton').style.display = 'block';
+	  }
+	}
+
+	onload= function(){
+		showMore();
+	}
+
+	document.addEventListener("keydown", fnKeyHandler);
+	function fnKeyHandler(e){
+		//debugger;
+		//console.log(e);
+		if(e.key == "ArrowDown"){
+			//console.log("ArrowDown");
+			showMore();
+			
+		}else if(e.key == "ArrowUp"){
+			//console.log("ArrowUp");
+			showLess();
+			
+		}
+	}
+	</script>
+  
+  </body>
+</html>

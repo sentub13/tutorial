@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<p id="demo"></p>
+
+<script>
+
+/*
+var engStationsData = ['AskLaila', 'Jio Dineout', 'Mumbai Local', 'RailEnquiry', 'Jio Cafe'];
+var text = "Jio Dineout";
+function checkBot(engStations) {
+    for(var i=0; i<engStationsData.length;i++){
+        if(engStationsData[i] ==  text){
+          console.log('bot found is '+engStationsData[i]);
+          return;
+        }
+        else{
+          status ='bot not found';
+        }
+    }
+    console.log(status);
+}
+*/
+
+var listofBots = ['Ram','Siva','Ganesh','Durga'];
+var list = [];
+for (var i =0; i< listofBots.length; i++) {
+  //Things[i]
+  //console.log(listofBots[i])
+  list.push(listofBots[i].toLowerCase());
+}
+//console.log(list)
+var searchText = 'Ramcxz';
+
+console.log(searchText.toLowerCase());
+
+let obj = list.find(x => x === searchText.toLowerCase());
+
+if(typeof(obj) == 'undefined'){
+    console.log('Bot not found')
+}
+else{
+    console.log('Bot found == '+obj)
+}
+
+
+</script>
+
+</body>
+</html>

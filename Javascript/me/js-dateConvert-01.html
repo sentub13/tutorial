@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+   <meta name="viewport" content="width=device-width, initial-scale=1">
+   <title> Welcome </title>
+   <!--link href="css/bootstrap.min.css" /-->	
+   <link href="css/style.css" />
+   <body>      
+	
+
+<script type="text/javascript">
+
+
+function formatDate(date) {
+  var monthNames = [
+    "January", "February", "March",
+    "April", "May", "June", "July",
+    "August", "September", "October",
+    "November", "December"
+  ];
+
+  var day = date.getDate();
+  var monthIndex = date.getMonth();
+  var year = date.getFullYear();
+  return day + ' ' + monthNames[monthIndex] + ' ' + year;
+}
+
+console.log(formatDate(new Date(2018,04,25)));
+
+/*function dateToYMD(date) {
+    var strArray=['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+    var d = date.getDate();
+    var m = strArray[date.getMonth()];
+    var y = date.getFullYear();
+    return '' + (d <= 9 ? '0' + d : d) + ' ' + m + ',' + y;
+}
+console.log(dateToYMD(new Date(2018,04,25))); // Nov 5*/
+
+</script>
+	
+   </body>
+</html>

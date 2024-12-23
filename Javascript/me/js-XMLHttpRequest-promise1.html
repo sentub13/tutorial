@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title> Welcome </title>
+<!--link href="css/bootstrap.min.css" /-->
+<style>
+	.infoList .table1 th, .infoList .table2 td{
+		text-align: left;
+		width: 20%;
+		padding: 0 0 0 10px;
+	}
+	</style>
+</head>
+<body>
+    
+	
+	
+    <script type="text/javascript">
+
+	const promise = new Promise((resolve, reject) => {
+	const request = new XMLHttpRequest();
+
+	  //request.open('GET', 'https://api.icndb.com/jokes/random');
+	  request.open('GET', 'http://localhost:3004/users');
+	  request.onload = () => {
+		if (request.status === 200) {
+		  resolve(request.response); // we got data here, so resolve the Promise
+		} else {
+		  reject(Error(request.statusText)); // status is not 200 OK, so reject
+		}
+	  };
+	  request.onerror = () => {
+		reject(Error('Error fetching data.')); // error occurred, reject the  Promise
+	  };
+	  request.send(); // send the request
+	});
+	console.log('Asynchronous request made.');
+	promise.then((data) => {
+	  console.log('Got data! Promise fulfilled.', data);
+	  //document.body.textContent = JSON.parse(data).value.joke;
+	}, (error) => {
+	  console.log('Promise rejected.');
+	  console.log(error.message);
+	});
+	
+    </script>
+</body>
+
+</html>

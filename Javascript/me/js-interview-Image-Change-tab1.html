@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+   <meta name="viewport" content="width=device-width, initial-scale=1">
+   <title> Welcome </title>
+   <!--link href="css/bootstrap.min.css" /-->	
+   <link href="css/style.css" />
+   <style type="text/css">
+     .container{
+        display: flex;
+     }
+     .container>div:nth-child(1){
+      width: 25%;
+      border: 1px solid red;
+     }
+     .container>div:nth-child(2){
+      width: 75%;
+      border: 1px solid red;
+     }
+     ul{
+      padding: 0px;
+      margin: 0px;
+     }
+     li{
+      cursor: pointer;
+      padding: 8px 0;
+      margin: 0px;
+      list-style-type: none;
+     }
+   </style>
+   <body>      
+	
+  <div class="container">
+    <div class="panelLeft">
+      <ul>
+        <li onclick="fnTabChange(id)" id="dog"> Dog </li>
+        <li onclick="fnTabChange(id)" id="cat"> Cat </li>
+        <li onclick="fnTabChange(id)" id="parrot"> Parrot </li>
+      </ul>
+    </div>
+    <div class="panelRight">
+        <img id="imgBanner" src="images/messi1.jpg"/>
+    </div>
+  </div>
+
+<script type="text/javascript">
+function fnTabChange(e) {
+  //console.log(e);
+  var idImge = document.getElementById("imgBanner");
+  console.log(idImge)
+  if(e == "dog"){
+    //console.log("dog");
+    idImge.src = "images/messi1.jpg"
+  }else if(e == "cat"){
+    //console.log("cat");
+    idImge.src = "images/messi2.jpg"
+  }else if(e == "parrot"){
+    //console.log("parrot");
+    idImge.src = "images/messi3.jpg"
+  }
+}
+
+</script>
+	
+   </body>
+</html>

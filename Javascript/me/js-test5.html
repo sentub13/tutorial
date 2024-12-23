@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title> Welcome </title>
+<!--link href="css/bootstrap.min.css" /-->
+<style>
+	.infoList .table1 th, .infoList .table2 td{
+		text-align: left;
+		width: 20%;
+		padding: 0 0 0 10px;
+	}
+	</style>
+</head>
+<body>
+    <div class="form">
+        <div>
+            <input type="text" id="name" value="" placeholder="Name" />
+        </div>
+        <div>
+            <input type="text" id="email" value="" placeholder="Email" />
+        </div>
+        <div>
+            <input type="text" id="phone" maxlength="10" value="" placeholder="Phone" />
+        </div>
+        <div>
+            <select id="gender">
+                <option>Male</option>
+                <option>Female</option>
+            </select>
+        </div>
+        <div>
+            <input type="text" id="password" value="" placeholder="password" /> </div>
+        <div>
+            <button id="formSubmit">Submit</button>
+        </div>
+    </div>
+	<div class="infoList">
+		<table class="table1" border="0" cellpadding="0" cellspacing="0" width="100%">
+			<tr>
+				<th> Name </th>
+				<th> Email </th>
+				<th> Phone </th>
+				<th> Gender </th>
+				<th> Status </th>
+			</tr>
+		</table>
+		<table class="table2" id="infoTable" border="0" cellpadding="0" cellspacing="0" width="100%">
+			<!-- <tr>
+				<td> Name </td>
+				<td> Email </td>
+				<td> Phone </td>
+				<td> Gender </td>
+				<td> Status </td>
+			</tr> -->
+		</table>
+	</div>
+	<style>
+		.vertial{
+			display:table-cell;
+			vertical-align:middle;
+			height: 60px;
+		}
+	</style>
+	<div class="vertial">
+		Hello
+	</div>
+	
+	
+    <script type="text/javascript">
+    import React from 'react'
+	import ReactDOM from 'react-dom'
+	import {Router, Route, Link, BrowserHistory} from 'reat-router';
+	
+	class App extends React.Component{
+		render(){
+			return(
+				<div> 
+					<div> <Link to="/Home"> Home </Link> </div>
+					<div> <Link to="/About"> About </Link> </div>
+					<div> <Link to="/Service"> Service </Link> </div>
+				</div>
+			)
+		}
+	}
+	
+	export default App;
+	
+	import React from 'react'
+	import ReactDOM from 'react-dom'
+	
+	class Main extends React.Component{
+		render(){
+			return(
+				<Router history="BrowserHistory">
+					<Route path="Home" component={Home} />
+					<Route path="About" component={About} />
+					<Route path="Service" component={Service} />
+				</Router>
+			)
+		}
+	}
+	
+	
+    </script>
+</body>
+
+</html>

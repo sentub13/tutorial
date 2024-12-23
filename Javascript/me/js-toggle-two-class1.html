@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+   <meta name="viewport" content="width=device-width, initial-scale=1">
+   <title> Welcome </title>
+   <!--link href="css/bootstrap.min.css" /-->	
+   <link href="css/style.css" />
+   <style>
+	.normal {
+		color: #808080;
+		border: 4px solid blue;
+		border-radius: 50px 50px;
+		width: 800px;
+		font-family:'Comic Sans MS';
+		margin: auto;
+		margin-top: 10px;
+		font-size: 30px;
+		-webkit-transform: rotate(10deg);
+	}
+	.change {
+		color:#ffd800;
+		border: 6px solid orange;
+		border-radius: 50px 50px;
+		width: 800px;
+		font-family:'Comic Sans MS';
+		margin: auto;
+		margin-top: 10px;
+		font-size: 30px;
+		-webkit-transform: rotate(20deg);
+	}
+   </style>
+   <body>      
+	
+	
+	<div class="normal">
+		<p>This is Paragraph No.1</p>
+	</div>
+
+
+<script>
+var pElements = document.getElementsByClassName("normal");
+var pElement = pElements[0];
+    pElement.onclick = function () {
+       if (this.getAttribute("class") == "normal")
+         this.setAttribute("class", "change")
+       else
+         this.setAttribute("class", "normal");
+    };
+	
+	
+		/* var preClass  = document.getElementsByClassName("BackToVoice");
+		if (preClass.getAttribute("class") == "BackToVoice"){
+			preClass.setAttribute("class", "BackToVoiceActive")
+		}else{
+			preClass.setAttribute("class", "BackToVoice");
+		} */
+	
+</script>
+
+   </body>
+</html>
