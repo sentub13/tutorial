@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import DashboardLayout from '../components/DashboardLayout';
+import { fetchCountries } from '../services/FormService';
 
 const FullFormPage = () => {
   const [formData, setFormData] = useState({
@@ -17,7 +18,8 @@ const FullFormPage = () => {
     terms: false,
   });
 
-  const countries = ['USA', 'India', 'Germany', 'Australia'];
+  // const countries = ['USA', 'India', 'Germany', 'Australia'];
+  const [countries, setCountries] = useState([]);
 
   const handleChange = (e) => {
     const { name, value, type, checked, files } = e.target;
@@ -43,6 +45,22 @@ const FullFormPage = () => {
     console.log('Submitted:', formData);
     alert('Form submitted. Check console for data.');
   };
+
+  useEffect(()=> {
+    console.log('Form Data:', formData);
+    const loadCountries = async () => {
+      try {
+        const data = await fetchCountries();
+        setCountries(data);
+        console.log('Fetched Countries:', data);
+      } catch (error) {
+        console.error('Failed to fetch countries', error);
+      }
+    };
+    loadCountries();
+
+  }, [formData])
+ 
 
   return (
     <DashboardLayout>

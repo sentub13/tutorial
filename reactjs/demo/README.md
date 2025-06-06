@@ -6,8 +6,8 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 In the project directory, you can run:
 
-### To run json-server
-### `npx json-server db.json`
+### To install package and run json-server
+### `npm install json-server`
 ### `npx json-server --watch db.json --port 3001`
 
 ### To run the application

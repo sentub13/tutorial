@@ -1,4 +1,10 @@
 {
+  "countries": [
+    {"id": 1, "name": "USA"}, 
+    {"id": 1, "name": "India"}, 
+    {"id": 1, "name": "Germany"}, 
+    {"id": 1, "name": "Australia"}
+  ],
   "posts": [
     { "id": "1", "title": "a title", "views": 100 },
     { "id": "2", "title": "another title", "views": 200 }
