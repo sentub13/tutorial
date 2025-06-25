@@ -51,10 +51,17 @@
       };
 
       // Write a closures function ===============================================================
-      function clouseFunc() {
-        
+      function clouseFunc(name) {
+        this.name =  name;
+        // console.log("Hello----", this.name);
+        function info() {
+            // /console.log("Hello----", this.name)
+        }
+        return info();        
       }
-      // clouseFunc();
+      // clouseFunc("Pintu Biswas");
+      var obj = new clouseFunc("Hello00");
+      console.log("obj---", obj);
 
       // Write a method for Call/Apply/Bind function ============================================
       function info(email, phone) {
@@ -79,25 +86,16 @@
       })()
 
       // How to write Callback fcuntions =========================================================
-      function callFunc() {
-        setTimeout(() => {
-          console.log("Hello World.")
-        },1000)
-      }
+      
       function callBackFunc(callFunc) {
-        callFunc()
-        console.log("Sentu Biswas");
+        
        
       }
       // callBackFunc(callFunc);
 
       // How to write HOC function ================================================================
       function hocFunc(component) {
-        return function Hello ( props) {
-            return(
-              <component data={props}/>
-            )
-        }
+        
       }
 
       // How to to Promise ===============

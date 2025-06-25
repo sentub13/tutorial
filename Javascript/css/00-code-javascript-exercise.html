@@ -93,6 +93,7 @@
       // How to write HOC function ================================================================
       function hocFunc(component) {
         return function enhanceFunc(props){
+          return null;
             // return(
             //     <component data={props}/>
             // )
@@ -155,9 +156,9 @@
         const obj10 = { a: 1, b: 2 };
         const obj20 = { c: 3 };
         const mergedObj = Object.assign({}, obj10, obj20); // Creates a shallow copy
-        // console.log('mergedObj----', mergedObj);
+        console.log('mergedObj----', mergedObj);
       }
-      // shallowCopy();
+      shallowCopy();
 
       // How to swap two number ======================================================================
       function numSwap() {
