@@ -1,6 +1,5 @@
 package com.example.main.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -10,6 +9,7 @@ import java.time.LocalDateTime;
 public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "productid", nullable = false)
     private Integer productId;
 
     @Column(nullable = false)
@@ -24,14 +24,12 @@ public class Product {
     @Column
     private Integer stockQuantity;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "category_id")
-    @JsonIgnoreProperties("products")
     private Category category;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "seller_id")
-    @JsonIgnoreProperties("products")
     private Seller seller;
 
     @Column(nullable = false)
