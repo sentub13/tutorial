@@ -7,6 +7,7 @@ import javax.persistence.*;
 public class Brand {
     
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "brand_id")
     private Integer brandId;
     
@@ -23,6 +24,11 @@ public class Brand {
         this.name = name;
     }
     
+    // Parameterized constructor
+    public Brand(String name) {
+        this.name = name;
+    }
+
     // Getters and Setters
     public Integer getBrandId() {
         return brandId;

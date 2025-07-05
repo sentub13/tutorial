@@ -1,8 +1,11 @@
 package com.example.main.model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Table(name = "products")
@@ -37,6 +40,10 @@ public class Product {
 
     @Column(nullable = false)
     private LocalDateTime updatedAt;
+
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference
+    private List<Variants> variants;
 
     public Product() {
     }
@@ -120,6 +127,14 @@ public class Product {
 
     public void setUpdatedAt(LocalDateTime updatedAt) {
         this.updatedAt = updatedAt;
+    }
+
+    public List<Variants> getVariants() {
+        return variants;
+    }
+
+    public void setVariants(List<Variants> variants) {
+        this.variants = variants;
     }
 
     @PrePersist

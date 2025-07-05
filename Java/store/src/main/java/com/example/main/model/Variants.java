@@ -1,16 +1,16 @@
 package com.example.main.model;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import javax.persistence.*;
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "Variants")
 public class Variants {
     @Id
-    @Column(name = "variant_id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer variantId;
-
-    @Column(name = "product_id")
-    private Integer productId;
 
     @Column(name = "sku", unique = true)
     private String sku;
@@ -30,15 +30,20 @@ public class Variants {
     @Column(name = "is_active")
     private Boolean isActive;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "product_id")
+    @JsonBackReference
+    private Product product;
+
     // Default constructor
     public Variants() {
     }
 
     // Parameterized constructor
-    public Variants(Integer variantId, Integer productId, String sku, String color,
-                           String size, BigDecimal price, Integer stockQuantity, Boolean isActive) {
+    public Variants(Integer variantId, Product product, String sku, String color,
+                    String size, BigDecimal price, Integer stockQuantity, Boolean isActive) {
         this.variantId = variantId;
-        this.productId = productId;
+        this.product = product;
         this.sku = sku;
         this.color = color;
         this.size = size;
@@ -54,14 +59,6 @@ public class Variants {
 
     public void setVariantId(Integer variantId) {
         this.variantId = variantId;
-    }
-
-    public Integer getProductId() {
-        return productId;
-    }
-
-    public void setProductId(Integer productId) {
-        this.productId = productId;
     }
 
     public String getSku() {
@@ -111,4 +108,13 @@ public class Variants {
     public void setIsActive(Boolean isActive) {
         this.isActive = isActive;
     }
+
+    public Product getProduct() {
+        return product;
+    }
+
+    public void setProduct(Product product) {
+        this.product = product;
+    }
+
 }
