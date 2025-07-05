@@ -1,7 +1,6 @@
 package com.example.main.model;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "Reviews")
@@ -22,22 +21,18 @@ public class Reviews {
     
     @Column(name = "comment", columnDefinition = "TEXT")
     private String comment;
-    
-    @Column(name = "review_date")
-    private LocalDateTime reviewDate;
-    
+
     // Default constructor
     public Reviews() {
     }
-    
+
     // Parameterized constructor
-    public Reviews(Integer reviewId, Integer userId, Integer productId, Integer rating, String comment, LocalDateTime reviewDate) {
+    public Reviews(Integer reviewId, Integer userId, Integer productId, Integer rating, String comment) {
         this.reviewId = reviewId;
         this.userId = userId;
         this.productId = productId;
         this.rating = rating;
         this.comment = comment;
-        this.reviewDate = reviewDate;
     }
     
     // Getters and Setters
@@ -79,13 +74,5 @@ public class Reviews {
     
     public void setComment(String comment) {
         this.comment = comment;
-    }
-    
-    public LocalDateTime getReviewDate() {
-        return reviewDate;
-    }
-    
-    public void setReviewDate(LocalDateTime reviewDate) {
-        this.reviewDate = reviewDate;
     }
 }
