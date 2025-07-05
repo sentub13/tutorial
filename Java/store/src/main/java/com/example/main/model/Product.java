@@ -41,9 +41,9 @@ public class Product {
     @Column(nullable = false)
     private LocalDateTime updatedAt;
 
-    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
-    @JsonManagedReference
-    private List<Variants> variants;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "variant_id")
+    private Variants variants;
 
     public Product() {
     }
@@ -129,11 +129,11 @@ public class Product {
         this.updatedAt = updatedAt;
     }
 
-    public List<Variants> getVariants() {
+    public Variants getVariants() {
         return variants;
     }
 
-    public void setVariants(List<Variants> variants) {
+    public void setVariants(Variants variants) {
         this.variants = variants;
     }
 
