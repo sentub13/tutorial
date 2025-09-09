@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/product-images")
+@RequestMapping("/images")
 public class ImagesController {
     @Autowired
     private ImagesRepository imagesRepository;
