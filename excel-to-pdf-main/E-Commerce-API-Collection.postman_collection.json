@@ -595,10 +595,10 @@
 			]
 		},
 		{
-			"name": "Product Images Management",
+			"name": "Images Management",
 			"item": [
 				{
-					"name": "Get All Product Images",
+					"name": "Get All Images",
 					"request": {
 						"method": "GET",
 						"header": [],
@@ -610,7 +610,7 @@
 					}
 				},
 				{
-					"name": "Create Product Image",
+					"name": "Create Image",
 					"request": {
 						"method": "POST",
 						"header": [
@@ -621,7 +621,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"productId\": 1,\n  \"imageUrl\": \"https://example.com/images/iphone15-main.jpg\",\n  \"isMain\": true\n}"
+							"raw": "{\n  \"url\": \"https://example.com/image1.jpg\",\n  \"altText\": \"Sample image\"\n}"
 						},
 						"url": {
 							"raw": "{{baseUrl}}/product-images",
@@ -631,7 +631,7 @@
 					}
 				},
 				{
-					"name": "Get Product Image by ID",
+					"name": "Get Image by ID",
 					"request": {
 						"method": "GET",
 						"header": [],
@@ -643,7 +643,7 @@
 					}
 				},
 				{
-					"name": "Update Product Image",
+					"name": "Update Image",
 					"request": {
 						"method": "PUT",
 						"header": [
@@ -654,7 +654,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"imageId\": 1,\n  \"productId\": 1,\n  \"imageUrl\": \"https://example.com/images/iphone15-updated.jpg\",\n  \"isMain\": false\n}"
+							"raw": "{\n  \"imageId\": 1,\n  \"url\": \"https://example.com/image1-updated.jpg\",\n  \"altText\": \"Updated image\"\n}"
 						},
 						"url": {
 							"raw": "{{baseUrl}}/product-images/1",
@@ -664,7 +664,7 @@
 					}
 				},
 				{
-					"name": "Delete Product Image",
+					"name": "Delete Image",
 					"request": {
 						"method": "DELETE",
 						"header": [],
