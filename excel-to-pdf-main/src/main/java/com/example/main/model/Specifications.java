@@ -3,8 +3,8 @@ package com.example.main.model;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "ProductSpecifications") 
-public class ProductSpecifications {
+@Table(name = "Specifications") 
+public class Specifications {
     
     @Id
     @Column(name = "spec_id")
@@ -21,11 +21,11 @@ public class ProductSpecifications {
     private String value;
     
     // Default constructor
-    public ProductSpecifications() {
+    public Specifications() {
     }
     
     // Parameterized constructor
-    public ProductSpecifications(Integer specId, Integer productId, String keyName, String value) {
+    public Specifications(Integer specId, Integer productId, String keyName, String value) {
         this.specId = specId;
         this.productId = productId;
         this.keyName = keyName;

@@ -1,10 +1,14 @@
 package com.example.main.model;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.Set;
+
 
 @Entity
-@Table(name = "ProductImages") 
-public class ProductImages {       
+@Table(name = "Images") 
+public class Images {       
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer imageId;
@@ -22,10 +26,10 @@ public class ProductImages {
     @JoinColumn(name = "product_id", insertable = false, updatable = false)
     private Product product;
 
-    public ProductImages() {
+    public Images() {
     }
 
-    public ProductImages(Integer productId, String imageUrl, Boolean isMain) {
+    public Images(Integer productId, String imageUrl, Boolean isMain) {
         this.productId = productId;
         this.imageUrl = imageUrl;
         this.isMain = isMain;
@@ -70,4 +74,5 @@ public class ProductImages {
     public void setProduct(Product product) {
         this.product = product;
     }
+    
 }

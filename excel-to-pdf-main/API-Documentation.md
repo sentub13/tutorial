@@ -3,7 +3,7 @@
 ## Overview
 This Spring Boot application provides a comprehensive e-commerce REST API with the following entities:
 - **Users**: Customer management with roles (ADMIN, USER, GUEST)
-- **Categories**: Product categorization
+- **Categories**:  categorization
 - **Brands**: Brand management for products
 - **Sellers**: Vendor management
 - **Products**: Product catalog with pricing and inventory

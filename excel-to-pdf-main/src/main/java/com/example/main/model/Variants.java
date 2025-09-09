@@ -4,8 +4,8 @@ import javax.persistence.*;
 import java.math.BigDecimal;
 
 @Entity
-@Table(name = "ProductVariants")
-public class ProductVariants {
+@Table(name = "Variants")
+public class Variants {
     
     @Id
     @Column(name = "variant_id")
@@ -33,11 +33,11 @@ public class ProductVariants {
     private Boolean isActive;
     
     // Default constructor
-    public ProductVariants() {
+    public Variants() {
     }
     
     // Parameterized constructor
-    public ProductVariants(Integer variantId, Integer productId, String sku, String color, 
+    public Variants(Integer variantId, Integer productId, String sku, String color, 
                           String size, BigDecimal price, Integer stockQuantity, Boolean isActive) {
         this.variantId = variantId;
         this.productId = productId;
