@@ -2955,69 +2955,2042 @@ async function processData(data) {
 ## 10. **Modules & Code Organization** (Modularity)
 
 ### Module Systems
-- What is the difference between `import` and `require` in JavaScript?
-- What is the purpose of the `export` keyword in JavaScript?
-- How do you implement modules in JavaScript?
-- What is the `default` export in JavaScript modules?
-- What are the benefits of using modules in JavaScript?
+
+#### What is the difference between `import` and `require` in JavaScript?
+`import` is ES6 module syntax (static), `require` is CommonJS (dynamic, Node.js).
+
+```javascript
+// ES6 Modules (import) - static, compile-time
+import { add, subtract } from './math.js';
+import Calculator from './calculator.js'; // default import
+import * as MathUtils from './math.js'; // namespace import
+
+// CommonJS (require) - dynamic, runtime
+const { add, subtract } = require('./math.js');
+const Calculator = require('./calculator.js');
+const MathUtils = require('./math.js');
+
+// Key differences:
+// import: hoisted, static analysis, tree-shaking
+// require: executed in place, dynamic loading
+
+// Dynamic import (ES2020)
+const module = await import('./dynamic-module.js');
+```
+
+#### What is the purpose of the `export` keyword in JavaScript?
+`export` makes functions, objects, or values available to other modules.
+
+```javascript
+// Named exports
+export const PI = 3.14159;
+export function add(a, b) {
+  return a + b;
+}
+export class Calculator {
+  multiply(a, b) { return a * b; }
+}
+
+// Export list
+const subtract = (a, b) => a - b;
+const divide = (a, b) => a / b;
+export { subtract, divide };
+
+// Export with alias
+export { subtract as minus, divide as split };
+
+// Re-export from another module
+export { default as MathLib } from './math-lib.js';
+export * from './utilities.js';
+```
+
+#### How do you implement modules in JavaScript?
+Create separate files with exports and import them where needed.
+
+```javascript
+// math.js - module file
+export const add = (a, b) => a + b;
+export const multiply = (a, b) => a * b;
+export default class Calculator {
+  constructor() {
+    this.result = 0;
+  }
+  calculate(operation, a, b) {
+    return operation(a, b);
+  }
+}
+
+// app.js - using the module
+import Calculator, { add, multiply } from './math.js';
+
+const calc = new Calculator();
+const sum = calc.calculate(add, 5, 3); // 8
+const product = multiply(4, 7); // 28
+
+// CommonJS style (Node.js)
+// math.js
+module.exports = {
+  add: (a, b) => a + b,
+  multiply: (a, b) => a * b
+};
+
+// app.js
+const { add, multiply } = require('./math.js');
+```
+
+#### What is the `default` export in JavaScript modules?
+Default export allows exporting a single main value from a module.
+
+```javascript
+// calculator.js - default export
+export default class Calculator {
+  add(a, b) { return a + b; }
+}
+
+// Or function default export
+export default function calculate(a, b, operation) {
+  return operation(a, b);
+}
+
+// Or value default export
+const config = { apiUrl: 'https://api.example.com' };
+export default config;
+
+// Importing default exports
+import Calculator from './calculator.js'; // No braces
+import calculate from './calculate.js';
+import config from './config.js';
+
+// Mixed exports
+export const helper = () => {}; // named export
+export default class Main {} // default export
+
+// Import both
+import Main, { helper } from './module.js';
+```
+
+#### What are the benefits of using modules in JavaScript?
+Modules provide code organization, reusability, encapsulation, and dependency management.
+
+```javascript
+// Benefits:
+// 1. Code organization - separate concerns
+// user.js
+export class User {
+  constructor(name) { this.name = name; }
+}
+
+// api.js
+export const fetchUser = async (id) => {
+  const response = await fetch(`/api/users/${id}`);
+  return response.json();
+};
+
+// 2. Reusability - use across projects
+// utils.js
+export const formatDate = (date) => date.toLocaleDateString();
+export const debounce = (fn, delay) => { /* implementation */ };
+
+// 3. Encapsulation - private implementation
+// counter.js
+let count = 0; // private variable
+export const increment = () => ++count;
+export const getCount = () => count;
+// count is not directly accessible
+
+// 4. Dependency management
+// app.js
+import { User } from './user.js';
+import { fetchUser } from './api.js';
+import { formatDate } from './utils.js';
+
+// Clear dependencies, easier testing and maintenance
+```
 
 ## 11. **Network & APIs** (Web APIs)
 
 ### HTTP Requests
-- How do you make an AJAX request in JavaScript?
-- What is the Fetch API in JavaScript?
-- What are `XMLHttpRequest` and `Fetch` API in JavaScript?
-- How do you handle CORS (Cross-Origin Resource Sharing) in JavaScript?
+
+#### How do you make an AJAX request in JavaScript?
+Use XMLHttpRequest or Fetch API to make asynchronous HTTP requests without page reload.
+
+```javascript
+// Using Fetch API (modern approach)
+fetch('https://api.example.com/data')
+  .then(response => response.json())
+  .then(data => console.log(data))
+  .catch(error => console.error('Error:', error));
+
+// Using async/await
+async function fetchData() {
+  try {
+    const response = await fetch('https://api.example.com/data');
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error('Fetch error:', error);
+  }
+}
+
+// Using XMLHttpRequest (older approach)
+const xhr = new XMLHttpRequest();
+xhr.open('GET', 'https://api.example.com/data');
+xhr.onreadystatechange = function() {
+  if (xhr.readyState === 4 && xhr.status === 200) {
+    const data = JSON.parse(xhr.responseText);
+    console.log(data);
+  }
+};
+xhr.send();
+```
+
+#### What is the Fetch API in JavaScript?
+Fetch API is a modern interface for making HTTP requests, returning promises.
+
+```javascript
+// Basic GET request
+fetch('https://api.example.com/users')
+  .then(response => {
+    if (!response.ok) {
+      throw new Error('Network response was not ok');
+    }
+    return response.json();
+  })
+  .then(data => console.log(data));
+
+// POST request with data
+fetch('https://api.example.com/users', {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json',
+  },
+  body: JSON.stringify({
+    name: 'John Doe',
+    email: 'john@example.com'
+  })
+})
+.then(response => response.json())
+.then(data => console.log('Success:', data));
+
+// With custom headers and options
+fetch('https://api.example.com/protected', {
+  method: 'GET',
+  headers: {
+    'Authorization': 'Bearer token123',
+    'Accept': 'application/json'
+  },
+  credentials: 'include' // Include cookies
+})
+.then(response => response.json());
+```
+
+#### What are `XMLHttpRequest` and `Fetch` API in JavaScript?
+XMLHttpRequest is the older API for HTTP requests, Fetch is the modern promise-based replacement.
+
+```javascript
+// XMLHttpRequest - older, callback-based
+const xhr = new XMLHttpRequest();
+xhr.open('POST', 'https://api.example.com/data');
+xhr.setRequestHeader('Content-Type', 'application/json');
+xhr.onload = function() {
+  if (xhr.status === 200) {
+    const data = JSON.parse(xhr.responseText);
+    console.log(data);
+  }
+};
+xhr.onerror = function() {
+  console.error('Request failed');
+};
+xhr.send(JSON.stringify({ key: 'value' }));
+
+// Fetch API - modern, promise-based
+fetch('https://api.example.com/data', {
+  method: 'POST',
+  headers: { 'Content-Type': 'application/json' },
+  body: JSON.stringify({ key: 'value' })
+})
+.then(response => response.json())
+.then(data => console.log(data))
+.catch(error => console.error('Request failed:', error));
+
+// Key differences:
+// XMLHttpRequest: verbose, callback-based, older browser support
+// Fetch: cleaner syntax, promise-based, modern browsers
+
+// Fetch with timeout
+const controller = new AbortController();
+setTimeout(() => controller.abort(), 5000); // 5 second timeout
+
+fetch('https://api.example.com/data', {
+  signal: controller.signal
+})
+.then(response => response.json())
+.catch(error => {
+  if (error.name === 'AbortError') {
+    console.log('Request timed out');
+  }
+});
+```
+
+#### How do you handle CORS (Cross-Origin Resource Sharing) in JavaScript?
+CORS is handled by server configuration, but client can send appropriate headers and handle CORS errors.
+
+```javascript
+// CORS is primarily a server-side configuration
+// Server must set appropriate headers:
+// Access-Control-Allow-Origin: *
+// Access-Control-Allow-Methods: GET, POST, PUT, DELETE
+// Access-Control-Allow-Headers: Content-Type, Authorization
+
+// Client-side CORS handling
+fetch('https://api.different-domain.com/data', {
+  method: 'POST',
+  mode: 'cors', // Default mode
+  credentials: 'include', // Send cookies cross-origin
+  headers: {
+    'Content-Type': 'application/json'
+  },
+  body: JSON.stringify({ data: 'value' })
+})
+.then(response => {
+  if (!response.ok) {
+    throw new Error('CORS or network error');
+  }
+  return response.json();
+})
+.catch(error => {
+  console.error('CORS error:', error);
+});
+
+// Preflight request handling (automatic for complex requests)
+// Browser automatically sends OPTIONS request for:
+// - Custom headers
+// - Methods other than GET, POST, HEAD
+// - Content-Type other than application/x-www-form-urlencoded, multipart/form-data, text/plain
+
+// JSONP workaround for older browsers (avoid if possible)
+function jsonp(url, callback) {
+  const script = document.createElement('script');
+  const callbackName = 'jsonp_callback_' + Math.round(100000 * Math.random());
+  
+  window[callbackName] = function(data) {
+    delete window[callbackName];
+    document.body.removeChild(script);
+    callback(data);
+  };
+  
+  script.src = url + '?callback=' + callbackName;
+  document.body.appendChild(script);
+}
+
+// Proxy server approach for development
+// Use a proxy server to avoid CORS during development
+// Example: webpack dev server proxy configuration
+```
 
 ### Web Technologies
-- Explain the concept of a single-page application (SPA)
-- What are service workers in JavaScript, and how do they work?
-- What are Web Workers in JavaScript?
+
+#### Explain the concept of a single-page application (SPA)
+SPA loads a single HTML page and dynamically updates content without full page reloads.
+
+```javascript
+// Basic SPA routing example
+class Router {
+  constructor() {
+    this.routes = {};
+    window.addEventListener('popstate', () => this.handleRoute());
+  }
+  
+  addRoute(path, handler) {
+    this.routes[path] = handler;
+  }
+  
+  navigate(path) {
+    history.pushState(null, null, path);
+    this.handleRoute();
+  }
+  
+  handleRoute() {
+    const path = window.location.pathname;
+    const handler = this.routes[path] || this.routes['/404'];
+    if (handler) handler();
+  }
+}
+
+// Usage
+const router = new Router();
+router.addRoute('/', () => {
+  document.getElementById('app').innerHTML = '<h1>Home Page</h1>';
+});
+router.addRoute('/about', () => {
+  document.getElementById('app').innerHTML = '<h1>About Page</h1>';
+});
+
+// SPA benefits:
+// - Faster navigation (no full page reload)
+// - Better user experience
+// - Reduced server load
+// - Mobile app-like feel
+
+// SPA challenges:
+// - SEO complexity
+// - Initial load time
+// - Browser history management
+```
+
+#### What are service workers in JavaScript, and how do they work?
+Service workers are scripts that run in background, enabling offline functionality and push notifications.
+
+```javascript
+// Register service worker
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('/sw.js')
+    .then(registration => console.log('SW registered:', registration))
+    .catch(error => console.log('SW registration failed:', error));
+}
+
+// sw.js - Service Worker file
+const CACHE_NAME = 'my-app-v1';
+const urlsToCache = [
+  '/',
+  '/styles/main.css',
+  '/scripts/main.js'
+];
+
+// Install event - cache resources
+self.addEventListener('install', event => {
+  event.waitUntil(
+    caches.open(CACHE_NAME)
+      .then(cache => cache.addAll(urlsToCache))
+  );
+});
+
+// Fetch event - serve from cache
+self.addEventListener('fetch', event => {
+  event.respondWith(
+    caches.match(event.request)
+      .then(response => {
+        // Return cached version or fetch from network
+        return response || fetch(event.request);
+      })
+  );
+});
+
+// Push notification
+self.addEventListener('push', event => {
+  const options = {
+    body: event.data.text(),
+    icon: '/icon.png',
+    badge: '/badge.png'
+  };
+  
+  event.waitUntil(
+    self.registration.showNotification('New Message', options)
+  );
+});
+
+// Service worker capabilities:
+// - Offline caching
+// - Background sync
+// - Push notifications
+// - Network proxy
+```
+
+#### What are Web Workers in JavaScript?
+Web Workers run JavaScript in background threads, preventing UI blocking for heavy computations.
+
+```javascript
+// Main thread - create worker
+const worker = new Worker('worker.js');
+
+// Send data to worker
+worker.postMessage({ numbers: [1, 2, 3, 4, 5] });
+
+// Receive result from worker
+worker.onmessage = function(event) {
+  console.log('Result from worker:', event.data);
+};
+
+// Handle worker errors
+worker.onerror = function(error) {
+  console.error('Worker error:', error);
+};
+
+// Terminate worker when done
+worker.terminate();
+
+// worker.js - Worker script
+self.onmessage = function(event) {
+  const { numbers } = event.data;
+  
+  // Heavy computation (won't block UI)
+  const result = numbers.reduce((sum, num) => {
+    // Simulate heavy work
+    for (let i = 0; i < 1000000; i++) {
+      sum += num * Math.random();
+    }
+    return sum;
+  }, 0);
+  
+  // Send result back to main thread
+  self.postMessage(result);
+};
+
+// Shared Worker (shared between tabs)
+const sharedWorker = new SharedWorker('shared-worker.js');
+sharedWorker.port.postMessage('Hello from tab');
+sharedWorker.port.onmessage = event => {
+  console.log('Shared worker response:', event.data);
+};
+
+// Web Worker use cases:
+// - Heavy calculations
+// - Image/video processing
+// - Data parsing
+// - Background API calls
+// - Cryptographic operations
+```
 
 ## 12. **Built-in Objects & Methods** (JavaScript APIs)
 
 ### Built-in Objects
-- What are JavaScript's built-in objects?
-- How does `JSON.stringify()` and `JSON.parse()` work in JavaScript?
+
+#### What are JavaScript's built-in objects?
+JavaScript provides built-in objects like Object, Array, String, Number, Date, Math, RegExp, and JSON.
+
+```javascript
+// Object - base object type
+const obj = new Object();
+const literal = {}; // Object literal
+Object.keys(obj); // Get object keys
+Object.values(obj); // Get object values
+
+// Array - ordered list of values
+const arr = new Array();
+const literal2 = []; // Array literal
+arr.push(1); // Add element
+arr.length; // Get length
+
+// String - text manipulation
+const str = new String('hello');
+const literal3 = 'hello'; // String literal
+str.toUpperCase(); // 'HELLO'
+str.charAt(0); // 'h'
+
+// Number - numeric operations
+const num = new Number(42);
+const literal4 = 42; // Number literal
+Number.isInteger(42); // true
+Number.parseFloat('3.14'); // 3.14
+
+// Date - date and time
+const now = new Date();
+const specific = new Date('2023-01-01');
+now.getFullYear(); // Current year
+now.toISOString(); // ISO format
+
+// Math - mathematical operations
+Math.PI; // 3.14159...
+Math.random(); // Random number 0-1
+Math.max(1, 2, 3); // 3
+Math.floor(3.7); // 3
+
+// RegExp - regular expressions
+const regex = new RegExp('pattern');
+const literal5 = /pattern/; // Regex literal
+regex.test('string'); // Boolean match
+'string'.match(/pattern/); // Match result
+
+// JSON - data serialization
+JSON.stringify({key: 'value'}); // Convert to string
+JSON.parse('{"key":"value"}'); // Parse from string
+```
+
+#### How does `JSON.stringify()` and `JSON.parse()` work in JavaScript?
+`JSON.stringify()` converts objects to JSON strings, `JSON.parse()` converts JSON strings back to objects.
+
+```javascript
+// JSON.stringify() - object to string
+const obj = {
+  name: 'John',
+  age: 30,
+  hobbies: ['reading', 'coding']
+};
+
+const jsonString = JSON.stringify(obj);
+console.log(jsonString); // '{"name":"John","age":30,"hobbies":["reading","coding"]}'
+
+// JSON.parse() - string to object
+const parsedObj = JSON.parse(jsonString);
+console.log(parsedObj.name); // 'John'
+
+// With replacer function (stringify)
+const filtered = JSON.stringify(obj, ['name', 'age']); // Only include specified keys
+const transformed = JSON.stringify(obj, (key, value) => {
+  return key === 'age' ? value + 1 : value; // Transform age
+});
+
+// With reviver function (parse)
+const revived = JSON.parse(jsonString, (key, value) => {
+  return key === 'age' ? value * 2 : value; // Transform age on parse
+});
+
+// With spacing (pretty print)
+const prettyJson = JSON.stringify(obj, null, 2);
+// {
+//   "name": "John",
+//   "age": 30,
+//   "hobbies": [
+//     "reading",
+//     "coding"
+//   ]
+// }
+
+// Handle special values
+const special = {
+  date: new Date(),
+  func: function() {},
+  undef: undefined,
+  sym: Symbol('test')
+};
+
+JSON.stringify(special); // '{"date":"2023-01-01T00:00:00.000Z"}'
+// Functions, undefined, and symbols are omitted
+
+// Error handling
+try {
+  const circular = {};
+  circular.self = circular;
+  JSON.stringify(circular); // Throws error
+} catch (error) {
+  console.error('Circular reference error');
+}
+
+try {
+  JSON.parse('invalid json'); // Throws SyntaxError
+} catch (error) {
+  console.error('Invalid JSON');
+}
+```
 
 ### Utility Methods
-- What is the use of `setTimeout()` and `setInterval()`?
-- How do you use regular expressions in JavaScript?
-- How do you compare two objects in JavaScript?
+
+#### What is the use of `setTimeout()` and `setInterval()`?
+`setTimeout()` executes code once after a delay, `setInterval()` executes code repeatedly at intervals.
+
+```javascript
+// setTimeout - execute once after delay
+const timeoutId = setTimeout(() => {
+  console.log('Executed after 2 seconds');
+}, 2000);
+
+// Cancel timeout
+clearTimeout(timeoutId);
+
+// setTimeout with parameters
+setTimeout((name, age) => {
+  console.log(`Hello ${name}, you are ${age}`);
+}, 1000, 'John', 25);
+
+// setInterval - execute repeatedly
+const intervalId = setInterval(() => {
+  console.log('Executed every 1 second');
+}, 1000);
+
+// Cancel interval
+clearInterval(intervalId);
+
+// Practical examples
+// Countdown timer
+let count = 10;
+const countdown = setInterval(() => {
+  console.log(count);
+  count--;
+  if (count < 0) {
+    clearInterval(countdown);
+    console.log('Done!');
+  }
+}, 1000);
+
+// Delayed function execution
+function delayedGreeting(name) {
+  return new Promise(resolve => {
+    setTimeout(() => {
+      resolve(`Hello, ${name}!`);
+    }, 1000);
+  });
+}
+
+// Auto-save functionality
+let autoSaveInterval;
+function startAutoSave() {
+  autoSaveInterval = setInterval(() => {
+    saveData();
+    console.log('Data auto-saved');
+  }, 30000); // Every 30 seconds
+}
+
+function stopAutoSave() {
+  clearInterval(autoSaveInterval);
+}
+```
+
+#### How do you use regular expressions in JavaScript?
+Regular expressions match and manipulate text patterns using special syntax.
+
+```javascript
+// Creating regex
+const regex1 = /pattern/flags;
+const regex2 = new RegExp('pattern', 'flags');
+
+// Common flags
+// g - global (find all matches)
+// i - case insensitive
+// m - multiline
+
+// Basic pattern matching
+const text = 'Hello World 123';
+const hasNumbers = /\d+/.test(text); // true
+const match = text.match(/\d+/); // ['123']
+
+// String methods with regex
+text.search(/world/i); // 6 (case insensitive)
+text.replace(/\d+/, 'XXX'); // 'Hello World XXX'
+text.split(/\s+/); // ['Hello', 'World', '123']
+
+// Common patterns
+const email = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+const phone = /^\(?(\d{3})\)?[-. ]?(\d{3})[-. ]?(\d{4})$/;
+const url = /^https?:\/\/.+/;
+
+// Validation examples
+function validateEmail(email) {
+  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+}
+
+function extractNumbers(text) {
+  return text.match(/\d+/g) || []; // Global match
+}
+
+// Replace with function
+const formatted = 'hello world'.replace(/(\w+)/g, (match) => {
+  return match.charAt(0).toUpperCase() + match.slice(1);
+}); // 'Hello World'
+
+// Groups and capturing
+const dateRegex = /(\d{4})-(\d{2})-(\d{2})/;
+const dateMatch = '2023-12-25'.match(dateRegex);
+// dateMatch[0] = '2023-12-25' (full match)
+// dateMatch[1] = '2023' (year)
+// dateMatch[2] = '12' (month)
+// dateMatch[3] = '25' (day)
+```
+
+#### How do you compare two objects in JavaScript?
+Objects are compared by reference by default; use custom functions for deep comparison.
+
+```javascript
+// Reference comparison (default)
+const obj1 = { a: 1 };
+const obj2 = { a: 1 };
+const obj3 = obj1;
+
+console.log(obj1 === obj2); // false (different objects)
+console.log(obj1 === obj3); // true (same reference)
+
+// Shallow comparison
+function shallowEqual(obj1, obj2) {
+  const keys1 = Object.keys(obj1);
+  const keys2 = Object.keys(obj2);
+  
+  if (keys1.length !== keys2.length) {
+    return false;
+  }
+  
+  for (let key of keys1) {
+    if (obj1[key] !== obj2[key]) {
+      return false;
+    }
+  }
+  
+  return true;
+}
+
+// Deep comparison
+function deepEqual(obj1, obj2) {
+  if (obj1 === obj2) return true;
+  
+  if (obj1 == null || obj2 == null) return false;
+  
+  if (typeof obj1 !== 'object' || typeof obj2 !== 'object') {
+    return obj1 === obj2;
+  }
+  
+  const keys1 = Object.keys(obj1);
+  const keys2 = Object.keys(obj2);
+  
+  if (keys1.length !== keys2.length) return false;
+  
+  for (let key of keys1) {
+    if (!keys2.includes(key)) return false;
+    if (!deepEqual(obj1[key], obj2[key])) return false;
+  }
+  
+  return true;
+}
+
+// Usage examples
+const user1 = { name: 'John', age: 30, hobbies: ['reading'] };
+const user2 = { name: 'John', age: 30, hobbies: ['reading'] };
+
+console.log(shallowEqual(user1, user2)); // false (hobbies are different arrays)
+console.log(deepEqual(user1, user2)); // true
+
+// JSON comparison (limited)
+function jsonEqual(obj1, obj2) {
+  return JSON.stringify(obj1) === JSON.stringify(obj2);
+}
+// Note: JSON comparison has limitations with property order and special values
+
+// Using Lodash library (external)
+// const _ = require('lodash');
+// _.isEqual(obj1, obj2); // Deep comparison
+```
 
 ## 13. **Testing & Quality** (Testing)
 
 ### Testing Concepts
-- What is unit testing in JavaScript?
-- What are some popular testing frameworks in JavaScript?
-- What is TDD (Test-Driven Development)?
-- How do you write asynchronous tests in JavaScript?
-- What is the difference between `assert` and `expect` in JavaScript testing?
+
+#### What is unit testing in JavaScript?
+Unit testing verifies individual functions or components work correctly in isolation.
+
+```javascript
+// Function to test
+function add(a, b) {
+  return a + b;
+}
+
+function divide(a, b) {
+  if (b === 0) throw new Error('Division by zero');
+  return a / b;
+}
+
+// Simple test without framework
+function testAdd() {
+  const result = add(2, 3);
+  if (result !== 5) {
+    throw new Error(`Expected 5, got ${result}`);
+  }
+  console.log('✓ add test passed');
+}
+
+// Test with Jest framework
+describe('Math functions', () => {
+  test('should add two numbers', () => {
+    expect(add(2, 3)).toBe(5);
+    expect(add(-1, 1)).toBe(0);
+  });
+  
+  test('should divide two numbers', () => {
+    expect(divide(10, 2)).toBe(5);
+  });
+  
+  test('should throw error for division by zero', () => {
+    expect(() => divide(10, 0)).toThrow('Division by zero');
+  });
+});
+
+// Testing class methods
+class Calculator {
+  constructor() {
+    this.result = 0;
+  }
+  
+  add(value) {
+    this.result += value;
+    return this;
+  }
+  
+  getResult() {
+    return this.result;
+  }
+}
+
+// Unit test for class
+test('Calculator should add values', () => {
+  const calc = new Calculator();
+  calc.add(5).add(3);
+  expect(calc.getResult()).toBe(8);
+});
+```
+
+#### What are some popular testing frameworks in JavaScript?
+Popular frameworks include Jest, Mocha, Jasmine, and Vitest for different testing needs.
+
+```javascript
+// Jest - most popular, built-in assertions
+describe('Jest example', () => {
+  test('should work with arrays', () => {
+    expect([1, 2, 3]).toContain(2);
+    expect([1, 2, 3]).toHaveLength(3);
+  });
+});
+
+// Mocha with Chai - flexible, requires assertion library
+const { expect } = require('chai');
+
+describe('Mocha with Chai', () => {
+  it('should work with objects', () => {
+    expect({ name: 'John' }).to.have.property('name');
+    expect({ name: 'John' }).to.deep.equal({ name: 'John' });
+  });
+});
+
+// Jasmine - behavior-driven development
+describe('Jasmine example', () => {
+  it('should spy on functions', () => {
+    const obj = { method: () => 'original' };
+    spyOn(obj, 'method').and.returnValue('mocked');
+    expect(obj.method()).toBe('mocked');
+  });
+});
+
+// Vitest - fast, Vite-powered
+import { describe, it, expect } from 'vitest';
+
+describe('Vitest example', () => {
+  it('should work like Jest', () => {
+    expect(true).toBe(true);
+  });
+});
+
+// Framework comparison:
+// Jest: Zero config, built-in mocking, snapshot testing
+// Mocha: Flexible, requires separate assertion library
+// Jasmine: BDD style, built-in spies
+// Vitest: Fast, modern, TypeScript support
+```
+
+#### What is TDD (Test-Driven Development)?
+TDD writes tests first, then code to make tests pass, following Red-Green-Refactor cycle.
+
+```javascript
+// TDD Cycle: Red (fail) -> Green (pass) -> Refactor
+
+// Step 1: Write failing test (Red)
+test('should calculate user age from birth year', () => {
+  const user = new User('John', 1990);
+  expect(user.getAge()).toBe(34); // This will fail initially
+});
+
+// Step 2: Write minimal code to pass (Green)
+class User {
+  constructor(name, birthYear) {
+    this.name = name;
+    this.birthYear = birthYear;
+  }
+  
+  getAge() {
+    return 2024 - this.birthYear; // Minimal implementation
+  }
+}
+
+// Step 3: Refactor for better code
+class User {
+  constructor(name, birthYear) {
+    this.name = name;
+    this.birthYear = birthYear;
+  }
+  
+  getAge() {
+    const currentYear = new Date().getFullYear();
+    return currentYear - this.birthYear;
+  }
+}
+
+// TDD Example: Building a shopping cart
+// Test 1: Empty cart
+test('new cart should be empty', () => {
+  const cart = new ShoppingCart();
+  expect(cart.getTotal()).toBe(0);
+  expect(cart.getItemCount()).toBe(0);
+});
+
+// Test 2: Add item
+test('should add item to cart', () => {
+  const cart = new ShoppingCart();
+  cart.addItem({ name: 'Book', price: 10 });
+  expect(cart.getTotal()).toBe(10);
+  expect(cart.getItemCount()).toBe(1);
+});
+
+// Implementation after tests
+class ShoppingCart {
+  constructor() {
+    this.items = [];
+  }
+  
+  addItem(item) {
+    this.items.push(item);
+  }
+  
+  getTotal() {
+    return this.items.reduce((sum, item) => sum + item.price, 0);
+  }
+  
+  getItemCount() {
+    return this.items.length;
+  }
+}
+```
+
+#### How do you write asynchronous tests in JavaScript?
+Use async/await, return promises, or done callbacks for testing asynchronous code.
+
+```javascript
+// Async function to test
+async function fetchUser(id) {
+  const response = await fetch(`/api/users/${id}`);
+  return response.json();
+}
+
+function fetchUserCallback(id, callback) {
+  setTimeout(() => {
+    callback(null, { id, name: 'John' });
+  }, 100);
+}
+
+// Method 1: async/await
+test('should fetch user with async/await', async () => {
+  const user = await fetchUser(1);
+  expect(user.id).toBe(1);
+});
+
+// Method 2: return promise
+test('should fetch user with promise', () => {
+  return fetchUser(1).then(user => {
+    expect(user.id).toBe(1);
+  });
+});
+
+// Method 3: done callback (older style)
+test('should fetch user with callback', (done) => {
+  fetchUserCallback(1, (err, user) => {
+    expect(err).toBeNull();
+    expect(user.name).toBe('John');
+    done(); // Signal test completion
+  });
+});
+
+// Testing promises with resolves/rejects
+test('should resolve promise', async () => {
+  await expect(fetchUser(1)).resolves.toHaveProperty('id', 1);
+});
+
+test('should reject promise', async () => {
+  await expect(fetchUser(-1)).rejects.toThrow('User not found');
+});
+
+// Mocking async functions
+test('should mock async function', async () => {
+  const mockFetch = jest.fn().mockResolvedValue({
+    json: () => Promise.resolve({ id: 1, name: 'John' })
+  });
+  
+  global.fetch = mockFetch;
+  const user = await fetchUser(1);
+  
+  expect(mockFetch).toHaveBeenCalledWith('/api/users/1');
+  expect(user.name).toBe('John');
+});
+```
+
+#### What is the difference between `assert` and `expect` in JavaScript testing?
+`assert` throws errors on failure, `expect` provides fluent API with better error messages.
+
+```javascript
+// Node.js built-in assert
+const assert = require('assert');
+
+// assert - throws AssertionError on failure
+function testWithAssert() {
+  assert.strictEqual(2 + 2, 4); // Passes
+  assert.strictEqual(2 + 2, 5); // Throws AssertionError
+  assert.ok(true); // Passes
+  assert.deepStrictEqual([1, 2], [1, 2]); // Deep comparison
+}
+
+// expect - fluent API, better error messages
+function testWithExpect() {
+  expect(2 + 2).toBe(4); // Passes
+  expect(2 + 2).not.toBe(5); // Negation
+  expect([1, 2, 3]).toContain(2); // Array contains
+  expect({ name: 'John' }).toHaveProperty('name'); // Object property
+}
+
+// Comparison examples
+// Assert style
+try {
+  assert.strictEqual('hello', 'world');
+} catch (error) {
+  console.log(error.message); // "Expected values to be strictly equal"
+}
+
+// Expect style (Jest)
+test('expect provides better messages', () => {
+  expect('hello').toBe('world');
+  // Error: expect(received).toBe(expected)
+  // Expected: "world"
+  // Received: "hello"
+});
+
+// Custom assert function
+function customAssert(condition, message) {
+  if (!condition) {
+    throw new Error(message || 'Assertion failed');
+  }
+}
+
+// Usage patterns
+// Assert - procedural style
+assert.strictEqual(add(2, 3), 5);
+assert.throws(() => divide(1, 0));
+
+// Expect - fluent/chainable style
+expect(add(2, 3)).toBe(5);
+expect(() => divide(1, 0)).toThrow();
+expect(users).toHaveLength(3);
+expect(response).toMatchObject({ status: 200 });
+
+// Key differences:
+// assert: Built-in Node.js, throws errors, minimal API
+// expect: Framework-specific, fluent API, better error messages, more matchers
+```
 
 ## 14. **Design Patterns & Architecture** (Software Design)
 
 ### Programming Paradigms
-- What is functional programming in JavaScript? How is it different from object-oriented programming?
-- What are design patterns in JavaScript?
-- What are decorators in JavaScript?
+
+#### What is functional programming in JavaScript? How is it different from object-oriented programming?
+Functional programming uses pure functions and immutability, OOP uses objects and methods with state.
+
+```javascript
+// Functional Programming - pure functions, no side effects
+const add = (a, b) => a + b;
+const multiply = (a, b) => a * b;
+const compose = (f, g) => (x) => f(g(x));
+
+// Immutable data transformations
+const numbers = [1, 2, 3, 4, 5];
+const doubled = numbers.map(x => x * 2); // [2, 4, 6, 8, 10]
+const evens = numbers.filter(x => x % 2 === 0); // [2, 4]
+const sum = numbers.reduce((acc, x) => acc + x, 0); // 15
+
+// Higher-order functions
+const createMultiplier = (factor) => (number) => number * factor;
+const double = createMultiplier(2);
+const triple = createMultiplier(3);
+
+// Object-Oriented Programming - objects with state and methods
+class Calculator {
+  constructor() {
+    this.result = 0; // State
+  }
+  
+  add(value) {
+    this.result += value; // Mutates state
+    return this;
+  }
+  
+  multiply(value) {
+    this.result *= value;
+    return this;
+  }
+  
+  getResult() {
+    return this.result;
+  }
+}
+
+// Usage comparison
+// Functional approach
+const fpResult = compose(
+  x => x * 2,
+  x => x + 5
+)(10); // (10 + 5) * 2 = 30
+
+// OOP approach
+const calc = new Calculator();
+const oopResult = calc.add(10).add(5).multiply(2).getResult(); // 30
+
+// Key differences:
+// FP: Immutable, pure functions, no side effects, composable
+// OOP: Mutable state, encapsulation, inheritance, polymorphism
+
+// Functional style with immutability
+const updateUser = (user, changes) => ({ ...user, ...changes });
+const user = { name: 'John', age: 30 };
+const updatedUser = updateUser(user, { age: 31 }); // Original unchanged
+
+// OOP style with mutation
+class User {
+  constructor(name, age) {
+    this.name = name;
+    this.age = age;
+  }
+  
+  updateAge(newAge) {
+    this.age = newAge; // Mutates object
+  }
+}
+```
+
+#### What are design patterns in JavaScript?
+Design patterns are reusable solutions to common programming problems.
+
+```javascript
+// 1. Singleton Pattern - single instance
+class Singleton {
+  constructor() {
+    if (Singleton.instance) {
+      return Singleton.instance;
+    }
+    Singleton.instance = this;
+  }
+}
+
+const instance1 = new Singleton();
+const instance2 = new Singleton();
+console.log(instance1 === instance2); // true
+
+// 2. Factory Pattern - create objects
+class CarFactory {
+  static createCar(type) {
+    switch (type) {
+      case 'sedan': return new Sedan();
+      case 'suv': return new SUV();
+      default: throw new Error('Unknown car type');
+    }
+  }
+}
+
+// 3. Observer Pattern - event system
+class EventEmitter {
+  constructor() {
+    this.events = {};
+  }
+  
+  on(event, callback) {
+    if (!this.events[event]) {
+      this.events[event] = [];
+    }
+    this.events[event].push(callback);
+  }
+  
+  emit(event, data) {
+    if (this.events[event]) {
+      this.events[event].forEach(callback => callback(data));
+    }
+  }
+}
+
+// 4. Module Pattern - encapsulation
+const CounterModule = (() => {
+  let count = 0; // Private variable
+  
+  return {
+    increment: () => ++count,
+    decrement: () => --count,
+    getCount: () => count
+  };
+})();
+
+// 5. Strategy Pattern - interchangeable algorithms
+class PaymentProcessor {
+  constructor(strategy) {
+    this.strategy = strategy;
+  }
+  
+  process(amount) {
+    return this.strategy.pay(amount);
+  }
+}
+
+const creditCard = { pay: (amount) => `Paid $${amount} with credit card` };
+const paypal = { pay: (amount) => `Paid $${amount} with PayPal` };
+
+// 6. Decorator Pattern - add functionality
+function withLogging(fn) {
+  return function(...args) {
+    console.log(`Calling ${fn.name} with`, args);
+    return fn.apply(this, args);
+  };
+}
+
+const add = (a, b) => a + b;
+const loggedAdd = withLogging(add);
+```
+
+#### What are decorators in JavaScript?
+Decorators modify or enhance classes and methods using the @ syntax (experimental feature).
+
+```javascript
+// Method decorator
+function log(target, propertyName, descriptor) {
+  const method = descriptor.value;
+  
+  descriptor.value = function(...args) {
+    console.log(`Calling ${propertyName} with`, args);
+    const result = method.apply(this, args);
+    console.log(`Result:`, result);
+    return result;
+  };
+}
+
+// Class decorator
+function sealed(constructor) {
+  Object.seal(constructor);
+  Object.seal(constructor.prototype);
+}
+
+// Usage (requires experimental decorator support)
+@sealed
+class Calculator {
+  @log
+  add(a, b) {
+    return a + b;
+  }
+  
+  @log
+  multiply(a, b) {
+    return a * b;
+  }
+}
+
+// Manual decorator implementation (current JavaScript)
+function createDecorator(decoratorFn) {
+  return function(target, propertyName, descriptor) {
+    return decoratorFn(target, propertyName, descriptor);
+  };
+}
+
+// Timing decorator
+function timing(target, propertyName, descriptor) {
+  const method = descriptor.value;
+  
+  descriptor.value = function(...args) {
+    const start = performance.now();
+    const result = method.apply(this, args);
+    const end = performance.now();
+    console.log(`${propertyName} took ${end - start} milliseconds`);
+    return result;
+  };
+}
+
+// Validation decorator
+function validate(rules) {
+  return function(target, propertyName, descriptor) {
+    const method = descriptor.value;
+    
+    descriptor.value = function(...args) {
+      for (let i = 0; i < rules.length; i++) {
+        if (!rules[i](args[i])) {
+          throw new Error(`Validation failed for argument ${i}`);
+        }
+      }
+      return method.apply(this, args);
+    };
+  };
+}
+
+// Property decorator
+function readonly(target, propertyName) {
+  Object.defineProperty(target, propertyName, {
+    writable: false,
+    configurable: false
+  });
+}
+
+// Functional decorator approach (current JavaScript)
+const withRetry = (retries) => (fn) => {
+  return async function(...args) {
+    for (let i = 0; i <= retries; i++) {
+      try {
+        return await fn.apply(this, args);
+      } catch (error) {
+        if (i === retries) throw error;
+        console.log(`Retry ${i + 1}/${retries}`);
+      }
+    }
+  };
+};
+
+// Usage
+const fetchWithRetry = withRetry(3)(fetch);
+```
 
 ### Framework Concepts
-- What are JavaScript frameworks, and how do they differ from libraries?
-- What are the differences between Callback Functions and Higher-Order Components?
+
+#### What are JavaScript frameworks, and how do they differ from libraries?
+Frameworks control application flow and call your code, libraries are tools you call from your code.
+
+```javascript
+// Library - you call library functions
+// jQuery (library)
+$('#button').click(function() {
+  $('#content').hide(); // You control when to call jQuery
+});
+
+// Lodash (library)
+const result = _.map([1, 2, 3], x => x * 2); // You call lodash functions
+
+// Framework - framework calls your code
+// React (framework)
+function MyComponent() {
+  const [count, setCount] = useState(0); // React calls your component
+  
+  return (
+    <button onClick={() => setCount(count + 1)}>
+      Count: {count}
+    </button>
+  );
+}
+
+// Angular (framework)
+@Component({
+  selector: 'app-counter',
+  template: '<button (click)="increment()">{{count}}</button>'
+})
+class CounterComponent {
+  count = 0;
+  
+  increment() { // Angular calls your methods
+    this.count++;
+  }
+}
+
+// Vue (framework)
+const app = Vue.createApp({
+  data() {
+    return { count: 0 };
+  },
+  methods: {
+    increment() { // Vue calls your methods
+      this.count++;
+    }
+  }
+});
+
+// Key differences:
+// Library: You are in control, call library when needed
+// Framework: Framework is in control, calls your code when needed
+
+// Inversion of Control example
+// Library approach - you control the flow
+function processData() {
+  const data = fetchData(); // You call library
+  const processed = transformData(data); // You call library
+  saveData(processed); // You call library
+}
+
+// Framework approach - framework controls the flow
+class DataProcessor {
+  async process() {
+    // Framework calls these methods at appropriate times
+    const data = await this.fetchData();
+    const processed = this.transformData(data);
+    await this.saveData(processed);
+  }
+  
+  fetchData() { /* your implementation */ }
+  transformData(data) { /* your implementation */ }
+  saveData(data) { /* your implementation */ }
+}
+
+// Examples:
+// Libraries: Lodash, jQuery, Axios, Moment.js
+// Frameworks: React, Angular, Vue, Express, Next.js
+```
+
+#### What are the differences between Callback Functions and Higher-Order Components?
+Callback functions are passed to other functions, Higher-Order Components wrap React components with additional functionality.
+
+```javascript
+// Callback Functions - functions passed as arguments
+function processArray(arr, callback) {
+  return arr.map(callback); // callback is called for each element
+}
+
+const numbers = [1, 2, 3, 4, 5];
+const doubled = processArray(numbers, x => x * 2); // Callback function
+const squared = processArray(numbers, x => x * x); // Different callback
+
+// Event handling with callbacks
+button.addEventListener('click', function(event) {
+  console.log('Button clicked!'); // This is a callback function
+});
+
+// Async callbacks
+setTimeout(() => {
+  console.log('Timer finished'); // Callback executed after delay
+}, 1000);
+
+// Higher-Order Components (HOCs) - React pattern
+// HOC takes a component and returns a new enhanced component
+function withLoading(WrappedComponent) {
+  return function LoadingComponent(props) {
+    if (props.isLoading) {
+      return <div>Loading...</div>;
+    }
+    return <WrappedComponent {...props} />;
+  };
+}
+
+// Original component
+function UserProfile({ user }) {
+  return <div>Hello, {user.name}!</div>;
+}
+
+// Enhanced component with loading functionality
+const UserProfileWithLoading = withLoading(UserProfile);
+
+// Usage
+<UserProfileWithLoading user={user} isLoading={loading} />
+
+// Another HOC example - authentication
+function withAuth(WrappedComponent) {
+  return function AuthComponent(props) {
+    const { isAuthenticated } = props;
+    
+    if (!isAuthenticated) {
+      return <div>Please log in</div>;
+    }
+    
+    return <WrappedComponent {...props} />;
+  };
+}
+
+// HOC for data fetching
+function withData(url) {
+  return function(WrappedComponent) {
+    return function DataComponent(props) {
+      const [data, setData] = useState(null);
+      const [loading, setLoading] = useState(true);
+      
+      useEffect(() => {
+        fetch(url)
+          .then(response => response.json())
+          .then(data => {
+            setData(data);
+            setLoading(false);
+          });
+      }, []);
+      
+      return (
+        <WrappedComponent 
+          {...props} 
+          data={data} 
+          loading={loading} 
+        />
+      );
+    };
+  };
+}
+
+// Usage
+const UserListWithData = withData('/api/users')(UserList);
+
+// Key differences:
+// Callback Functions:
+// - General JavaScript concept
+// - Functions passed as arguments
+// - Called by other functions
+// - Used for events, async operations, array methods
+
+// Higher-Order Components:
+// - React-specific pattern
+// - Components that wrap other components
+// - Add functionality to components
+// - Used for cross-cutting concerns (auth, loading, data fetching)
+
+// Modern alternatives to HOCs
+// Custom Hooks (preferred in modern React)
+function useAuth() {
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  // auth logic
+  return { isAuthenticated, login, logout };
+}
+
+function useData(url) {
+  const [data, setData] = useState(null);
+  const [loading, setLoading] = useState(true);
+  // data fetching logic
+  return { data, loading };
+}
+
+// Usage with hooks (cleaner than HOCs)
+function UserProfile() {
+  const { isAuthenticated } = useAuth();
+  const { data, loading } = useData('/api/user');
+  
+  if (!isAuthenticated) return <div>Please log in</div>;
+  if (loading) return <div>Loading...</div>;
+  
+  return <div>Hello, {data.name}!</div>;
+}
+```
 
 ## 15. **Event Loop & Execution** (JavaScript Engine)
 
 ### Event Loop
-- What is the event loop in JavaScript?
+
+#### What is the event loop in JavaScript?
+The event loop manages asynchronous operations by moving completed tasks from queues to the call stack when it's empty.
+
+```javascript
+// Event loop components:
+// 1. Call Stack - where code executes
+// 2. Web APIs - setTimeout, DOM events, fetch
+// 3. Callback Queue - completed async operations
+// 4. Microtask Queue - promises, queueMicrotask
+
+// Example execution order
+console.log('1'); // Call stack - executes immediately
+
+setTimeout(() => {
+  console.log('2'); // Callback queue - executes after stack is empty
+}, 0);
+
+Promise.resolve().then(() => {
+  console.log('3'); // Microtask queue - higher priority than callback queue
+});
+
+console.log('4'); // Call stack - executes immediately
+
+// Output: 1, 4, 3, 2
+
+// Detailed example
+function demonstrateEventLoop() {
+  console.log('Start'); // 1. Call stack
+  
+  setTimeout(() => {
+    console.log('Timeout 1'); // 5. Callback queue
+  }, 0);
+  
+  Promise.resolve().then(() => {
+    console.log('Promise 1'); // 3. Microtask queue (higher priority)
+  }).then(() => {
+    console.log('Promise 2'); // 4. Microtask queue
+  });
+  
+  setTimeout(() => {
+    console.log('Timeout 2'); // 6. Callback queue
+  }, 0);
+  
+  console.log('End'); // 2. Call stack
+}
+
+// Output: Start, End, Promise 1, Promise 2, Timeout 1, Timeout 2
+
+// Event loop phases:
+// 1. Execute all synchronous code (call stack)
+// 2. Process all microtasks (promises, queueMicrotask)
+// 3. Process one callback from callback queue
+// 4. Repeat
+
+// Blocking vs non-blocking
+// Blocking (bad) - blocks event loop
+function blockingOperation() {
+  const start = Date.now();
+  while (Date.now() - start < 3000) {
+    // Blocks for 3 seconds - nothing else can run
+  }
+  console.log('Blocking done');
+}
+
+// Non-blocking (good) - uses event loop
+function nonBlockingOperation() {
+  setTimeout(() => {
+    console.log('Non-blocking done');
+  }, 3000);
+}
+
+// Microtask vs Macrotask
+setTimeout(() => console.log('Macrotask 1'), 0); // Macrotask (callback queue)
+Promise.resolve().then(() => console.log('Microtask 1')); // Microtask (higher priority)
+setTimeout(() => console.log('Macrotask 2'), 0); // Macrotask
+Promise.resolve().then(() => console.log('Microtask 2')); // Microtask
+
+// Output: Microtask 1, Microtask 2, Macrotask 1, Macrotask 2
+
+// Event loop with async/await
+async function asyncExample() {
+  console.log('1');
+  
+  await Promise.resolve();
+  console.log('2'); // Runs as microtask
+  
+  await new Promise(resolve => setTimeout(resolve, 0));
+  console.log('3'); // Runs after timeout (macrotask)
+}
+
+console.log('Start');
+asyncExample();
+console.log('End');
+
+// Output: Start, 1, End, 2, 3
+```
 
 ### Observables
-- What is an observable?
-- What are the differences between promises and observables?
+
+#### What is an observable?
+An observable is a data stream that can emit multiple values over time and can be subscribed to.
+
+```javascript
+// Simple Observable implementation
+class Observable {
+  constructor(subscriber) {
+    this.subscriber = subscriber;
+  }
+  
+  subscribe(observer) {
+    return this.subscriber(observer);
+  }
+}
+
+// Creating an observable
+const numberStream = new Observable(observer => {
+  observer.next(1);
+  observer.next(2);
+  observer.next(3);
+  observer.complete();
+});
+
+// Subscribing to observable
+numberStream.subscribe({
+  next: value => console.log('Received:', value),
+  complete: () => console.log('Stream completed')
+});
+// Output: Received: 1, Received: 2, Received: 3, Stream completed
+
+// Observable with async data
+const timerStream = new Observable(observer => {
+  let count = 0;
+  const interval = setInterval(() => {
+    observer.next(count++);
+    if (count > 3) {
+      observer.complete();
+      clearInterval(interval);
+    }
+  }, 1000);
+  
+  // Return cleanup function
+  return () => clearInterval(interval);
+});
+
+// RxJS Observable (popular library)
+// import { Observable, of, interval } from 'rxjs';
+
+// Simple observable
+const simple$ = of(1, 2, 3);
+simple$.subscribe(value => console.log(value));
+
+// Interval observable
+const timer$ = interval(1000);
+const subscription = timer$.subscribe(value => console.log('Timer:', value));
+
+// Unsubscribe after 5 seconds
+setTimeout(() => subscription.unsubscribe(), 5000);
+
+// Observable from events
+const clickStream = new Observable(observer => {
+  const button = document.getElementById('myButton');
+  const handler = event => observer.next(event);
+  
+  button.addEventListener('click', handler);
+  
+  // Cleanup
+  return () => button.removeEventListener('click', handler);
+});
+
+// Observable characteristics:
+// - Lazy: doesn't execute until subscribed
+// - Can emit multiple values
+// - Can be cancelled (unsubscribed)
+// - Supports operators for transformation
+```
+
+#### What are the differences between promises and observables?
+Promises handle single async values, observables handle streams of multiple values over time.
+
+```javascript
+// Promise - single value, eager execution
+const promise = new Promise(resolve => {
+  console.log('Promise executing'); // Runs immediately
+  setTimeout(() => resolve('Promise result'), 1000);
+});
+
+promise.then(value => console.log(value)); // 'Promise result'
+
+// Observable - multiple values, lazy execution
+const observable = new Observable(observer => {
+  console.log('Observable executing'); // Only runs when subscribed
+  observer.next('First value');
+  setTimeout(() => observer.next('Second value'), 1000);
+  setTimeout(() => observer.complete(), 2000);
+});
+
+observable.subscribe(value => console.log(value));
+
+// Key differences comparison
+
+// 1. Single vs Multiple values
+// Promise - resolves once
+fetch('/api/user').then(user => console.log(user));
+
+// Observable - can emit multiple times
+const userUpdates$ = new Observable(observer => {
+  // Emit initial user
+  observer.next({ name: 'John', status: 'online' });
+  
+  // Emit updates over time
+  setTimeout(() => observer.next({ name: 'John', status: 'away' }), 5000);
+  setTimeout(() => observer.next({ name: 'John', status: 'offline' }), 10000);
+});
+
+// 2. Eager vs Lazy execution
+// Promise - starts immediately
+const eagerPromise = new Promise(resolve => {
+  console.log('Promise started'); // Logs immediately
+  resolve('done');
+});
+
+// Observable - starts only when subscribed
+const lazyObservable = new Observable(observer => {
+  console.log('Observable started'); // Only logs when subscribed
+  observer.next('done');
+});
+
+lazyObservable.subscribe(); // Now it logs
+
+// 3. Cancellation
+// Promise - cannot be cancelled
+const uncancellablePromise = fetch('/api/data');
+// No way to cancel this request
+
+// Observable - can be unsubscribed
+const cancellableObservable = new Observable(observer => {
+  const timeoutId = setTimeout(() => {
+    observer.next('Data loaded');
+  }, 5000);
+  
+  return () => clearTimeout(timeoutId); // Cleanup function
+});
+
+const subscription = cancellableObservable.subscribe();
+subscription.unsubscribe(); // Cancels the operation
+
+// 4. Error handling
+// Promise - single catch
+promise
+  .then(value => console.log(value))
+  .catch(error => console.error(error));
+
+// Observable - can recover and continue
+observable.subscribe({
+  next: value => console.log(value),
+  error: error => console.error(error),
+  complete: () => console.log('Done')
+});
+
+// 5. Operators and transformation
+// Promise - limited chaining
+promise
+  .then(value => value.toUpperCase())
+  .then(value => value + '!');
+
+// Observable - rich operator ecosystem (RxJS)
+// observable
+//   .pipe(
+//     map(value => value.toUpperCase()),
+//     filter(value => value.length > 5),
+//     debounceTime(300)
+//   )
+//   .subscribe(value => console.log(value));
+
+// Summary:
+// Promise: Single value, eager, not cancellable, simpler
+// Observable: Multiple values, lazy, cancellable, more powerful
+
+// When to use:
+// Promise: HTTP requests, one-time async operations
+// Observable: Event streams, real-time data, complex async flows
+```
 
 ## 16. **Security & Best Practices** (Production Ready)
 
 ### Security
-- What are some security considerations when working with JavaScript?
+
+#### What are some security considerations when working with JavaScript?
+Key security concerns include XSS, CSRF, data validation, secure storage, and dependency vulnerabilities.
+
+```javascript
+// 1. Cross-Site Scripting (XSS) Prevention
+// Bad - vulnerable to XSS
+document.getElementById('output').innerHTML = userInput; // Dangerous!
+
+// Good - escape HTML
+function escapeHtml(text) {
+  const div = document.createElement('div');
+  div.textContent = text;
+  return div.innerHTML;
+}
+
+document.getElementById('output').innerHTML = escapeHtml(userInput);
+
+// Better - use textContent
+document.getElementById('output').textContent = userInput;
+
+// 2. Input Validation and Sanitization
+// Always validate on both client and server
+function validateEmail(email) {
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  return emailRegex.test(email) && email.length <= 254;
+}
+
+function sanitizeInput(input) {
+  return input.trim().replace(/[<>"'&]/g, '');
+}
+
+// 3. Secure Data Storage
+// Bad - sensitive data in localStorage
+localStorage.setItem('password', userPassword); // Never do this!
+
+// Good - use secure storage for sensitive data
+// Store tokens securely, use httpOnly cookies for auth
+const token = getSecureToken(); // From secure source
+
+// 4. HTTPS and Secure Communication
+// Always use HTTPS for production
+fetch('https://api.example.com/data', {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json',
+    'Authorization': `Bearer ${token}`
+  },
+  body: JSON.stringify(data)
+});
+
+// 5. Content Security Policy (CSP)
+// Set CSP headers to prevent XSS
+// <meta http-equiv="Content-Security-Policy" 
+//       content="default-src 'self'; script-src 'self'">
+
+// 6. Avoid eval() and similar functions
+// Bad - code injection risk
+eval(userCode); // Extremely dangerous!
+new Function(userCode)(); // Also dangerous
+
+// Good - use safe alternatives
+const safeData = JSON.parse(jsonString); // For JSON data
+
+// 7. Secure Authentication
+// Implement proper session management
+class AuthManager {
+  static setToken(token) {
+    // Use httpOnly cookies or secure storage
+    document.cookie = `token=${token}; Secure; HttpOnly; SameSite=Strict`;
+  }
+  
+  static logout() {
+    // Clear all auth data
+    document.cookie = 'token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+    localStorage.clear();
+    sessionStorage.clear();
+  }
+}
+
+// 8. Dependency Security
+// Regularly audit dependencies
+// npm audit
+// Use tools like Snyk or GitHub security alerts
+
+// 9. Error Handling - Don't expose sensitive info
+// Bad - exposes internal details
+try {
+  processPayment(cardData);
+} catch (error) {
+  alert(error.message); // Might expose sensitive info
+}
+
+// Good - generic error messages
+try {
+  processPayment(cardData);
+} catch (error) {
+  console.error('Payment error:', error); // Log for debugging
+  alert('Payment failed. Please try again.'); // Generic message
+}
+
+// 10. Rate Limiting and DoS Protection
+class RateLimiter {
+  constructor(maxRequests = 100, timeWindow = 60000) {
+    this.requests = new Map();
+    this.maxRequests = maxRequests;
+    this.timeWindow = timeWindow;
+  }
+  
+  isAllowed(identifier) {
+    const now = Date.now();
+    const userRequests = this.requests.get(identifier) || [];
+    
+    // Remove old requests
+    const validRequests = userRequests.filter(
+      time => now - time < this.timeWindow
+    );
+    
+    if (validRequests.length >= this.maxRequests) {
+      return false;
+    }
+    
+    validRequests.push(now);
+    this.requests.set(identifier, validRequests);
+    return true;
+  }
+}
+
+// 11. Secure File Uploads
+function validateFileUpload(file) {
+  const allowedTypes = ['image/jpeg', 'image/png', 'image/gif'];
+  const maxSize = 5 * 1024 * 1024; // 5MB
+  
+  if (!allowedTypes.includes(file.type)) {
+    throw new Error('Invalid file type');
+  }
+  
+  if (file.size > maxSize) {
+    throw new Error('File too large');
+  }
+  
+  return true;
+}
+
+// 12. Prevent Clickjacking
+// Use X-Frame-Options header or CSP frame-ancestors
+// X-Frame-Options: DENY
+// Content-Security-Policy: frame-ancestors 'none'
+
+// Security checklist:
+// ✓ Validate all inputs
+// ✓ Escape output
+// ✓ Use HTTPS
+// ✓ Implement CSP
+// ✓ Secure authentication
+// ✓ Regular dependency audits
+// ✓ Error handling
+// ✓ Rate limiting
+// ✓ Secure file handling
+// ✓ Prevent clickjacking
+```
 
 ### Code Quality
 - What is the importance of code minification in JavaScript?
