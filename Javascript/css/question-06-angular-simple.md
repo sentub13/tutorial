@@ -1365,3 +1365,8 @@ export class MyComponent implements OnChanges, DoCheck {
 }
 ```
 
+Read the full file carefully. Extract every interview question exactly as written. For the first 1–20 questions, write a short, natural, real-time spoken answer (15–30 seconds each). Keep all answers simple, confident, and practical. Format the output clearly. add all answer in a .md file
+
+Read the full file carefully. For the first 16–30 questions, write a short, natural, real-time spoken answer (15–30 seconds each) with example code. Keep all answers simple, confident, and practical. Geive as .md format
+
+Read the full file carefully. Extract every questions. if there is duplicate or similar questions remove it
