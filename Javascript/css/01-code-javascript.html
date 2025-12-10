@@ -51,14 +51,16 @@
       };
 
       // Write a closures function ===============================================================
-      function clouseFunc() {
-        let name = 'Sentu Biswas';
-        function person() {
-          console.log(name);
+ 
+      function clouSourRunc () {
+        let name = "Pintu Biswas"
+        function info() {
+          console.log("name----", name)
         }
-        return person();
+        info()
       }
-      // clouseFunc();
+
+      // clouSourRunc()
 
       // Write a method for Call/Apply/Bind function ============================================
       function info(email, phone) {
@@ -71,33 +73,33 @@
       // info1("abc@gmial.com", 64564654)
 
       // How to write Arrow function =============================================================
-      add = (a, b) => console.log(a + b);
-      // add(2, 6)
+      minus = (a, b) => console.log(a - b);
+      // minus(10, 4)
 
       // How to write Anoumous Function ==========================================================
+
       (function helloWorld() {
-        console.log('Hello World');
-      });
-      // ();
+        console.log("Hello World")
+      })();
 
       // How to write Callback fcuntions =========================================================
-      function callFunc() {
-        console.log("Hello world");
+      function callBackText() {
+        console.log("Hello world 1");
       }
-      function callBackFunc(callFunc) {
-        console.log("Sentu Biswas")
-        callFunc();
+      function callBack(func) {
+        
+        func();
+        console.log("Hello world 2");
       }
-      // callBackFunc(callFunc);
+      // callBack(callBackText)
 
       // How to write HOC function ================================================================
       function hocFunc(component) {
-        return function enhanceFunc(props){
-            // return(
-            //     <component data={props}/>
-            // )
+        return function enhanceHocFunc() {
+          <component data={props} />
         }
       }
+      // hocFunc()
 
       // How to to Promise ===============
       function promiseFunc() {
@@ -118,6 +120,27 @@
         })
       }
       // promiseFunc()
+
+      function promiseFunc() {
+        let promise = new promise((ressult, reject) => {
+          if(true) {
+            result("Success")
+          } else {
+            reject("Failed")
+          }
+        })
+
+        promise.then(() => {
+          console.log("asynchronously executed: ", res);
+        })
+        .catch((error) => {
+          console.log("asynchronously executed: ", error);
+        })
+        .finally(() => {
+          console.log("asynchronously executed: ", res);
+        })
+      }
+      promiseFunc();
 
       // How to write async/wait function
       async function asyncData(params) {
