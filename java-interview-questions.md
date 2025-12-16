@@ -8,13 +8,9 @@ Java is a high-level, object-oriented programming language developed by Sun Micr
 **Key Features:**
 
 • **Platform Independent** - Write once, run anywhere (WORA)
-
 • **Object-Oriented** - Everything is an object
-
 • **Simple and Secure** - No pointers, automatic memory management
-
 • **Multithreaded** - Can handle multiple tasks simultaneously
-
 • **Robust** - Strong memory management and exception handling
 
 **Example:**
@@ -33,9 +29,7 @@ public class HelloWorld {
 **Answer:**
 
 • **JVM (Java Virtual Machine)** - Runtime environment that executes Java bytecode
-
 • **JRE (Java Runtime Environment)** - JVM + libraries needed to run Java applications
-
 • **JDK (Java Development Kit)** - JRE + development tools (compiler, debugger)
 
 **Simple way to remember:**
@@ -55,11 +49,8 @@ public class HelloWorld {
 The four main principles are:
 
 • **Encapsulation** - Bundling data and methods together
-
 • **Inheritance** - Creating new classes based on existing ones
-
 • **Polymorphism** - One interface, multiple implementations
-
 • **Abstraction** - Hiding complex implementation details
 
 **Example:**
@@ -157,11 +148,8 @@ Inheritance allows a class to acquire properties and methods from another class.
 **Types in Java:**
 
 • **Single** - One child, one parent
-
 • **Multilevel** - Chain of inheritance
-
 • **Hierarchical** - Multiple children, one parent
-
 **Note:** Java doesn't support multiple inheritance with classes (but supports with interfaces)
 
 **Example:**
