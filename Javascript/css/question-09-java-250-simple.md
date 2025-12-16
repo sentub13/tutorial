@@ -1406,3 +1406,1623 @@ try {
 • Try-with-resources for automatic cleanup
 • Custom exceptions for business logic
 • Exception chaining preserves error context
+
+# Java Collections Framework - Interview Questions & Answers
+
+## 1. What is Java Collections Framework?
+
+**Answer:**
+- It's a unified architecture for storing and manipulating groups of objects
+- Provides interfaces, implementations, and algorithms for common data structures
+- Key benefits:
+  - Reduces programming effort
+  - Increases performance
+  - Provides interoperability between unrelated APIs
+
+**Example:**
+```java
+List<String> list = new ArrayList<>();
+Set<Integer> set = new HashSet<>();
+Map<String, Integer> map = new HashMap<>();
+```
+
+## 2. What is the difference between ArrayList and LinkedList?
+
+**Answer:**
+- **ArrayList**: Uses dynamic array internally
+  - Fast random access (O(1))
+  - Slow insertion/deletion in middle (O(n))
+  - Better for frequent reads
+
+- **LinkedList**: Uses doubly linked list
+  - Slow random access (O(n))
+  - Fast insertion/deletion anywhere (O(1))
+  - Better for frequent modifications
+
+**Example:**
+```java
+// ArrayList - good for accessing elements
+List<String> arrayList = new ArrayList<>();
+String element = arrayList.get(5); // Fast O(1)
+
+// LinkedList - good for adding/removing
+List<String> linkedList = new LinkedList<>();
+linkedList.add(2, "new element"); // Fast O(1)
+```
+
+## 3. What is the difference between HashMap and TreeMap?
+
+**Answer:**
+- **HashMap**:
+  - Hash table implementation
+  - No ordering of keys
+  - O(1) average time complexity
+  - Allows null key and values
+
+- **TreeMap**:
+  - Red-Black tree implementation
+  - Sorted order of keys
+  - O(log n) time complexity
+  - No null keys allowed
+
+**Example:**
+```java
+// HashMap - unordered, faster
+Map<String, Integer> hashMap = new HashMap<>();
+hashMap.put("apple", 5); // O(1)
+
+// TreeMap - sorted, slower
+Map<String, Integer> treeMap = new TreeMap<>();
+treeMap.put("apple", 5); // O(log n), keys will be sorted
+```
+
+## 4. What is the difference between HashMap and Hashtable?
+
+**Answer:**
+- **HashMap**:
+  - Not synchronized (not thread-safe)
+  - Allows null key and values
+  - Introduced in Java 1.2
+  - Better performance in single-threaded apps
+
+- **Hashtable**:
+  - Synchronized (thread-safe)
+  - No null keys or values allowed
+  - Legacy class from Java 1.0
+  - Slower due to synchronization overhead
+
+**Example:**
+```java
+// HashMap - not thread-safe, allows nulls
+Map<String, String> hashMap = new HashMap<>();
+hashMap.put(null, "value"); // OK
+hashMap.put("key", null);   // OK
+
+// Hashtable - thread-safe, no nulls
+Map<String, String> hashtable = new Hashtable<>();
+// hashtable.put(null, "value"); // NullPointerException
+```
+
+## 5. How does HashMap work internally?
+
+**Answer:**
+- Uses array of buckets (Node array)
+- Hash function determines bucket index
+- Process:
+  - Calculate hash code of key
+  - Find bucket using hash % array_length
+  - Store key-value pair in that bucket
+  - Handle collisions using linked list or red-black tree (Java 8+)
+
+**Example:**
+```java
+// Internal working concept
+Map<String, Integer> map = new HashMap<>();
+map.put("key1", 100); 
+// 1. "key1".hashCode() calculated
+// 2. Index = hash % bucket_array_length
+// 3. Store at that index
+```
+
+## 6. What is hash collision and how is it handled?
+
+**Answer:**
+- **Hash Collision**: When two different keys produce the same hash code
+- **Handling methods**:
+  - **Chaining**: Store multiple entries in same bucket using linked list
+  - **Tree Structure**: Convert to red-black tree when chain length > 8 (Java 8+)
+  - **Open Addressing**: Find next available slot
+
+**Example:**
+```java
+// Collision scenario
+Map<String, String> map = new HashMap<>();
+map.put("Aa", "value1");  // hashCode might be same
+map.put("BB", "value2");  // as these strings
+// Both stored in same bucket using chaining
+```
+
+## 7. What is the difference between fail-fast and fail-safe iterators?
+
+**Answer:**
+- **Fail-Fast**:
+  - Throws ConcurrentModificationException if collection modified during iteration
+  - Used by ArrayList, HashMap, HashSet
+  - Works on original collection
+
+- **Fail-Safe**:
+  - Creates copy of collection, iterates over copy
+  - No exception thrown if original modified
+  - Used by ConcurrentHashMap, CopyOnWriteArrayList
+
+**Example:**
+```java
+// Fail-fast - throws exception
+List<String> list = new ArrayList<>();
+list.add("a"); list.add("b");
+for(String s : list) {
+    list.remove(s); // ConcurrentModificationException
+}
+
+// Fail-safe - no exception
+ConcurrentHashMap<String, String> map = new ConcurrentHashMap<>();
+for(String key : map.keySet()) {
+    map.remove(key); // No exception
+}
+```
+
+## 8. What is the difference between Comparable and Comparator?
+
+**Answer:**
+- **Comparable**:
+  - Interface implemented by class itself
+  - Provides natural ordering
+  - compareTo() method
+  - Single sorting logic
+
+- **Comparator**:
+  - External interface for custom sorting
+  - Multiple sorting strategies possible
+  - compare() method
+  - Can sort classes you don't own
+
+**Example:**
+```java
+// Comparable - natural ordering
+class Student implements Comparable<Student> {
+    String name;
+    public int compareTo(Student other) {
+        return this.name.compareTo(other.name);
+    }
+}
+
+// Comparator - custom ordering
+Comparator<Student> byAge = (s1, s2) -> s1.age - s2.age;
+Collections.sort(students, byAge);
+```
+
+## 9. What is WeakHashMap, IdentityHashMap, LinkedHashMap, PriorityQueue?
+
+**Answer:**
+
+### WeakHashMap
+- Keys are weak references
+- Entries automatically removed when key is garbage collected
+- Good for caches
+
+```java
+WeakHashMap<String, String> weakMap = new WeakHashMap<>();
+```
+
+### IdentityHashMap
+- Uses == instead of equals() for key comparison
+- Violates Map contract intentionally
+- Used for special cases
+
+```java
+IdentityHashMap<String, String> identityMap = new IdentityHashMap<>();
+```
+
+### LinkedHashMap
+- Maintains insertion order or access order
+- Extends HashMap with doubly-linked list
+- Good for LRU caches
+
+```java
+LinkedHashMap<String, String> linkedMap = new LinkedHashMap<>();
+```
+
+### PriorityQueue
+- Heap-based priority queue
+- Elements ordered by natural ordering or Comparator
+- Not thread-safe
+
+```java
+PriorityQueue<Integer> pq = new PriorityQueue<>();
+pq.offer(5); pq.offer(1); pq.offer(3);
+System.out.println(pq.poll()); // Output: 1 (smallest first)
+```
+
+# Multithreading and Synchronization Interview Questions & Answers
+
+## 1. What is multithreading?
+
+Multithreading is the ability of a program to execute multiple threads concurrently within a single process.
+
+• **Key Points:**
+  - Multiple threads share the same memory space
+  - Improves performance by utilizing CPU cores efficiently
+  - Allows concurrent execution of tasks
+
+• **Example:**
+```java
+// Main thread creates and starts worker threads
+public class MultithreadingExample {
+    public static void main(String[] args) {
+        Thread t1 = new Thread(() -> System.out.println("Task 1"));
+        Thread t2 = new Thread(() -> System.out.println("Task 2"));
+        t1.start();
+        t2.start();
+    }
+}
+```
+
+---
+
+## 2. How do you create threads in Java?
+
+There are two main ways to create threads in Java.
+
+• **Method 1: Extending Thread class**
+```java
+class MyThread extends Thread {
+    public void run() {
+        System.out.println("Thread running: " + getName());
+    }
+}
+
+MyThread t = new MyThread();
+t.start();
+```
+
+• **Method 2: Implementing Runnable interface**
+```java
+class MyTask implements Runnable {
+    public void run() {
+        System.out.println("Task running");
+    }
+}
+
+Thread t = new Thread(new MyTask());
+t.start();
+```
+
+• **Method 3: Lambda expression (Java 8+)**
+```java
+Thread t = new Thread(() -> System.out.println("Lambda thread"));
+t.start();
+```
+
+---
+
+## 3. What is the difference between extending Thread and implementing Runnable?
+
+The main differences are inheritance flexibility and design principles.
+
+• **Extending Thread:**
+  - Single inheritance limitation (can't extend other classes)
+  - Direct access to Thread methods
+  - Tightly couples task with thread management
+
+• **Implementing Runnable:**
+  - Can extend other classes (multiple inheritance support)
+  - Better separation of concerns
+  - Preferred approach for most cases
+
+• **Example:**
+```java
+// Runnable approach - more flexible
+class DatabaseTask implements Runnable {
+    public void run() {
+        // Database operations
+    }
+}
+
+// Can be used with different thread pools
+ExecutorService executor = Executors.newFixedThreadPool(5);
+executor.submit(new DatabaseTask());
+```
+
+---
+
+## 4. What are the states of a thread?
+
+A thread goes through several states during its lifecycle.
+
+• **Thread States:**
+  - **NEW**: Thread created but not started
+  - **RUNNABLE**: Thread executing or ready to execute
+  - **BLOCKED**: Thread blocked waiting for monitor lock
+  - **WAITING**: Thread waiting indefinitely for another thread
+  - **TIMED_WAITING**: Thread waiting for specified time
+  - **TERMINATED**: Thread completed execution
+
+• **Example:**
+```java
+Thread t = new Thread(() -> {
+    try {
+        Thread.sleep(1000); // TIMED_WAITING
+    } catch (InterruptedException e) {}
+});
+
+System.out.println(t.getState()); // NEW
+t.start();
+System.out.println(t.getState()); // RUNNABLE
+```
+
+---
+
+## 5. What is synchronization in Java?
+
+Synchronization controls access to shared resources to prevent data corruption in multithreaded environments.
+
+• **Key Benefits:**
+  - Prevents race conditions
+  - Ensures thread safety
+  - Maintains data consistency
+
+• **Types:**
+  - Method synchronization
+  - Block synchronization
+  - Static synchronization
+
+• **Example:**
+```java
+class Counter {
+    private int count = 0;
+    
+    // Synchronized method
+    public synchronized void increment() {
+        count++;
+    }
+    
+    // Synchronized block
+    public void decrement() {
+        synchronized(this) {
+            count--;
+        }
+    }
+}
+```
+
+---
+
+## 6. What is deadlock and how do you prevent it?
+
+Deadlock occurs when two or more threads are blocked forever, waiting for each other to release resources.
+
+• **Deadlock Conditions:**
+  - Mutual exclusion
+  - Hold and wait
+  - No preemption
+  - Circular wait
+
+• **Prevention Strategies:**
+  - Always acquire locks in same order
+  - Use timeout for lock acquisition
+  - Avoid nested locks when possible
+
+• **Example:**
+```java
+// Deadlock scenario
+class DeadlockExample {
+    private final Object lock1 = new Object();
+    private final Object lock2 = new Object();
+    
+    // Prevention: Always acquire locks in same order
+    public void method1() {
+        synchronized(lock1) {
+            synchronized(lock2) {
+                // Work here
+            }
+        }
+    }
+    
+    public void method2() {
+        synchronized(lock1) { // Same order as method1
+            synchronized(lock2) {
+                // Work here
+            }
+        }
+    }
+}
+```
+
+---
+
+## 7. What is volatile keyword?
+
+Volatile ensures that changes to a variable are immediately visible to all threads.
+
+• **Key Features:**
+  - Prevents caching of variable values
+  - Ensures visibility across threads
+  - Provides happens-before guarantee
+
+• **When to use:**
+  - Simple flags or status variables
+  - When only one thread writes, others read
+
+• **Example:**
+```java
+class VolatileExample {
+    private volatile boolean running = true;
+    
+    public void stop() {
+        running = false; // Immediately visible to all threads
+    }
+    
+    public void doWork() {
+        while (running) {
+            // Work continues until running becomes false
+        }
+    }
+}
+```
+
+---
+
+## 8. What is the difference between synchronized and volatile?
+
+Both provide thread safety but work differently.
+
+• **Synchronized:**
+  - Provides mutual exclusion (locking)
+  - Ensures atomicity of operations
+  - Can cause thread blocking
+  - Heavier performance overhead
+
+• **Volatile:**
+  - Provides visibility guarantee only
+  - No locking mechanism
+  - Cannot ensure atomicity of compound operations
+  - Lighter performance overhead
+
+• **Example:**
+```java
+class Comparison {
+    private volatile int volatileCounter = 0;
+    private int syncCounter = 0;
+    
+    // Volatile - not thread-safe for increment
+    public void incrementVolatile() {
+        volatileCounter++; // Not atomic!
+    }
+    
+    // Synchronized - thread-safe
+    public synchronized void incrementSync() {
+        syncCounter++; // Atomic operation
+    }
+}
+```
+
+---
+
+## 9. What is race condition and atomic operation?
+
+Race condition occurs when multiple threads access shared data simultaneously, leading to unpredictable results.
+
+• **Race Condition:**
+  - Outcome depends on thread scheduling
+  - Results in data corruption
+  - Occurs with non-atomic operations
+
+• **Atomic Operation:**
+  - Indivisible operation
+  - Completes entirely or not at all
+  - Thread-safe by nature
+
+• **Example:**
+```java
+import java.util.concurrent.atomic.AtomicInteger;
+
+class RaceConditionExample {
+    private int counter = 0; // Race condition prone
+    private AtomicInteger atomicCounter = new AtomicInteger(0); // Thread-safe
+    
+    // Race condition
+    public void increment() {
+        counter++; // Read-modify-write (not atomic)
+    }
+    
+    // Atomic operation
+    public void atomicIncrement() {
+        atomicCounter.incrementAndGet(); // Atomic
+    }
+}
+```
+
+• **Common Atomic Classes:**
+  - AtomicInteger, AtomicLong
+  - AtomicBoolean, AtomicReference
+  - Provide lock-free thread-safe operations
+
+
+  # Advanced Concurrency Interview Questions & Answers
+
+## 1. What is ExecutorService?
+
+**ExecutorService is a framework that manages thread pools and executes tasks asynchronously.**
+
+• **Purpose**: Simplifies thread management and task execution
+• **Benefits**: Reuses threads, controls concurrency, handles lifecycle
+• **Key Methods**: submit(), execute(), shutdown()
+
+**Example:**
+```java
+ExecutorService executor = Executors.newFixedThreadPool(3);
+executor.submit(() -> System.out.println("Task executed"));
+executor.shutdown();
+```
+
+---
+
+## 2. What are the types of thread pools?
+
+**Java provides several built-in thread pool types through Executors class.**
+
+• **FixedThreadPool**: Fixed number of threads
+  ```java
+  ExecutorService fixed = Executors.newFixedThreadPool(5);
+  ```
+
+• **CachedThreadPool**: Creates threads as needed, reuses idle ones
+  ```java
+  ExecutorService cached = Executors.newCachedThreadPool();
+  ```
+
+• **SingleThreadExecutor**: Single worker thread
+  ```java
+  ExecutorService single = Executors.newSingleThreadExecutor();
+  ```
+
+• **ScheduledThreadPool**: For delayed/periodic tasks
+  ```java
+  ScheduledExecutorService scheduled = Executors.newScheduledThreadPool(2);
+  ```
+
+---
+
+## 3. What is Future and CompletableFuture?
+
+**Future represents the result of an asynchronous computation.**
+
+### Future:
+• **Basic async result holder**
+• **Blocking operations**: get() blocks until result is ready
+• **Limited functionality**: Can't chain operations
+
+```java
+Future<String> future = executor.submit(() -> "Hello");
+String result = future.get(); // Blocks until complete
+```
+
+### CompletableFuture:
+• **Enhanced Future with non-blocking operations**
+• **Chainable**: Can compose multiple async operations
+• **Callback support**: Handle completion without blocking
+
+```java
+CompletableFuture<String> cf = CompletableFuture
+    .supplyAsync(() -> "Hello")
+    .thenApply(s -> s + " World")
+    .thenAccept(System.out::println);
+```
+
+---
+
+## 4. What is CountDownLatch?
+
+**CountDownLatch is a synchronization aid that allows threads to wait until a set of operations complete.**
+
+• **Use Case**: Wait for multiple threads to finish before proceeding
+• **One-time use**: Cannot be reset once count reaches zero
+• **Methods**: countDown(), await()
+
+**Example:**
+```java
+CountDownLatch latch = new CountDownLatch(3);
+
+// Worker threads
+for (int i = 0; i < 3; i++) {
+    new Thread(() -> {
+        // Do work
+        System.out.println("Task completed");
+        latch.countDown(); // Decrease count
+    }).start();
+}
+
+latch.await(); // Wait for all 3 tasks to complete
+System.out.println("All tasks finished");
+```
+
+---
+
+## 5. What is ReentrantLock?
+
+**ReentrantLock is an explicit lock that provides more flexibility than synchronized blocks.**
+
+• **Reentrant**: Same thread can acquire the lock multiple times
+• **Explicit control**: Manual lock/unlock operations
+• **Advanced features**: Trylock, timed locking, interruptible locking
+
+**Example:**
+```java
+ReentrantLock lock = new ReentrantLock();
+
+public void method() {
+    lock.lock();
+    try {
+        // Critical section
+        System.out.println("Protected code");
+    } finally {
+        lock.unlock(); // Always unlock in finally
+    }
+}
+```
+
+---
+
+## 6. What is the difference between ReentrantLock and synchronized?
+
+**Both provide thread synchronization but with different capabilities.**
+
+### ReentrantLock:
+• **Explicit locking**: Manual lock/unlock
+• **Advanced features**: tryLock(), lockInterruptibly()
+• **Fairness option**: Can ensure FIFO thread access
+• **Condition variables**: Multiple wait/notify conditions
+
+```java
+ReentrantLock lock = new ReentrantLock(true); // Fair lock
+if (lock.tryLock(5, TimeUnit.SECONDS)) {
+    try {
+        // Work
+    } finally {
+        lock.unlock();
+    }
+}
+```
+
+### Synchronized:
+• **Implicit locking**: Automatic lock/unlock
+• **Simpler syntax**: Built into language
+• **JVM optimized**: Better performance for simple cases
+• **Single condition**: Only one wait/notify per object
+
+```java
+synchronized (this) {
+    // Critical section - automatic unlock
+}
+```
+
+### Key Differences:
+| Feature | ReentrantLock | Synchronized |
+|---------|---------------|--------------|
+| **Syntax** | Explicit | Implicit |
+| **Trylock** | Yes | No |
+| **Timeout** | Yes | No |
+| **Fairness** | Configurable | No |
+| **Conditions** | Multiple | Single |
+| **Performance** | Good for complex scenarios | Better for simple cases |
+
+**When to use:**
+• **ReentrantLock**: Complex locking scenarios, need timeout/trylock
+• **Synchronized**: Simple mutual exclusion, better readability
+
+
+# JVM and Memory Management Interview Questions & Answers
+
+## 1. What are the different memory areas in JVM?
+
+**Answer:**
+The JVM has several distinct memory areas:
+
+• **Heap Memory** - Where objects are stored
+  - Young Generation (Eden, S0, S1)
+  - Old Generation (Tenured)
+
+• **Stack Memory** - Method calls and local variables
+  - Each thread has its own stack
+
+• **Method Area/Metaspace** - Class metadata and constants
+  - Replaced PermGen in Java 8+
+
+• **PC Register** - Program counter for each thread
+
+• **Native Method Stack** - For native method calls
+
+**Example:**
+```java
+String name = "John"; // Stored in heap
+int age = 25;         // Stored in stack (local variable)
+```
+
+---
+
+## 2. What is the difference between heap and stack?
+
+**Answer:**
+Key differences between heap and stack:
+
+• **Stack Memory:**
+  - Stores method calls and local variables
+  - Thread-specific (each thread has own stack)
+  - Faster access
+  - Automatically managed
+  - Limited size
+
+• **Heap Memory:**
+  - Stores objects and instance variables
+  - Shared among all threads
+  - Slower access than stack
+  - Managed by garbage collector
+  - Larger size
+
+**Example:**
+```java
+public void method() {
+    int x = 10;           // Stack - local variable
+    String str = new String("Hello"); // str reference in stack, object in heap
+}
+```
+
+---
+
+## 3. What is the difference between PermGen and Metaspace?
+
+**Answer:**
+PermGen was replaced by Metaspace in Java 8:
+
+• **PermGen (Before Java 8):**
+  - Fixed size memory area
+  - Stored class metadata
+  - Could cause OutOfMemoryError easily
+  - Part of heap memory
+
+• **Metaspace (Java 8+):**
+  - Dynamic size (uses native memory)
+  - Stores class metadata
+  - Auto-expands as needed
+  - Not part of heap memory
+  - Better memory management
+
+**Example:**
+```java
+// Before Java 8: -XX:PermSize=64m -XX:MaxPermSize=128m
+// Java 8+: -XX:MetaspaceSize=64m -XX:MaxMetaspaceSize=128m
+```
+
+---
+
+## 4. What is garbage collection?
+
+**Answer:**
+Garbage Collection (GC) is automatic memory management:
+
+• **Purpose:**
+  - Automatically frees unused memory
+  - Removes objects with no references
+  - Prevents memory leaks
+
+• **How it works:**
+  - Identifies unreachable objects
+  - Marks them for deletion
+  - Reclaims memory space
+
+• **Benefits:**
+  - Automatic memory management
+  - Prevents OutOfMemoryError
+  - Developer doesn't need to manually free memory
+
+**Example:**
+```java
+String str = new String("Hello"); // Object created
+str = null; // Object becomes eligible for GC
+System.gc(); // Suggests GC (not guaranteed)
+```
+
+---
+
+## 5. What are the types of garbage collectors?
+
+**Answer:**
+Different GC algorithms for different needs:
+
+• **Serial GC:**
+  - Single-threaded
+  - Good for small applications
+  - `-XX:+UseSerialGC`
+
+• **Parallel GC:**
+  - Multi-threaded
+  - Default for server applications
+  - `-XX:+UseParallelGC`
+
+• **G1 GC:**
+  - Low-latency collector
+  - Good for large heaps
+  - `-XX:+UseG1GC`
+
+• **ZGC/Shenandoah:**
+  - Ultra-low latency
+  - For very large heaps
+  - `-XX:+UseZGC`
+
+**Example:**
+```bash
+java -XX:+UseG1GC -Xmx4g MyApplication
+```
+
+---
+
+## 6. What is generational garbage collection?
+
+**Answer:**
+GC strategy based on object age:
+
+• **Young Generation:**
+  - New objects created here
+  - Most objects die young
+  - Frequent, fast GC
+
+• **Old Generation:**
+  - Long-lived objects promoted here
+  - Less frequent GC
+  - More expensive to collect
+
+• **Survival Process:**
+  - Objects start in Eden space
+  - Survivors move to S0/S1
+  - After several cycles, promoted to Old Gen
+
+**Example:**
+```java
+// Young objects (likely to be GC'd soon)
+for(int i = 0; i < 1000; i++) {
+    String temp = "temp" + i; // Dies after loop
+}
+
+// Old objects (long-lived)
+static List<String> cache = new ArrayList<>(); // Lives long
+```
+
+---
+
+## 7. What is the difference between minor GC and major GC?
+
+**Answer:**
+Different types of garbage collection cycles:
+
+• **Minor GC:**
+  - Cleans Young Generation only
+  - Happens frequently (seconds/minutes)
+  - Fast execution
+  - Low impact on application
+
+• **Major GC:**
+  - Cleans Old Generation
+  - Happens less frequently
+  - Slower execution
+  - Can cause "stop-the-world" pauses
+
+• **Full GC:**
+  - Cleans entire heap
+  - Most expensive operation
+  - Should be minimized
+
+**Example:**
+```java
+// Triggers minor GC frequently
+for(int i = 0; i < 10000; i++) {
+    new Object(); // Creates many short-lived objects
+}
+
+// May trigger major GC
+static List<Object> longLived = new ArrayList<>(); // Accumulates objects
+```
+
+---
+
+## 8. What is metaspace?
+
+**Answer:**
+Metaspace is the memory area for class metadata in Java 8+:
+
+• **Purpose:**
+  - Stores class definitions and metadata
+  - Replaces PermGen space
+  - Holds constant pool information
+
+• **Characteristics:**
+  - Uses native memory (not heap)
+  - Dynamically resizable
+  - Garbage collected when classes unloaded
+
+• **Configuration:**
+  - `-XX:MetaspaceSize` - Initial size
+  - `-XX:MaxMetaspaceSize` - Maximum size
+
+**Example:**
+```java
+// Class metadata stored in Metaspace
+public class Employee {
+    private String name;    // Field metadata in Metaspace
+    public void work() {}   // Method metadata in Metaspace
+}
+```
+
+---
+
+## 9. What are GC roots?
+
+**Answer:**
+GC roots are starting points for garbage collection reachability analysis:
+
+• **Types of GC Roots:**
+  - Local variables in stack
+  - Static variables
+  - JNI references
+  - Thread objects
+  - System class loader references
+
+• **How they work:**
+  - GC starts from roots
+  - Traces all reachable objects
+  - Unreachable objects are garbage collected
+
+• **Importance:**
+  - Determines what objects to keep
+  - Prevents accidental deletion of active objects
+
+**Example:**
+```java
+public class GCRootExample {
+    static List<String> staticList = new ArrayList<>(); // GC Root (static)
+    
+    public void method() {
+        String local = "test"; // GC Root (local variable)
+        staticList.add(local); // Object reachable from GC root
+    }
+}
+```
+
+---
+
+## Summary
+
+Understanding JVM memory management is crucial for:
+- Writing efficient Java applications
+- Debugging memory issues
+- Optimizing application performance
+- Choosing appropriate GC strategies
+
+**Key Takeaway:** Modern JVM handles most memory management automatically, but understanding these concepts helps in optimization and troubleshooting.
+
+# Java I/O Interview Questions & Answers
+
+## 1. What are the different ways to read a file in Java?
+
+There are several ways to read files in Java:
+
+• **FileInputStream** - For reading raw bytes
+• **FileReader** - For reading character data
+• **BufferedReader** - For efficient line-by-line reading
+• **Scanner** - For parsing different data types
+• **Files.readAllLines()** - For reading entire file at once (Java 7+)
+• **Files.lines()** - For streaming large files (Java 8+)
+
+**Examples:**
+```java
+// Using BufferedReader
+try (BufferedReader br = new BufferedReader(new FileReader("file.txt"))) {
+    String line = br.readLine();
+}
+
+// Using Files (Java 8+)
+List<String> lines = Files.readAllLines(Paths.get("file.txt"));
+
+// Using Scanner
+Scanner scanner = new Scanner(new File("file.txt"));
+while (scanner.hasNextLine()) {
+    String line = scanner.nextLine();
+}
+```
+
+---
+
+## 2. What is the difference between InputStream and Reader?
+
+**InputStream:**
+• Handles **raw bytes** (binary data)
+• Base class for all byte input streams
+• Methods return int (0-255) or byte arrays
+• Used for images, videos, executables
+
+**Reader:**
+• Handles **character data** (text)
+• Base class for all character input streams
+• Automatically handles character encoding
+• Used for text files
+
+**Examples:**
+```java
+// InputStream - for binary data
+FileInputStream fis = new FileInputStream("image.jpg");
+int byteData = fis.read(); // reads raw bytes
+
+// Reader - for text data
+FileReader fr = new FileReader("text.txt");
+int charData = fr.read(); // reads characters
+```
+
+---
+
+## 3. What is BufferedReader and BufferedWriter?
+
+**BufferedReader/BufferedWriter** are wrapper classes that add buffering capability:
+
+• **Reduces system calls** by reading/writing data in chunks
+• **Improves performance** significantly for frequent I/O operations
+• **Default buffer size** is 8192 characters
+• **readLine()** method for convenient line reading
+
+**Examples:**
+```java
+// BufferedReader
+try (BufferedReader br = new BufferedReader(new FileReader("input.txt"))) {
+    String line;
+    while ((line = br.readLine()) != null) {
+        System.out.println(line);
+    }
+}
+
+// BufferedWriter
+try (BufferedWriter bw = new BufferedWriter(new FileWriter("output.txt"))) {
+    bw.write("Hello World");
+    bw.newLine();
+    bw.flush(); // force write to disk
+}
+```
+
+---
+
+## 4. How do you handle large files efficiently?
+
+For large files, use these strategies:
+
+• **Streaming approach** - Process line by line instead of loading entire file
+• **BufferedReader/Writer** - Use buffering to reduce I/O calls
+• **Files.lines()** - Java 8 Stream API for memory-efficient processing
+• **Memory mapping** - Use NIO for very large files
+• **Chunked processing** - Read in fixed-size chunks
+
+**Examples:**
+```java
+// Streaming with Java 8
+try (Stream<String> lines = Files.lines(Paths.get("largefile.txt"))) {
+    lines.filter(line -> line.contains("keyword"))
+         .forEach(System.out::println);
+}
+
+// Chunked reading
+try (FileInputStream fis = new FileInputStream("largefile.dat")) {
+    byte[] buffer = new byte[8192];
+    int bytesRead;
+    while ((bytesRead = fis.read(buffer)) != -1) {
+        // Process chunk
+    }
+}
+```
+
+---
+
+## 5. What is NIO in Java?
+
+**NIO (New I/O)** introduced in Java 1.4:
+
+• **Non-blocking I/O** - Threads don't wait for I/O operations
+• **Channel-based** - Uses channels instead of streams
+• **Buffer-oriented** - Data read into buffers
+• **Selectors** - Single thread can monitor multiple channels
+• **Memory mapping** - Direct access to file system
+
+**Key Components:**
+• **Channels** - FileChannel, SocketChannel
+• **Buffers** - ByteBuffer, CharBuffer
+• **Selectors** - For multiplexed I/O
+
+**Example:**
+```java
+// NIO file reading
+try (FileChannel channel = FileChannel.open(Paths.get("file.txt"))) {
+    ByteBuffer buffer = ByteBuffer.allocate(1024);
+    int bytesRead = channel.read(buffer);
+    buffer.flip();
+    // Process buffer data
+}
+```
+
+---
+
+## 6. What is the difference between IO and NIO?
+
+| **Traditional I/O** | **NIO** |
+|-------------------|---------|
+| **Blocking** - Thread waits | **Non-blocking** - Thread continues |
+| **Stream-oriented** - Sequential | **Buffer-oriented** - Random access |
+| **One thread per connection** | **One thread handles multiple connections** |
+| **Simpler API** | **More complex but powerful** |
+| **Good for few connections** | **Good for many connections** |
+
+**Examples:**
+```java
+// Traditional I/O (blocking)
+ServerSocket server = new ServerSocket(8080);
+Socket client = server.accept(); // blocks until connection
+
+// NIO (non-blocking)
+ServerSocketChannel server = ServerSocketChannel.open();
+server.configureBlocking(false);
+SocketChannel client = server.accept(); // returns immediately
+```
+
+---
+
+## 7. When would you use NIO over traditional I/O?
+
+**Use NIO when:**
+• **High concurrency** - Many simultaneous connections
+• **Large files** - Memory mapping for better performance
+• **Network servers** - Chat servers, web servers
+• **Real-time applications** - Gaming, trading systems
+• **Resource constraints** - Limited threads available
+
+**Use Traditional I/O when:**
+• **Simple applications** - Basic file operations
+• **Few connections** - Desktop applications
+• **Sequential processing** - Log file processing
+• **Rapid development** - Simpler API and debugging
+
+**Example Use Cases:**
+```java
+// NIO for high-performance server
+Selector selector = Selector.open();
+ServerSocketChannel server = ServerSocketChannel.open();
+server.configureBlocking(false);
+server.register(selector, SelectionKey.OP_ACCEPT);
+
+// Traditional I/O for simple file copy
+Files.copy(source, target, StandardCopyOption.REPLACE_EXISTING);
+```
+
+---
+
+## Quick Reference
+
+**File Reading Performance (Best to Worst):**
+1. `Files.readAllBytes()` - Small files
+2. `BufferedReader` - Line-by-line processing
+3. `FileChannel` - Large files with NIO
+4. `FileReader` - Simple character reading
+5. `FileInputStream` - Raw byte reading
+
+**Memory Usage:**
+• **Lowest**: Streaming with `Files.lines()`
+• **Moderate**: `BufferedReader`
+• **Highest**: `Files.readAllLines()` (loads entire file)
+
+
+# Java Generics Interview Questions & Answers
+
+## 1. What are generics in Java?
+
+**Answer:**
+• Generics allow you to write type-safe code by parameterizing types
+• They enable classes, interfaces, and methods to work with different data types while maintaining compile-time type safety
+• Introduced in Java 5 to eliminate ClassCastException at runtime
+
+**Example:**
+```java
+// Without generics (old way)
+List list = new ArrayList();
+list.add("Hello");
+String str = (String) list.get(0); // Manual casting required
+
+// With generics
+List<String> list = new ArrayList<String>();
+list.add("Hello");
+String str = list.get(0); // No casting needed
+```
+
+---
+
+## 2. Why were generics introduced?
+
+**Answer:**
+• **Type Safety**: Catch type errors at compile time instead of runtime
+• **Eliminate Casting**: No need for explicit type casting
+• **Code Clarity**: Makes code more readable and self-documenting
+• **Performance**: Reduces overhead of boxing/unboxing and casting
+
+**Example:**
+```java
+// Before generics - Runtime error possible
+List list = new ArrayList();
+list.add("String");
+list.add(123);
+String str = (String) list.get(1); // ClassCastException at runtime
+
+// With generics - Compile time error
+List<String> list = new ArrayList<String>();
+list.add("String");
+list.add(123); // Compile error - cannot add Integer to String list
+```
+
+---
+
+## 3. What is type erasure?
+
+**Answer:**
+• Type erasure removes generic type information at runtime
+• Generic types are replaced with their raw types or Object during compilation
+• This ensures backward compatibility with pre-Java 5 code
+• At runtime, `List<String>` and `List<Integer>` are just `List`
+
+**Example:**
+```java
+List<String> stringList = new ArrayList<String>();
+List<Integer> intList = new ArrayList<Integer>();
+
+// At runtime, both are just ArrayList
+System.out.println(stringList.getClass() == intList.getClass()); // true
+
+// Cannot do this due to type erasure
+// if (list instanceof List<String>) // Compile error
+if (list instanceof List) // This works
+```
+
+---
+
+## 4. What is the difference between <? extends T> and <? super T>?
+
+**Answer:**
+• **`<? extends T>`** (Upper Bounded Wildcard):
+  - Accepts T and all its subtypes
+  - Used for reading data (Producer)
+  - Cannot add elements (except null)
+
+• **`<? super T>`** (Lower Bounded Wildcard):
+  - Accepts T and all its supertypes
+  - Used for writing data (Consumer)
+  - Can add T and its subtypes
+
+**Example:**
+```java
+// Upper bounded - can read, cannot write
+List<? extends Number> numbers = new ArrayList<Integer>();
+Number num = numbers.get(0); // OK - reading
+// numbers.add(10); // Compile error - cannot write
+
+// Lower bounded - can write, limited reading
+List<? super Integer> integers = new ArrayList<Number>();
+integers.add(10); // OK - writing Integer
+integers.add(20); // OK - writing Integer
+Object obj = integers.get(0); // Can only read as Object
+```
+
+---
+
+## 5. What is PECS principle?
+
+**Answer:**
+• **PECS**: Producer Extends, Consumer Super
+• **Producer Extends**: Use `<? extends T>` when you only read from the collection
+• **Consumer Super**: Use `<? super T>` when you only write to the collection
+• Helps decide which wildcard to use in method parameters
+
+**Example:**
+```java
+// Producer - only reading from source
+public static <T> void copy(List<? super T> dest, List<? extends T> src) {
+    for (T item : src) {
+        dest.add(item); // src produces, dest consumes
+    }
+}
+
+// Usage
+List<Number> numbers = new ArrayList<>();
+List<Integer> integers = Arrays.asList(1, 2, 3);
+copy(numbers, integers); // integers produces, numbers consumes
+```
+
+---
+
+## 6. What are the limitations of generics?
+
+**Answer:**
+• **Cannot instantiate generic types**: `new T()` is not allowed
+• **Cannot create arrays of generic types**: `T[] array = new T[10]` is invalid
+• **Cannot use primitives**: Must use wrapper classes (`List<int>` is invalid)
+• **Cannot use static fields**: Static context cannot access type parameters
+• **Type erasure limitations**: Cannot check instance of parameterized types at runtime
+
+**Example:**
+```java
+public class GenericClass<T> {
+    // These are NOT allowed:
+    // private T instance = new T(); // Cannot instantiate
+    // private T[] array = new T[10]; // Cannot create array
+    // private static T staticField; // Cannot use in static context
+    
+    // These ARE allowed:
+    private List<T> list = new ArrayList<>(); // OK
+    private T field; // OK
+    
+    public void method(T param) {
+        // if (param instanceof T) // Cannot check instanceof
+        if (param instanceof Object) // This works
+    }
+}
+
+// Must use wrapper classes
+List<Integer> intList = new ArrayList<>(); // OK
+// List<int> primitiveList; // Compile error
+```
+
+# Java Annotations and Reflection - Interview Questions & Answers
+
+## 1. What are annotations in Java?
+
+Annotations are metadata that provide information about code without affecting its execution.
+
+• **Purpose**: Add metadata to classes, methods, fields, parameters
+• **Compile-time**: Used by compiler and development tools
+• **Runtime**: Can be processed during execution
+• **Syntax**: Start with @ symbol
+
+**Example:**
+```java
+@Override
+public String toString() {
+    return "MyClass";
+}
+
+@Deprecated
+public void oldMethod() {
+    // legacy code
+}
+```
+
+## 2. What are built-in annotations?
+
+Java provides several predefined annotations for common use cases.
+
+• **@Override**: Ensures method overrides parent method
+• **@Deprecated**: Marks code as outdated
+• **@SuppressWarnings**: Suppresses compiler warnings
+• **@FunctionalInterface**: Marks interface as functional
+• **@SafeVarargs**: Suppresses varargs warnings
+
+**Example:**
+```java
+@FunctionalInterface
+interface Calculator {
+    int calculate(int a, int b);
+}
+
+@SuppressWarnings("unchecked")
+List rawList = new ArrayList();
+```
+
+## 3. How do you create custom annotations?
+
+Custom annotations are created using @interface keyword with meta-annotations.
+
+• **@interface**: Defines annotation type
+• **Elements**: Can have methods (elements)
+• **Default values**: Optional default values
+• **Meta-annotations**: Control annotation behavior
+
+**Example:**
+```java
+@Retention(RetentionPolicy.RUNTIME)
+@Target(ElementType.METHOD)
+public @interface LogExecutionTime {
+    String value() default "";
+    boolean enabled() default true;
+}
+
+// Usage
+@LogExecutionTime(value = "database operation", enabled = true)
+public void saveData() {
+    // method implementation
+}
+```
+
+## 4. What is retention policy?
+
+Retention policy determines how long annotations are retained in the program lifecycle.
+
+• **SOURCE**: Discarded by compiler (e.g., @Override)
+• **CLASS**: Retained in bytecode, not at runtime
+• **RUNTIME**: Available at runtime via reflection
+
+**Example:**
+```java
+@Retention(RetentionPolicy.RUNTIME)
+public @interface RuntimeAnnotation {
+    String value();
+}
+
+@Retention(RetentionPolicy.SOURCE)
+public @interface CompileTimeAnnotation {
+    String message();
+}
+```
+
+## 5. What is the difference between @Override and @Overload?
+
+There's no @Overload annotation in Java - only @Override exists.
+
+• **@Override**: Ensures method overrides superclass method
+• **Overloading**: Multiple methods with same name, different parameters
+• **Overriding**: Subclass provides specific implementation of superclass method
+• **No annotation needed**: For method overloading
+
+**Example:**
+```java
+class Parent {
+    public void display() { }
+}
+
+class Child extends Parent {
+    @Override
+    public void display() { } // Overriding
+    
+    public void display(String msg) { } // Overloading (no annotation)
+    public void display(int num) { }    // Overloading (no annotation)
+}
+```
+
+## 6. What is reflection in Java?
+
+Reflection allows examining and manipulating classes, methods, and fields at runtime.
+
+• **Runtime inspection**: Analyze class structure dynamically
+• **Dynamic invocation**: Call methods without compile-time knowledge
+• **Access modifiers**: Can access private members
+• **Class loading**: Work with dynamically loaded classes
+
+**Example:**
+```java
+Class<?> clazz = String.class;
+Method[] methods = clazz.getMethods();
+
+// Get specific method
+Method lengthMethod = clazz.getMethod("length");
+int result = (int) lengthMethod.invoke("Hello");
+```
+
+## 7. When should you use reflection?
+
+Reflection is useful for frameworks, libraries, and dynamic programming scenarios.
+
+• **Frameworks**: Spring, Hibernate use reflection extensively
+• **Serialization**: JSON/XML libraries
+• **Testing**: JUnit, Mockito frameworks
+• **Plugin systems**: Dynamic class loading
+• **Avoid in regular code**: Performance and complexity concerns
+
+**Example:**
+```java
+// Framework scenario - dependency injection
+@Autowired
+private UserService userService;
+
+// Framework uses reflection to inject dependencies
+Field field = clazz.getDeclaredField("userService");
+field.setAccessible(true);
+field.set(instance, serviceInstance);
+```
+
+## 8. What are the performance implications of reflection?
+
+Reflection is significantly slower than direct method calls.
+
+• **Method lookup**: Finding methods by name is expensive
+• **Security checks**: Additional permission checks
+• **Optimization barriers**: JVM can't optimize reflective calls
+• **Memory overhead**: Additional metadata storage
+
+**Performance tips:**
+```java
+// Cache Method objects
+private static final Method TO_STRING_METHOD;
+static {
+    try {
+        TO_STRING_METHOD = Object.class.getMethod("toString");
+    } catch (NoSuchMethodException e) {
+        throw new RuntimeException(e);
+    }
+}
+
+// Use MethodHandle for better performance (Java 7+)
+MethodHandle handle = MethodHandles.lookup()
+    .findVirtual(String.class, "length", MethodType.methodType(int.class));
+```
+
+## 9. What are the security implications of reflection?
+
+Reflection can bypass access controls and expose sensitive information.
+
+• **Access private members**: Can access private fields/methods
+• **Security manager**: May be restricted by security policies
+• **Sensitive data exposure**: Can access internal implementation
+• **Code injection**: Potential for malicious code execution
+
+**Security considerations:**
+```java
+// Accessing private field
+Field privateField = clazz.getDeclaredField("password");
+privateField.setAccessible(true); // Bypasses private access
+String password = (String) privateField.get(instance);
+
+// Security manager check
+SecurityManager sm = System.getSecurityManager();
+if (sm != null) {
+    sm.checkPermission(new ReflectPermission("suppressAccessChecks"));
+}
+```
+
+## 10. How do you handle exceptions in reflection?
+
+Reflection operations throw checked exceptions that must be handled.
+
+• **NoSuchMethodException**: Method not found
+• **IllegalAccessException**: Access denied
+• **InvocationTargetException**: Exception in invoked method
+• **ClassNotFoundException**: Class not found
+
+**Exception handling:**
+```java
+try {
+    Class<?> clazz = Class.forName("com.example.MyClass");
+    Method method = clazz.getMethod("process", String.class);
+    Object result = method.invoke(instance, "parameter");
+    
+} catch (ClassNotFoundException e) {
+    // Handle class not found
+    log.error("Class not found", e);
+} catch (NoSuchMethodException e) {
+    // Handle method not found
+    log.error("Method not found", e);
+} catch (IllegalAccessException e) {
+    // Handle access denied
+    log.error("Access denied", e);
+} catch (InvocationTargetException e) {
+    // Handle exception from invoked method
+    Throwable cause = e.getCause();
+    log.error("Method execution failed", cause);
+}
+```
+
+## Key Takeaways
+
+• **Annotations**: Metadata for code documentation and processing
+• **Retention policies**: Control annotation lifecycle
+• **Reflection**: Powerful but expensive runtime introspection
+• **Use cases**: Frameworks, testing, serialization
+• **Performance**: Cache reflective operations when possible
+• **Security**: Be cautious with access control bypass
+• **Exception handling**: Always handle reflection exceptions properly
