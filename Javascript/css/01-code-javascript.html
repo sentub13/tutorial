@@ -96,7 +96,7 @@
       // How to write HOC function ================================================================
       function hocFunc(component) {
         return function enhanceHocFunc() {
-          <component data={props} />
+          // <component data={props} />
         }
       }
       // hocFunc()
@@ -122,25 +122,25 @@
       // promiseFunc()
 
       function promiseFunc() {
-        let promise = new promise((ressult, reject) => {
+        let promise = new Promise((result, reject) => {
           if(true) {
-            result("Success")
+            result("Success");
           } else {
-            reject("Failed")
+            reject("Failed");
           }
         })
 
-        promise.then(() => {
-          console.log("asynchronously executed: ", res);
+        promise.then((res) => {
+          console.log("asynchronously then: ", res);
         })
         .catch((error) => {
-          console.log("asynchronously executed: ", error);
+          console.log("asynchronously error: ", error);
         })
         .finally(() => {
-          console.log("asynchronously executed: ", res);
+          console.log("asynchronously finally: ");
         })
       }
-      promiseFunc();
+      // promiseFunc();
 
       // How to write async/wait function
       async function asyncData(params) {
@@ -149,6 +149,13 @@
         console.log("Data-----", data);
       }
       // asyncData()
+
+      async function nameInfo(params) {
+        let response = await fetch("https://api.example.com")
+        let data = response.data;
+        console.log("Data....");
+      }
+      nameInfo()
 
 
       // How to write Set timeout ===============================================================
