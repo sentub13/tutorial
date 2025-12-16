@@ -1168,3 +1168,241 @@ class GoldenRetriever implements Dog {
 • Functional interface = Lambda expressions
 • Interface inheritance = Multiple extends allowed
 
+# Java Exception Handling - Interview Questions & Answers
+
+## 1. What is an exception in Java?
+
+An exception is an event that disrupts the normal flow of program execution. It's an object that represents an error or unexpected condition.
+
+**Key Points:**
+• Exceptions are runtime errors that can be handled
+• They help maintain program stability
+• Java uses exception objects to provide error information
+
+**Example:**
+```java
+int result = 10 / 0; // ArithmeticException
+String str = null;
+int length = str.length(); // NullPointerException
+```
+
+---
+
+## 2. What is the exception hierarchy in Java?
+
+Java exceptions follow a class hierarchy with Throwable at the top.
+
+**Hierarchy Structure:**
+• `Throwable` (root class)
+  • `Error` (system-level errors, not recoverable)
+  • `Exception` (recoverable errors)
+    • `RuntimeException` (unchecked exceptions)
+    • Other exceptions (checked exceptions)
+
+**Example:**
+```java
+// Error example (not handled by application)
+// OutOfMemoryError, StackOverflowError
+
+// Exception examples
+IOException io = new IOException(); // Checked
+RuntimeException re = new RuntimeException(); // Unchecked
+```
+
+---
+
+## 3. What are checked and unchecked exceptions?
+
+**Checked Exceptions:**
+• Must be handled at compile time
+• Compiler forces you to handle them
+• Examples: IOException, SQLException, ClassNotFoundException
+
+**Unchecked Exceptions:**
+• Runtime exceptions, not checked at compile time
+• Extend RuntimeException
+• Examples: NullPointerException, ArrayIndexOutOfBoundsException
+
+**Example:**
+```java
+// Checked exception - must handle
+try {
+    FileReader file = new FileReader("file.txt");
+} catch (FileNotFoundException e) {
+    System.out.println("File not found");
+}
+
+// Unchecked exception - optional handling
+String str = null;
+str.length(); // NullPointerException at runtime
+```
+
+---
+
+## 4. What is the difference between throw and throws?
+
+**throw:**
+• Used to explicitly throw an exception
+• Used inside method body
+• Throws one exception at a time
+
+**throws:**
+• Used in method signature to declare exceptions
+• Indicates method might throw exceptions
+• Can declare multiple exceptions
+
+**Example:**
+```java
+// throws - method declaration
+public void readFile() throws IOException, FileNotFoundException {
+    // throw - explicit exception throwing
+    if (someCondition) {
+        throw new IOException("File error");
+    }
+}
+```
+
+---
+
+## 5. What is try-catch-finally block?
+
+A mechanism to handle exceptions gracefully.
+
+**Components:**
+• `try` - contains code that might throw exception
+• `catch` - handles specific exceptions
+• `finally` - always executes (cleanup code)
+
+**Example:**
+```java
+try {
+    int result = 10 / 0;
+} catch (ArithmeticException e) {
+    System.out.println("Cannot divide by zero");
+} finally {
+    System.out.println("This always executes");
+}
+```
+
+---
+
+## 6. What is try-with-resources?
+
+Automatic resource management introduced in Java 7. Resources are automatically closed.
+
+**Benefits:**
+• Automatic resource cleanup
+• Cleaner code
+• Prevents resource leaks
+
+**Example:**
+```java
+// Traditional way
+FileReader file = null;
+try {
+    file = new FileReader("data.txt");
+    // use file
+} finally {
+    if (file != null) file.close();
+}
+
+// Try-with-resources
+try (FileReader file = new FileReader("data.txt")) {
+    // use file - automatically closed
+} catch (IOException e) {
+    e.printStackTrace();
+}
+```
+
+---
+
+## 7. How do you create custom exceptions?
+
+Create custom exceptions by extending Exception or RuntimeException classes.
+
+**Steps:**
+• Extend Exception (checked) or RuntimeException (unchecked)
+• Add constructors
+• Optionally add custom methods
+
+**Example:**
+```java
+// Custom checked exception
+class InvalidAgeException extends Exception {
+    public InvalidAgeException(String message) {
+        super(message);
+    }
+}
+
+// Custom unchecked exception
+class InsufficientBalanceException extends RuntimeException {
+    private double balance;
+    
+    public InsufficientBalanceException(String message, double balance) {
+        super(message);
+        this.balance = balance;
+    }
+    
+    public double getBalance() {
+        return balance;
+    }
+}
+
+// Usage
+public void validateAge(int age) throws InvalidAgeException {
+    if (age < 18) {
+        throw new InvalidAgeException("Age must be 18 or above");
+    }
+}
+```
+
+---
+
+## 8. What is exception chaining?
+
+Exception chaining allows you to associate one exception with another, preserving the original cause.
+
+**Purpose:**
+• Preserve original exception information
+• Provide better debugging
+• Maintain exception context
+
+**Example:**
+```java
+public void processData() throws DataProcessingException {
+    try {
+        // Some database operation
+        connection.executeQuery("SELECT * FROM users");
+    } catch (SQLException e) {
+        // Chain the original exception
+        throw new DataProcessingException("Failed to process user data", e);
+    }
+}
+
+// Custom exception with chaining
+class DataProcessingException extends Exception {
+    public DataProcessingException(String message, Throwable cause) {
+        super(message, cause);
+    }
+}
+
+// Getting the original cause
+try {
+    processData();
+} catch (DataProcessingException e) {
+    Throwable originalCause = e.getCause(); // Gets SQLException
+    e.printStackTrace(); // Shows full chain
+}
+```
+
+---
+
+## Quick Summary
+
+**Remember these key points:**
+• Always handle checked exceptions
+• Use specific exception types in catch blocks
+• Finally block always executes
+• Try-with-resources for automatic cleanup
+• Custom exceptions for business logic
+• Exception chaining preserves error context
