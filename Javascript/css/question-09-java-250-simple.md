@@ -3026,3 +3026,563 @@ try {
 • **Performance**: Cache reflective operations when possible
 • **Security**: Be cautious with access control bypass
 • **Exception handling**: Always handle reflection exceptions properly
+
+# Lambda Expressions and Streams API - Interview Questions & Answers
+
+## 1. What are lambda expressions?
+
+**Answer:**
+- Lambda expressions are anonymous functions introduced in Java 8
+- They provide a concise way to write functional-style code
+- Syntax: `(parameters) -> expression` or `(parameters) -> { statements }`
+
+**Key Points:**
+- Reduce boilerplate code
+- Enable functional programming
+- Work with functional interfaces
+
+**Examples:**
+```java
+// Traditional way
+Runnable r1 = new Runnable() {
+    public void run() {
+        System.out.println("Hello");
+    }
+};
+
+// Lambda way
+Runnable r2 = () -> System.out.println("Hello");
+
+// With parameters
+List<String> names = Arrays.asList("John", "Jane", "Bob");
+names.forEach(name -> System.out.println(name));
+```
+
+## 2. What are functional interfaces?
+
+**Answer:**
+- Interfaces with exactly one abstract method
+- Can have multiple default and static methods
+- Annotated with `@FunctionalInterface` (optional but recommended)
+
+**Key Points:**
+- Target for lambda expressions
+- Built-in functional interfaces: Predicate, Function, Consumer, Supplier
+- Can create custom functional interfaces
+
+**Examples:**
+```java
+@FunctionalInterface
+interface Calculator {
+    int calculate(int a, int b);
+}
+
+// Usage
+Calculator add = (a, b) -> a + b;
+Calculator multiply = (a, b) -> a * b;
+
+// Built-in examples
+Predicate<String> isEmpty = s -> s.isEmpty();
+Function<String, Integer> length = s -> s.length();
+Consumer<String> print = s -> System.out.println(s);
+```
+
+## 3. What are method references?
+
+**Answer:**
+- Shorthand notation for lambda expressions that call existing methods
+- Four types: static, instance, constructor, arbitrary object method
+- Syntax uses `::` operator
+
+**Key Points:**
+- More readable than lambda expressions
+- Reuse existing method implementations
+- Compile to same bytecode as lambdas
+
+**Examples:**
+```java
+List<String> names = Arrays.asList("John", "Jane", "Bob");
+
+// Lambda vs Method Reference
+names.forEach(name -> System.out.println(name));
+names.forEach(System.out::println);  // Method reference
+
+// Static method reference
+Function<String, Integer> parser = Integer::parseInt;
+
+// Instance method reference
+String str = "Hello";
+Supplier<String> upperCase = str::toUpperCase;
+
+// Constructor reference
+Supplier<List<String>> listSupplier = ArrayList::new;
+```
+
+## 4. What is the difference between lambda and anonymous class?
+
+**Answer:**
+
+| Lambda Expression | Anonymous Class |
+|------------------|-----------------|
+| Only for functional interfaces | Can implement any interface/extend class |
+| No new class file generated | Creates .class file |
+| `this` refers to enclosing class | `this` refers to anonymous class |
+| Cannot have instance variables | Can have instance variables |
+| More memory efficient | Less memory efficient |
+
+**Examples:**
+```java
+// Anonymous class
+Runnable r1 = new Runnable() {
+    private String message = "Hello";  // Instance variable allowed
+    
+    public void run() {
+        System.out.println(this.message);  // 'this' refers to anonymous class
+    }
+};
+
+// Lambda expression
+Runnable r2 = () -> {
+    // No instance variables allowed
+    System.out.println("Hello");  // 'this' would refer to enclosing class
+};
+```
+
+## 5. What is Stream API?
+
+**Answer:**
+- Functional-style operations on collections of objects
+- Introduced in Java 8 for processing data declaratively
+- Supports parallel processing and lazy evaluation
+
+**Key Points:**
+- Not a data structure, but a view of data
+- Immutable - doesn't modify original collection
+- Supports method chaining (fluent interface)
+- Can be sequential or parallel
+
+**Examples:**
+```java
+List<Integer> numbers = Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
+
+// Filter even numbers and square them
+List<Integer> result = numbers.stream()
+    .filter(n -> n % 2 == 0)
+    .map(n -> n * n)
+    .collect(Collectors.toList());
+
+// Parallel processing
+int sum = numbers.parallelStream()
+    .filter(n -> n > 5)
+    .mapToInt(Integer::intValue)
+    .sum();
+```
+
+## 6. What is the difference between Collection and Stream?
+
+**Answer:**
+
+| Collection | Stream |
+|------------|--------|
+| Data structure that stores elements | Abstraction for processing data |
+| Eagerly constructed | Lazily constructed |
+| Can be iterated multiple times | Can be consumed only once |
+| External iteration (for loops) | Internal iteration (forEach) |
+| Stores data in memory | Processes data on-demand |
+
+**Examples:**
+```java
+List<String> collection = Arrays.asList("a", "b", "c");
+
+// Collection - can iterate multiple times
+for(String s : collection) { /* process */ }
+for(String s : collection) { /* process again */ }
+
+// Stream - can only be used once
+Stream<String> stream = collection.stream();
+stream.forEach(System.out::println);
+// stream.forEach(System.out::println); // IllegalStateException!
+
+// Need new stream for another operation
+collection.stream().map(String::toUpperCase).forEach(System.out::println);
+```
+
+## 7. What are intermediate and terminal operations?
+
+**Answer:**
+
+**Intermediate Operations:**
+- Return a new Stream
+- Lazy evaluation - not executed until terminal operation
+- Examples: filter(), map(), sorted(), distinct()
+
+**Terminal Operations:**
+- Produce a result or side effect
+- Trigger execution of intermediate operations
+- Examples: collect(), forEach(), reduce(), count()
+
+**Examples:**
+```java
+List<String> names = Arrays.asList("John", "Jane", "Bob", "Alice");
+
+// Intermediate operations (lazy)
+Stream<String> filtered = names.stream()
+    .filter(name -> name.length() > 3)  // Intermediate
+    .map(String::toUpperCase);          // Intermediate
+
+// Terminal operation (triggers execution)
+List<String> result = filtered.collect(Collectors.toList());  // Terminal
+
+// Chained example
+long count = names.stream()
+    .filter(name -> name.startsWith("J"))  // Intermediate
+    .map(String::toLowerCase)              // Intermediate
+    .count();                              // Terminal
+```
+
+## 8. What is the difference between map() and flatMap()?
+
+**Answer:**
+
+**map():**
+- One-to-one transformation
+- Transforms each element to another element
+- Stream<T> → Stream<R>
+
+**flatMap():**
+- One-to-many transformation
+- Flattens nested structures
+- Stream<T> → Stream<R> (where T contains multiple R)
+
+**Examples:**
+```java
+// map() example
+List<String> words = Arrays.asList("hello", "world");
+List<Integer> lengths = words.stream()
+    .map(String::length)  // "hello" -> 5, "world" -> 5
+    .collect(Collectors.toList());
+
+// flatMap() example
+List<String> sentences = Arrays.asList("hello world", "java stream");
+List<String> allWords = sentences.stream()
+    .flatMap(sentence -> Arrays.stream(sentence.split(" ")))
+    .collect(Collectors.toList());
+// Result: ["hello", "world", "java", "stream"]
+
+// Nested collections
+List<List<Integer>> nested = Arrays.asList(
+    Arrays.asList(1, 2, 3),
+    Arrays.asList(4, 5, 6)
+);
+
+// map() would give Stream<List<Integer>>
+// flatMap() gives Stream<Integer>
+List<Integer> flattened = nested.stream()
+    .flatMap(List::stream)
+    .collect(Collectors.toList());
+// Result: [1, 2, 3, 4, 5, 6]
+```
+
+## 9. What is Optional class?
+
+**Answer:**
+- Container class introduced in Java 8 to handle null values
+- Helps avoid NullPointerException
+- Encourages explicit handling of absent values
+
+**Key Points:**
+- Immutable container
+- Can contain either a value or be empty
+- Provides methods for safe value extraction
+- Should not be used for fields or parameters
+
+**Examples:**
+```java
+// Creating Optional
+Optional<String> optional1 = Optional.of("Hello");          // Non-null value
+Optional<String> optional2 = Optional.ofNullable(null);     // Possibly null
+Optional<String> optional3 = Optional.empty();              // Empty optional
+
+// Checking and extracting values
+if (optional1.isPresent()) {
+    System.out.println(optional1.get());
+}
+
+// Better approach - functional style
+optional1.ifPresent(System.out::println);
+
+// Providing defaults
+String value = optional2.orElse("Default Value");
+String value2 = optional2.orElseGet(() -> "Computed Default");
+
+// Chaining operations
+Optional<String> result = Optional.of("hello")
+    .filter(s -> s.length() > 3)
+    .map(String::toUpperCase);
+
+// Method returning Optional
+public Optional<User> findUserById(Long id) {
+    User user = database.findUser(id);
+    return Optional.ofNullable(user);
+}
+
+// Usage
+findUserById(123L)
+    .map(User::getName)
+    .ifPresent(System.out::println);
+```
+
+# JDBC Interview Questions & Answers
+
+## 1. What is JDBC?
+
+**Answer:**
+• JDBC stands for Java Database Connectivity
+• It's an API that allows Java applications to interact with databases
+• Acts as a bridge between Java and relational databases
+• Provides a standard interface for database operations
+
+**Key Points:**
+• Platform-independent database connectivity
+• Supports multiple database vendors (MySQL, Oracle, PostgreSQL, etc.)
+• Part of Java SE since JDK 1.1
+
+**Example:**
+```java
+// Basic JDBC usage
+Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/mydb", "user", "password");
+Statement stmt = conn.createStatement();
+ResultSet rs = stmt.executeQuery("SELECT * FROM users");
+```
+
+---
+
+## 2. What are the steps to connect to a database using JDBC?
+
+**Answer:**
+The standard steps are:
+
+• **Step 1:** Load the JDBC driver
+• **Step 2:** Establish connection using DriverManager
+• **Step 3:** Create Statement or PreparedStatement
+• **Step 4:** Execute SQL queries
+• **Step 5:** Process ResultSet (for SELECT queries)
+• **Step 6:** Close connections and resources
+
+**Example:**
+```java
+// Step 1: Load driver (optional in modern JDBC)
+Class.forName("com.mysql.cj.jdbc.Driver");
+
+// Step 2: Create connection
+Connection conn = DriverManager.getConnection(
+    "jdbc:mysql://localhost:3306/testdb", "username", "password");
+
+// Step 3: Create statement
+PreparedStatement pstmt = conn.prepareStatement("SELECT * FROM users WHERE id = ?");
+
+// Step 4: Execute query
+pstmt.setInt(1, 123);
+ResultSet rs = pstmt.executeQuery();
+
+// Step 5: Process results
+while(rs.next()) {
+    System.out.println(rs.getString("name"));
+}
+
+// Step 6: Close resources
+rs.close();
+pstmt.close();
+conn.close();
+```
+
+---
+
+## 3. What is the difference between Statement and PreparedStatement?
+
+**Answer:**
+
+### Statement:
+• Used for static SQL queries
+• SQL is compiled every time it's executed
+• Vulnerable to SQL injection
+• No parameter binding
+
+### PreparedStatement:
+• Used for dynamic SQL queries with parameters
+• Pre-compiled SQL - better performance
+• Prevents SQL injection attacks
+• Supports parameter binding with placeholders (?)
+
+**Comparison Example:**
+```java
+// Statement - Not recommended for user input
+Statement stmt = conn.createStatement();
+String sql = "SELECT * FROM users WHERE name = '" + userName + "'"; // Dangerous!
+ResultSet rs = stmt.executeQuery(sql);
+
+// PreparedStatement - Recommended approach
+PreparedStatement pstmt = conn.prepareStatement("SELECT * FROM users WHERE name = ?");
+pstmt.setString(1, userName); // Safe parameter binding
+ResultSet rs = pstmt.executeQuery();
+```
+
+**Key Benefits of PreparedStatement:**
+• Better performance for repeated queries
+• Automatic SQL injection prevention
+• Type-safe parameter setting
+• Cleaner, more readable code
+
+---
+
+## 4. What is connection pooling?
+
+**Answer:**
+• Connection pooling is a technique to reuse database connections
+• Instead of creating new connections for each request, connections are pooled and reused
+• Improves application performance and reduces database load
+• Manages connection lifecycle automatically
+
+**Benefits:**
+• Faster response times
+• Reduced database server load
+• Better resource management
+• Controlled concurrent connections
+
+**Example with HikariCP:**
+```java
+// Configuration
+HikariConfig config = new HikariConfig();
+config.setJdbcUrl("jdbc:mysql://localhost:3306/mydb");
+config.setUsername("user");
+config.setPassword("password");
+config.setMaximumPoolSize(20);
+config.setMinimumIdle(5);
+
+// Create pool
+HikariDataSource dataSource = new HikariDataSource(config);
+
+// Get connection from pool
+Connection conn = dataSource.getConnection();
+// Use connection...
+conn.close(); // Returns to pool, doesn't actually close
+```
+
+**Popular Connection Pool Libraries:**
+• HikariCP (fastest)
+• Apache DBCP
+• C3P0
+• Tomcat JDBC Pool
+
+---
+
+## 5. What is SQL injection and how to prevent it?
+
+**Answer:**
+• SQL injection is a security vulnerability where malicious SQL code is inserted into application queries
+• Attackers can manipulate SQL queries to access unauthorized data
+• Can lead to data theft, data corruption, or complete database compromise
+
+**How it happens:**
+```java
+// Vulnerable code
+String query = "SELECT * FROM users WHERE username = '" + userInput + "'";
+// If userInput = "admin'; DROP TABLE users; --"
+// Final query: SELECT * FROM users WHERE username = 'admin'; DROP TABLE users; --'
+```
+
+**Prevention Methods:**
+
+### 1. Use PreparedStatement (Primary defense)
+```java
+PreparedStatement pstmt = conn.prepareStatement("SELECT * FROM users WHERE username = ?");
+pstmt.setString(1, userInput); // Automatically escaped
+```
+
+### 2. Input Validation
+```java
+// Validate input format
+if (!userInput.matches("^[a-zA-Z0-9_]+$")) {
+    throw new IllegalArgumentException("Invalid username format");
+}
+```
+
+### 3. Stored Procedures
+```java
+CallableStatement cstmt = conn.prepareCall("{call getUserByName(?)}");
+cstmt.setString(1, username);
+```
+
+### 4. Escape Special Characters
+```java
+// Use database-specific escaping functions
+String escaped = StringEscapeUtils.escapeSql(userInput);
+```
+
+---
+
+## 6. What is transaction management in JDBC?
+
+**Answer:**
+• Transaction management ensures data consistency and integrity
+• A transaction is a group of SQL operations that either all succeed or all fail
+• Follows ACID properties (Atomicity, Consistency, Isolation, Durability)
+
+**Key Concepts:**
+• **Commit:** Save all changes permanently
+• **Rollback:** Undo all changes in the transaction
+• **Auto-commit:** Each SQL statement is automatically committed (default behavior)
+
+**Transaction Control Methods:**
+```java
+Connection conn = DriverManager.getConnection(url, user, password);
+
+try {
+    // Disable auto-commit to start transaction
+    conn.setAutoCommit(false);
+    
+    // Execute multiple operations
+    PreparedStatement pstmt1 = conn.prepareStatement("UPDATE accounts SET balance = balance - ? WHERE id = ?");
+    pstmt1.setDouble(1, 1000.0);
+    pstmt1.setInt(2, 1);
+    pstmt1.executeUpdate();
+    
+    PreparedStatement pstmt2 = conn.prepareStatement("UPDATE accounts SET balance = balance + ? WHERE id = ?");
+    pstmt2.setDouble(1, 1000.0);
+    pstmt2.setInt(2, 2);
+    pstmt2.executeUpdate();
+    
+    // If all operations successful, commit
+    conn.commit();
+    System.out.println("Transaction completed successfully");
+    
+} catch (SQLException e) {
+    // If any operation fails, rollback
+    conn.rollback();
+    System.out.println("Transaction rolled back: " + e.getMessage());
+} finally {
+    // Restore auto-commit
+    conn.setAutoCommit(true);
+    conn.close();
+}
+```
+
+**Transaction Isolation Levels:**
+• **READ_UNCOMMITTED:** Lowest isolation, allows dirty reads
+• **READ_COMMITTED:** Prevents dirty reads
+• **REPEATABLE_READ:** Prevents dirty and non-repeatable reads
+• **SERIALIZABLE:** Highest isolation, prevents all phenomena
+
+**Setting Isolation Level:**
+```java
+conn.setTransactionIsolation(Connection.TRANSACTION_READ_COMMITTED);
+```
+
+**Savepoints (Advanced):**
+```java
+conn.setAutoCommit(false);
+Savepoint sp1 = conn.setSavepoint("SavePoint1");
+// Some operations...
+conn.rollback(sp1); // Rollback to specific savepoint
+conn.commit();
+```
