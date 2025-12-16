@@ -1029,3 +1029,750 @@ export class ParentComponent {
   }
 }
 ```
+
+## 39. What is the difference between `localStorage` and `sessionStorage` in Angular?
+
+**Answer:**
+Both are browser storage APIs that Angular can use, but they differ in persistence:
+
+• **localStorage** - Data persists until manually cleared
+• **sessionStorage** - Data clears when browser tab closes
+• Both store key-value pairs as strings
+• Same API methods for both
+
+```typescript
+// localStorage - persists across sessions
+localStorage.setItem('user', JSON.stringify({name: 'John'}));
+const user = JSON.parse(localStorage.getItem('user'));
+
+// sessionStorage - cleared on tab close
+sessionStorage.setItem('token', 'abc123');
+const token = sessionStorage.getItem('token');
+
+// Angular service example
+@Injectable()
+export class StorageService {
+  setUser(user: any) {
+    localStorage.setItem('user', JSON.stringify(user));
+  }
+  
+  getUser() {
+    return JSON.parse(localStorage.getItem('user') || '{}');
+  }
+}
+```
+
+---
+
+## 40. How does Angular handle cross-site request forgery (CSRF)?
+
+**Answer:**
+Angular provides built-in CSRF protection through interceptors:
+
+• Uses **XSRF tokens** automatically
+• Reads token from cookies
+• Adds token to request headers
+• Works with backend CSRF implementations
+
+```typescript
+// Automatic CSRF protection (default)
+import { HttpClientXsrfModule } from '@angular/common/http';
+
+@NgModule({
+  imports: [
+    HttpClientXsrfModule.withOptions({
+      cookieName: 'XSRF-TOKEN',
+      headerName: 'X-XSRF-TOKEN'
+    })
+  ]
+})
+export class AppModule {}
+
+// Custom CSRF interceptor
+@Injectable()
+export class CsrfInterceptor implements HttpInterceptor {
+  intercept(req: HttpRequest<any>, next: HttpHandler) {
+    const token = this.getCSRFToken();
+    const csrfReq = req.clone({
+      setHeaders: { 'X-CSRF-TOKEN': token }
+    });
+    return next.handle(csrfReq);
+  }
+}
+```
+
+---
+
+## 41. What are Angular modules and how do they help in organizing an application?
+
+**Answer:**
+Modules are containers that group related components, services, and features:
+
+• **Root module** (AppModule) - bootstraps the app
+• **Feature modules** - organize specific functionality
+• **Shared modules** - contain reusable components
+• **Core module** - singleton services
+
+```typescript
+// Feature module example
+@NgModule({
+  declarations: [
+    UserListComponent,
+    UserDetailComponent
+  ],
+  imports: [
+    CommonModule,
+    RouterModule.forChild(routes)
+  ],
+  providers: [UserService]
+})
+export class UserModule {}
+
+// Shared module
+@NgModule({
+  declarations: [LoaderComponent, ConfirmDialogComponent],
+  imports: [CommonModule],
+  exports: [LoaderComponent, ConfirmDialogComponent]
+})
+export class SharedModule {}
+
+// Lazy loading with modules
+const routes: Routes = [
+  {
+    path: 'users',
+    loadChildren: () => import('./user/user.module').then(m => m.UserModule)
+  }
+];
+```
+
+---
+
+## 42. What is a custom directive, and how do you create one?
+
+**Answer:**
+Custom directives extend HTML elements with custom behavior:
+
+• **Attribute directives** - change element appearance/behavior
+• **Structural directives** - modify DOM structure
+• Use `@Directive` decorator
+• Access element through `ElementRef`
+
+```typescript
+// Attribute directive - highlight text
+@Directive({
+  selector: '[appHighlight]'
+})
+export class HighlightDirective {
+  constructor(private el: ElementRef) {}
+  
+  @Input() appHighlight: string = 'yellow';
+  
+  @HostListener('mouseenter') onMouseEnter() {
+    this.el.nativeElement.style.backgroundColor = this.appHighlight;
+  }
+  
+  @HostListener('mouseleave') onMouseLeave() {
+    this.el.nativeElement.style.backgroundColor = '';
+  }
+}
+
+// Usage in template
+<p appHighlight="lightblue">Hover over me!</p>
+
+// Structural directive - custom *ngIf
+@Directive({
+  selector: '[appUnless]'
+})
+export class UnlessDirective {
+  @Input() set appUnless(condition: boolean) {
+    if (!condition) {
+      this.vcRef.createEmbeddedView(this.templateRef);
+    } else {
+      this.vcRef.clear();
+    }
+  }
+  
+  constructor(
+    private templateRef: TemplateRef<any>,
+    private vcRef: ViewContainerRef
+  ) {}
+}
+```
+
+---
+
+## 43. How do you create and use services in Angular?
+
+**Answer:**
+Services handle business logic and data sharing between components:
+
+• Use `@Injectable` decorator
+• Provide in root or specific modules
+• Inject using dependency injection
+• Perfect for HTTP calls, data management
+
+```typescript
+// Create service
+@Injectable({
+  providedIn: 'root'
+})
+export class DataService {
+  private apiUrl = 'https://api.example.com';
+  
+  constructor(private http: HttpClient) {}
+  
+  getUsers(): Observable<User[]> {
+    return this.http.get<User[]>(`${this.apiUrl}/users`);
+  }
+  
+  createUser(user: User): Observable<User> {
+    return this.http.post<User>(`${this.apiUrl}/users`, user);
+  }
+}
+
+// Use in component
+@Component({
+  selector: 'app-user-list',
+  template: `
+    <div *ngFor="let user of users">{{user.name}}</div>
+  `
+})
+export class UserListComponent implements OnInit {
+  users: User[] = [];
+  
+  constructor(private dataService: DataService) {}
+  
+  ngOnInit() {
+    this.dataService.getUsers().subscribe(
+      users => this.users = users
+    );
+  }
+}
+```
+
+---
+
+## 44. What is the role of the `RouterModule` in Angular?
+
+**Answer:**
+RouterModule enables navigation and routing in Angular applications:
+
+• **forRoot()** - configures root routing
+• **forChild()** - configures feature routing
+• Handles URL mapping to components
+• Supports guards, resolvers, lazy loading
+
+```typescript
+// App routing module
+const routes: Routes = [
+  { path: '', redirectTo: '/home', pathMatch: 'full' },
+  { path: 'home', component: HomeComponent },
+  { path: 'users/:id', component: UserDetailComponent },
+  { path: 'admin', loadChildren: () => import('./admin/admin.module').then(m => m.AdminModule) }
+];
+
+@NgModule({
+  imports: [RouterModule.forRoot(routes)],
+  exports: [RouterModule]
+})
+export class AppRoutingModule {}
+
+// Feature routing
+const userRoutes: Routes = [
+  { path: '', component: UserListComponent },
+  { path: 'new', component: UserFormComponent },
+  { path: ':id/edit', component: UserFormComponent }
+];
+
+@NgModule({
+  imports: [RouterModule.forChild(userRoutes)],
+  exports: [RouterModule]
+})
+export class UserRoutingModule {}
+
+// Navigation in component
+constructor(private router: Router) {}
+
+navigateToUser(id: number) {
+  this.router.navigate(['/users', id]);
+}
+```
+
+---
+
+## 45. How would you handle HTTP errors in Angular?
+
+**Answer:**
+Handle HTTP errors using operators and interceptors:
+
+• Use **catchError** operator with observables
+• Create **error interceptors** for global handling
+• Implement **retry logic** for failed requests
+• Show user-friendly error messages
+
+```typescript
+// Service with error handling
+@Injectable()
+export class ApiService {
+  constructor(private http: HttpClient) {}
+  
+  getUsers(): Observable<User[]> {
+    return this.http.get<User[]>('/api/users').pipe(
+      retry(2),
+      catchError(this.handleError)
+    );
+  }
+  
+  private handleError(error: HttpErrorResponse) {
+    let errorMessage = 'An error occurred';
+    
+    if (error.error instanceof ErrorEvent) {
+      // Client-side error
+      errorMessage = error.error.message;
+    } else {
+      // Server-side error
+      errorMessage = `Error Code: ${error.status}\nMessage: ${error.message}`;
+    }
+    
+    return throwError(() => errorMessage);
+  }
+}
+
+// Global error interceptor
+@Injectable()
+export class ErrorInterceptor implements HttpInterceptor {
+  constructor(private snackBar: MatSnackBar) {}
+  
+  intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+    return next.handle(req).pipe(
+      catchError((error: HttpErrorResponse) => {
+        if (error.status === 401) {
+          // Handle unauthorized
+          this.router.navigate(['/login']);
+        } else if (error.status >= 500) {
+          // Handle server errors
+          this.snackBar.open('Server error occurred', 'Close');
+        }
+        return throwError(() => error);
+      })
+    );
+  }
+}
+
+// Component usage
+export class UserComponent {
+  users: User[] = [];
+  errorMessage = '';
+  
+  loadUsers() {
+    this.apiService.getUsers().subscribe({
+      next: users => this.users = users,
+      error: error => this.errorMessage = error
+    });
+  }
+}
+```
+
+## 46. How can you optimize the performance of an Angular application?
+
+**Answer:** There are several key strategies to optimize Angular performance:
+
+• **OnPush Change Detection Strategy**
+  - Reduces unnecessary change detection cycles
+  - Only checks component when inputs change
+
+```typescript
+@Component({
+  selector: 'app-user',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  template: `<div>{{user.name}}</div>`
+})
+export class UserComponent {
+  @Input() user: User;
+}
+```
+
+• **Lazy Loading Modules**
+  - Load feature modules only when needed
+
+```typescript
+const routes: Routes = [
+  {
+    path: 'admin',
+    loadChildren: () => import('./admin/admin.module').then(m => m.AdminModule)
+  }
+];
+```
+
+• **TrackBy Functions**
+  - Optimize *ngFor performance
+
+```typescript
+trackByUserId(index: number, user: User): number {
+  return user.id;
+}
+```
+
+```html
+<div *ngFor="let user of users; trackBy: trackByUserId">
+  {{user.name}}
+</div>
+```
+
+• **Virtual Scrolling**
+  - Handle large lists efficiently
+
+```html
+<cdk-virtual-scroll-viewport itemSize="50" class="viewport">
+  <div *cdkVirtualFor="let item of items">{{item}}</div>
+</cdk-virtual-scroll-viewport>
+```
+
+---
+
+## 47. What is the role of the Angular CLI in the development process?
+
+**Answer:** Angular CLI is the command-line interface that streamlines Angular development:
+
+• **Project Setup**
+  - Creates new projects with best practices
+
+```bash
+ng new my-app
+ng generate component user-list
+ng generate service user
+```
+
+• **Development Server**
+  - Hot reload and live development
+
+```bash
+ng serve
+ng serve --port 4200 --open
+```
+
+• **Build & Deployment**
+  - Optimized production builds
+
+```bash
+ng build --prod
+ng build --configuration=production
+```
+
+• **Testing**
+  - Run unit and e2e tests
+
+```bash
+ng test
+ng e2e
+```
+
+• **Code Generation**
+  - Scaffolds components, services, modules
+
+```bash
+ng generate module feature --routing
+ng generate guard auth
+```
+
+---
+
+## 48. How can you handle routing with route guards in Angular?
+
+**Answer:** Route guards control navigation and protect routes:
+
+• **CanActivate Guard**
+  - Controls if route can be activated
+
+```typescript
+@Injectable()
+export class AuthGuard implements CanActivate {
+  constructor(private auth: AuthService, private router: Router) {}
+
+  canActivate(): boolean {
+    if (this.auth.isLoggedIn()) {
+      return true;
+    }
+    this.router.navigate(['/login']);
+    return false;
+  }
+}
+```
+
+• **CanDeactivate Guard**
+  - Prevents leaving unsaved changes
+
+```typescript
+@Injectable()
+export class UnsavedChangesGuard implements CanDeactivate<FormComponent> {
+  canDeactivate(component: FormComponent): boolean {
+    if (component.hasUnsavedChanges()) {
+      return confirm('You have unsaved changes. Do you want to leave?');
+    }
+    return true;
+  }
+}
+```
+
+• **Route Configuration**
+
+```typescript
+const routes: Routes = [
+  {
+    path: 'admin',
+    component: AdminComponent,
+    canActivate: [AuthGuard],
+    canDeactivate: [UnsavedChangesGuard]
+  }
+];
+```
+
+---
+
+## 49. What are interceptors in Angular? How would you use them for adding headers or logging API requests?
+
+**Answer:** Interceptors intercept HTTP requests and responses globally:
+
+• **Auth Header Interceptor**
+
+```typescript
+@Injectable()
+export class AuthInterceptor implements HttpInterceptor {
+  intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+    const token = localStorage.getItem('token');
+    
+    if (token) {
+      const authReq = req.clone({
+        headers: req.headers.set('Authorization', `Bearer ${token}`)
+      });
+      return next.handle(authReq);
+    }
+    
+    return next.handle(req);
+  }
+}
+```
+
+• **Logging Interceptor**
+
+```typescript
+@Injectable()
+export class LoggingInterceptor implements HttpInterceptor {
+  intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+    console.log('Request:', req.url, req.method);
+    
+    return next.handle(req).pipe(
+      tap(event => {
+        if (event instanceof HttpResponse) {
+          console.log('Response:', event.status, event.body);
+        }
+      })
+    );
+  }
+}
+```
+
+• **Provider Registration**
+
+```typescript
+@NgModule({
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthInterceptor,
+      multi: true
+    }
+  ]
+})
+export class AppModule {}
+```
+
+---
+
+## 50. What is the purpose of the `ng-content` and `ng-template` directive in Angular?
+
+**Answer:** Both enable content projection and dynamic templates:
+
+• **ng-content - Content Projection**
+  - Projects content from parent to child component
+
+```typescript
+// Modal Component
+@Component({
+  selector: 'app-modal',
+  template: `
+    <div class="modal">
+      <div class="header">
+        <ng-content select="[slot=header]"></ng-content>
+      </div>
+      <div class="body">
+        <ng-content></ng-content>
+      </div>
+    </div>
+  `
+})
+export class ModalComponent {}
+```
+
+```html
+<!-- Usage -->
+<app-modal>
+  <h2 slot="header">User Details</h2>
+  <p>User information goes here</p>
+</app-modal>
+```
+
+• **ng-template - Template Reference**
+  - Defines reusable template blocks
+
+```html
+<div *ngIf="showUsers; else noUsers">
+  <div *ngFor="let user of users">{{user.name}}</div>
+</div>
+
+<ng-template #noUsers>
+  <p>No users found</p>
+</ng-template>
+```
+
+• **Dynamic Template Usage**
+
+```typescript
+@Component({
+  template: `
+    <ng-container *ngTemplateOutlet="selectedTemplate"></ng-container>
+    <ng-template #userTemplate>User View</ng-template>
+    <ng-template #adminTemplate>Admin View</ng-template>
+  `
+})
+export class DynamicComponent {
+  @ViewChild('userTemplate') userTemplate: TemplateRef<any>;
+  selectedTemplate: TemplateRef<any>;
+}
+```
+
+---
+
+## 51. What is a resolver in Angular, and when would you use one?
+
+**Answer:** Resolvers pre-fetch data before route activation:
+
+• **User Resolver**
+
+```typescript
+@Injectable()
+export class UserResolver implements Resolve<User> {
+  constructor(private userService: UserService, private router: Router) {}
+
+  resolve(route: ActivatedRouteSnapshot): Observable<User> {
+    const userId = route.params['id'];
+    
+    return this.userService.getUser(userId).pipe(
+      catchError(() => {
+        this.router.navigate(['/users']);
+        return EMPTY;
+      })
+    );
+  }
+}
+```
+
+• **Route Configuration**
+
+```typescript
+const routes: Routes = [
+  {
+    path: 'user/:id',
+    component: UserDetailComponent,
+    resolve: { user: UserResolver }
+  }
+];
+```
+
+• **Component Usage**
+
+```typescript
+@Component({
+  template: `<div>{{user.name}}</div>`
+})
+export class UserDetailComponent implements OnInit {
+  user: User;
+
+  constructor(private route: ActivatedRoute) {}
+
+  ngOnInit() {
+    this.user = this.route.snapshot.data['user'];
+  }
+}
+```
+
+**When to use:**
+- Pre-load critical data
+- Prevent empty component states
+- Handle data loading errors before navigation
+
+---
+
+## 52. How does Angular support internationalization (i18n)?
+
+**Answer:** Angular provides built-in i18n support for multi-language applications:
+
+• **Mark Text for Translation**
+
+```html
+<p i18n="@@welcome-message">Welcome to our app!</p>
+<button i18n="button.save|Save button">Save</button>
+```
+
+• **Extract Messages**
+
+```bash
+ng extract-i18n
+```
+
+• **Translation Files**
+  - Creates `messages.xlf` file
+
+```xml
+<trans-unit id="welcome-message">
+  <source>Welcome to our app!</source>
+  <target>¡Bienvenido a nuestra aplicación!</target>
+</trans-unit>
+```
+
+• **Build Configuration**
+
+```json
+{
+  "build": {
+    "configurations": {
+      "es": {
+        "aot": true,
+        "outputPath": "dist/es/",
+        "i18nFile": "src/locale/messages.es.xlf",
+        "i18nFormat": "xlf",
+        "i18nLocale": "es"
+      }
+    }
+  }
+}
+```
+
+• **Build for Different Locales**
+
+```bash
+ng build --configuration=es
+```
+
+• **Pluralization**
+
+```html
+<span i18n>{count, plural, =0 {no items} =1 {one item} other {{{count}} items}}</span>
+```
+
+• **Date/Number Pipes with Locale**
+
+```html
+<p>{{today | date:'short'}}</p>
+<p>{{price | currency}}</p>
+```
