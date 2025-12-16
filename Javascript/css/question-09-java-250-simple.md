@@ -3831,3 +3831,549 @@ class MilkDecorator implements Coffee {
 4. **Strategy** - Interchangeable algorithms
 
 **Remember:** Focus on the problem each pattern solves, not just the implementation details!
+
+
+# Spring Framework Interview Questions & Answers
+
+## 1. What is Spring Framework?
+
+Spring is a comprehensive Java framework that simplifies enterprise application development.
+
+**Key Points:**
+- Open-source framework for building Java applications
+- Provides dependency injection and aspect-oriented programming
+- Makes Java development easier and more testable
+- Supports various modules like MVC, Security, Data, etc.
+
+**Example:**
+```java
+@Component
+public class UserService {
+    // Spring manages this class lifecycle
+}
+```
+
+---
+
+## 2. What is Inversion of Control (IoC)?
+
+IoC is a design principle where object creation and dependency management is handled by the framework, not the class itself.
+
+**Key Points:**
+- Objects don't create their dependencies directly
+- Framework controls object lifecycle and dependencies
+- Reduces coupling between classes
+- Makes code more testable and maintainable
+
+**Example:**
+```java
+// Without IoC - tight coupling
+public class OrderService {
+    private PaymentService paymentService = new PaymentService(); // Bad
+}
+
+// With IoC - loose coupling
+@Service
+public class OrderService {
+    @Autowired
+    private PaymentService paymentService; // Good - Spring injects it
+}
+```
+
+---
+
+## 3. What is Dependency Injection?
+
+Dependency Injection is a technique where dependencies are provided to an object rather than the object creating them.
+
+**Key Points:**
+- Three types: Constructor, Setter, and Field injection
+- Constructor injection is recommended
+- Makes testing easier with mock objects
+- Reduces boilerplate code
+
+**Example:**
+```java
+@Service
+public class UserService {
+    private final UserRepository userRepository;
+    
+    // Constructor injection (recommended)
+    public UserService(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
+}
+```
+
+---
+
+## 4. What is the difference between BeanFactory and ApplicationContext?
+
+Both are IoC containers, but ApplicationContext is more feature-rich.
+
+**BeanFactory:**
+- Basic container with lazy initialization
+- Minimal memory footprint
+- Manual bean lifecycle management
+
+**ApplicationContext:**
+- Advanced container with eager initialization
+- More features like event handling, internationalization
+- Automatic bean lifecycle management
+- Extends BeanFactory
+
+**Example:**
+```java
+// BeanFactory
+BeanFactory factory = new XmlBeanFactory(new FileSystemResource("beans.xml"));
+
+// ApplicationContext (preferred)
+ApplicationContext context = new ClassPathXmlApplicationContext("beans.xml");
+```
+
+---
+
+## 5. What are Spring beans?
+
+Spring beans are objects managed by the Spring IoC container.
+
+**Key Points:**
+- Objects whose lifecycle is managed by Spring
+- Configured via annotations or XML
+- Singleton by default (can be changed)
+- Automatically injected where needed
+
+**Example:**
+```java
+@Component
+public class EmailService {
+    // This is a Spring bean
+}
+
+@Configuration
+public class AppConfig {
+    @Bean
+    public DatabaseService databaseService() {
+        return new DatabaseService(); // This creates a bean
+    }
+}
+```
+
+---
+
+## 6. What is Spring Boot?
+
+Spring Boot is a framework that simplifies Spring application development with auto-configuration and embedded servers.
+
+**Key Points:**
+- Built on top of Spring Framework
+- Provides auto-configuration
+- Embedded servers (Tomcat, Jetty)
+- Starter dependencies for quick setup
+- Production-ready features out of the box
+
+**Example:**
+```java
+@SpringBootApplication
+public class MyApplication {
+    public static void main(String[] args) {
+        SpringApplication.run(MyApplication.class, args);
+        // That's it! Web server starts automatically
+    }
+}
+```
+
+---
+
+## 7. What is auto-configuration in Spring Boot?
+
+Auto-configuration automatically configures Spring beans based on classpath dependencies and properties.
+
+**Key Points:**
+- Reduces manual configuration
+- Works based on conditions (classpath, properties, beans)
+- Can be customized or disabled
+- Uses @Conditional annotations internally
+
+**Example:**
+```java
+// If H2 database is on classpath, Spring Boot automatically configures:
+// - DataSource
+// - JdbcTemplate  
+// - Transaction manager
+
+// You just need to add dependency in pom.xml:
+// <dependency>
+//     <groupId>com.h2database</groupId>
+//     <artifactId>h2</artifactId>
+// </dependency>
+```
+
+---
+
+## 8. What is @SpringBootApplication annotation?
+
+@SpringBootApplication is a convenience annotation that combines three important annotations.
+
+**Key Points:**
+- Combines @Configuration, @EnableAutoConfiguration, and @ComponentScan
+- Marks the main class of Spring Boot application
+- Enables auto-configuration and component scanning
+- Should be placed on the main class
+
+**Example:**
+```java
+@SpringBootApplication
+// Equivalent to:
+// @Configuration
+// @EnableAutoConfiguration  
+// @ComponentScan
+public class MyApplication {
+    public static void main(String[] args) {
+        SpringApplication.run(MyApplication.class, args);
+    }
+}
+```
+
+---
+
+## 9. What is the difference between @Component, @Service, and @Repository?
+
+All are stereotype annotations for creating Spring beans, but they indicate different layers.
+
+**Key Points:**
+- @Component: Generic stereotype for any Spring-managed component
+- @Service: Business logic layer
+- @Repository: Data access layer (adds exception translation)
+- All create beans, but provide semantic meaning
+
+**Example:**
+```java
+@Component
+public class UtilityHelper {
+    // Generic component
+}
+
+@Service
+public class UserService {
+    // Business logic
+}
+
+@Repository
+public class UserRepository {
+    // Data access - Spring adds exception translation
+}
+```
+
+---
+
+## 10. What is @Autowired annotation?
+
+@Autowired enables automatic dependency injection by Spring.
+
+**Key Points:**
+- Injects dependencies automatically
+- Works on constructors, setters, and fields
+- By default, injection is required (can be made optional)
+- Uses type-based matching
+
+**Example:**
+```java
+@Service
+public class OrderService {
+    
+    @Autowired
+    private PaymentService paymentService; // Field injection
+    
+    private UserService userService;
+    
+    @Autowired
+    public OrderService(UserService userService) { // Constructor injection
+        this.userService = userService;
+    }
+}
+```
+
+---
+
+## 11. What is @Qualifier annotation?
+
+@Qualifier is used when multiple beans of the same type exist and you need to specify which one to inject.
+
+**Key Points:**
+- Resolves ambiguity when multiple beans of same type exist
+- Used with @Autowired
+- Can specify bean name or custom qualifier
+- Helps in precise dependency injection
+
+**Example:**
+```java
+@Service
+public class NotificationService {
+    
+    @Autowired
+    @Qualifier("emailSender")
+    private MessageSender emailSender;
+    
+    @Autowired
+    @Qualifier("smsSender") 
+    private MessageSender smsSender;
+}
+
+@Component("emailSender")
+public class EmailSender implements MessageSender { }
+
+@Component("smsSender")
+public class SmsSender implements MessageSender { }
+```
+
+---
+
+## 12. What is ApplicationContext?
+
+ApplicationContext is Spring's advanced IoC container that manages beans and provides enterprise features.
+
+**Key Points:**
+- Central interface for Spring application
+- Manages bean lifecycle and dependencies
+- Provides event handling, internationalization
+- Different implementations: ClassPathXmlApplicationContext, AnnotationConfigApplicationContext
+- Eagerly initializes singleton beans
+
+**Example:**
+```java
+@Service
+public class MyService {
+    
+    @Autowired
+    private ApplicationContext applicationContext;
+    
+    public void doSomething() {
+        // Get bean programmatically
+        UserService userService = applicationContext.getBean(UserService.class);
+        
+        // Publish events
+        applicationContext.publishEvent(new CustomEvent("Hello"));
+    }
+}
+```
+
+---
+
+## Quick Reference Summary
+
+| Annotation | Purpose |
+|------------|---------|
+| @Component | Generic Spring bean |
+| @Service | Business logic layer |
+| @Repository | Data access layer |
+| @Autowired | Dependency injection |
+| @Qualifier | Specify which bean to inject |
+| @SpringBootApplication | Main Spring Boot class |
+
+**Best Practices:**
+- Use constructor injection over field injection
+- Prefer @Service and @Repository over @Component for clarity
+- Use @Qualifier when multiple beans of same type exist
+- Keep ApplicationContext usage minimal in business logic
+
+# RESTful Services Interview Questions & Answers
+
+## 1. What are RESTful web services?
+
+RESTful web services are web APIs that follow REST architectural principles for building distributed systems.
+
+**Key Points:**
+• **Stateless communication** - Each request contains all needed information
+• **Resource-based** - Everything is treated as a resource with unique URLs
+• **Standard HTTP methods** - Uses GET, POST, PUT, DELETE
+• **JSON/XML data exchange** - Lightweight data formats
+• **Platform independent** - Works across different technologies
+
+**Example:**
+```
+GET /api/users/123        // Get user with ID 123
+POST /api/users           // Create new user
+PUT /api/users/123        // Update user 123
+DELETE /api/users/123     // Delete user 123
+```
+
+---
+
+## 2. What are the principles of REST?
+
+REST has six core architectural principles that guide API design.
+
+**The 6 REST Principles:**
+• **Client-Server** - Separation of concerns between client and server
+• **Stateless** - No client state stored on server between requests
+• **Cacheable** - Responses should be cacheable when possible
+• **Uniform Interface** - Consistent way to interact with resources
+• **Layered System** - Architecture can have multiple layers
+• **Code on Demand** (optional) - Server can send executable code
+
+**Real Example:**
+```
+// Stateless - each request is independent
+GET /api/products/456
+Authorization: Bearer token123
+Accept: application/json
+```
+
+---
+
+## 3. What are HTTP methods and their usage?
+
+HTTP methods define what action to perform on a resource.
+
+**Common HTTP Methods:**
+• **GET** - Retrieve data (read-only, safe)
+• **POST** - Create new resources
+• **PUT** - Update/replace entire resource
+• **PATCH** - Partial update of resource
+• **DELETE** - Remove resource
+• **HEAD** - Get headers only (no body)
+• **OPTIONS** - Get allowed methods
+
+**Practical Examples:**
+```
+GET /api/books           // Get all books
+GET /api/books/5         // Get book with ID 5
+POST /api/books          // Create new book
+PUT /api/books/5         // Replace entire book 5
+PATCH /api/books/5       // Update some fields of book 5
+DELETE /api/books/5      // Delete book 5
+```
+
+---
+
+## 4. What is the difference between PUT and POST?
+
+PUT and POST serve different purposes in resource management.
+
+**Key Differences:**
+
+| Aspect | POST | PUT |
+|--------|------|-----|
+| **Purpose** | Create new resource | Update/replace resource |
+| **Idempotent** | No | Yes |
+| **Resource ID** | Server generates | Client provides |
+| **Multiple calls** | Creates multiple resources | Same result |
+
+**Examples:**
+```
+// POST - Create new user (server assigns ID)
+POST /api/users
+{
+  "name": "John Doe",
+  "email": "john@example.com"
+}
+Response: 201 Created, Location: /api/users/789
+
+// PUT - Update specific user (client knows ID)
+PUT /api/users/789
+{
+  "name": "John Smith",
+  "email": "johnsmith@example.com"
+}
+Response: 200 OK
+```
+
+---
+
+## 5. What is idempotency in REST?
+
+Idempotency means making the same request multiple times produces the same result.
+
+**Idempotent Methods:**
+• **GET** - Always returns same data
+• **PUT** - Same update result every time
+• **DELETE** - Resource stays deleted
+• **HEAD, OPTIONS** - Safe operations
+
+**Non-Idempotent:**
+• **POST** - Creates new resource each time
+
+**Real Example:**
+```
+// Idempotent - calling multiple times has same effect
+PUT /api/users/123
+{ "status": "active" }
+
+// First call: Updates user status
+// Second call: User status already active (no change)
+// Result: Same final state
+
+// Non-idempotent
+POST /api/orders
+{ "product": "laptop", "quantity": 1 }
+
+// First call: Creates order #001
+// Second call: Creates order #002
+// Result: Different each time
+```
+
+---
+
+## 6. What are HTTP status codes?
+
+HTTP status codes indicate the result of an HTTP request.
+
+**Status Code Categories:**
+• **1xx** - Informational (100 Continue)
+• **2xx** - Success (200 OK, 201 Created)
+• **3xx** - Redirection (301 Moved, 304 Not Modified)
+• **4xx** - Client Error (400 Bad Request, 404 Not Found)
+• **5xx** - Server Error (500 Internal Error, 503 Unavailable)
+
+**Common REST API Status Codes:**
+```
+// Success responses
+200 OK              // GET, PUT successful
+201 Created         // POST successful
+204 No Content      // DELETE successful
+
+// Client errors
+400 Bad Request     // Invalid request data
+401 Unauthorized    // Authentication required
+403 Forbidden       // Access denied
+404 Not Found       // Resource doesn't exist
+409 Conflict        // Resource conflict
+
+// Server errors
+500 Internal Error  // Server-side problem
+503 Service Unavailable // Server overloaded
+```
+
+**Practical Usage:**
+```javascript
+// API Response Examples
+GET /api/users/999
+Response: 404 Not Found
+{ "error": "User not found" }
+
+POST /api/users
+Response: 201 Created
+Location: /api/users/1001
+{ "id": 1001, "name": "Alice" }
+
+DELETE /api/users/123
+Response: 204 No Content
+```
+
+---
+
+## Quick Interview Tips
+
+**Remember:**
+• REST is about **resources**, not actions
+• Use **nouns** in URLs, not verbs (`/users` not `/getUsers`)
+• HTTP methods define the **action**
+• Status codes communicate **results**
+• Keep APIs **stateless** and **predictable**
+
+**Common Mistakes to Avoid:**
+• Using GET for data modification
+• Ignoring proper status codes
+• Making APIs stateful
+• Poor resource naming conventions
