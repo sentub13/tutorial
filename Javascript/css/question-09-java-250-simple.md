@@ -4905,3 +4905,131 @@ Java follows a predictable 6-month release cycle since Java 9:
   - Most enterprises stick to LTS versions
   - Upgrade path: Java 8 → Java 11 → Java 17 → Java 21
   - Test new features in non-LTS versions
+
+  # Cloud and Containerization Interview Questions & Answers
+
+## 1. What is containerization?
+
+Containerization is packaging applications with all their dependencies into lightweight, portable containers.
+
+**Key Points:**
+- Bundles code, runtime, libraries, and settings together
+- Runs consistently across different environments
+- Isolated from the host system
+- More efficient than virtual machines
+
+**Example:** 
+- Your Node.js app + dependencies → Docker container
+- Runs same way on dev laptop, staging, and production
+
+---
+
+## 2. What is Docker?
+
+Docker is a platform that creates, manages, and runs containers using containerization technology.
+
+**Key Points:**
+- Uses Docker images as blueprints
+- Docker Engine runs containers
+- Dockerfile defines how to build images
+- Cross-platform compatibility
+
+**Example:**
+```dockerfile
+FROM node:16
+COPY . /app
+WORKDIR /app
+RUN npm install
+CMD ["npm", "start"]
+```
+
+---
+
+## 3. What is Kubernetes?
+
+Kubernetes is an orchestration platform that manages containerized applications at scale across clusters.
+
+**Key Points:**
+- Automates deployment, scaling, and management
+- Self-healing (restarts failed containers)
+- Load balancing and service discovery
+- Rolling updates with zero downtime
+
+**Example:**
+- Deploy 100 web app containers
+- Auto-scale based on traffic
+- Replace failed containers automatically
+
+---
+
+## 4. What is cloud computing?
+
+Cloud computing delivers computing services over the internet instead of using local servers.
+
+**Key Points:**
+- On-demand resource access
+- Pay-as-you-use pricing
+- Scalable and flexible
+- Three main types: IaaS, PaaS, SaaS
+
+**Examples:**
+- **IaaS:** AWS EC2, Azure VMs
+- **PaaS:** Heroku, Google App Engine
+- **SaaS:** Gmail, Salesforce
+
+---
+
+## 5. What is distributed system?
+
+A distributed system is multiple computers working together as a single system to achieve common goals.
+
+**Key Points:**
+- Components communicate over network
+- No shared memory between nodes
+- Fault tolerance and redundancy
+- Horizontal scaling capability
+
+**Examples:**
+- Netflix streaming (multiple data centers)
+- Google Search (thousands of servers)
+- Banking systems (ATMs, branches, online)
+
+---
+
+## 6. What is load balancing?
+
+Load balancing distributes incoming requests across multiple servers to prevent overload and ensure availability.
+
+**Key Points:**
+- Prevents single point of failure
+- Improves response times
+- Enables horizontal scaling
+- Health checks monitor server status
+
+**Examples:**
+- **Round Robin:** Request 1→Server A, Request 2→Server B
+- **Least Connections:** Route to server with fewest active connections
+- **Geographic:** Route users to nearest data center
+
+---
+
+## 7. What is caching strategies?
+
+Caching strategies store frequently accessed data in fast storage to reduce response times and database load.
+
+**Key Points:**
+- Temporary storage for quick access
+- Reduces backend load
+- Improves user experience
+- Various levels and types
+
+**Examples:**
+- **Browser Cache:** Store CSS/JS files locally
+- **CDN Cache:** Images served from nearest location
+- **Database Cache:** Redis stores frequent queries
+- **Application Cache:** In-memory data storage
+
+**Common Strategies:**
+- **Cache-Aside:** App manages cache manually
+- **Write-Through:** Write to cache and database simultaneously
+- **Write-Behind:** Write to cache first, database later
