@@ -35,9 +35,7 @@ public class HelloWorld {
 **Simple way to remember:**
 
 • JDK = Development tools + JRE
-
 • JRE = JVM + Runtime libraries
-
 • JVM = Executes bytecode
 
 ---
