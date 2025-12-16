@@ -29,6 +29,8 @@
 6. **What is the difference between overloading and overriding?**
 7. **What is dynamic method dispatch?**
 
+Read above question carefully. Extract every interview question exactly as written. write a short, natural, real-time spoken answer with bullet point and with examples. Keep all answers simple, confident, and practical. Format the output clearly. add all answer in a .md file with correct format.
+
 ### 4. Inheritance (6 Questions)
 1. **Why doesn't Java support multiple inheritance?**
 2. **What is the diamond problem?**
