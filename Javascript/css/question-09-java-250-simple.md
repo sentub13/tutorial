@@ -673,3 +673,207 @@ public class Test {
 }
 ```
 
+# Java Inheritance Interview Questions & Answers
+
+## 1. Why doesn't Java support multiple inheritance?
+
+**Answer:**
+• Java doesn't support multiple inheritance of classes to avoid complexity and ambiguity
+• Main reasons:
+  - **Diamond Problem**: Confusion when multiple parent classes have same method
+  - **Complexity**: Makes code harder to understand and maintain
+  - **Ambiguity**: Compiler can't decide which parent method to inherit
+
+**Example:**
+```java
+// This is NOT allowed in Java
+class A { void show() { } }
+class B { void show() { } }
+class C extends A, B { } // Compilation Error!
+```
+
+---
+
+## 2. What is the diamond problem?
+
+**Answer:**
+• Diamond problem occurs when a class inherits from multiple classes that have a common parent
+• Creates ambiguity about which method implementation to use
+• Named "diamond" because the inheritance structure looks like a diamond shape
+
+**Example Structure:**
+```
+    A
+   / \
+  B   C
+   \ /
+    D
+```
+
+**Code Example:**
+```java
+// If this was allowed (it's not in Java)
+class Animal { void sound() { } }
+class Dog extends Animal { void sound() { System.out.println("Bark"); } }
+class Cat extends Animal { void sound() { System.out.println("Meow"); } }
+class Hybrid extends Dog, Cat { } // Which sound() method to inherit?
+```
+
+---
+
+## 3. How does Java solve the diamond problem?
+
+**Answer:**
+• Java solves it by **not allowing multiple inheritance of classes**
+• Instead provides alternatives:
+  - **Interfaces**: Can implement multiple interfaces
+  - **Default methods**: Interface methods with implementation (Java 8+)
+  - **Composition**: Use HAS-A relationship instead of IS-A
+
+**Example:**
+```java
+interface Flyable { 
+    default void fly() { System.out.println("Flying"); }
+}
+interface Swimmable { 
+    default void swim() { System.out.println("Swimming"); }
+}
+
+class Duck implements Flyable, Swimmable {
+    // Can implement both interfaces
+    // If conflict, must override the method
+}
+```
+
+---
+
+## 4. Can you override static methods?
+
+**Answer:**
+• **No, you cannot override static methods**
+• Static methods belong to the class, not to instances
+• You can **hide** static methods (method hiding), but it's not overriding
+• Static methods are resolved at compile time, not runtime
+
+**Example:**
+```java
+class Parent {
+    static void display() { System.out.println("Parent static"); }
+}
+
+class Child extends Parent {
+    static void display() { System.out.println("Child static"); } // Method hiding, not overriding
+}
+
+// Usage:
+Parent.display(); // Output: Parent static
+Child.display();  // Output: Child static
+Parent p = new Child();
+p.display();      // Output: Parent static (not Child!)
+```
+
+---
+
+## 5. What is covariant return type?
+
+**Answer:**
+• Covariant return type allows overriding method to return a **subtype** of the original return type
+• Introduced in Java 5
+• The return type can be more specific (narrower) than the parent's return type
+• Must maintain IS-A relationship
+
+**Example:**
+```java
+class Animal { }
+class Dog extends Animal { }
+
+class AnimalFactory {
+    Animal createAnimal() {
+        return new Animal();
+    }
+}
+
+class DogFactory extends AnimalFactory {
+    @Override
+    Dog createAnimal() {  // Covariant return type - Dog is subtype of Animal
+        return new Dog();
+    }
+}
+```
+
+**Another Example:**
+```java
+class Shape {
+    Shape getShape() { return new Shape(); }
+}
+
+class Circle extends Shape {
+    @Override
+    Circle getShape() { return new Circle(); } // Valid covariant return
+}
+```
+
+---
+
+## 6. What is the difference between IS-A and HAS-A relationship?
+
+**Answer:**
+
+### IS-A Relationship (Inheritance)
+• Represents **inheritance** relationship
+• Uses `extends` keyword
+• Child class IS-A type of parent class
+• **"Kind of"** relationship
+
+**Example:**
+```java
+class Vehicle { }
+class Car extends Vehicle { } // Car IS-A Vehicle
+
+class Animal { }
+class Dog extends Animal { }  // Dog IS-A Animal
+```
+
+### HAS-A Relationship (Composition/Aggregation)
+• Represents **composition** or **aggregation**
+• One class contains reference to another class
+• **"Part of"** or **"Has"** relationship
+• More flexible than inheritance
+
+**Example:**
+```java
+class Engine {
+    void start() { System.out.println("Engine started"); }
+}
+
+class Car {
+    private Engine engine; // Car HAS-A Engine
+    
+    public Car() {
+        engine = new Engine();
+    }
+    
+    void startCar() {
+        engine.start();
+    }
+}
+
+class Student {
+    private Address address; // Student HAS-A Address
+    private List<Course> courses; // Student HAS-A list of Courses
+}
+```
+
+### Key Differences:
+| IS-A | HAS-A |
+|------|-------|
+| Inheritance | Composition |
+| Tight coupling | Loose coupling |
+| "Kind of" | "Part of" |
+| Less flexible | More flexible |
+| Single inheritance limit | Multiple composition allowed |
+
+**When to use:**
+• **IS-A**: When there's a clear parent-child relationship
+• **HAS-A**: When you need flexibility and want to avoid inheritance limitations
+
