@@ -877,3 +877,294 @@ class Student {
 • **IS-A**: When there's a clear parent-child relationship
 • **HAS-A**: When you need flexibility and want to avoid inheritance limitations
 
+# Interfaces and Abstract Classes - Interview Questions & Answers
+
+## 1. What is an interface in Java?
+
+An interface is a contract that defines what methods a class must implement, without providing the implementation details.
+
+**Key Points:**
+• Contains abstract methods (by default)
+• All variables are public, static, and final
+• Classes implement interfaces using `implements` keyword
+• Supports multiple inheritance
+• Cannot be instantiated directly
+
+**Example:**
+```java
+interface Animal {
+    void makeSound();
+    void move();
+}
+
+class Dog implements Animal {
+    public void makeSound() {
+        System.out.println("Woof!");
+    }
+    
+    public void move() {
+        System.out.println("Running");
+    }
+}
+```
+
+---
+
+## 2. What is an abstract class?
+
+An abstract class is a class that cannot be instantiated and may contain both abstract and concrete methods.
+
+**Key Points:**
+• Uses `abstract` keyword
+• Can have constructors, instance variables
+• Can contain both abstract and concrete methods
+• Classes extend abstract classes using `extends` keyword
+• Supports single inheritance only
+
+**Example:**
+```java
+abstract class Vehicle {
+    String brand;
+    
+    public Vehicle(String brand) {
+        this.brand = brand;
+    }
+    
+    abstract void start();
+    
+    public void stop() {
+        System.out.println("Vehicle stopped");
+    }
+}
+
+class Car extends Vehicle {
+    public Car(String brand) {
+        super(brand);
+    }
+    
+    void start() {
+        System.out.println("Car started");
+    }
+}
+```
+
+---
+
+## 3. What is the difference between interface and abstract class?
+
+**Interface:**
+• Multiple inheritance supported
+• Only public abstract methods (before Java 8)
+• Variables are public, static, final
+• No constructors
+• 100% abstraction (before Java 8)
+
+**Abstract Class:**
+• Single inheritance only
+• Can have concrete and abstract methods
+• Can have any type of variables
+• Can have constructors
+• 0-100% abstraction
+
+**Example:**
+```java
+// Interface - multiple inheritance
+interface Flyable {
+    void fly();
+}
+
+interface Swimmable {
+    void swim();
+}
+
+class Duck implements Flyable, Swimmable {
+    public void fly() { System.out.println("Flying"); }
+    public void swim() { System.out.println("Swimming"); }
+}
+
+// Abstract class - single inheritance
+abstract class Bird {
+    abstract void makeSound();
+    public void sleep() { System.out.println("Sleeping"); }
+}
+```
+
+---
+
+## 4. What are default methods in interfaces?
+
+Default methods allow interfaces to have method implementations without breaking existing code.
+
+**Key Points:**
+• Introduced in Java 8
+• Use `default` keyword
+• Provide backward compatibility
+• Can be overridden in implementing classes
+
+**Example:**
+```java
+interface Calculator {
+    int add(int a, int b);
+    
+    default int multiply(int a, int b) {
+        return a * b;
+    }
+}
+
+class SimpleCalculator implements Calculator {
+    public int add(int a, int b) {
+        return a + b;
+    }
+    // multiply method is inherited from interface
+}
+```
+
+---
+
+## 5. What are static methods in interfaces?
+
+Static methods in interfaces belong to the interface itself and cannot be overridden.
+
+**Key Points:**
+• Introduced in Java 8
+• Called using interface name
+• Cannot be overridden in implementing classes
+• Provide utility methods
+
+**Example:**
+```java
+interface MathUtils {
+    static int square(int number) {
+        return number * number;
+    }
+    
+    static boolean isEven(int number) {
+        return number % 2 == 0;
+    }
+}
+
+// Usage
+int result = MathUtils.square(5); // 25
+boolean even = MathUtils.isEven(4); // true
+```
+
+---
+
+## 6. What is marker interface?
+
+A marker interface is an empty interface with no methods, used to mark or tag classes for special treatment.
+
+**Key Points:**
+• Contains no methods or constants
+• Provides metadata about the class
+• Used by JVM or frameworks for special processing
+• Examples: Serializable, Cloneable, Remote
+
+**Example:**
+```java
+// Marker interface
+interface Printable {
+    // No methods - just marks the class
+}
+
+class Document implements Printable {
+    String content;
+    
+    public Document(String content) {
+        this.content = content;
+    }
+}
+
+// Usage in framework code
+public void printDocument(Object obj) {
+    if (obj instanceof Printable) {
+        System.out.println("Printing: " + obj);
+    }
+}
+```
+
+---
+
+## 7. What is functional interface?
+
+A functional interface has exactly one abstract method and can be used with lambda expressions.
+
+**Key Points:**
+• Contains exactly one abstract method
+• Can have default and static methods
+• Annotated with `@FunctionalInterface` (optional)
+• Used with lambda expressions and method references
+• Examples: Runnable, Callable, Comparator
+
+**Example:**
+```java
+@FunctionalInterface
+interface Calculator {
+    int calculate(int a, int b);
+    
+    // Can have default methods
+    default void printResult(int result) {
+        System.out.println("Result: " + result);
+    }
+}
+
+// Usage with lambda
+Calculator add = (a, b) -> a + b;
+Calculator multiply = (a, b) -> a * b;
+
+int sum = add.calculate(5, 3); // 8
+int product = multiply.calculate(5, 3); // 15
+```
+
+---
+
+## 8. Can an interface extend another interface?
+
+Yes, an interface can extend one or more interfaces using the `extends` keyword.
+
+**Key Points:**
+• Interface can extend multiple interfaces
+• Inherits all abstract methods from parent interfaces
+• Implementing class must provide implementation for all methods
+• Creates interface hierarchy
+
+**Example:**
+```java
+interface Animal {
+    void eat();
+}
+
+interface Mammal extends Animal {
+    void breathe();
+}
+
+interface Pet extends Animal {
+    void play();
+}
+
+// Multiple interface inheritance
+interface Dog extends Mammal, Pet {
+    void bark();
+}
+
+class GoldenRetriever implements Dog {
+    public void eat() { System.out.println("Eating"); }
+    public void breathe() { System.out.println("Breathing"); }
+    public void play() { System.out.println("Playing"); }
+    public void bark() { System.out.println("Barking"); }
+}
+```
+
+---
+
+## Quick Summary
+
+**Remember:**
+• Interface = Contract (what to do)
+• Abstract Class = Partial implementation (what and how)
+• Default methods = Backward compatibility
+• Static methods = Utility functions
+• Marker interface = Tagging mechanism
+• Functional interface = Lambda expressions
+• Interface inheritance = Multiple extends allowed
+
