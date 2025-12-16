@@ -440,3 +440,236 @@ class MyClass {
     }
 }
 ```
+
+# Java Classes and Objects - Interview Q&A
+
+## 1. What is a constructor in Java?
+
+A constructor is a special method that initializes objects when they're created.
+
+**Key Points:**
+- Same name as the class
+- No return type (not even void)
+- Called automatically when object is created
+- Can be overloaded
+
+**Example:**
+```java
+public class Student {
+    String name;
+    int age;
+    
+    // Default constructor
+    public Student() {
+        name = "Unknown";
+        age = 0;
+    }
+    
+    // Parameterized constructor
+    public Student(String name, int age) {
+        this.name = name;
+        this.age = age;
+    }
+}
+```
+
+## 2. What is constructor chaining?
+
+Constructor chaining is calling one constructor from another constructor in the same class or parent class.
+
+**Key Points:**
+- Use `this()` to call another constructor in same class
+- Use `super()` to call parent class constructor
+- Must be the first statement in constructor
+
+**Example:**
+```java
+public class Employee {
+    String name;
+    int id;
+    double salary;
+    
+    public Employee() {
+        this("Unknown", 0); // Calls parameterized constructor
+    }
+    
+    public Employee(String name, int id) {
+        this(name, id, 0.0); // Calls three-parameter constructor
+    }
+    
+    public Employee(String name, int id, double salary) {
+        this.name = name;
+        this.id = id;
+        this.salary = salary;
+    }
+}
+```
+
+## 3. What is the difference between this and super keywords?
+
+**this keyword:**
+- Refers to current object
+- Access current class members
+- Call current class constructors
+
+**super keyword:**
+- Refers to parent class object
+- Access parent class members
+- Call parent class constructors
+
+**Example:**
+```java
+class Animal {
+    String name = "Animal";
+    
+    public void eat() {
+        System.out.println("Animal eating");
+    }
+}
+
+class Dog extends Animal {
+    String name = "Dog";
+    
+    public void display() {
+        System.out.println(this.name);  // Prints "Dog"
+        System.out.println(super.name); // Prints "Animal"
+    }
+    
+    public void eat() {
+        super.eat(); // Calls parent method
+        System.out.println("Dog eating");
+    }
+}
+```
+
+## 4. What is method overloading?
+
+Method overloading means having multiple methods with the same name but different parameters in the same class.
+
+**Key Points:**
+- Same method name, different parameters
+- Compile-time polymorphism
+- Parameters can differ by number, type, or order
+
+**Example:**
+```java
+public class Calculator {
+    public int add(int a, int b) {
+        return a + b;
+    }
+    
+    public double add(double a, double b) {
+        return a + b;
+    }
+    
+    public int add(int a, int b, int c) {
+        return a + b + c;
+    }
+}
+```
+
+## 5. What is method overriding?
+
+Method overriding means redefining a parent class method in the child class with the same signature.
+
+**Key Points:**
+- Same method signature as parent
+- Runtime polymorphism
+- Use @Override annotation
+- Child method is called at runtime
+
+**Example:**
+```java
+class Vehicle {
+    public void start() {
+        System.out.println("Vehicle starting");
+    }
+}
+
+class Car extends Vehicle {
+    @Override
+    public void start() {
+        System.out.println("Car starting with key");
+    }
+}
+
+class Bike extends Vehicle {
+    @Override
+    public void start() {
+        System.out.println("Bike starting with kick");
+    }
+}
+```
+
+## 6. What is the difference between overloading and overriding?
+
+| **Overloading** | **Overriding** |
+|-----------------|----------------|
+| Same class | Different classes (inheritance) |
+| Different parameters | Same method signature |
+| Compile-time | Runtime |
+| Static polymorphism | Dynamic polymorphism |
+| Can change return type | Must have same return type |
+
+**Example:**
+```java
+// Overloading - Same class, different parameters
+class MathUtils {
+    public int multiply(int a, int b) { return a * b; }
+    public double multiply(double a, double b) { return a * b; }
+}
+
+// Overriding - Different classes, same signature
+class Shape {
+    public void draw() { System.out.println("Drawing shape"); }
+}
+
+class Circle extends Shape {
+    @Override
+    public void draw() { System.out.println("Drawing circle"); }
+}
+```
+
+## 7. What is dynamic method dispatch?
+
+Dynamic method dispatch is the mechanism where the correct overridden method is called at runtime based on the actual object type, not the reference type.
+
+**Key Points:**
+- Runtime polymorphism
+- Method call resolved at runtime
+- Depends on actual object, not reference type
+- Enables polymorphic behavior
+
+**Example:**
+```java
+class Animal {
+    public void makeSound() {
+        System.out.println("Animal makes sound");
+    }
+}
+
+class Cat extends Animal {
+    @Override
+    public void makeSound() {
+        System.out.println("Cat meows");
+    }
+}
+
+class Dog extends Animal {
+    @Override
+    public void makeSound() {
+        System.out.println("Dog barks");
+    }
+}
+
+public class Test {
+    public static void main(String[] args) {
+        Animal animal1 = new Cat(); // Reference type: Animal, Object type: Cat
+        Animal animal2 = new Dog(); // Reference type: Animal, Object type: Dog
+        
+        animal1.makeSound(); // Prints "Cat meows" - Dynamic dispatch
+        animal2.makeSound(); // Prints "Dog barks" - Dynamic dispatch
+    }
+}
+```
+
