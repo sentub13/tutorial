@@ -4729,3 +4729,179 @@ java -XX:+TieredCompilation MyApp
 • Use connection pooling
 • Enable JIT optimizations
 
+# Modern Java Features - Interview Questions & Answers
+
+## 1. What are the new features in Java 8?
+
+Java 8 was a game-changer with several revolutionary features:
+
+• **Lambda Expressions** - Functional programming support
+  ```java
+  List<String> names = Arrays.asList("John", "Jane", "Bob");
+  names.forEach(name -> System.out.println(name));
+  ```
+
+• **Stream API** - Powerful data processing
+  ```java
+  List<Integer> numbers = Arrays.asList(1, 2, 3, 4, 5);
+  int sum = numbers.stream().filter(n -> n > 2).mapToInt(Integer::intValue).sum();
+  ```
+
+• **Method References** - Cleaner syntax
+  ```java
+  names.forEach(System.out::println);
+  ```
+
+• **Optional Class** - Null pointer safety
+  ```java
+  Optional<String> optional = Optional.ofNullable(getName());
+  optional.ifPresent(System.out::println);
+  ```
+
+• **Default Methods in Interfaces** - Interface evolution
+  ```java
+  interface Vehicle {
+      default void start() { System.out.println("Starting..."); }
+  }
+  ```
+
+• **New Date/Time API** - Better date handling
+  ```java
+  LocalDateTime now = LocalDateTime.now();
+  LocalDate date = LocalDate.of(2024, 1, 15);
+  ```
+
+---
+
+## 2. What are the new features in Java 11?
+
+Java 11 is an LTS version with practical improvements:
+
+• **Local Variable Type Inference (var)** - Enhanced from Java 10
+  ```java
+  var list = List.of("apple", "banana");
+  var map = Map.of("key1", "value1");
+  ```
+
+• **HTTP Client API** - Built-in HTTP support
+  ```java
+  HttpClient client = HttpClient.newHttpClient();
+  HttpRequest request = HttpRequest.newBuilder()
+      .uri(URI.create("https://api.example.com"))
+      .build();
+  ```
+
+• **String Methods** - New utility methods
+  ```java
+  String text = "  Hello World  ";
+  text.isBlank();     // false
+  text.strip();       // "Hello World"
+  "A".repeat(3);      // "AAA"
+  ```
+
+• **Files Methods** - Easy file operations
+  ```java
+  String content = Files.readString(Path.of("file.txt"));
+  Files.writeString(Path.of("output.txt"), "Hello");
+  ```
+
+• **Collection.toArray()** - Enhanced method
+  ```java
+  List<String> list = List.of("a", "b", "c");
+  String[] array = list.toArray(String[]::new);
+  ```
+
+• **Nest-Based Access Control** - Better inner class access
+• **Dynamic Class-File Constants** - Performance improvements
+
+---
+
+## 3. What are the new features in Java 17?
+
+Java 17 is the latest LTS with modern language features:
+
+• **Sealed Classes** - Controlled inheritance
+  ```java
+  public sealed class Shape permits Circle, Rectangle, Triangle {
+      // Base class
+  }
+  
+  public final class Circle extends Shape {
+      private double radius;
+  }
+  ```
+
+• **Pattern Matching for instanceof** - Cleaner type checking
+  ```java
+  if (obj instanceof String str) {
+      System.out.println(str.toUpperCase());
+  }
+  ```
+
+• **Records** - Immutable data classes
+  ```java
+  public record Person(String name, int age) {}
+  
+  Person person = new Person("John", 30);
+  System.out.println(person.name()); // John
+  ```
+
+• **Text Blocks** - Multi-line strings
+  ```java
+  String json = """
+      {
+          "name": "John",
+          "age": 30
+      }
+      """;
+  ```
+
+• **Switch Expressions** - Enhanced switch
+  ```java
+  String result = switch (day) {
+      case MONDAY, FRIDAY -> "Work day";
+      case SATURDAY, SUNDAY -> "Weekend";
+      default -> "Midweek";
+  };
+  ```
+
+• **Helpful NullPointerExceptions** - Better error messages
+• **Strong Encapsulation of JDK Internals** - Security improvements
+
+---
+
+## 4. What is the Java release cycle and LTS versions?
+
+Java follows a predictable 6-month release cycle since Java 9:
+
+• **Release Schedule**
+  - New version every 6 months (March & September)
+  - Predictable and time-based releases
+  - Feature-driven to time-driven approach
+
+• **LTS (Long Term Support) Versions**
+  - Every 3 years (every 6th release)
+  - Extended support and updates
+  - Recommended for production use
+
+• **LTS Timeline**
+  - **Java 8** (March 2014) - First modern LTS
+  - **Java 11** (September 2018) - Current popular LTS
+  - **Java 17** (September 2021) - Latest LTS
+  - **Java 21** (September 2023) - Next LTS
+
+• **Non-LTS Versions**
+  - Java 9, 10, 12, 13, 14, 15, 16, 18, 19, 20
+  - 6 months of support only
+  - Good for experimenting with new features
+
+• **Support Duration**
+  - **LTS versions**: 8+ years of support
+  - **Non-LTS versions**: 6 months only
+  - Oracle provides commercial support
+  - OpenJDK provides free updates
+
+• **Migration Strategy**
+  - Most enterprises stick to LTS versions
+  - Upgrade path: Java 8 → Java 11 → Java 17 → Java 21
+  - Test new features in non-LTS versions
