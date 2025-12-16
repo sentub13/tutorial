@@ -3586,3 +3586,248 @@ Savepoint sp1 = conn.setSavepoint("SavePoint1");
 conn.rollback(sp1); // Rollback to specific savepoint
 conn.commit();
 ```
+
+# Design Patterns Interview Questions & Answers
+
+## 1. What are design patterns?
+
+Design patterns are proven solutions to common programming problems that occur repeatedly in software development.
+
+**Key Points:**
+• Reusable templates for solving design problems
+• Best practices documented by experienced developers
+• Not code, but concepts and approaches
+• Help make code more maintainable and flexible
+
+**Example:**
+Instead of creating objects directly everywhere, use Factory pattern to centralize object creation logic.
+
+---
+
+## 2. What is Singleton pattern?
+
+Singleton ensures only one instance of a class exists throughout the application lifecycle.
+
+**Key Points:**
+• Only one object instance allowed
+• Global access point to that instance
+• Lazy or eager initialization options
+• Common use: Database connections, loggers, configuration
+
+**Example:**
+```java
+public class DatabaseConnection {
+    private static DatabaseConnection instance;
+    
+    private DatabaseConnection() {}
+    
+    public static DatabaseConnection getInstance() {
+        if (instance == null) {
+            instance = new DatabaseConnection();
+        }
+        return instance;
+    }
+}
+```
+
+---
+
+## 3. How do you implement thread-safe Singleton?
+
+Thread-safe Singleton prevents multiple threads from creating multiple instances simultaneously.
+
+**Key Points:**
+• Use synchronized methods or blocks
+• Double-checked locking for performance
+• Enum approach is naturally thread-safe
+• Static inner class approach
+
+**Example:**
+```java
+public class ThreadSafeSingleton {
+    private static volatile ThreadSafeSingleton instance;
+    
+    private ThreadSafeSingleton() {}
+    
+    public static ThreadSafeSingleton getInstance() {
+        if (instance == null) {
+            synchronized (ThreadSafeSingleton.class) {
+                if (instance == null) {
+                    instance = new ThreadSafeSingleton();
+                }
+            }
+        }
+        return instance;
+    }
+}
+```
+
+---
+
+## 4. What is Factory pattern?
+
+Factory pattern creates objects without specifying their exact classes, delegating creation to factory methods.
+
+**Key Points:**
+• Encapsulates object creation logic
+• Returns objects based on input parameters
+• Promotes loose coupling
+• Easy to extend with new types
+
+**Example:**
+```java
+public class ShapeFactory {
+    public Shape createShape(String type) {
+        switch (type.toLowerCase()) {
+            case "circle": return new Circle();
+            case "square": return new Square();
+            case "triangle": return new Triangle();
+            default: throw new IllegalArgumentException("Unknown shape");
+        }
+    }
+}
+```
+
+---
+
+## 5. What is Observer pattern?
+
+Observer pattern defines one-to-many dependency where multiple objects get notified when one object changes state.
+
+**Key Points:**
+• Subject maintains list of observers
+• Automatic notification on state changes
+• Loose coupling between subject and observers
+• Common in event handling, MVC architecture
+
+**Example:**
+```java
+public class NewsAgency {
+    private List<Observer> observers = new ArrayList<>();
+    private String news;
+    
+    public void addObserver(Observer observer) {
+        observers.add(observer);
+    }
+    
+    public void setNews(String news) {
+        this.news = news;
+        notifyObservers();
+    }
+    
+    private void notifyObservers() {
+        observers.forEach(observer -> observer.update(news));
+    }
+}
+```
+
+---
+
+## 6. What is Strategy pattern?
+
+Strategy pattern defines family of algorithms, encapsulates each one, and makes them interchangeable at runtime.
+
+**Key Points:**
+• Multiple ways to perform same task
+• Algorithm selection at runtime
+• Eliminates conditional statements
+• Easy to add new strategies
+
+**Example:**
+```java
+public class PaymentProcessor {
+    private PaymentStrategy strategy;
+    
+    public void setStrategy(PaymentStrategy strategy) {
+        this.strategy = strategy;
+    }
+    
+    public void processPayment(double amount) {
+        strategy.pay(amount);
+    }
+}
+
+// Strategies: CreditCardPayment, PayPalPayment, BankTransfer
+```
+
+---
+
+## 7. What is Adapter pattern?
+
+Adapter pattern allows incompatible interfaces to work together by wrapping existing class with new interface.
+
+**Key Points:**
+• Converts one interface to another
+• Makes incompatible classes compatible
+• Wrapper around existing functionality
+• Common when integrating third-party libraries
+
+**Example:**
+```java
+// Third-party library with different interface
+class LegacyPrinter {
+    public void oldPrint(String text) {
+        System.out.println("Legacy: " + text);
+    }
+}
+
+// Adapter to make it compatible
+class PrinterAdapter implements ModernPrinter {
+    private LegacyPrinter legacyPrinter;
+    
+    public PrinterAdapter(LegacyPrinter printer) {
+        this.legacyPrinter = printer;
+    }
+    
+    public void print(String text) {
+        legacyPrinter.oldPrint(text);
+    }
+}
+```
+
+---
+
+## 8. What is Decorator pattern?
+
+Decorator pattern adds new functionality to objects dynamically without altering their structure.
+
+**Key Points:**
+• Extends object behavior at runtime
+• Alternative to subclassing
+• Wraps original object with new features
+• Can stack multiple decorators
+
+**Example:**
+```java
+// Base coffee
+class SimpleCoffee implements Coffee {
+    public double cost() { return 2.0; }
+    public String description() { return "Simple coffee"; }
+}
+
+// Decorators
+class MilkDecorator implements Coffee {
+    private Coffee coffee;
+    
+    public MilkDecorator(Coffee coffee) {
+        this.coffee = coffee;
+    }
+    
+    public double cost() { return coffee.cost() + 0.5; }
+    public String description() { return coffee.description() + ", milk"; }
+}
+
+// Usage: new MilkDecorator(new SimpleCoffee())
+```
+
+---
+
+## Quick Summary
+
+**Most Common Patterns in Interviews:**
+1. **Singleton** - One instance only
+2. **Factory** - Object creation abstraction  
+3. **Observer** - Event notification system
+4. **Strategy** - Interchangeable algorithms
+
+**Remember:** Focus on the problem each pattern solves, not just the implementation details!
