@@ -2839,3 +2839,135 @@ PersonClass(); // TypeError: Class constructor cannot be invoked without 'new'
 PersonFunc(); // Works but creates issues
 ```
 
+# JavaScript Error Handling and Debugging - Questions 104-108
+
+## 104. What is try-catch in JavaScript? How does it work?
+
+**Answer:**
+• Try-catch is JavaScript's error handling mechanism that lets you catch and handle runtime errors gracefully
+• The `try` block contains code that might throw an error, while `catch` handles any errors that occur
+• If no error occurs, the catch block is skipped entirely
+• You can also add a `finally` block that always executes regardless of errors
+
+```javascript
+try {
+    let result = JSON.parse('invalid json');
+    console.log(result);
+} catch (error) {
+    console.log('Error occurred:', error.message);
+} finally {
+    console.log('This always runs');
+}
+```
+
+## 105. What is the difference between `throw` and `return` in JavaScript?
+
+**Answer:**
+• `return` exits a function normally and passes a value back to the caller
+• `throw` creates an exception that stops normal execution and can be caught by try-catch blocks
+• `return` is for normal function completion, `throw` is for error conditions
+• When you throw an error, execution stops immediately unless caught
+
+```javascript
+function validateAge(age) {
+    if (age < 0) {
+        throw new Error('Age cannot be negative'); // Stops execution
+    }
+    return age; // Normal return
+}
+
+try {
+    let age = validateAge(-5);
+} catch (error) {
+    console.log(error.message); // "Age cannot be negative"
+}
+```
+
+## 106. How do you handle exceptions in JavaScript?
+
+**Answer:**
+• Use try-catch blocks to handle exceptions gracefully
+• Create custom error types by extending the Error class
+• Use specific error handling for different types of exceptions
+• Always provide meaningful error messages for debugging
+
+```javascript
+class ValidationError extends Error {
+    constructor(message) {
+        super(message);
+        this.name = 'ValidationError';
+    }
+}
+
+function processUser(user) {
+    try {
+        if (!user.email) {
+            throw new ValidationError('Email is required');
+        }
+        // Process user...
+    } catch (error) {
+        if (error instanceof ValidationError) {
+            console.log('Validation failed:', error.message);
+        } else {
+            console.log('Unexpected error:', error);
+        }
+    }
+}
+```
+
+## 107. What are some common JavaScript debugging techniques?
+
+**Answer:**
+• Use `console.log()` for basic debugging and variable inspection
+• Use browser developer tools with breakpoints for step-by-step debugging
+• Use `console.table()` for arrays and objects, `console.error()` for errors
+• Use `debugger;` statement to pause execution in dev tools
+
+```javascript
+function calculateTotal(items) {
+    console.log('Input items:', items); // Basic logging
+    
+    let total = 0;
+    items.forEach((item, index) => {
+        debugger; // Pauses execution here
+        console.table({index, item, currentTotal: total}); // Structured display
+        total += item.price;
+    });
+    
+    console.error('Debug: Final total is', total); // Error-level logging
+    return total;
+}
+```
+
+## 108. What is the difference between `Error` and `TypeError` in JavaScript?
+
+**Answer:**
+• `Error` is the base class for all JavaScript errors - it's the generic error type
+• `TypeError` is a specific type of error that occurs when a value is not of the expected type
+• `TypeError` extends `Error` and provides more specific information about type-related issues
+• Use `TypeError` when checking types, use generic `Error` for other issues
+
+```javascript
+// Generic Error
+function divide(a, b) {
+    if (b === 0) {
+        throw new Error('Division by zero is not allowed');
+    }
+    return a / b;
+}
+
+// TypeError - specific type error
+function processString(str) {
+    if (typeof str !== 'string') {
+        throw new TypeError('Expected a string, got ' + typeof str);
+    }
+    return str.toUpperCase();
+}
+
+try {
+    processString(123); // Throws TypeError
+} catch (error) {
+    console.log(error instanceof TypeError); // true
+    console.log(error instanceof Error); // also true (inheritance)
+}
+```
