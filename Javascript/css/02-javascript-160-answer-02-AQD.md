@@ -4157,3 +4157,217 @@ const copy = arr.slice(); // Copy entire array
 arr.splice(2, 0, 'new item'); // Insert at index 2
 arr.splice(-1, 1); // Remove last element
 ```
+
+# JavaScript Best Practices - Questions 150-157
+
+## 150. What is the importance of code minification in JavaScript?
+
+• **Reduces file size** - Removes whitespace, comments, and shortens variable names
+• **Faster loading** - Smaller files download quicker, improving page performance
+• **Bandwidth savings** - Less data transfer, especially important for mobile users
+• **Production optimization** - Essential for deployment, not development
+
+```javascript
+// Before minification
+function calculateTotal(price, tax) {
+    const taxAmount = price * tax;
+    return price + taxAmount;
+}
+
+// After minification
+function calculateTotal(a,b){return a+a*b}
+```
+
+---
+
+## 151. How do you handle large-scale JavaScript applications?
+
+• **Modular architecture** - Break code into small, reusable modules
+• **Code splitting** - Load only what's needed when needed
+• **State management** - Use Redux, Vuex, or similar for complex state
+• **Build tools** - Webpack, Vite for bundling and optimization
+
+```javascript
+// Module structure
+// utils/api.js
+export const fetchData = async (url) => {
+    return await fetch(url).then(res => res.json());
+};
+
+// components/UserList.js
+import { fetchData } from '../utils/api.js';
+export default class UserList {
+    async loadUsers() {
+        return await fetchData('/api/users');
+    }
+}
+```
+
+---
+
+## 152. What are some security considerations when working with JavaScript?
+
+• **Input validation** - Always sanitize user input to prevent XSS attacks
+• **Avoid eval()** - Never use eval() with user-provided data
+• **HTTPS only** - Secure data transmission
+• **Content Security Policy** - Restrict script sources
+
+```javascript
+// Bad - XSS vulnerable
+document.innerHTML = userInput;
+
+// Good - Safe approach
+const div = document.createElement('div');
+div.textContent = userInput; // Automatically escapes HTML
+document.body.appendChild(div);
+
+// Input validation
+function validateEmail(email) {
+    const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return regex.test(email);
+}
+```
+
+---
+
+## 153. How do you manage JavaScript dependencies in a project?
+
+• **Package managers** - Use npm or yarn for dependency management
+• **Lock files** - package-lock.json ensures consistent installs
+• **Version control** - Specify exact versions to avoid breaking changes
+• **Regular updates** - Keep dependencies current for security
+
+```javascript
+// package.json
+{
+  "dependencies": {
+    "lodash": "^4.17.21",
+    "axios": "~1.6.0"
+  },
+  "devDependencies": {
+    "webpack": "^5.88.0"
+  }
+}
+
+// Install and use
+npm install lodash
+import _ from 'lodash';
+const users = _.uniqBy(userArray, 'id');
+```
+
+---
+
+## 154. What is the importance of modularity in JavaScript development?
+
+• **Reusability** - Write once, use everywhere
+• **Maintainability** - Easier to debug and update isolated modules
+• **Testing** - Smaller modules are easier to unit test
+• **Team collaboration** - Different developers can work on separate modules
+
+```javascript
+// auth.js module
+export const auth = {
+    login: (credentials) => fetch('/login', { method: 'POST', body: credentials }),
+    logout: () => localStorage.removeItem('token'),
+    isAuthenticated: () => !!localStorage.getItem('token')
+};
+
+// main.js
+import { auth } from './auth.js';
+if (auth.isAuthenticated()) {
+    loadDashboard();
+}
+```
+
+---
+
+## 155. How do you document JavaScript code effectively?
+
+• **JSDoc comments** - Standard documentation format for functions
+• **README files** - Project overview and setup instructions
+• **Inline comments** - Explain complex logic, not obvious code
+• **Type annotations** - Use TypeScript or JSDoc for better clarity
+
+```javascript
+/**
+ * Calculates the total price including tax
+ * @param {number} price - The base price
+ * @param {number} taxRate - Tax rate as decimal (0.1 for 10%)
+ * @returns {number} Total price with tax
+ * @example
+ * calculateTotal(100, 0.1); // Returns 110
+ */
+function calculateTotal(price, taxRate) {
+    return price * (1 + taxRate);
+}
+
+// Good inline comment
+const users = data.filter(user => user.active && user.verified); // Only active verified users
+```
+
+---
+
+## 156. How do you ensure cross-browser compatibility with JavaScript?
+
+• **Feature detection** - Check if features exist before using them
+• **Polyfills** - Add missing functionality for older browsers
+• **Transpilation** - Use Babel to convert modern JS to older syntax
+• **Testing** - Test on multiple browsers and versions
+
+```javascript
+// Feature detection
+if ('fetch' in window) {
+    fetch('/api/data');
+} else {
+    // Fallback to XMLHttpRequest
+    const xhr = new XMLHttpRequest();
+    xhr.open('GET', '/api/data');
+}
+
+// Polyfill example
+if (!Array.prototype.includes) {
+    Array.prototype.includes = function(searchElement) {
+        return this.indexOf(searchElement) !== -1;
+    };
+}
+```
+
+---
+
+## 157. What are design patterns in JavaScript?
+
+• **Module Pattern** - Encapsulate code and create private variables
+• **Observer Pattern** - Event-driven communication between objects
+• **Singleton Pattern** - Ensure only one instance exists
+• **Factory Pattern** - Create objects without specifying exact classes
+
+```javascript
+// Module Pattern
+const Calculator = (function() {
+    let result = 0; // Private variable
+    
+    return {
+        add: (x) => result += x,
+        subtract: (x) => result -= x,
+        getResult: () => result
+    };
+})();
+
+// Observer Pattern
+class EventEmitter {
+    constructor() {
+        this.events = {};
+    }
+    
+    on(event, callback) {
+        if (!this.events[event]) this.events[event] = [];
+        this.events[event].push(callback);
+    }
+    
+    emit(event, data) {
+        if (this.events[event]) {
+            this.events[event].forEach(callback => callback(data));
+        }
+    }
+}
+```
