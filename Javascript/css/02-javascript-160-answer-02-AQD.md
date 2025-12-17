@@ -2971,3 +2971,121 @@ try {
     console.log(error instanceof Error); // also true (inheritance)
 }
 ```
+
+# JavaScript Modules - Questions 109-114
+
+## Question 109: What is the difference between `import` and `require` in JavaScript?
+
+• **`require`** is CommonJS syntax used in Node.js - it's synchronous and loads modules at runtime
+• **`import`** is ES6 module syntax - it's static, analyzed at compile time, and supports tree shaking
+• `require` returns whatever is assigned to `module.exports`, while `import` can destructure named exports
+• `import` statements are hoisted and must be at the top level, `require` can be called conditionally
+
+```javascript
+// CommonJS (require)
+const fs = require('fs');
+const { readFile } = require('fs');
+
+// ES6 Modules (import)
+import fs from 'fs';
+import { readFile } from 'fs';
+```
+
+---
+
+## Question 110: What is the purpose of the `export` keyword in JavaScript?
+
+• **`export`** makes functions, objects, or values available to other modules
+• You can use **named exports** for multiple items or **default export** for one main item
+• Named exports must be imported with exact names, default exports can be imported with any name
+• It enables modular programming by creating reusable code components
+
+```javascript
+// Named exports
+export const PI = 3.14159;
+export function calculate(x) { return x * 2; }
+
+// Default export
+export default class Calculator {
+  add(a, b) { return a + b; }
+}
+```
+
+---
+
+## Question 111: What are JavaScript arrays and how do you manipulate them?
+
+• **Arrays** are ordered collections that can hold any data type - numbers, strings, objects, even other arrays
+• Key methods: `push()` adds to end, `pop()` removes from end, `shift()` removes from start, `unshift()` adds to start
+• `map()` transforms elements, `filter()` selects elements, `reduce()` combines elements into single value
+• Arrays are zero-indexed and have dynamic length
+
+```javascript
+const fruits = ['apple', 'banana'];
+fruits.push('orange');           // ['apple', 'banana', 'orange']
+const doubled = [1,2,3].map(x => x * 2);  // [2, 4, 6]
+const evens = [1,2,3,4].filter(x => x % 2 === 0);  // [2, 4]
+```
+
+---
+
+## Question 112: How do you implement modules in JavaScript?
+
+• **ES6 modules**: Use `export` to expose functionality and `import` to consume it
+• **CommonJS**: Use `module.exports` to expose and `require()` to import
+• Create separate files for different functionalities to keep code organized
+• Use default exports for main functionality, named exports for utilities
+
+```javascript
+// math.js - ES6 module
+export const add = (a, b) => a + b;
+export default function multiply(a, b) { return a * b; }
+
+// main.js
+import multiply, { add } from './math.js';
+console.log(add(2, 3));      // 5
+console.log(multiply(2, 3)); // 6
+```
+
+---
+
+## Question 113: What is the `default` export in JavaScript modules?
+
+• **Default export** allows you to export one main thing from a module without specifying a name
+• Each module can have only **one default export** but multiple named exports
+• When importing, you can give the default export any name you want
+• It's typically used for the primary functionality of a module
+
+```javascript
+// calculator.js
+export default class Calculator {
+  add(a, b) { return a + b; }
+}
+
+// main.js - can import with any name
+import Calc from './calculator.js';
+import MyCalculator from './calculator.js';  // Same thing, different name
+```
+
+---
+
+## Question 114: What are the benefits of using modules in JavaScript?
+
+• **Code organization**: Split large applications into smaller, manageable files
+• **Reusability**: Write once, use in multiple places without code duplication
+• **Namespace management**: Avoid global variable pollution and naming conflicts
+• **Dependency management**: Clear dependencies between different parts of your application
+• **Tree shaking**: Bundlers can remove unused code, reducing bundle size
+
+```javascript
+// Before modules - everything in global scope
+var userUtils = { getName: function() {...} };
+var apiUtils = { fetchData: function() {...} };
+
+// With modules - clean separation
+// userUtils.js
+export const getName = () => {...};
+
+// apiUtils.js  
+export const fetchData = () => {...};
+```
