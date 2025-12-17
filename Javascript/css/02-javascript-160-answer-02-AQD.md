@@ -3477,3 +3477,683 @@ function getCookie(name) {
 document.cookie = 'username=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/';
 ```
 
+# JavaScript Questions 130-138: Quick Answers
+
+## 130. What is functional programming in JavaScript? How is it different from object-oriented programming?
+
+**Functional Programming:**
+• Treats computation as evaluation of mathematical functions
+• Emphasizes immutability and pure functions
+• Functions are first-class citizens
+• Avoids changing state and mutable data
+
+```javascript
+// Functional approach
+const add = (a, b) => a + b;
+const multiply = (a, b) => a * b;
+const calculate = (x, y) => multiply(add(x, 2), y);
+
+// Pure function - same input, same output
+const users = [{name: 'John', age: 25}];
+const addAge = (users, years) => 
+  users.map(user => ({...user, age: user.age + years}));
+```
+
+**vs Object-Oriented:**
+• Organizes code around objects and classes
+• Uses encapsulation, inheritance, polymorphism
+• Focuses on objects that contain both data and methods
+
+```javascript
+// OOP approach
+class Calculator {
+  constructor() {
+    this.result = 0;
+  }
+  
+  add(value) {
+    this.result += value;
+    return this;
+  }
+  
+  multiply(value) {
+    this.result *= value;
+    return this;
+  }
+}
+```
+
+## 131. What is an abstract class in JavaScript?
+
+**Abstract Class Concept:**
+• JavaScript doesn't have built-in abstract classes
+• Can simulate using constructor checks or throwing errors
+• Defines interface that subclasses must implement
+• Cannot be instantiated directly
+
+```javascript
+// Simulated abstract class
+class Animal {
+  constructor() {
+    if (this.constructor === Animal) {
+      throw new Error("Cannot instantiate abstract class");
+    }
+  }
+  
+  // Abstract method
+  makeSound() {
+    throw new Error("Must implement makeSound method");
+  }
+  
+  // Concrete method
+  sleep() {
+    console.log("Sleeping...");
+  }
+}
+
+class Dog extends Animal {
+  makeSound() {
+    return "Woof!";
+  }
+}
+
+// const animal = new Animal(); // Error!
+const dog = new Dog(); // Works
+```
+
+## 132. What are memory leaks in JavaScript, and how do you prevent them?
+
+**Memory Leaks:**
+• Occur when objects are no longer needed but not garbage collected
+• Common causes: global variables, event listeners, closures, timers
+
+```javascript
+// Memory leak examples
+let globalVar = []; // Global variables persist
+
+function createLeak() {
+  const element = document.getElementById('button');
+  element.onclick = function() {
+    // Event listener not removed
+  };
+}
+
+// Prevention techniques
+function preventLeaks() {
+  const element = document.getElementById('button');
+  
+  function handleClick() {
+    console.log('Clicked');
+  }
+  
+  element.addEventListener('click', handleClick);
+  
+  // Cleanup
+  return function cleanup() {
+    element.removeEventListener('click', handleClick);
+  };
+}
+
+// Use WeakMap for weak references
+const weakMap = new WeakMap();
+```
+
+## 133. What are decorators in JavaScript?
+
+**Decorators:**
+• Experimental feature for modifying classes and methods
+• Currently stage 3 proposal, available with transpilers
+• Provide declarative way to modify behavior
+
+```javascript
+// Method decorator example
+function log(target, propertyKey, descriptor) {
+  const originalMethod = descriptor.value;
+  
+  descriptor.value = function(...args) {
+    console.log(`Calling ${propertyKey} with`, args);
+    return originalMethod.apply(this, args);
+  };
+  
+  return descriptor;
+}
+
+class Calculator {
+  @log
+  add(a, b) {
+    return a + b;
+  }
+}
+
+// Class decorator
+function sealed(constructor) {
+  Object.seal(constructor);
+  Object.seal(constructor.prototype);
+}
+
+@sealed
+class Person {
+  constructor(name) {
+    this.name = name;
+  }
+}
+```
+
+## 134. How can you optimize the performance of a JavaScript application?
+
+**Performance Optimization:**
+• Minimize DOM manipulation
+• Use efficient algorithms and data structures
+• Implement lazy loading and code splitting
+• Optimize loops and reduce function calls
+
+```javascript
+// Efficient DOM manipulation
+const fragment = document.createDocumentFragment();
+for (let i = 0; i < 1000; i++) {
+  const div = document.createElement('div');
+  fragment.appendChild(div);
+}
+document.body.appendChild(fragment); // Single DOM update
+
+// Debouncing for performance
+function debounce(func, delay) {
+  let timeoutId;
+  return function(...args) {
+    clearTimeout(timeoutId);
+    timeoutId = setTimeout(() => func.apply(this, args), delay);
+  };
+}
+
+// Efficient array operations
+const numbers = [1, 2, 3, 4, 5];
+const doubled = numbers.map(n => n * 2); // Better than for loop for readability
+```
+
+## 135. What is the significance of `requestAnimationFrame()` in JavaScript?
+
+**requestAnimationFrame:**
+• Optimizes animations by syncing with browser refresh rate
+• Typically 60fps (16.67ms intervals)
+• Pauses when tab is not visible
+• Better performance than setTimeout/setInterval
+
+```javascript
+// Smooth animation with requestAnimationFrame
+function animate() {
+  const element = document.getElementById('box');
+  let position = 0;
+  
+  function frame() {
+    position += 2;
+    element.style.left = position + 'px';
+    
+    if (position < 300) {
+      requestAnimationFrame(frame);
+    }
+  }
+  
+  requestAnimationFrame(frame);
+}
+
+// Performance comparison
+function badAnimation() {
+  setInterval(() => {
+    // Runs regardless of browser refresh rate
+    updatePosition();
+  }, 16); // May not sync with display
+}
+
+function goodAnimation() {
+  function update() {
+    updatePosition();
+    requestAnimationFrame(update);
+  }
+  requestAnimationFrame(update);
+}
+```
+
+## 136. What is lazy loading in JavaScript?
+
+**Lazy Loading:**
+• Delays loading of resources until they're needed
+• Improves initial page load performance
+• Common for images, modules, and components
+
+```javascript
+// Lazy loading images
+const images = document.querySelectorAll('img[data-src]');
+
+const imageObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      const img = entry.target;
+      img.src = img.dataset.src;
+      img.removeAttribute('data-src');
+      imageObserver.unobserve(img);
+    }
+  });
+});
+
+images.forEach(img => imageObserver.observe(img));
+
+// Lazy loading modules
+async function loadModule() {
+  const module = await import('./heavyModule.js');
+  return module.default;
+}
+
+// Component lazy loading
+function LazyComponent() {
+  return new Promise(resolve => {
+    setTimeout(() => {
+      resolve(document.createElement('div'));
+    }, 100);
+  });
+}
+```
+
+## 137. How do you improve the rendering performance of a website using JavaScript?
+
+**Rendering Performance:**
+• Minimize reflows and repaints
+• Use CSS transforms instead of changing layout properties
+• Batch DOM reads and writes
+• Use virtual scrolling for large lists
+
+```javascript
+// Avoid layout thrashing
+function badPerformance() {
+  const element = document.getElementById('box');
+  element.style.left = '100px'; // Causes reflow
+  element.style.top = '100px';  // Causes reflow
+}
+
+function goodPerformance() {
+  const element = document.getElementById('box');
+  element.style.transform = 'translate(100px, 100px)'; // Single composite
+}
+
+// Batch DOM operations
+function batchOperations() {
+  const elements = document.querySelectorAll('.item');
+  const heights = []; // Read phase
+  
+  elements.forEach(el => heights.push(el.offsetHeight));
+  
+  // Write phase
+  elements.forEach((el, i) => {
+    el.style.height = (heights[i] * 2) + 'px';
+  });
+}
+
+// Virtual scrolling example
+class VirtualList {
+  constructor(container, items, itemHeight) {
+    this.container = container;
+    this.items = items;
+    this.itemHeight = itemHeight;
+    this.visibleItems = Math.ceil(container.clientHeight / itemHeight);
+  }
+  
+  render(scrollTop) {
+    const startIndex = Math.floor(scrollTop / this.itemHeight);
+    const endIndex = startIndex + this.visibleItems;
+    
+    // Only render visible items
+    return this.items.slice(startIndex, endIndex);
+  }
+}
+```
+
+## 138. What are JavaScript frameworks, and how do they differ from libraries?
+
+**Frameworks vs Libraries:**
+
+**Framework:**
+• Provides structure and controls application flow
+• You write code that framework calls (Inversion of Control)
+• Examples: Angular, Vue.js, Svelte
+
+**Library:**
+• Collection of functions you call when needed
+• You control when and how to use it
+• Examples: React, Lodash, jQuery
+
+```javascript
+// Library example (React)
+import React from 'react';
+
+function MyComponent() {
+  return React.createElement('div', null, 'Hello World');
+  // You call React functions
+}
+
+// Framework example (Angular-style)
+class MyController {
+  constructor() {
+    this.message = 'Hello World';
+  }
+  
+  // Framework calls your methods
+  ngOnInit() {
+    console.log('Component initialized');
+  }
+}
+
+// Library usage pattern
+const _ = require('lodash');
+const result = _.map([1, 2, 3], n => n * 2); // You call library
+
+// Framework usage pattern
+// Framework defines structure, you fill in the blanks
+const app = new Framework({
+  routes: {
+    '/home': HomeComponent,
+    '/about': AboutComponent
+  },
+  // Framework manages lifecycle
+});
+```
+
+**Key Differences:**
+• **Control**: Framework controls flow, library is controlled by you
+• **Structure**: Framework provides architecture, library provides utilities
+• **Learning curve**: Frameworks often steeper, libraries more flexible
+• **Size**: Frameworks typically larger, libraries can be minimal
+
+
+# JavaScript Interview Questions 139-149 - Answers
+
+## 139. What is unit testing in JavaScript?
+
+• Unit testing means testing individual pieces of code in isolation
+• You test one function or component at a time to make sure it works correctly
+• It helps catch bugs early and makes your code more reliable
+• Think of it like testing each part of a car engine separately before putting it all together
+
+```javascript
+// Function to test
+function add(a, b) {
+  return a + b;
+}
+
+// Simple unit test
+function testAdd() {
+  const result = add(2, 3);
+  if (result === 5) {
+    console.log('Test passed!');
+  } else {
+    console.log('Test failed!');
+  }
+}
+```
+
+## 140. What are some popular testing frameworks in JavaScript?
+
+• **Jest** - Most popular, works great with React, has built-in mocking
+• **Mocha** - Flexible framework, you can choose your own assertion library
+• **Jasmine** - Behavior-driven development style, good for beginners
+• **Cypress** - End-to-end testing, tests real user interactions
+• **Vitest** - Fast and modern, great for Vite projects
+
+```javascript
+// Jest example
+test('adds 1 + 2 to equal 3', () => {
+  expect(add(1, 2)).toBe(3);
+});
+
+// Mocha example
+describe('Calculator', () => {
+  it('should add two numbers', () => {
+    assert.equal(add(1, 2), 3);
+  });
+});
+```
+
+## 141. What is TDD (Test-Driven Development)?
+
+• Write the test first, then write the code to make it pass
+• It's like writing the answer key before writing the exam
+• Red-Green-Refactor cycle: fail, pass, improve
+• Helps you think about what your code should do before writing it
+• Results in better design and fewer bugs
+
+```javascript
+// Step 1: Write failing test
+test('multiply should return product of two numbers', () => {
+  expect(multiply(3, 4)).toBe(12);
+});
+
+// Step 2: Write minimal code to pass
+function multiply(a, b) {
+  return a * b;
+}
+
+// Step 3: Refactor if needed
+```
+
+## 142. How do you write asynchronous tests in JavaScript?
+
+• Use async/await in your test functions
+• Return promises from your tests
+• Use done callbacks for older frameworks
+• Test both success and error cases
+• Mock external APIs to avoid real network calls
+
+```javascript
+// Jest with async/await
+test('fetches user data', async () => {
+  const userData = await fetchUser(1);
+  expect(userData.name).toBe('John');
+});
+
+// Testing promises
+test('promise resolves with correct value', () => {
+  return fetchData().then(data => {
+    expect(data).toBe('expected value');
+  });
+});
+
+// Testing errors
+test('handles API errors', async () => {
+  await expect(fetchInvalidUser()).rejects.toThrow('User not found');
+});
+```
+
+## 143. What is the difference between `assert` and `expect` in JavaScript testing?
+
+• **Assert** - Traditional style, throws errors when conditions fail
+• **Expect** - More readable, chainable methods, better error messages
+• Assert is more basic, expect is more expressive
+• Expect allows fluent syntax like "expect(x).to.be.true"
+• Most modern frameworks prefer expect style
+
+```javascript
+// Assert style (Node.js built-in)
+const assert = require('assert');
+assert.equal(actual, expected);
+assert.strictEqual(actual, expected);
+assert.throws(() => { throw new Error(); });
+
+// Expect style (Jest, Chai)
+expect(actual).toBe(expected);
+expect(actual).toEqual(expected);
+expect(() => { throw new Error(); }).toThrow();
+expect(array).toContain(item);
+```
+
+## 144. How do you use regular expressions in JavaScript?
+
+• RegEx helps you find and match patterns in text
+• Use forward slashes or RegExp constructor
+• Common methods: test(), match(), replace(), search()
+• Flags like 'g' for global, 'i' for case-insensitive
+• Great for validation, searching, and text manipulation
+
+```javascript
+// Creating regex
+const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+const phonePattern = new RegExp('\\d{3}-\\d{3}-\\d{4}');
+
+// Testing patterns
+const isValidEmail = emailPattern.test('user@example.com'); // true
+
+// Finding matches
+const text = 'Call me at 123-456-7890';
+const phoneNumber = text.match(/\d{3}-\d{3}-\d{4}/); // ['123-456-7890']
+
+// Replacing text
+const cleaned = 'Hello World!'.replace(/[!@#$%^&*]/g, ''); // 'Hello World'
+```
+
+## 145. What are Web Workers in JavaScript?
+
+• Web Workers run JavaScript in background threads
+• They don't block the main UI thread
+• Perfect for heavy computations or data processing
+• Can't directly access DOM, communicate via messages
+• Great for keeping your app responsive during intensive tasks
+
+```javascript
+// main.js
+const worker = new Worker('worker.js');
+
+// Send data to worker
+worker.postMessage({numbers: [1, 2, 3, 4, 5]});
+
+// Receive result from worker
+worker.onmessage = function(e) {
+  console.log('Result:', e.data.sum);
+};
+
+// worker.js
+self.onmessage = function(e) {
+  const numbers = e.data.numbers;
+  const sum = numbers.reduce((a, b) => a + b, 0);
+  self.postMessage({sum: sum});
+};
+```
+
+## 146. What are service workers in JavaScript, and how do they work?
+
+• Service workers are scripts that run in the background
+• They act like a proxy between your app and the network
+• Enable offline functionality and push notifications
+• Can cache resources for faster loading
+• Essential for Progressive Web Apps (PWAs)
+
+```javascript
+// Register service worker
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('/sw.js');
+}
+
+// sw.js - Service Worker file
+self.addEventListener('install', event => {
+  event.waitUntil(
+    caches.open('v1').then(cache => {
+      return cache.addAll(['/index.html', '/styles.css']);
+    })
+  );
+});
+
+self.addEventListener('fetch', event => {
+  event.respondWith(
+    caches.match(event.request).then(response => {
+      return response || fetch(event.request);
+    })
+  );
+});
+```
+
+## 147. How do you compare two objects in JavaScript?
+
+• Objects are compared by reference, not by value
+• Use JSON.stringify() for simple deep comparison
+• Write custom functions for complex comparisons
+• Libraries like Lodash provide isEqual() method
+• Be careful with nested objects and arrays
+
+```javascript
+// Reference comparison (usually false)
+const obj1 = {name: 'John'};
+const obj2 = {name: 'John'};
+console.log(obj1 === obj2); // false
+
+// JSON stringify method (simple cases)
+function compareObjects(a, b) {
+  return JSON.stringify(a) === JSON.stringify(b);
+}
+
+// Custom deep comparison
+function deepEqual(a, b) {
+  if (a === b) return true;
+  if (typeof a !== 'object' || typeof b !== 'object') return false;
+  
+  const keysA = Object.keys(a);
+  const keysB = Object.keys(b);
+  
+  if (keysA.length !== keysB.length) return false;
+  
+  return keysA.every(key => deepEqual(a[key], b[key]));
+}
+```
+
+## 148. What are the differences between a function expression and a function declaration?
+
+• **Function declarations** are hoisted, available before they're defined
+• **Function expressions** are not hoisted, only available after assignment
+• Declarations create named functions, expressions can be anonymous
+• Expressions are often used in callbacks and assignments
+• Both create functions, just different timing and syntax
+
+```javascript
+// Function Declaration - hoisted
+console.log(declared()); // Works! Returns "Hello"
+
+function declared() {
+  return "Hello";
+}
+
+// Function Expression - not hoisted
+console.log(expressed()); // Error! Cannot access before initialization
+
+const expressed = function() {
+  return "Hello";
+};
+
+// Arrow function expression
+const arrow = () => "Hello";
+
+// Named function expression
+const named = function myFunction() {
+  return "Hello";
+};
+```
+
+## 149. What is the difference between `slice()` and `splice()` methods in JavaScript?
+
+• **slice()** extracts a portion without changing the original array
+• **splice()** modifies the original array by adding/removing elements
+• slice() returns a new array, splice() returns removed elements
+• slice() is non-destructive, splice() is destructive
+• Remember: slice is safe, splice changes things
+
+```javascript
+const fruits = ['apple', 'banana', 'orange', 'grape'];
+
+// slice() - non-destructive
+const sliced = fruits.slice(1, 3); // ['banana', 'orange']
+console.log(fruits); // ['apple', 'banana', 'orange', 'grape'] - unchanged
+
+// splice() - destructive
+const removed = fruits.splice(1, 2, 'kiwi', 'mango');
+console.log(removed); // ['banana', 'orange'] - removed elements
+console.log(fruits); // ['apple', 'kiwi', 'mango', 'grape'] - modified
+
+// Common use cases
+const copy = arr.slice(); // Copy entire array
+arr.splice(2, 0, 'new item'); // Insert at index 2
+arr.splice(-1, 1); // Remove last element
+```
