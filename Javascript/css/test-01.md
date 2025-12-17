@@ -202,6 +202,16 @@
 156. How do you ensure cross-browser compatibility with JavaScript?
 157. What are design patterns in JavaScript?
 
+## **JavaScript Okta API**
+158. How does authentication with Okta work in a frontend application?
+159. Which OAuth 2.0 / OIDC flow would you use for a SPA and why?
+160. How do you handle access tokens and refresh tokens securely in the frontend?
+161. How is SAML different from OIDC, and when would you use each?
+162. How would you migrate SiteMinder policies to Okta?
+163. How do you implement role-based or attribute-based authorization in the frontend?
+164. How does the frontend integrate with platform services using Okta-issued tokens?
+
+
 ---
 
 *Total Questions: 157*

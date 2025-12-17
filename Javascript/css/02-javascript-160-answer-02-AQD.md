@@ -4371,3 +4371,116 @@ class EventEmitter {
     }
 }
 ```
+
+## **JavaScript Okta API**
+### 1. **How does authentication with Okta work in a frontend application?**
+
+**What interviewers look for:**
+
+* Redirect-based login (Authorization Code Flow + PKCE)
+* User authenticates with Okta → tokens returned → frontend consumes ID/Access token
+* Separation of auth (who you are) vs authorization (what you can access)
+
+---
+
+### 2. **Which OAuth 2.0 / OIDC flow would you use for a SPA and why?**
+
+**Expected answer:**
+
+* **Authorization Code Flow with PKCE**
+* More secure than Implicit Flow
+* Tokens never exposed in URL
+* Recommended by Okta for SPAs
+
+---
+
+### 3. **How do you handle access tokens and refresh tokens securely in the frontend?**
+
+**Key points:**
+
+* Store tokens **in memory** or **httpOnly cookies**
+* Avoid localStorage/sessionStorage when possible
+* Use refresh tokens with rotation (if allowed)
+* Handle token expiration and silent renewal
+
+---
+
+### 4. **How is SAML different from OIDC, and when would you use each?**
+
+**Expected explanation:**
+
+| SAML                  | OIDC                          |
+| --------------------- | ----------------------------- |
+| XML-based             | JSON / JWT                    |
+| Uses assertions       | Uses ID tokens                |
+| Older, enterprise SSO | Modern, mobile & SPA friendly |
+| Heavy redirects       | Lightweight REST              |
+
+**Migration note:**
+
+* SiteMinder → Okta often means **SAML → OIDC**
+
+---
+
+### 5. **How would you migrate SiteMinder policies to Okta?**
+
+**Frontend-focused answer:**
+
+* Understand existing SiteMinder auth rules (URLs, roles, headers)
+* Map them to:
+
+  * Okta Groups
+  * Claims in ID/Access Tokens
+  * App Sign-On policies
+* Update frontend to consume **claims instead of headers**
+
+---
+
+### 6. **How do you implement role-based or attribute-based authorization in the frontend?**
+
+**Expected approach:**
+
+* Decode JWT access/ID token
+* Read claims like:
+
+  * `groups`
+  * `roles`
+  * `permissions`
+* Conditionally:
+
+  * Show/hide UI elements
+  * Protect routes
+* Backend remains the source of truth
+
+---
+
+### 7. **How does the frontend integrate with platform services using Okta-issued tokens?**
+
+**Key points:**
+
+* Frontend sends **access token** in `Authorization: Bearer`
+* APIs validate token via:
+
+  * JWT signature
+  * Issuer & audience
+  * Scopes/claims
+* Use different tokens for different resource servers
+
+---
+
+### 8. **How do you handle session management and logout in Okta?**
+
+**Expected answer:**
+
+* Local session (app state) + Okta session
+* Logout flow:
+
+  * Clear frontend tokens
+  * Call Okta `/logout` endpoint
+* Handle:
+
+  * Single Logout (SLO)
+  * Session timeout
+  * Forced re-authentication
+
+
