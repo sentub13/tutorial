@@ -2099,3 +2099,743 @@ These five questions cover essential JavaScript concepts that every developer sh
 
 Each concept has practical applications in real-world development and demonstrates JavaScript's flexibility and power.
 
+
+# JavaScript Interview Questions 74-83 - Functions and Scope
+
+## 74. What is the difference between local scope and global scope in JavaScript?
+
+• **Global scope** - Variables declared outside functions, accessible everywhere
+• **Local scope** - Variables declared inside functions, only accessible within that function
+• Global variables can cause naming conflicts and memory issues
+
+```javascript
+let globalVar = "I'm global"; // Global scope
+
+function myFunction() {
+    let localVar = "I'm local"; // Local scope
+    console.log(globalVar); // Can access global
+    console.log(localVar);  // Can access local
+}
+
+console.log(globalVar); // Works
+// console.log(localVar); // Error - not accessible
+```
+
+## 75. What is lexical scoping in JavaScript?
+
+• **Lexical scoping** means inner functions have access to outer function variables
+• Scope is determined by where variables are declared in the code
+• Inner functions "remember" their outer environment
+
+```javascript
+function outerFunction(x) {
+    let outerVar = x;
+    
+    function innerFunction(y) {
+        console.log(outerVar + y); // Can access outerVar
+    }
+    
+    return innerFunction;
+}
+
+const myFunc = outerFunction(10);
+myFunc(5); // Outputs: 15
+```
+
+## 76. What is the difference between function expressions and function declarations?
+
+• **Function declarations** are hoisted - can be called before they're defined
+• **Function expressions** are not hoisted - must be defined before use
+• Declarations use `function` keyword, expressions assign to variables
+
+```javascript
+// Function Declaration (hoisted)
+console.log(declared()); // Works - outputs "Hello"
+
+function declared() {
+    return "Hello";
+}
+
+// Function Expression (not hoisted)
+// console.log(expressed()); // Error - cannot access before initialization
+
+const expressed = function() {
+    return "Hi";
+};
+```
+
+## 77. What is the use of the `arguments` object in JavaScript?
+
+• **Arguments object** contains all parameters passed to a function
+• Available in regular functions (not arrow functions)
+• Useful for functions with variable number of parameters
+
+```javascript
+function sum() {
+    let total = 0;
+    for (let i = 0; i < arguments.length; i++) {
+        total += arguments[i];
+    }
+    return total;
+}
+
+console.log(sum(1, 2, 3, 4)); // 10
+console.log(sum(5, 10));      // 15
+```
+
+## 78. What is the purpose of the `default` keyword in JavaScript functions?
+
+• **Default parameters** provide fallback values when arguments aren't passed
+• Prevents undefined errors and makes functions more robust
+• Can use expressions or function calls as defaults
+
+```javascript
+function greet(name = "Guest", greeting = "Hello") {
+    return `${greeting}, ${name}!`;
+}
+
+console.log(greet());              // "Hello, Guest!"
+console.log(greet("John"));        // "Hello, John!"
+console.log(greet("Jane", "Hi"));  // "Hi, Jane!"
+```
+
+## 79. How can you return multiple values from a function in JavaScript?
+
+• Use **arrays** to return multiple values in order
+• Use **objects** to return named values
+• Use **destructuring** to unpack returned values easily
+
+```javascript
+// Using array
+function getCoordinates() {
+    return [10, 20];
+}
+const [x, y] = getCoordinates();
+
+// Using object
+function getUserInfo() {
+    return {
+        name: "John",
+        age: 30,
+        email: "john@email.com"
+    };
+}
+const {name, age} = getUserInfo();
+```
+
+## 80. What is recursion in JavaScript? Can you provide an example?
+
+• **Recursion** is when a function calls itself
+• Must have a base case to stop the recursion
+• Useful for problems that can be broken into smaller similar problems
+
+```javascript
+function factorial(n) {
+    // Base case
+    if (n <= 1) {
+        return 1;
+    }
+    // Recursive case
+    return n * factorial(n - 1);
+}
+
+console.log(factorial(5)); // 120
+console.log(factorial(3)); // 6
+```
+
+## 81. How does JavaScript handle multiple callback functions?
+
+• **Callbacks** can be chained but lead to "callback hell"
+• Each callback executes after the previous one completes
+• Modern solutions use Promises or async/await
+
+```javascript
+function getData(callback) {
+    setTimeout(() => {
+        callback("Data received");
+    }, 1000);
+}
+
+function processData(data, callback) {
+    setTimeout(() => {
+        callback(`Processed: ${data}`);
+    }, 500);
+}
+
+// Callback chaining
+getData((data) => {
+    console.log(data);
+    processData(data, (result) => {
+        console.log(result);
+    });
+});
+```
+
+## 82. How do you handle errors in JavaScript?
+
+• Use **try-catch** blocks to handle synchronous errors
+• Use **catch()** method for Promise errors
+• Use **try-catch with async/await** for async errors
+
+```javascript
+// Synchronous error handling
+try {
+    let result = JSON.parse("invalid json");
+} catch (error) {
+    console.log("Error:", error.message);
+}
+
+// Async error handling
+async function fetchData() {
+    try {
+        const response = await fetch('/api/data');
+        const data = await response.json();
+        return data;
+    } catch (error) {
+        console.log("Fetch error:", error);
+    }
+}
+```
+
+## 83. How does JavaScript handle asynchronous operations?
+
+• JavaScript uses **event loop** to handle async operations
+• **Callbacks, Promises, and async/await** are the main patterns
+• Non-blocking - other code continues while waiting for async operations
+
+```javascript
+// Using Promises
+fetch('/api/data')
+    .then(response => response.json())
+    .then(data => console.log(data))
+    .catch(error => console.log(error));
+
+// Using async/await
+async function loadData() {
+    try {
+        const response = await fetch('/api/data');
+        const data = await response.json();
+        console.log(data);
+    } catch (error) {
+        console.log(error);
+    }
+}
+```
+
+# JavaScript Interview Questions 84-92 - Asynchronous JavaScript
+
+## 84. How can you handle asynchronous operations in JavaScript?
+
+• **Three main approaches**: Callbacks, Promises, and async/await
+• **Promises** are preferred over callbacks to avoid callback hell
+• **Async/await** makes asynchronous code look synchronous and easier to read
+
+```javascript
+// Using Promises
+fetch('/api/data')
+    .then(response => response.json())
+    .then(data => console.log(data));
+
+// Using async/await
+async function getData() {
+    const response = await fetch('/api/data');
+    const data = await response.json();
+    return data;
+}
+```
+
+## 85. Explain the concept of JavaScript's single-threaded model.
+
+• **JavaScript runs on a single thread** - only one operation at a time
+• **Event loop** manages asynchronous operations without blocking
+• **Call stack** executes code, **Web APIs** handle async tasks, **callback queue** waits for execution
+
+```javascript
+console.log('1'); // Executes first
+
+setTimeout(() => {
+    console.log('2'); // Executes last (async)
+}, 0);
+
+console.log('3'); // Executes second
+
+// Output: 1, 3, 2
+```
+
+## 86. What are the data types that are mutable in JavaScript?
+
+• **Objects and arrays** are mutable - can be changed after creation
+• **Primitives** (string, number, boolean) are immutable
+• **Reference types** can be modified, primitive types create new values
+
+```javascript
+// Mutable (objects/arrays)
+const obj = { name: 'John' };
+obj.name = 'Jane'; // Changes original object
+
+const arr = [1, 2, 3];
+arr.push(4); // Modifies original array
+
+// Immutable (primitives)
+let str = 'hello';
+str.toUpperCase(); // Creates new string, doesn't change original
+```
+
+## 87. What is a function in JavaScript? How do you declare one?
+
+• **Functions** are reusable blocks of code that perform specific tasks
+• **Three ways to declare**: function declaration, function expression, arrow function
+• Functions can take parameters and return values
+
+```javascript
+// Function declaration
+function greet(name) {
+    return `Hello, ${name}!`;
+}
+
+// Function expression
+const greet2 = function(name) {
+    return `Hi, ${name}!`;
+};
+
+// Arrow function
+const greet3 = (name) => `Hey, ${name}!`;
+```
+
+## 88. How does JavaScript handle multiple asynchronous operations in sequence?
+
+• **Promise chaining** with .then() for sequential execution
+• **Async/await** makes sequential code more readable
+• **Promise.all()** for parallel execution when order doesn't matter
+
+```javascript
+// Sequential with async/await
+async function processData() {
+    const user = await fetchUser();
+    const profile = await fetchProfile(user.id);
+    const posts = await fetchPosts(user.id);
+    return { user, profile, posts };
+}
+
+// Sequential with Promise chaining
+fetchUser()
+    .then(user => fetchProfile(user.id))
+    .then(profile => fetchPosts(profile.userId));
+```
+
+## 89. What is the purpose of `Promise.all()` and `Promise.race()`?
+
+• **Promise.all()** waits for all promises to resolve, fails if any reject
+• **Promise.race()** resolves with the first promise that settles (resolves or rejects)
+• Use Promise.all() for parallel operations, Promise.race() for timeout scenarios
+
+```javascript
+// Promise.all() - all must succeed
+const results = await Promise.all([
+    fetch('/api/users'),
+    fetch('/api/posts'),
+    fetch('/api/comments')
+]);
+
+// Promise.race() - first to finish wins
+const result = await Promise.race([
+    fetch('/api/data'),
+    new Promise((_, reject) => 
+        setTimeout(() => reject('Timeout'), 5000)
+    )
+]);
+```
+
+## 90. How do you handle errors in an async function?
+
+• **Try-catch blocks** with async/await for clean error handling
+• **Catch method** with promises for error handling
+• Always handle both network errors and application errors
+
+```javascript
+async function fetchData() {
+    try {
+        const response = await fetch('/api/data');
+        if (!response.ok) {
+            throw new Error('Network error');
+        }
+        const data = await response.json();
+        return data;
+    } catch (error) {
+        console.error('Error:', error.message);
+        throw error; // Re-throw if needed
+    }
+}
+```
+
+## 91. What is a callback hell, and how can you avoid it?
+
+• **Callback hell** occurs when callbacks are nested deeply, making code hard to read
+• **Promises** and **async/await** solve this problem
+• Modern JavaScript favors Promise-based approaches
+
+```javascript
+// Callback hell (avoid this)
+getData(function(a) {
+    getMoreData(a, function(b) {
+        getEvenMoreData(b, function(c) {
+            // deeply nested...
+        });
+    });
+});
+
+// Solution with async/await
+async function processData() {
+    const a = await getData();
+    const b = await getMoreData(a);
+    const c = await getEvenMoreData(b);
+    return c;
+}
+```
+
+## 92. What are the different ways to loop through an array in JavaScript?
+
+• **For loop** - traditional, full control over iteration
+• **forEach()** - functional approach, can't break early
+• **for...of** - modern, works with iterables, can break
+
+```javascript
+const arr = [1, 2, 3, 4, 5];
+
+// Traditional for loop
+for (let i = 0; i < arr.length; i++) {
+    console.log(arr[i]);
+}
+
+// forEach method
+arr.forEach(item => console.log(item));
+
+// for...of loop
+for (const item of arr) {
+    console.log(item);
+}
+
+// Map for transformation
+const doubled = arr.map(x => x * 2);
+```
+
+# JavaScript ES6 Interview Questions - Answers 93-103
+
+## 93. What are template literals in JavaScript?
+
+• Template literals use backticks instead of quotes for strings
+• They allow embedded expressions with `${}`
+• Support multi-line strings without escape characters
+• Much cleaner than string concatenation
+
+```javascript
+const name = "John";
+const age = 25;
+
+// Old way
+const message1 = "Hello " + name + ", you are " + age + " years old";
+
+// Template literal
+const message2 = `Hello ${name}, you are ${age} years old`;
+
+// Multi-line
+const html = `
+  <div>
+    <h1>${name}</h1>
+    <p>Age: ${age}</p>
+  </div>
+`;
+```
+
+## 94. What are the new features introduced in ES6?
+
+• Let and const for block scoping
+• Arrow functions for cleaner syntax
+• Template literals for string interpolation
+• Destructuring for extracting values
+• Classes for object-oriented programming
+• Modules for code organization
+
+```javascript
+// Arrow functions
+const add = (a, b) => a + b;
+
+// Destructuring
+const [x, y] = [1, 2];
+const {name, age} = {name: "John", age: 25};
+
+// Classes
+class Person {
+  constructor(name) {
+    this.name = name;
+  }
+}
+
+// Modules
+export default Person;
+import Person from './person.js';
+```
+
+## 95. What is a set and a map in JavaScript?
+
+• Set stores unique values only, no duplicates
+• Map stores key-value pairs with any type of keys
+• Both are iterable and have size property
+• More efficient than arrays for certain operations
+
+```javascript
+// Set - unique values
+const numbers = new Set([1, 2, 2, 3, 3, 4]);
+console.log(numbers); // Set {1, 2, 3, 4}
+numbers.add(5);
+numbers.has(3); // true
+
+// Map - key-value pairs
+const userRoles = new Map();
+userRoles.set("john", "admin");
+userRoles.set("jane", "user");
+userRoles.get("john"); // "admin"
+userRoles.size; // 2
+```
+
+## 96. What are symbols in JavaScript? When would you use them?
+
+• Symbols create unique identifiers that can't be duplicated
+• Useful for object properties that should be private
+• Often used in libraries to avoid naming conflicts
+• Each symbol is completely unique
+
+```javascript
+// Creating symbols
+const id = Symbol("id");
+const id2 = Symbol("id");
+console.log(id === id2); // false - always unique
+
+// Using as object properties
+const user = {
+  name: "John",
+  [id]: 123 // private-like property
+};
+
+// Won't show in normal iteration
+console.log(Object.keys(user)); // ["name"]
+console.log(user[id]); // 123
+```
+
+## 97. What are generator functions in JavaScript?
+
+• Functions that can pause and resume execution
+• Use `function*` syntax and `yield` keyword
+• Return an iterator object
+• Great for creating sequences or handling async operations
+
+```javascript
+function* numberGenerator() {
+  yield 1;
+  yield 2;
+  yield 3;
+}
+
+const gen = numberGenerator();
+console.log(gen.next().value); // 1
+console.log(gen.next().value); // 2
+console.log(gen.next().value); // 3
+
+// Infinite sequence
+function* fibonacci() {
+  let a = 0, b = 1;
+  while (true) {
+    yield a;
+    [a, b] = [b, a + b];
+  }
+}
+```
+
+## 98. How does destructuring work in JavaScript?
+
+• Extracts values from arrays or objects into variables
+• Makes code cleaner and more readable
+• Can set default values
+• Works with nested structures too
+
+```javascript
+// Array destructuring
+const colors = ["red", "green", "blue"];
+const [first, second] = colors;
+console.log(first); // "red"
+
+// Object destructuring
+const person = {name: "John", age: 25, city: "NYC"};
+const {name, age} = person;
+console.log(name); // "John"
+
+// With defaults
+const {country = "USA"} = person;
+console.log(country); // "USA"
+
+// Nested destructuring
+const user = {profile: {email: "john@email.com"}};
+const {profile: {email}} = user;
+```
+
+## 99. What is the spread operator, and how do you use it?
+
+• Three dots `...` that spreads elements
+• Works with arrays, objects, and function arguments
+• Great for copying and merging
+• Makes code more concise
+
+```javascript
+// Array spreading
+const arr1 = [1, 2, 3];
+const arr2 = [...arr1, 4, 5]; // [1, 2, 3, 4, 5]
+
+// Object spreading
+const obj1 = {a: 1, b: 2};
+const obj2 = {...obj1, c: 3}; // {a: 1, b: 2, c: 3}
+
+// Function arguments
+function sum(a, b, c) {
+  return a + b + c;
+}
+const numbers = [1, 2, 3];
+sum(...numbers); // 6
+
+// Copying arrays
+const copy = [...arr1];
+```
+
+## 100. What is the rest parameter in JavaScript?
+
+• Collects remaining arguments into an array
+• Uses same `...` syntax but in function parameters
+• Must be the last parameter
+• Replaces the old `arguments` object
+
+```javascript
+// Rest parameters
+function sum(...numbers) {
+  return numbers.reduce((total, num) => total + num, 0);
+}
+
+sum(1, 2, 3, 4); // 10
+
+// With other parameters
+function greet(greeting, ...names) {
+  return `${greeting} ${names.join(", ")}`;
+}
+
+greet("Hello", "John", "Jane", "Bob"); // "Hello John, Jane, Bob"
+
+// Array destructuring with rest
+const [first, ...rest] = [1, 2, 3, 4];
+console.log(rest); // [2, 3, 4]
+```
+
+## 101. What are `Promise.allSettled()`, `Promise.any()`, and `Promise.finally()`?
+
+• `allSettled()` waits for all promises, returns all results
+• `any()` resolves when first promise succeeds
+• `finally()` runs code regardless of promise outcome
+• These give more control over promise handling
+
+```javascript
+// Promise.allSettled() - waits for all
+const promises = [
+  Promise.resolve(1),
+  Promise.reject("error"),
+  Promise.resolve(3)
+];
+
+Promise.allSettled(promises).then(results => {
+  console.log(results);
+  // [{status: "fulfilled", value: 1}, {status: "rejected", reason: "error"}, ...]
+});
+
+// Promise.any() - first success
+Promise.any(promises).then(value => {
+  console.log(value); // 1 (first successful)
+});
+
+// Promise.finally()
+fetch("/api/data")
+  .then(response => response.json())
+  .catch(error => console.error(error))
+  .finally(() => console.log("Request completed"));
+```
+
+## 102. How do you create a class in JavaScript?
+
+• Use `class` keyword followed by class name
+• Constructor method for initialization
+• Methods defined without `function` keyword
+• Supports inheritance with `extends`
+
+```javascript
+class Person {
+  constructor(name, age) {
+    this.name = name;
+    this.age = age;
+  }
+  
+  greet() {
+    return `Hello, I'm ${this.name}`;
+  }
+  
+  static species() {
+    return "Homo sapiens";
+  }
+}
+
+// Creating instances
+const john = new Person("John", 25);
+console.log(john.greet()); // "Hello, I'm John"
+
+// Inheritance
+class Student extends Person {
+  constructor(name, age, grade) {
+    super(name, age);
+    this.grade = grade;
+  }
+}
+```
+
+## 103. What is the difference between `class` and `function` constructors in JavaScript?
+
+• Classes are syntactic sugar over function constructors
+• Classes must use `new` keyword, functions are more flexible
+• Classes have cleaner syntax and better inheritance
+• Function constructors are the traditional way
+
+```javascript
+// Function constructor
+function PersonFunc(name, age) {
+  this.name = name;
+  this.age = age;
+}
+
+PersonFunc.prototype.greet = function() {
+  return `Hello, I'm ${this.name}`;
+};
+
+// Class syntax
+class PersonClass {
+  constructor(name, age) {
+    this.name = name;
+    this.age = age;
+  }
+  
+  greet() {
+    return `Hello, I'm ${this.name}`;
+  }
+}
+
+// Both create similar objects
+const person1 = new PersonFunc("John", 25);
+const person2 = new PersonClass("Jane", 30);
+
+// Classes are stricter
+PersonClass(); // TypeError: Class constructor cannot be invoked without 'new'
+PersonFunc(); // Works but creates issues
+```
+
