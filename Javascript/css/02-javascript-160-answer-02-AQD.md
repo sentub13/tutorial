@@ -1,4 +1,4 @@
-# JavaScript Interview Questions - Answers (Questions 1-8)
+## JavaScript Interview Questions - Answers (Questions 1-8)
 
 ###  1. What are the different data types in JavaScript?
 
@@ -1218,7 +1218,7 @@ console.log("hello".toUpperCase()); // "HELLO"
 console.log([1, 2, 3].map(x => x * 2)); // [2, 4, 6]
 ```
 
-# JavaScript Interview Questions 46-53 - Answers
+## JavaScript Interview Questions 46-53 - Answers
 
 ###  46. What is a prototype in JavaScript?
 
@@ -1430,7 +1430,7 @@ const namedExpr = function myFunc() {
 };
 ```
 
-# JavaScript Interview Questions 54-62 - Answers
+## JavaScript Interview Questions 54-62 - Answers
 
 ###  54. What is the use of `setTimeout()` and `setInterval()`?
 
@@ -2100,7 +2100,7 @@ These five questions cover essential JavaScript concepts that every developer sh
 Each concept has practical applications in real-world development and demonstrates JavaScript's flexibility and power.
 
 
-# JavaScript Interview Questions 74-83 - Functions and Scope
+## JavaScript Interview Questions 74-83 - Functions and Scope
 
 ###  74. What is the difference between local scope and global scope in JavaScript?
 
@@ -2322,7 +2322,7 @@ async function loadData() {
 }
 ```
 
-# JavaScript Interview Questions 84-92 - Asynchronous JavaScript
+## JavaScript Interview Questions 84-92 - Asynchronous JavaScript
 
 ###  84. How can you handle asynchronous operations in JavaScript?
 
@@ -3863,7 +3863,7 @@ const app = new Framework({
 *  **Size**: Frameworks typically larger, libraries can be minimal
 
 
-# JavaScript Interview Questions 139-149 - Answers
+## JavaScript Interview Questions 139-149 - Answers
 
 ###  139. What is unit testing in JavaScript?
 
