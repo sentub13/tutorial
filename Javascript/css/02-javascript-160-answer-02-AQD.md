@@ -3089,3 +3089,391 @@ export const getName = () => {...};
 // apiUtils.js  
 export const fetchData = () => {...};
 ```
+
+# JavaScript Browser and DOM - Questions 115-122
+
+## Question 115: How do you make an AJAX request in JavaScript?
+
+• **AJAX** lets you send HTTP requests without refreshing the page - it's asynchronous communication with servers
+• **XMLHttpRequest** is the traditional way, but **Fetch API** is modern and cleaner
+• You can send GET, POST, PUT, DELETE requests and handle responses with promises
+• Always handle both success and error cases for robust applications
+
+```javascript
+// Modern Fetch API
+fetch('https://api.example.com/data')
+  .then(response => response.json())
+  .then(data => console.log(data))
+  .catch(error => console.error('Error:', error));
+
+// POST request
+fetch('/api/users', {
+  method: 'POST',
+  headers: { 'Content-Type': 'application/json' },
+  body: JSON.stringify({ name: 'John', age: 30 })
+});
+```
+
+---
+
+## Question 116: What is the Fetch API in JavaScript?
+
+• **Fetch API** is the modern replacement for XMLHttpRequest - it's promise-based and cleaner
+• Returns a **Promise** that resolves to the Response object representing the response
+• You need to call `.json()`, `.text()`, or `.blob()` to extract data from the response
+• Built-in support for request/response headers, different HTTP methods, and error handling
+
+```javascript
+// Basic GET request
+const response = await fetch('/api/data');
+const data = await response.json();
+
+// With error handling
+fetch('/api/data')
+  .then(response => {
+    if (!response.ok) throw new Error('Network error');
+    return response.json();
+  })
+  .then(data => console.log(data));
+```
+
+---
+
+## Question 117: Explain the concept of a single-page application (SPA).
+
+• **SPA** loads one HTML page and dynamically updates content without full page reloads
+• JavaScript handles routing, navigation, and content updates - making it feel like a desktop app
+• **Benefits**: Faster navigation, better user experience, reduced server load
+• **Challenges**: SEO complexity, initial load time, browser history management
+
+```javascript
+// Simple SPA routing example
+function navigate(page) {
+  const content = document.getElementById('content');
+  
+  switch(page) {
+    case 'home':
+      content.innerHTML = '<h1>Home Page</h1>';
+      break;
+    case 'about':
+      content.innerHTML = '<h1>About Page</h1>';
+      break;
+  }
+  
+  history.pushState({page}, '', `/${page}`);
+}
+```
+
+---
+
+## Question 118: What is the DOM (Document Object Model) in JavaScript?
+
+• **DOM** is a programming interface that represents HTML/XML documents as a tree of objects
+• Each HTML element becomes a **node** that you can access, modify, add, or remove with JavaScript
+• It's the bridge between your HTML structure and JavaScript code
+• DOM provides methods like `getElementById`, `querySelector`, `createElement` for manipulation
+
+```javascript
+// Accessing DOM elements
+const title = document.getElementById('title');
+const buttons = document.querySelectorAll('.btn');
+
+// Modifying DOM
+title.textContent = 'New Title';
+title.style.color = 'blue';
+
+// Creating new elements
+const newDiv = document.createElement('div');
+newDiv.innerHTML = '<p>Hello World</p>';
+document.body.appendChild(newDiv);
+```
+
+---
+
+## Question 119: How do you manipulate the DOM using JavaScript?
+
+• **Select elements** using `getElementById`, `querySelector`, or `getElementsByClassName`
+• **Modify content** with `textContent`, `innerHTML`, or `innerText`
+• **Change styles** through the `style` property or by adding/removing CSS classes
+• **Create and append** new elements using `createElement` and `appendChild`
+
+```javascript
+// Selecting and modifying
+const element = document.querySelector('.my-class');
+element.textContent = 'Updated text';
+element.classList.add('active');
+
+// Creating new elements
+const list = document.getElementById('myList');
+const newItem = document.createElement('li');
+newItem.textContent = 'New item';
+list.appendChild(newItem);
+
+// Event handling
+element.addEventListener('click', () => alert('Clicked!'));
+```
+
+---
+
+## Question 120: What is the difference between `Object.freeze()` and `Object.seal()` in JavaScript?
+
+• **`Object.freeze()`** makes an object completely immutable - no adding, deleting, or modifying properties
+• **`Object.seal()`** prevents adding/deleting properties but allows modifying existing ones
+• Both prevent extension of the object, but seal is less restrictive than freeze
+• Use freeze for constants, seal when you want fixed structure but changeable values
+
+```javascript
+const frozenObj = Object.freeze({ name: 'John', age: 30 });
+frozenObj.age = 31;        // Ignored - no change
+frozenObj.city = 'NYC';    // Ignored - can't add
+
+const sealedObj = Object.seal({ name: 'Jane', age: 25 });
+sealedObj.age = 26;        // Works - can modify
+sealedObj.city = 'LA';     // Ignored - can't add
+delete sealedObj.name;     // Ignored - can't delete
+```
+
+---
+
+## Question 121: How do you prevent the default action of an event in JavaScript?
+
+• Use **`preventDefault()`** method on the event object to stop the browser's default behavior
+• Common use cases: preventing form submission, stopping link navigation, custom drag behavior
+• **Important**: `preventDefault()` stops default action but doesn't stop event propagation
+• Always check if the event object exists before calling preventDefault
+
+```javascript
+// Prevent form submission
+document.querySelector('form').addEventListener('submit', (e) => {
+  e.preventDefault();
+  console.log('Form submission prevented');
+});
+
+// Prevent link navigation
+document.querySelector('a').addEventListener('click', (e) => {
+  e.preventDefault();
+  console.log('Link click prevented');
+});
+
+// Prevent context menu
+document.addEventListener('contextmenu', (e) => e.preventDefault());
+```
+
+---
+
+## Question 122: What is the difference between `addEventListener()` and `onclick`?
+
+• **`addEventListener()`** can attach multiple listeners to the same event, `onclick` can only have one
+• **`addEventListener()`** provides better control with options like `once`, `passive`, `capture`
+• **`onclick`** is simpler but overwrites previous handlers, addEventListener adds to them
+• addEventListener is the modern, recommended approach for event handling
+
+```javascript
+const button = document.querySelector('button');
+
+// onclick - only one handler
+button.onclick = () => console.log('First handler');
+button.onclick = () => console.log('Second handler'); // Overwrites first
+
+// addEventListener - multiple handlers
+button.addEventListener('click', () => console.log('Handler 1'));
+button.addEventListener('click', () => console.log('Handler 2')); // Both run
+
+// Advanced options
+button.addEventListener('click', handler, { 
+  once: true,     // Run only once
+  passive: true   // Never calls preventDefault
+});
+```
+
+# JavaScript Browser and DOM - Questions 123-129
+
+## Question 123: What is `localStorage` and `sessionStorage` in JavaScript?
+
+• **`localStorage`** stores data permanently until manually cleared - survives browser restarts and tab closures
+• **`sessionStorage`** stores data only for the current tab session - cleared when tab is closed
+• Both store **key-value pairs as strings** and have the same API methods
+• **Storage limit** is typically 5-10MB per origin, much larger than cookies
+
+```javascript
+// localStorage - persists across sessions
+localStorage.setItem('username', 'john');
+localStorage.setItem('theme', 'dark');
+const user = localStorage.getItem('username');
+localStorage.removeItem('theme');
+
+// sessionStorage - only for current tab
+sessionStorage.setItem('tempData', 'value');
+const temp = sessionStorage.getItem('tempData');
+sessionStorage.clear(); // Clear all session data
+```
+
+---
+
+## Question 124: What is the difference between `localStorage` and `cookies` in JavaScript?
+
+• **Storage size**: localStorage holds 5-10MB, cookies only 4KB per cookie
+• **Automatic sending**: Cookies are sent with every HTTP request, localStorage stays client-side
+• **Expiration**: localStorage persists until cleared, cookies can have expiration dates
+• **Security**: Cookies can be httpOnly and secure, localStorage is always accessible via JavaScript
+
+```javascript
+// localStorage - client-side only
+localStorage.setItem('userPrefs', JSON.stringify({theme: 'dark'}));
+
+// Cookies - sent with requests
+document.cookie = 'sessionId=abc123; expires=Fri, 31 Dec 2024 23:59:59 GMT';
+document.cookie = 'theme=dark; path=/';
+
+// Reading cookies requires parsing
+const cookies = document.cookie.split(';').reduce((acc, cookie) => {
+  const [key, value] = cookie.trim().split('=');
+  acc[key] = value;
+  return acc;
+}, {});
+```
+
+---
+
+## Question 125: How do you handle CORS (Cross-Origin Resource Sharing) in JavaScript?
+
+• **CORS** is a browser security feature that blocks requests between different origins (domain, port, protocol)
+• **Server-side solution**: Add proper CORS headers like `Access-Control-Allow-Origin`
+• **Client-side**: Use proxy servers, JSONP (legacy), or configure your development server
+• **Preflight requests** are sent for complex requests to check permissions first
+
+```javascript
+// CORS error - different origins
+fetch('https://api.example.com/data') // Might fail due to CORS
+
+// Solutions:
+// 1. Proxy in development
+fetch('/api/proxy/data') // Your server proxies to external API
+
+// 2. JSONP for GET requests (legacy)
+function handleResponse(data) { console.log(data); }
+const script = document.createElement('script');
+script.src = 'https://api.example.com/data?callback=handleResponse';
+
+// 3. Server adds CORS headers
+// Access-Control-Allow-Origin: *
+// Access-Control-Allow-Methods: GET, POST, PUT
+```
+
+---
+
+## Question 126: How do you make an AJAX request in JavaScript?
+
+• **AJAX** enables asynchronous communication with servers without page refresh
+• **Modern approach**: Use Fetch API with promises for cleaner, more readable code
+• **Legacy approach**: XMLHttpRequest for older browser support
+• Always handle both **success and error cases** for robust applications
+
+```javascript
+// Modern Fetch API
+async function fetchData() {
+  try {
+    const response = await fetch('/api/users');
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error('Request failed:', error);
+  }
+}
+
+// Legacy XMLHttpRequest
+const xhr = new XMLHttpRequest();
+xhr.open('GET', '/api/users');
+xhr.onload = () => {
+  if (xhr.status === 200) {
+    const data = JSON.parse(xhr.responseText);
+    console.log(data);
+  }
+};
+xhr.send();
+```
+
+---
+
+## Question 127: What are `XMLHttpRequest` and `Fetch` API in JavaScript?
+
+• **XMLHttpRequest** is the original way to make HTTP requests - callback-based and more verbose
+• **Fetch API** is modern, promise-based replacement - cleaner syntax and better error handling
+• **Fetch** doesn't reject on HTTP error status (404, 500), you need to check `response.ok`
+• **XMLHttpRequest** has built-in request timeout and progress events, Fetch needs AbortController
+
+```javascript
+// XMLHttpRequest - legacy but still used
+const xhr = new XMLHttpRequest();
+xhr.open('POST', '/api/data');
+xhr.setRequestHeader('Content-Type', 'application/json');
+xhr.onload = () => console.log(xhr.responseText);
+xhr.send(JSON.stringify({name: 'John'}));
+
+// Fetch API - modern approach
+fetch('/api/data', {
+  method: 'POST',
+  headers: {'Content-Type': 'application/json'},
+  body: JSON.stringify({name: 'John'})
+})
+.then(response => response.json())
+.then(data => console.log(data));
+```
+
+---
+
+## Question 128: What is the `Function.prototype.bind()` method in JavaScript?
+
+• **`bind()`** creates a new function with a specific `this` context and optionally pre-filled arguments
+• Unlike `call()` and `apply()`, **bind doesn't execute** the function immediately
+• **Partial application**: You can pre-fill some arguments and provide others later
+• Commonly used in event handlers and callback functions to maintain context
+
+```javascript
+const person = {
+  name: 'John',
+  greet(greeting) {
+    return `${greeting}, I'm ${this.name}`;
+  }
+};
+
+// Bind specific context
+const boundGreet = person.greet.bind(person);
+console.log(boundGreet('Hello')); // "Hello, I'm John"
+
+// Partial application
+const sayHello = person.greet.bind(person, 'Hello');
+console.log(sayHello()); // "Hello, I'm John"
+
+// Event handler context
+button.addEventListener('click', person.greet.bind(person, 'Hi'));
+```
+
+---
+
+## Question 129: How do you handle cookies in JavaScript?
+
+• **Reading cookies**: Access via `document.cookie` - returns all cookies as a single string
+• **Setting cookies**: Assign to `document.cookie` with key=value format and optional attributes
+• **Cookie attributes**: `expires`, `path`, `domain`, `secure`, `httpOnly`, `SameSite`
+• **Parsing required**: Cookies come as one string, you need to split and parse them
+
+```javascript
+// Setting cookies
+document.cookie = 'username=john; expires=Fri, 31 Dec 2024 23:59:59 GMT; path=/';
+document.cookie = 'theme=dark; max-age=3600'; // Expires in 1 hour
+
+// Reading cookies - need to parse
+function getCookie(name) {
+  const cookies = document.cookie.split(';');
+  for (let cookie of cookies) {
+    const [key, value] = cookie.trim().split('=');
+    if (key === name) return value;
+  }
+  return null;
+}
+
+// Deleting cookies - set past expiration
+document.cookie = 'username=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/';
+```
+
