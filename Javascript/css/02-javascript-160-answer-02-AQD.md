@@ -2,8 +2,8 @@
 
 ###  1. What are the different data types in JavaScript?
 
-*  **Primitive types**: Number, String, Boolean, Undefined, Null, Symbol, BigInt
-*  **Non-primitive**: Object (includes arrays, functions, dates)
+* **Primitive types**: Number, String, Boolean, Undefined, Null, Symbol, BigInt
+* **Non-primitive**: Object (includes arrays, functions, dates)
 *  JavaScript is dynamically typed - variables can hold any type
 
 ```javascript
