@@ -1,4 +1,4 @@
-Here is a list of advanced-level questions for a Senior Frontend Developer. These questions cover a wide range of topics, including JavaScript, performance optimization, architecture, testing, tooling, and modern frontend frameworks like React, Angular, or Vue.js. The questions are designed to evaluate deep technical expertise, problem-solving skills, and a solid understanding of frontend development best practices.
+Here is a list of advanced-level questions for a Senior Frontend Developer. These questions cover a wide range of topics, including JavaScript, performance optimization, architecture, testing, tooling, and modern frontend frameworks like React, Angular, or Vue.js. The questions are designed to evaluate deep technical expertise, problem-solving skills, and a solid understanding of frontend development best practices. test
 
 * * *
 
