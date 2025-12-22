@@ -125,29 +125,17 @@ setState({ name: 'React' }); // triggers Virtual DOM update
 
 ---
 
-## 9. What are props?
+✅ **Tip for Interviews:**
 
-**Short spoken answer (15–50 seconds):**
+> “React improves performance by updating only what changes using the Virtual DOM.”
 
-- Props (short for *properties*) are **inputs passed from a parent component to a child component** in React  
-- They are **read-only**, meaning a child component **cannot change** its props  
-- Props help make components **reusable and dynamic**  
-- You use props to pass **data, functions, or values** between components  
-
-**Example:**
-
-```jsx
-// Parent Component
-function App() {
-  return <Greeting name="Alex" />;
-}
-
-// Child Component
-function Greeting(props) {
-  return <h1>Hello, {props.name}!</h1>;
-}
-```
 ---
+
+📌 **End of React Fundamentals (1–8)**
+
+---
+
+## 🟢 React Core Concepts – State, Events & Rendering
 
 ### 10. What is state and how is it different from props?
 
