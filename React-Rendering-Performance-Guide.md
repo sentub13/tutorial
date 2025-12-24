@@ -600,6 +600,1708 @@ import React, { useState, memo, useCallback, useMemo } from 'react';\n\n// Basic
 
 ---
 
+## 9. How do you prevent unnecessary re-renders?
+
+**Use React.memo, useMemo, useCallback, and proper state structure to prevent unnecessary re-renders.**
+
+• **React.memo**: Memoize components to skip re-renders when props unchanged
+• **useMemo**: Memoize expensive calculations
+• **useCallback**: Memoize functions to maintain reference equality
+• **State structure**: Keep state minimal and avoid derived state
+
+```jsx
+import { useState, memo, useMemo, useCallback } from 'react';
+
+function PreventReRendersExample() {
+  const [count, setCount] = useState(0);
+  const [name, setName] = useState('John');
+  const [items, setItems] = useState(['A', 'B', 'C']);
+  
+  // ✅ Memoized expensive calculation
+  const expensiveValue = useMemo(() => {
+    console.log('Computing expensive value...');
+    return items.reduce((sum, item) => sum + item.length, 0);
+  }, [items]);
+  
+  // ✅ Memoized callback
+  const handleItemClick = useCallback((item) => {
+    console.log('Item clicked:', item);
+  }, []);
+  
+  // ✅ Memoized object to prevent child re-renders
+  const userConfig = useMemo(() => ({
+    name,
+    preferences: { theme: 'dark' }
+  }), [name]);
+  
+  return (
+    <div>
+      <h2>Prevent Unnecessary Re-renders</h2>
+      
+      <p>Count: {count}</p>
+      <p>Expensive Value: {expensiveValue}</p>
+      
+      <button onClick={() => setCount(count + 1)}>Increment Count</button>
+      <input value={name} onChange={(e) => setName(e.target.value)} />
+      
+      {/* These components won't re-render unnecessarily */}
+      <MemoizedChild config={userConfig} onItemClick={handleItemClick} />
+      <ItemList items={items} onItemClick={handleItemClick} />
+    </div>
+  );
+}
+
+// ✅ Memoized component
+const MemoizedChild = memo(({ config, onItemClick }) => {
+  console.log('MemoizedChild rendered');
+  
+  return (
+    <div>
+      <h3>User: {config.name}</h3>
+      <p>Theme: {config.preferences.theme}</p>
+      <button onClick={() => onItemClick('test')}>Test Click</button>
+    </div>
+  );
+});
+
+const ItemList = memo(({ items, onItemClick }) => {
+  console.log('ItemList rendered');
+  
+  return (
+    <ul>
+      {items.map(item => (
+        <li key={item} onClick={() => onItemClick(item)}>
+          {item}
+        </li>
+      ))}
+    </ul>
+  );
+});
+
+// ❌ Common mistakes that cause re-renders
+function CommonMistakes() {
+  const [count, setCount] = useState(0);
+  
+  return (
+    <div>
+      <h3>Common Re-render Mistakes</h3>
+      <p>Count: {count}</p>
+      <button onClick={() => setCount(count + 1)}>Increment</button>
+      
+      {/* ❌ BAD - New object every render */}
+      <BadChild config={{ theme: 'dark' }} />
+      
+      {/* ❌ BAD - Inline function every render */}
+      <BadChild onClick={() => console.log('clicked')} />
+      
+      {/* ❌ BAD - New array every render */}
+      <BadChild items={['A', 'B', 'C']} />
+    </div>
+  );
+}
+
+const BadChild = memo(({ config, onClick, items }) => {
+  console.log('BadChild rendered (always re-renders)');
+  return <div>Bad Child Component</div>;
+});
+```
+
+---
+
+## 10. Why do inline functions cause re-renders?
+
+**Inline functions create new function references on every render, breaking memoization and causing child re-renders.**
+
+• **New reference**: Inline functions create new references each render
+• **Breaks memoization**: React.memo sees different function props
+• **Performance impact**: Causes unnecessary child re-renders
+• **Solution**: Use useCallback or define functions outside render
+
+```jsx
+import { useState, memo, useCallback } from 'react';
+
+function InlineFunctionExample() {
+  const [count, setCount] = useState(0);
+  const [name, setName] = useState('John');
+  
+  console.log('Parent rendered');
+  
+  // ✅ GOOD - Memoized callback
+  const handleGoodClick = useCallback((id) => {
+    console.log('Good click:', id);
+  }, []);
+  
+  // ✅ GOOD - Stable function reference
+  const handleStableClick = (id) => {
+    console.log('Stable click:', id);
+  };
+  
+  return (
+    <div>
+      <h2>Inline Functions and Re-renders</h2>
+      
+      <p>Count: {count}</p>
+      <p>Name: {name}</p>
+      
+      <button onClick={() => setCount(count + 1)}>Increment</button>
+      <input value={name} onChange={(e) => setName(e.target.value)} />
+      
+      {/* ❌ BAD - Inline function causes re-render */}
+      <MemoChild 
+        name="Bad Child"
+        onClick={() => console.log('inline function')} // New function every render
+      />
+      
+      {/* ✅ GOOD - Memoized callback */}
+      <MemoChild 
+        name="Good Child"
+        onClick={handleGoodClick}
+      />
+      
+      {/* ✅ GOOD - Stable reference (if function doesn't use state) */}
+      <MemoChild 
+        name="Stable Child"
+        onClick={handleStableClick}
+      />
+    </div>
+  );
+}
+
+const MemoChild = memo(({ name, onClick }) => {
+  console.log(`${name} rendered`);
+  
+  return (
+    <div style={{ border: '1px solid #ccc', margin: '5px', padding: '10px' }}>
+      <h4>{name}</h4>
+      <button onClick={() => onClick('test')}>Click Me</button>
+    </div>
+  );
+});
+
+// Demonstrating the problem with inline functions
+function InlineFunctionProblem() {
+  const [parentState, setParentState] = useState(0);
+  const [childRenders, setChildRenders] = useState(0);
+  
+  return (
+    <div>
+      <h3>Inline Function Problem Demo</h3>
+      
+      <p>Parent State: {parentState}</p>
+      <p>Child Renders: {childRenders}</p>
+      
+      <button onClick={() => setParentState(parentState + 1)}>
+        Update Parent (Watch child re-renders)
+      </button>
+      
+      {/* This child will re-render every time parent updates */}
+      <ProblematicChild 
+        onRender={() => setChildRenders(prev => prev + 1)}
+        onClick={() => console.log('This inline function causes re-renders')}
+      />
+    </div>
+  );
+}
+
+const ProblematicChild = memo(({ onRender, onClick }) => {
+  React.useEffect(() => {
+    onRender();
+  });
+  
+  return (
+    <div style={{ background: '#ffe6e6', padding: '10px' }}>
+      <p>I re-render every time parent updates!</p>
+      <button onClick={onClick}>Click</button>
+    </div>
+  );
+});
+
+// Solution with useCallback
+function SolutionWithCallback() {
+  const [parentState, setParentState] = useState(0);
+  const [childRenders, setChildRenders] = useState(0);
+  
+  // ✅ Memoized callbacks
+  const handleRender = useCallback(() => {
+    setChildRenders(prev => prev + 1);
+  }, []);
+  
+  const handleClick = useCallback(() => {
+    console.log('Memoized function - no unnecessary re-renders');
+  }, []);
+  
+  return (
+    <div>
+      <h3>Solution with useCallback</h3>
+      
+      <p>Parent State: {parentState}</p>
+      <p>Child Renders: {childRenders}</p>
+      
+      <button onClick={() => setParentState(parentState + 1)}>
+        Update Parent (Child won't re-render)
+      </button>
+      
+      {/* This child will only re-render when actually needed */}
+      <OptimizedChild 
+        onRender={handleRender}
+        onClick={handleClick}
+      />
+    </div>
+  );
+}
+
+const OptimizedChild = memo(({ onRender, onClick }) => {
+  React.useEffect(() => {
+    onRender();
+  });
+  
+  return (
+    <div style={{ background: '#e6ffe6', padding: '10px' }}>
+      <p>I only re-render when props actually change!</p>
+      <button onClick={onClick}>Click</button>
+    </div>
+  );
+});
+```
+
+---
+
+## 11. What is render thrashing?
+
+**Render thrashing occurs when components re-render excessively due to rapid state changes or poor optimization.**
+
+• **Excessive re-renders**: Components render more than necessary
+• **Performance degradation**: UI becomes slow and unresponsive
+• **Common causes**: Rapid state updates, missing memoization, unstable dependencies
+• **Solutions**: Debouncing, batching, proper memoization
+
+```jsx
+import { useState, useEffect, useMemo, useCallback, useTransition } from 'react';
+
+// ❌ Example of render thrashing
+function RenderThrashingExample() {
+  const [query, setQuery] = useState('');
+  const [results, setResults] = useState([]);
+  const [renderCount, setRenderCount] = useState(0);
+  
+  // This causes render thrashing - runs on every keystroke
+  useEffect(() => {
+    setRenderCount(prev => prev + 1);
+    
+    // Expensive operation on every character typed
+    const filtered = expensiveSearch(query);
+    setResults(filtered);
+  }, [query]); // Runs on every query change
+  
+  console.log('Component rendered:', renderCount);
+  
+  return (
+    <div>
+      <h2>❌ Render Thrashing Example</h2>
+      <p>Renders: {renderCount}</p>
+      
+      {/* Every keystroke causes expensive re-render */}
+      <input 
+        value={query}
+        onChange={(e) => setQuery(e.target.value)}
+        placeholder="Type to see thrashing..."
+      />
+      
+      <div>
+        <p>Results: {results.length}</p>
+        <ul>
+          {results.slice(0, 10).map(result => (
+            <li key={result.id}>{result.name}</li>
+          ))}
+        </ul>
+      </div>
+    </div>
+  );
+}
+
+// ✅ Solution 1: Debouncing
+function DebouncedSolution() {
+  const [query, setQuery] = useState('');
+  const [debouncedQuery, setDebouncedQuery] = useState('');
+  const [results, setResults] = useState([]);
+  const [renderCount, setRenderCount] = useState(0);
+  
+  // Debounce the query
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setDebouncedQuery(query);
+    }, 300);
+    
+    return () => clearTimeout(timer);
+  }, [query]);
+  
+  // Only search when debounced query changes
+  useEffect(() => {
+    setRenderCount(prev => prev + 1);
+    
+    if (debouncedQuery) {
+      const filtered = expensiveSearch(debouncedQuery);
+      setResults(filtered);
+    }
+  }, [debouncedQuery]);
+  
+  return (
+    <div>
+      <h2>✅ Debounced Solution</h2>
+      <p>Renders: {renderCount}</p>
+      
+      <input 
+        value={query}
+        onChange={(e) => setQuery(e.target.value)}
+        placeholder="Type to see debouncing..."
+      />
+      
+      <div>
+        <p>Searching for: "{debouncedQuery}"</p>
+        <p>Results: {results.length}</p>
+        <ul>
+          {results.slice(0, 10).map(result => (
+            <li key={result.id}>{result.name}</li>
+          ))}
+        </ul>
+      </div>
+    </div>
+  );
+}
+
+// ✅ Solution 2: useTransition for non-urgent updates
+function TransitionSolution() {
+  const [query, setQuery] = useState('');
+  const [results, setResults] = useState([]);
+  const [isPending, startTransition] = useTransition();
+  
+  const handleSearch = (value) => {
+    setQuery(value); // Urgent update - immediate
+    
+    // Non-urgent update - won't block UI
+    startTransition(() => {
+      const filtered = expensiveSearch(value);
+      setResults(filtered);
+    });
+  };
+  
+  return (
+    <div>
+      <h2>✅ Transition Solution</h2>
+      
+      <input 
+        value={query}
+        onChange={(e) => handleSearch(e.target.value)}
+        placeholder="Type to see smooth updates..."
+      />
+      
+      {isPending && <div>🔍 Searching...</div>}
+      
+      <div style={{ opacity: isPending ? 0.7 : 1 }}>
+        <p>Results: {results.length}</p>
+        <ul>
+          {results.slice(0, 10).map(result => (
+            <li key={result.id}>{result.name}</li>
+          ))}
+        </ul>
+      </div>
+    </div>
+  );
+}
+
+// ✅ Solution 3: Memoization to prevent thrashing
+function MemoizedSolution() {
+  const [query, setQuery] = useState('');
+  const [filter, setFilter] = useState('all');
+  const [renderCount, setRenderCount] = useState(0);
+  
+  // Memoized expensive calculation
+  const results = useMemo(() => {
+    setRenderCount(prev => prev + 1);
+    console.log('Expensive search running...');
+    
+    let filtered = expensiveSearch(query);
+    
+    if (filter !== 'all') {
+      filtered = filtered.filter(item => item.category === filter);
+    }
+    
+    return filtered;
+  }, [query, filter]); // Only recalculate when these change
+  
+  return (
+    <div>
+      <h2>✅ Memoized Solution</h2>
+      <p>Expensive calculations: {renderCount}</p>
+      
+      <input 
+        value={query}
+        onChange={(e) => setQuery(e.target.value)}
+        placeholder="Search..."
+      />
+      
+      <select value={filter} onChange={(e) => setFilter(e.target.value)}>
+        <option value="all">All</option>
+        <option value="electronics">Electronics</option>
+        <option value="books">Books</option>
+      </select>
+      
+      <div>
+        <p>Results: {results.length}</p>
+        <ul>
+          {results.slice(0, 10).map(result => (
+            <li key={result.id}>{result.name} ({result.category})</li>
+          ))}
+        </ul>
+      </div>
+    </div>
+  );
+}
+
+// Simulate expensive search operation
+function expensiveSearch(query) {
+  const allItems = Array.from({ length: 10000 }, (_, i) => ({
+    id: i,
+    name: `Item ${i}`,
+    category: ['electronics', 'books', 'clothing'][i % 3]
+  }));
+  
+  // Simulate expensive filtering
+  return allItems.filter(item => 
+    item.name.toLowerCase().includes(query.toLowerCase())
+  );
+}
+```
+
+---
+
+## 12. How do keys affect reconciliation?
+
+**Keys help React identify which items have changed, moved, or been removed, enabling efficient reconciliation.**
+
+• **Element identity**: Keys give React a way to track elements across renders
+• **Efficient updates**: React can reuse DOM nodes instead of recreating them
+• **Preserve state**: Component state is preserved when elements move
+• **Performance**: Reduces DOM manipulation and improves rendering speed
+
+```jsx
+import { useState } from 'react';
+
+function KeysReconciliationExample() {
+  const [items, setItems] = useState([
+    { id: 1, name: 'Apple', color: 'red' },
+    { id: 2, name: 'Banana', color: 'yellow' },
+    { id: 3, name: 'Cherry', color: 'red' }
+  ]);
+  
+  const addItem = () => {
+    const newItem = {
+      id: Date.now(),
+      name: `Item ${items.length + 1}`,
+      color: ['red', 'blue', 'green'][Math.floor(Math.random() * 3)]
+    };
+    setItems([newItem, ...items]); // Add to beginning
+  };
+  
+  const removeItem = (id) => {
+    setItems(items.filter(item => item.id !== id));
+  };
+  
+  const shuffleItems = () => {
+    setItems([...items].sort(() => Math.random() - 0.5));
+  };
+  
+  return (
+    <div>
+      <h2>Keys and Reconciliation</h2>
+      
+      <div>
+        <button onClick={addItem}>Add Item</button>
+        <button onClick={shuffleItems}>Shuffle Items</button>
+      </div>
+      
+      <div style={{ display: 'flex', gap: '20px' }}>
+        {/* ❌ BAD - Using index as key */}
+        <div>
+          <h3>❌ Bad Keys (Index)</h3>
+          <ul>
+            {items.map((item, index) => (
+              <ItemWithState 
+                key={index} // BAD - index as key
+                item={item}
+                onRemove={removeItem}
+              />
+            ))}
+          </ul>
+        </div>
+        
+        {/* ✅ GOOD - Using stable unique keys */}
+        <div>
+          <h3>✅ Good Keys (ID)</h3>
+          <ul>
+            {items.map(item => (
+              <ItemWithState 
+                key={item.id} // GOOD - stable unique key
+                item={item}
+                onRemove={removeItem}
+              />
+            ))}
+          </ul>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// Component with internal state to demonstrate key behavior
+function ItemWithState({ item, onRemove }) {
+  const [count, setCount] = useState(0);
+  const [focused, setFocused] = useState(false);
+  
+  console.log(`ItemWithState rendered for ${item.name}`);
+  
+  return (
+    <li style={{ 
+      border: '1px solid #ccc', 
+      margin: '5px', 
+      padding: '10px',
+      background: focused ? '#e6f3ff' : 'white'
+    }}>
+      <div>
+        <strong>{item.name}</strong> ({item.color})
+      </div>
+      <div>
+        <span>Count: {count}</span>
+        <button onClick={() => setCount(count + 1)}>+</button>
+        <button onClick={() => setFocused(!focused)}>
+          {focused ? 'Unfocus' : 'Focus'}
+        </button>
+        <button onClick={() => onRemove(item.id)}>Remove</button>
+      </div>
+    </li>
+  );
+}
+
+// Demonstrating reconciliation with different key strategies
+function ReconciliationComparison() {
+  const [list, setList] = useState(['A', 'B', 'C']);
+  
+  const reverseList = () => {
+    setList([...list].reverse());
+  };
+  
+  const addToBeginning = () => {
+    setList(['NEW', ...list]);
+  };
+  
+  return (
+    <div>
+      <h3>Reconciliation Comparison</h3>
+      
+      <div>
+        <button onClick={reverseList}>Reverse List</button>
+        <button onClick={addToBeginning}>Add to Beginning</button>
+      </div>
+      
+      <div style={{ display: 'flex', gap: '20px' }}>
+        {/* Without keys - React recreates all elements */}
+        <div>
+          <h4>No Keys (Inefficient)</h4>
+          <ul>
+            {list.map(item => (
+              <ExpensiveItem item={item} /> // No key
+            ))}
+          </ul>
+        </div>
+        
+        {/* With index keys - Problems when order changes */}
+        <div>
+          <h4>Index Keys (Problematic)</h4>
+          <ul>
+            {list.map((item, index) => (
+              <ExpensiveItem key={index} item={item} />
+            ))}
+          </ul>
+        </div>
+        
+        {/* With stable keys - Efficient reconciliation */}
+        <div>
+          <h4>Stable Keys (Efficient)</h4>
+          <ul>
+            {list.map(item => (
+              <ExpensiveItem key={item} item={item} />
+            ))}
+          </ul>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function ExpensiveItem({ item }) {
+  const [renderTime] = useState(Date.now());
+  
+  // Simulate expensive rendering
+  React.useEffect(() => {
+    console.log(`ExpensiveItem ${item} mounted at ${renderTime}`);
+    
+    return () => {
+      console.log(`ExpensiveItem ${item} unmounted`);
+    };
+  }, []);
+  
+  return (
+    <li style={{ padding: '5px', border: '1px solid #ddd' }}>
+      {item} (mounted: {new Date(renderTime).toLocaleTimeString()})
+    </li>
+  );
+}
+```
+
+---
+
+## 13. What happens if keys are not stable?
+
+**Unstable keys cause React to unnecessarily recreate components, losing state and degrading performance.**
+
+• **Component recreation**: React treats elements as different when keys change
+• **State loss**: Component state is lost when keys are unstable
+• **Performance impact**: Unnecessary DOM creation and destruction
+• **Common mistake**: Using array index or Math.random() as keys
+
+```jsx
+import { useState } from 'react';
+
+function UnstableKeysExample() {
+  const [items, setItems] = useState([
+    { name: 'Apple', category: 'fruit' },
+    { name: 'Carrot', category: 'vegetable' },
+    { name: 'Banana', category: 'fruit' }
+  ]);
+  
+  const [keyStrategy, setKeyStrategy] = useState('stable');
+  
+  const addItem = () => {
+    const newItem = {
+      name: `Item ${items.length + 1}`,
+      category: Math.random() > 0.5 ? 'fruit' : 'vegetable'
+    };
+    setItems([newItem, ...items]);
+  };
+  
+  const removeFirst = () => {
+    setItems(items.slice(1));
+  };
+  
+  const shuffleItems = () => {
+    setItems([...items].sort(() => Math.random() - 0.5));
+  };
+  
+  const getKey = (item, index) => {
+    switch (keyStrategy) {
+      case 'random':
+        return Math.random(); // ❌ VERY BAD - always unstable
+      case 'index':
+        return index; // ❌ BAD - unstable when order changes
+      case 'name':
+        return item.name; // ✅ GOOD - stable and unique
+      default:
+        return `${item.name}-${item.category}`; // ✅ BEST - stable and unique
+    }
+  };
+  
+  return (
+    <div>
+      <h2>Unstable Keys Problems</h2>
+      
+      <div>
+        <label>
+          Key Strategy:
+          <select value={keyStrategy} onChange={(e) => setKeyStrategy(e.target.value)}>
+            <option value="stable">Stable (name + category)</option>
+            <option value="name">Name only</option>
+            <option value="index">Index</option>
+            <option value="random">Random (Very Bad)</option>
+          </select>
+        </label>
+      </div>
+      
+      <div>
+        <button onClick={addItem}>Add Item</button>
+        <button onClick={removeFirst}>Remove First</button>
+        <button onClick={shuffleItems}>Shuffle</button>
+      </div>
+      
+      <div>
+        <h3>Items with {keyStrategy} keys:</h3>
+        <ul>
+          {items.map((item, index) => (
+            <StatefulItem 
+              key={getKey(item, index)}
+              item={item}
+              keyStrategy={keyStrategy}
+            />
+          ))}
+        </ul>
+      </div>
+    </div>
+  );
+}
+
+// Component with state to demonstrate key stability issues
+function StatefulItem({ item, keyStrategy }) {
+  const [count, setCount] = useState(0);
+  const [inputValue, setInputValue] = useState('');
+  const [mountTime] = useState(Date.now());
+  
+  console.log(`StatefulItem ${item.name} rendered with ${keyStrategy} key`);
+  
+  React.useEffect(() => {
+    console.log(`StatefulItem ${item.name} mounted`);
+    
+    return () => {
+      console.log(`StatefulItem ${item.name} unmounted (state lost!)`);
+    };
+  }, [item.name]);
+  
+  return (
+    <li style={{ 
+      border: '1px solid #ccc', 
+      margin: '5px', 
+      padding: '10px',
+      background: keyStrategy === 'random' ? '#ffe6e6' : 
+                 keyStrategy === 'index' ? '#fff3e6' : '#e6ffe6'
+    }}>
+      <div>
+        <strong>{item.name}</strong> ({item.category})
+        <small> - Mounted: {new Date(mountTime).toLocaleTimeString()}</small>
+      </div>
+      
+      <div>
+        <span>Count: {count}</span>
+        <button onClick={() => setCount(count + 1)}>+</button>
+        
+        <input 
+          value={inputValue}
+          onChange={(e) => setInputValue(e.target.value)}
+          placeholder="Type something..."
+          style={{ marginLeft: '10px', width: '120px' }}
+        />
+      </div>
+    </li>
+  );
+}
+
+// Demonstrating the performance impact of unstable keys
+function PerformanceImpactDemo() {
+  const [items, setItems] = useState(
+    Array.from({ length: 100 }, (_, i) => ({ id: i, name: `Item ${i}` }))
+  );
+  const [useStableKeys, setUseStableKeys] = useState(true);
+  const [renderCount, setRenderCount] = useState(0);
+  
+  const shuffleItems = () => {
+    setItems([...items].sort(() => Math.random() - 0.5));
+    setRenderCount(prev => prev + 1);
+  };
+  
+  return (
+    <div>
+      <h3>Performance Impact of Unstable Keys</h3>
+      
+      <div>
+        <label>
+          <input 
+            type="checkbox" 
+            checked={useStableKeys}
+            onChange={(e) => setUseStableKeys(e.target.checked)}
+          />
+          Use Stable Keys
+        </label>
+        
+        <button onClick={shuffleItems}>Shuffle Items (Render #{renderCount})</button>
+      </div>
+      
+      <div style={{ height: '200px', overflow: 'auto', border: '1px solid #ccc' }}>
+        {items.slice(0, 20).map((item, index) => (
+          <PerformanceItem 
+            key={useStableKeys ? item.id : Math.random()} // Stable vs unstable
+            item={item}
+            isStable={useStableKeys}
+          />
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function PerformanceItem({ item, isStable }) {
+  const [mountTime] = useState(Date.now());
+  
+  React.useEffect(() => {
+    // Simulate expensive mount operation
+    const start = performance.now();
+    while (performance.now() - start < 1) {
+      // Busy wait for 1ms
+    }
+    
+    console.log(`${isStable ? 'Stable' : 'Unstable'} item ${item.name} mounted`);
+    
+    return () => {
+      console.log(`${isStable ? 'Stable' : 'Unstable'} item ${item.name} unmounted`);
+    };
+  }, []);
+  
+  return (
+    <div style={{ 
+      padding: '5px', 
+      border: '1px solid #ddd',
+      background: isStable ? '#e6ffe6' : '#ffe6e6'
+    }}>
+      {item.name} - Mounted: {new Date(mountTime).toLocaleTimeString()}
+    </div>
+  );
+}
+```
+
+---
+
+## 14. How do you handle memory leaks in React?
+
+**Prevent memory leaks by cleaning up subscriptions, timers, and event listeners in useEffect cleanup functions.**
+
+• **Cleanup functions**: Return cleanup function from useEffect
+• **Event listeners**: Remove event listeners on unmount
+• **Timers**: Clear timeouts and intervals
+• **Subscriptions**: Unsubscribe from external data sources
+
+```jsx
+import { useState, useEffect, useRef } from 'react';
+
+function MemoryLeakExamples() {
+  const [showComponent, setShowComponent] = useState(false);
+  
+  return (
+    <div>
+      <h2>Memory Leak Prevention</h2>
+      
+      <button onClick={() => setShowComponent(!showComponent)}>
+        {showComponent ? 'Hide' : 'Show'} Component
+      </button>
+      
+      {showComponent && (
+        <div>
+          <TimerLeakExample />
+          <EventListenerLeakExample />
+          <SubscriptionLeakExample />
+          <AsyncLeakExample />
+        </div>
+      )}
+    </div>
+  );
+}
+
+// ❌ Timer memory leak example
+function BadTimerExample() {
+  const [count, setCount] = useState(0);
+  
+  useEffect(() => {
+    // ❌ BAD - Timer not cleaned up
+    setInterval(() => {
+      setCount(prev => prev + 1);
+    }, 1000);
+    // Missing cleanup - memory leak!
+  }, []);
+  
+  return <div>Bad Timer Count: {count}</div>;
+}
+
+// ✅ Proper timer cleanup
+function TimerLeakExample() {
+  const [count, setCount] = useState(0);
+  
+  useEffect(() => {
+    console.log('Timer started');
+    
+    const timer = setInterval(() => {
+      setCount(prev => prev + 1);
+    }, 1000);
+    
+    // ✅ GOOD - Cleanup timer
+    return () => {
+      console.log('Timer cleaned up');
+      clearInterval(timer);
+    };
+  }, []);
+  
+  return <div>Timer Count: {count}</div>;
+}
+
+// ✅ Event listener cleanup
+function EventListenerLeakExample() {
+  const [windowSize, setWindowSize] = useState({
+    width: window.innerWidth,
+    height: window.innerHeight
+  });
+  
+  useEffect(() => {
+    console.log('Event listener added');
+    
+    const handleResize = () => {
+      setWindowSize({
+        width: window.innerWidth,
+        height: window.innerHeight
+      });
+    };
+    
+    window.addEventListener('resize', handleResize);
+    
+    // ✅ GOOD - Remove event listener
+    return () => {
+      console.log('Event listener removed');
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
+  
+  return (
+    <div>
+      Window Size: {windowSize.width} x {windowSize.height}
+    </div>
+  );
+}
+
+// ✅ Subscription cleanup
+function SubscriptionLeakExample() {
+  const [data, setData] = useState(null);
+  
+  useEffect(() => {
+    console.log('Subscription started');
+    
+    // Simulate WebSocket or EventSource
+    const subscription = {
+      unsubscribe: null
+    };
+    
+    // Simulate subscription
+    const interval = setInterval(() => {
+      setData({ timestamp: Date.now(), value: Math.random() });
+    }, 2000);
+    
+    subscription.unsubscribe = () => clearInterval(interval);
+    
+    // ✅ GOOD - Cleanup subscription
+    return () => {
+      console.log('Subscription cleaned up');
+      subscription.unsubscribe();
+    };
+  }, []);
+  
+  return (
+    <div>
+      Data: {data ? `${data.value.toFixed(2)} at ${new Date(data.timestamp).toLocaleTimeString()}` : 'Loading...'}
+    </div>
+  );
+}
+
+// ✅ Async operation cleanup
+function AsyncLeakExample() {
+  const [data, setData] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const mountedRef = useRef(true);
+  
+  useEffect(() => {
+    // Track if component is still mounted
+    mountedRef.current = true;
+    
+    return () => {
+      mountedRef.current = false;
+    };
+  }, []);
+  
+  const fetchData = async () => {
+    setLoading(true);
+    
+    try {
+      // Simulate API call
+      await new Promise(resolve => setTimeout(resolve, 2000));
+      const result = { message: 'Data loaded', timestamp: Date.now() };
+      
+      // ✅ GOOD - Check if component is still mounted
+      if (mountedRef.current) {
+        setData(result);
+        setLoading(false);
+      }
+    } catch (error) {
+      if (mountedRef.current) {
+        console.error('Error:', error);
+        setLoading(false);
+      }
+    }
+  };
+  
+  return (
+    <div>
+      <button onClick={fetchData} disabled={loading}>
+        {loading ? 'Loading...' : 'Fetch Data'}
+      </button>
+      {data && <div>Data: {data.message}</div>}
+    </div>
+  );
+}
+
+// Custom hook for cleanup patterns
+function useCleanup(cleanupFn) {
+  const cleanupRef = useRef(cleanupFn);
+  
+  useEffect(() => {
+    cleanupRef.current = cleanupFn;
+  });
+  
+  useEffect(() => {
+    return () => {
+      if (cleanupRef.current) {
+        cleanupRef.current();
+      }
+    };
+  }, []);
+}
+
+// AbortController for fetch cleanup
+function FetchWithAbortExample() {
+  const [data, setData] = useState(null);
+  const [loading, setLoading] = useState(false);
+  
+  const fetchData = async () => {
+    setLoading(true);
+    
+    // ✅ GOOD - Use AbortController
+    const abortController = new AbortController();
+    
+    try {
+      const response = await fetch('/api/data', {
+        signal: abortController.signal
+      });
+      
+      if (!response.ok) throw new Error('Failed to fetch');
+      
+      const result = await response.json();
+      setData(result);
+    } catch (error) {
+      if (error.name !== 'AbortError') {
+        console.error('Fetch error:', error);
+      }
+    } finally {
+      setLoading(false);
+    }
+    
+    // Return cleanup function
+    return () => {
+      abortController.abort();
+    };
+  };
+  
+  useEffect(() => {
+    const cleanup = fetchData();
+    
+    return () => {
+      cleanup.then(fn => fn && fn());
+    };
+  }, []);
+  
+  return (
+    <div>
+      {loading ? 'Loading...' : data ? JSON.stringify(data) : 'No data'}
+    </div>
+  );
+}
+```
+
+---
+
+## 15. What is virtualization (windowing)?
+
+**Virtualization renders only visible items in large lists, dramatically improving performance by reducing DOM nodes.**
+
+• **Render only visible**: Only render items currently in viewport
+• **Performance boost**: Handles thousands of items smoothly
+• **Memory efficient**: Reduces DOM nodes and memory usage
+• **Libraries**: react-window, react-virtualized for implementation
+
+```jsx
+import { useState, useMemo, useRef, useEffect } from 'react';
+
+// Simple virtualization implementation
+function SimpleVirtualizedList({ items, itemHeight = 50, containerHeight = 300 }) {
+  const [scrollTop, setScrollTop] = useState(0);
+  const containerRef = useRef();
+  
+  // Calculate visible range
+  const visibleRange = useMemo(() => {
+    const startIndex = Math.floor(scrollTop / itemHeight);
+    const endIndex = Math.min(
+      startIndex + Math.ceil(containerHeight / itemHeight) + 1,
+      items.length
+    );
+    
+    return { startIndex, endIndex };
+  }, [scrollTop, itemHeight, containerHeight, items.length]);
+  
+  // Get visible items
+  const visibleItems = useMemo(() => {
+    return items.slice(visibleRange.startIndex, visibleRange.endIndex);
+  }, [items, visibleRange]);
+  
+  const handleScroll = (e) => {
+    setScrollTop(e.target.scrollTop);
+  };
+  
+  const totalHeight = items.length * itemHeight;
+  const offsetY = visibleRange.startIndex * itemHeight;
+  
+  return (
+    <div>
+      <h3>Simple Virtualized List</h3>
+      <p>Showing {visibleItems.length} of {items.length} items</p>
+      
+      <div
+        ref={containerRef}
+        style={{
+          height: containerHeight,
+          overflow: 'auto',
+          border: '1px solid #ccc'
+        }}
+        onScroll={handleScroll}
+      >
+        {/* Total height container */}
+        <div style={{ height: totalHeight, position: 'relative' }}>
+          {/* Visible items container */}
+          <div style={{ transform: `translateY(${offsetY}px)` }}>
+            {visibleItems.map((item, index) => (
+              <VirtualizedItem
+                key={visibleRange.startIndex + index}
+                item={item}
+                height={itemHeight}
+                index={visibleRange.startIndex + index}
+              />
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function VirtualizedItem({ item, height, index }) {
+  return (
+    <div
+      style={{
+        height,
+        padding: '10px',
+        borderBottom: '1px solid #eee',
+        display: 'flex',
+        alignItems: 'center',
+        background: index % 2 === 0 ? '#f9f9f9' : 'white'
+      }}
+    >
+      <strong>#{index}</strong>: {item.name} - {item.description}
+    </div>
+  );
+}
+
+// Performance comparison: Regular vs Virtualized
+function PerformanceComparison() {
+  const [itemCount, setItemCount] = useState(1000);
+  const [showVirtualized, setShowVirtualized] = useState(true);
+  
+  // Generate large dataset
+  const items = useMemo(() => {
+    return Array.from({ length: itemCount }, (_, i) => ({
+      id: i,
+      name: `Item ${i}`,
+      description: `Description for item ${i} with some additional text`,
+      value: Math.floor(Math.random() * 1000)
+    }));
+  }, [itemCount]);
+  
+  return (
+    <div>
+      <h2>Virtualization Performance Comparison</h2>
+      
+      <div>
+        <label>
+          Item Count:
+          <input 
+            type="number" 
+            value={itemCount}
+            onChange={(e) => setItemCount(Number(e.target.value))}
+            min="100"
+            max="100000"
+            step="1000"
+          />
+        </label>
+        
+        <label style={{ marginLeft: '20px' }}>
+          <input 
+            type="checkbox"
+            checked={showVirtualized}
+            onChange={(e) => setShowVirtualized(e.target.checked)}
+          />
+          Use Virtualization
+        </label>
+      </div>
+      
+      {showVirtualized ? (
+        <SimpleVirtualizedList 
+          items={items}
+          itemHeight={60}
+          containerHeight={400}
+        />
+      ) : (
+        <RegularList items={items.slice(0, 100)} /> // Limit for performance
+      )}
+    </div>
+  );
+}
+
+function RegularList({ items }) {
+  return (
+    <div>
+      <h3>Regular List (Not Virtualized)</h3>
+      <p>Showing {items.length} items (limited for performance)</p>
+      
+      <div style={{ height: 400, overflow: 'auto', border: '1px solid #ccc' }}>
+        {items.map((item, index) => (
+          <div
+            key={item.id}
+            style={{
+              height: 60,
+              padding: '10px',
+              borderBottom: '1px solid #eee',
+              display: 'flex',
+              alignItems: 'center',
+              background: index % 2 === 0 ? '#f9f9f9' : 'white'
+            }}
+          >
+            <strong>#{index}</strong>: {item.name} - {item.description}
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+// Advanced virtualization with dynamic heights
+function DynamicHeightVirtualization() {
+  const [items] = useState(
+    Array.from({ length: 1000 }, (_, i) => ({
+      id: i,
+      name: `Item ${i}`,
+      content: `Content for item ${i}. `.repeat(Math.floor(Math.random() * 5) + 1)
+    }))
+  );
+  
+  const [scrollTop, setScrollTop] = useState(0);
+  const [itemHeights, setItemHeights] = useState(new Map());
+  const containerRef = useRef();
+  
+  // Estimate item height (simplified)
+  const estimateHeight = (item) => {
+    const baseHeight = 60;
+    const contentHeight = Math.ceil(item.content.length / 50) * 20;
+    return baseHeight + contentHeight;
+  };
+  
+  // Calculate visible items with dynamic heights
+  const visibleItems = useMemo(() => {
+    let currentHeight = 0;
+    let startIndex = 0;
+    let endIndex = 0;
+    
+    // Find start index
+    for (let i = 0; i < items.length; i++) {
+      const height = itemHeights.get(i) || estimateHeight(items[i]);
+      if (currentHeight + height > scrollTop) {
+        startIndex = i;
+        break;
+      }
+      currentHeight += height;
+    }
+    
+    // Find end index
+    currentHeight = 0;
+    for (let i = startIndex; i < items.length; i++) {
+      const height = itemHeights.get(i) || estimateHeight(items[i]);
+      currentHeight += height;
+      endIndex = i;
+      if (currentHeight > 400) break; // Container height
+    }
+    
+    return items.slice(startIndex, endIndex + 1).map((item, index) => ({
+      ...item,
+      index: startIndex + index
+    }));
+  }, [items, scrollTop, itemHeights]);
+  
+  return (
+    <div>
+      <h3>Dynamic Height Virtualization</h3>
+      
+      <div
+        ref={containerRef}
+        style={{ height: 400, overflow: 'auto', border: '1px solid #ccc' }}
+        onScroll={(e) => setScrollTop(e.target.scrollTop)}
+      >
+        {visibleItems.map(item => (
+          <DynamicHeightItem
+            key={item.id}
+            item={item}
+            onHeightChange={(height) => {
+              setItemHeights(prev => new Map(prev).set(item.index, height));
+            }}
+          />
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function DynamicHeightItem({ item, onHeightChange }) {
+  const ref = useRef();
+  
+  useEffect(() => {
+    if (ref.current) {
+      const height = ref.current.offsetHeight;
+      onHeightChange(height);
+    }
+  });
+  
+  return (
+    <div
+      ref={ref}
+      style={{
+        padding: '15px',
+        borderBottom: '1px solid #eee',
+        background: item.index % 2 === 0 ? '#f9f9f9' : 'white'
+      }}
+    >
+      <h4>{item.name}</h4>
+      <p>{item.content}</p>
+    </div>
+  );
+}
+```
+
+---
+
+## 16. How does React efficiently handle large lists?
+
+**React uses keys for reconciliation, but large lists need virtualization, memoization, and pagination for optimal performance.**
+
+• **Keys for reconciliation**: Efficient updates when items change
+• **Virtualization**: Render only visible items
+• **Memoization**: Prevent unnecessary re-renders of list items
+• **Pagination**: Break large datasets into smaller chunks
+
+```jsx
+import { useState, useMemo, memo, useCallback } from 'react';
+
+// Efficient large list with all optimizations
+function EfficientLargeList() {
+  const [items, setItems] = useState(
+    Array.from({ length: 10000 }, (_, i) => ({
+      id: i,
+      name: `Item ${i}`,
+      category: ['A', 'B', 'C'][i % 3],
+      value: Math.floor(Math.random() * 1000),
+      selected: false
+    }))
+  );
+  
+  const [filter, setFilter] = useState('');
+  const [sortBy, setSortBy] = useState('name');
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 100;
+  
+  // ✅ Memoized filtering and sorting
+  const processedItems = useMemo(() => {
+    console.log('Processing items...');
+    
+    let filtered = items;
+    
+    // Filter
+    if (filter) {
+      filtered = filtered.filter(item => 
+        item.name.toLowerCase().includes(filter.toLowerCase())
+      );
+    }
+    
+    // Sort
+    filtered.sort((a, b) => {
+      if (sortBy === 'name') return a.name.localeCompare(b.name);
+      if (sortBy === 'value') return a.value - b.value;
+      return a.category.localeCompare(b.category);
+    });
+    
+    return filtered;
+  }, [items, filter, sortBy]);
+  
+  // ✅ Pagination
+  const paginatedItems = useMemo(() => {
+    const startIndex = (currentPage - 1) * itemsPerPage;
+    return processedItems.slice(startIndex, startIndex + itemsPerPage);
+  }, [processedItems, currentPage, itemsPerPage]);
+  
+  const totalPages = Math.ceil(processedItems.length / itemsPerPage);
+  
+  // ✅ Memoized callbacks
+  const handleToggleItem = useCallback((id) => {
+    setItems(prev => prev.map(item => 
+      item.id === id ? { ...item, selected: !item.selected } : item
+    ));
+  }, []);
+  
+  const handleDeleteItem = useCallback((id) => {
+    setItems(prev => prev.filter(item => item.id !== id));
+  }, []);
+  
+  return (
+    <div>
+      <h2>Efficient Large List Handling</h2>
+      
+      {/* Controls */}
+      <div style={{ marginBottom: '20px' }}>
+        <input 
+          value={filter}
+          onChange={(e) => setFilter(e.target.value)}
+          placeholder="Filter items..."
+          style={{ marginRight: '10px' }}
+        />
+        
+        <select value={sortBy} onChange={(e) => setSortBy(e.target.value)}>
+          <option value="name">Sort by Name</option>
+          <option value="value">Sort by Value</option>
+          <option value="category">Sort by Category</option>
+        </select>
+      </div>
+      
+      {/* Stats */}
+      <div style={{ marginBottom: '10px' }}>
+        <p>
+          Showing {paginatedItems.length} of {processedItems.length} items 
+          (Total: {items.length})
+        </p>
+      </div>
+      
+      {/* List */}
+      <div style={{ minHeight: '400px' }}>
+        {paginatedItems.map(item => (
+          <MemoizedListItem
+            key={item.id}
+            item={item}
+            onToggle={handleToggleItem}
+            onDelete={handleDeleteItem}
+          />
+        ))}
+      </div>
+      
+      {/* Pagination */}
+      <Pagination 
+        currentPage={currentPage}
+        totalPages={totalPages}
+        onPageChange={setCurrentPage}
+      />
+    </div>
+  );
+}
+
+// ✅ Memoized list item component
+const MemoizedListItem = memo(function ListItem({ item, onToggle, onDelete }) {
+  console.log(`Rendering item ${item.id}`);
+  
+  return (
+    <div style={{
+      padding: '10px',
+      border: '1px solid #eee',
+      margin: '2px 0',
+      background: item.selected ? '#e6f3ff' : 'white',
+      display: 'flex',
+      justifyContent: 'space-between',
+      alignItems: 'center'
+    }}>
+      <div>
+        <strong>{item.name}</strong> - {item.category} (Value: {item.value})
+      </div>
+      
+      <div>
+        <button onClick={() => onToggle(item.id)}>
+          {item.selected ? 'Deselect' : 'Select'}
+        </button>
+        <button onClick={() => onDelete(item.id)} style={{ marginLeft: '5px' }}>
+          Delete
+        </button>
+      </div>
+    </div>
+  );
+});
+
+// Pagination component
+function Pagination({ currentPage, totalPages, onPageChange }) {
+  const getPageNumbers = () => {
+    const pages = [];
+    const maxVisible = 5;
+    
+    let start = Math.max(1, currentPage - Math.floor(maxVisible / 2));
+    let end = Math.min(totalPages, start + maxVisible - 1);
+    
+    if (end - start + 1 < maxVisible) {
+      start = Math.max(1, end - maxVisible + 1);
+    }
+    
+    for (let i = start; i <= end; i++) {
+      pages.push(i);
+    }
+    
+    return pages;
+  };
+  
+  return (
+    <div style={{ marginTop: '20px', textAlign: 'center' }}>
+      <button 
+        onClick={() => onPageChange(1)}
+        disabled={currentPage === 1}
+      >
+        First
+      </button>
+      
+      <button 
+        onClick={() => onPageChange(currentPage - 1)}
+        disabled={currentPage === 1}
+        style={{ marginLeft: '5px' }}
+      >
+        Previous
+      </button>
+      
+      {getPageNumbers().map(page => (
+        <button
+          key={page}
+          onClick={() => onPageChange(page)}
+          style={{
+            marginLeft: '5px',
+            background: page === currentPage ? '#007bff' : 'white',
+            color: page === currentPage ? 'white' : 'black'
+          }}
+        >
+          {page}
+        </button>
+      ))}
+      
+      <button 
+        onClick={() => onPageChange(currentPage + 1)}
+        disabled={currentPage === totalPages}
+        style={{ marginLeft: '5px' }}
+      >
+        Next
+      </button>
+      
+      <button 
+        onClick={() => onPageChange(totalPages)}
+        disabled={currentPage === totalPages}
+        style={{ marginLeft: '5px' }}
+      >
+        Last
+      </button>
+    </div>
+  );
+}
+
+// Infinite scroll implementation
+function InfiniteScrollList() {
+  const [items, setItems] = useState(
+    Array.from({ length: 50 }, (_, i) => ({ id: i, name: `Item ${i}` }))
+  );
+  const [loading, setLoading] = useState(false);
+  const [hasMore, setHasMore] = useState(true);
+  
+  const loadMore = useCallback(async () => {
+    if (loading || !hasMore) return;
+    
+    setLoading(true);
+    
+    // Simulate API call
+    await new Promise(resolve => setTimeout(resolve, 1000));
+    
+    const newItems = Array.from({ length: 20 }, (_, i) => ({
+      id: items.length + i,
+      name: `Item ${items.length + i}`
+    }));
+    
+    setItems(prev => [...prev, ...newItems]);
+    setLoading(false);
+    
+    // Stop loading after 500 items
+    if (items.length >= 500) {
+      setHasMore(false);
+    }
+  }, [items.length, loading, hasMore]);
+  
+  // Intersection observer for infinite scroll
+  const lastItemRef = useCallback((node) => {
+    if (loading) return;
+    
+    const observer = new IntersectionObserver(entries => {
+      if (entries[0].isIntersecting && hasMore) {
+        loadMore();
+      }
+    });
+    
+    if (node) observer.observe(node);
+    
+    return () => observer.disconnect();
+  }, [loading, hasMore, loadMore]);
+  
+  return (
+    <div>
+      <h3>Infinite Scroll List</h3>
+      
+      <div style={{ height: '400px', overflow: 'auto', border: '1px solid #ccc' }}>
+        {items.map((item, index) => (
+          <div
+            key={item.id}
+            ref={index === items.length - 1 ? lastItemRef : null}
+            style={{
+              padding: '10px',
+              borderBottom: '1px solid #eee'
+            }}
+          >
+            {item.name}
+          </div>
+        ))}
+        
+        {loading && <div style={{ padding: '20px', textAlign: 'center' }}>Loading...</div>}
+        {!hasMore && <div style={{ padding: '20px', textAlign: 'center' }}>No more items</div>}
+      </div>
+    </div>
+  );
+}
+
+// Complete large list demo
+function LargeListDemo() {
+  return (
+    <div>
+      <h1>Efficient Large List Handling</h1>
+      
+      <EfficientLargeList />
+      <hr />
+      <InfiniteScrollList />
+    </div>
+  );
+}
+
+export default LargeListDemo;
+```
+
+---
+
 ## Quick Reference
 
 ```jsx
