@@ -1,15 +1,42 @@
 import java.util.HashMap;
+import java.io.File;
+import java.io.IOException;
 
 public class Main {
     public static void main(String[] args) {
         // Print "Hello, World!" to the console
         System.out.println("Hello, World!");
         System.out.println("--------------------");
-        // ReverseString();
-        // ReverseArray();
-        // SumOfNumber();
+
+        createFile();
+        // Runloop();
+        // CountWordsUsingHashMap();
         // SwapWithoutThirdVariable();
-        CountWordsUsingHashMap();
+        // SumOfNumber();
+        // ReverseArray();
+        // ReverseString();
+    }
+
+    public static void createFile() {
+        try{
+            file myObj = new File("filename.txt");
+            if (myObj.createNewFile()) {
+                System.out.println("File created: " + myObj.getName());
+            } else {
+                System.out.println("File already exists.");
+            }
+
+        } catch (IOException e) {
+            System.out.println("An error occured;");
+            e.printStackTrace();
+        }
+    }
+
+    public static void Runloop() {
+        for (int i = 0; i <= 5; i++) {
+            i += i;
+            System.out.println("i ---- " + i);
+        }
     }
 
     public static void ReverseString() {
