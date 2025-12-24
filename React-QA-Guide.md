@@ -4,11 +4,11 @@
 
 **React is a JavaScript library for building user interfaces, especially web applications.**
 
-• **Component-based**: Build encapsulated components that manage their own state
-• **Declarative**: Describe what the UI should look like, React handles the how
-• **Reusable**: Write once, use anywhere approach
-• **Fast**: Virtual DOM makes updates efficient
-• **Popular**: Huge ecosystem and community support
+* **Component-based**: Build encapsulated components that manage their own state
+* **Declarative**: Describe what the UI should look like, React handles the how
+* **Reusable**: Write once, use anywhere approach
+* **Fast**: Virtual DOM makes updates efficient
+* **Popular**: Huge ecosystem and community support
 
 ```jsx
 // Simple React component
@@ -23,10 +23,10 @@ function Welcome() {
 
 **JSX is a syntax extension that lets you write HTML-like code inside JavaScript.**
 
-• **Not HTML**: It's JavaScript that looks like HTML
-• **Transpiled**: Babel converts JSX to regular JavaScript
-• **Expressions**: Use curly braces {} for JavaScript expressions
-• **Attributes**: Use camelCase (className instead of class)
+* **Not HTML**: It's JavaScript that looks like HTML
+* **Transpiled**: Babel converts JSX to regular JavaScript
+* **Expressions**: Use curly braces {} for JavaScript expressions
+* **Attributes**: Use camelCase (className instead of class)
 
 ```jsx
 // JSX example
@@ -49,10 +49,10 @@ const greeting = (
 
 **JSX is syntactic sugar for `React.createElement` calls.**
 
-• **JSX**: More readable and HTML-like
-• **createElement**: The actual function JSX compiles to
-• **Same result**: Both create the same React elements
-• **Preference**: JSX is preferred for readability
+* **JSX**: More readable and HTML-like
+* **createElement**: The actual function JSX compiles to
+* **Same result**: Both create the same React elements
+* **Preference**: JSX is preferred for readability
 
 ```jsx
 // JSX version
@@ -89,10 +89,10 @@ const complex = React.createElement(
 
 **React creates elements, ReactDOM renders them to the browser.**
 
-• **React**: Core library for creating components and elements
-• **ReactDOM**: Renders React components to the DOM
-• **Separation**: React can target different platforms (web, mobile, VR)
-• **Web-specific**: ReactDOM is specifically for web browsers
+* **React**: Core library for creating components and elements
+* **ReactDOM**: Renders React components to the DOM
+* **Separation**: React can target different platforms (web, mobile, VR)
+* **Web-specific**: ReactDOM is specifically for web browsers
 
 ```jsx
 import React from 'react';
@@ -114,10 +114,10 @@ root.render(<App />);
 
 **Components are reusable pieces of UI that return JSX elements.**
 
-• **Building blocks**: Like custom HTML elements
-• **Reusable**: Write once, use multiple times
-• **Composable**: Combine small components into larger ones
-• **Isolated**: Each component manages its own logic and state
+* **Building blocks**: Like custom HTML elements
+* **Reusable**: Write once, use multiple times
+* **Composable**: Combine small components into larger ones
+* **Isolated**: Each component manages its own logic and state
 
 ```jsx
 // Simple component
@@ -148,10 +148,10 @@ function App() {
 
 **Two main types: Functional and Class components.**
 
-• **Functional**: Simple functions that return JSX
-• **Class**: ES6 classes that extend React.Component
-• **Modern preference**: Functional components with hooks
-• **Legacy**: Class components still supported but less common
+* **Functional**: Simple functions that return JSX
+* **Class**: ES6 classes that extend React.Component
+* **Modern preference**: Functional components with hooks
+* **Legacy**: Class components still supported but less common
 
 ```jsx
 // Functional Component
@@ -177,16 +177,16 @@ class Welcome extends React.Component {
 **Functional components are simpler and more modern with hooks support.**
 
 **Functional Components:**
-• Simpler syntax
-• Use hooks for state and lifecycle
-• Better performance
-• Easier to test
+* Simpler syntax
+* Use hooks for state and lifecycle
+* Better performance
+* Easier to test
 
 **Class Components:**
-• More verbose
-• Built-in lifecycle methods
-• this.state and this.setState
-• Legacy approach
+* More verbose
+* Built-in lifecycle methods
+* this.state and this.setState
+* Legacy approach
 
 ```jsx
 // Functional Component with hooks
@@ -229,10 +229,10 @@ class Counter extends React.Component {
 
 **Virtual DOM is a JavaScript representation of the real DOM that React uses for efficient updates.**
 
-• **Performance**: Faster than direct DOM manipulation
-• **Diffing**: React compares old and new virtual DOM trees
-• **Batching**: Multiple updates are batched together
-• **Reconciliation**: Only changed elements are updated in real DOM
+* **Performance**: Faster than direct DOM manipulation
+* **Diffing**: React compares old and new virtual DOM trees
+* **Batching**: Multiple updates are batched together
+* **Reconciliation**: Only changed elements are updated in real DOM
 
 ```jsx
 // When state changes, React creates new Virtual DOM
@@ -260,10 +260,10 @@ function App() {
 
 **Props are read-only data passed from parent to child components.**
 
-• **Immutable**: Cannot be changed by the receiving component
-• **Data flow**: Always flows down from parent to child
-• **Function arguments**: Like parameters passed to functions
-• **Any type**: Can pass strings, numbers, objects, functions
+* **Immutable**: Cannot be changed by the receiving component
+* **Data flow**: Always flows down from parent to child
+* **Function arguments**: Like parameters passed to functions
+* **Any type**: Can pass strings, numbers, objects, functions
 
 ```jsx
 // Parent component passing props
@@ -299,10 +299,10 @@ function UserCard({ user, onEdit }) {
 
 **State is mutable data that belongs to a component, while props are immutable data from parent.**
 
-• **State**: Component's own data that can change
-• **Props**: Data received from parent, read-only
-• **Updates**: State changes trigger re-renders
-• **Ownership**: State belongs to component, props come from outside
+* **State**: Component's own data that can change
+* **Props**: Data received from parent, read-only
+* **Updates**: State changes trigger re-renders
+* **Ownership**: State belongs to component, props come from outside
 
 ```jsx
 // State example
@@ -341,10 +341,10 @@ function App() {
 
 **The render() method returns JSX that describes what should appear on screen.**
 
-• **Class components**: Required method that returns JSX
-• **Functional components**: The entire function is like render()
-• **Pure function**: Should not modify state or cause side effects
-• **Return JSX**: Must return valid JSX or null
+* **Class components**: Required method that returns JSX
+* **Functional components**: The entire function is like render()
+* **Pure function**: Should not modify state or cause side effects
+* **Return JSX**: Must return valid JSX or null
 
 ```jsx
 // Class component with render() method
@@ -384,10 +384,10 @@ class UserProfile extends React.Component {
 
 **Keys help React identify which items have changed, added, or removed in lists.**
 
-• **Performance**: Helps React optimize re-renders
-• **Identity**: Gives each element a stable identity
-• **Required**: Should be unique among siblings
-• **Avoid index**: Don't use array index as key when list can change
+* **Performance**: Helps React optimize re-renders
+* **Identity**: Gives each element a stable identity
+* **Required**: Should be unique among siblings
+* **Avoid index**: Don't use array index as key when list can change
 
 ```jsx
 // Good - using unique IDs as keys
@@ -435,10 +435,10 @@ function ShoppingList() {
 
 **Controlled components have their form data handled by React state.**
 
-• **React controls**: State controls the input value
-• **Single source**: State is the single source of truth
-• **onChange**: Update state when input changes
-• **Predictable**: Easy to validate and manipulate data
+* **React controls**: State controls the input value
+* **Single source**: State is the single source of truth
+* **onChange**: Update state when input changes
+* **Predictable**: Easy to validate and manipulate data
 
 ```jsx
 function LoginForm() {
@@ -476,10 +476,10 @@ function LoginForm() {
 
 **Uncontrolled components store their own state internally and use refs to access values.**
 
-• **DOM controls**: DOM handles the form data
-• **Refs**: Use refs to get values when needed
-• **Less React**: More like traditional HTML forms
-• **Use cases**: File inputs, integration with non-React libraries
+* **DOM controls**: DOM handles the form data
+* **Refs**: Use refs to get values when needed
+* **Less React**: More like traditional HTML forms
+* **Use cases**: File inputs, integration with non-React libraries
 
 ```jsx
 import { useRef } from 'react';
@@ -521,10 +521,10 @@ function UncontrolledForm() {
 
 **Fragments let you group multiple elements without adding extra DOM nodes.**
 
-• **No wrapper**: Avoid unnecessary div wrappers
-• **Clean DOM**: Keeps HTML structure clean
-• **Two syntaxes**: `<React.Fragment>` or `<></>`
-• **Keys**: Long syntax supports keys in lists
+* **No wrapper**: Avoid unnecessary div wrappers
+* **Clean DOM**: Keeps HTML structure clean
+* **Two syntaxes**: `<React.Fragment>` or `<></>`
+* **Keys**: Long syntax supports keys in lists
 
 ```jsx
 // Without Fragment (adds extra div)
@@ -578,10 +578,10 @@ function ItemList({ items }) {
 
 **Synthetic events are React's wrapper around native DOM events for cross-browser compatibility.**
 
-• **Cross-browser**: Same API across all browsers
-• **Same interface**: Same properties and methods as native events
-• **Event pooling**: Reused for performance (React 16 and below)
-• **preventDefault**: Works the same as native events
+* **Cross-browser**: Same API across all browsers
+* **Same interface**: Same properties and methods as native events
+* **Event pooling**: Reused for performance (React 16 and below)
+* **preventDefault**: Works the same as native events
 
 ```jsx
 function EventExample() {
@@ -624,10 +624,10 @@ function NativeEventExample() {
 
 **StrictMode is a development tool that helps identify potential problems in your application.**
 
-• **Development only**: No effect in production builds
-• **Double rendering**: Helps find side effects in render methods
-• **Deprecated warnings**: Warns about deprecated React features
-• **Unsafe lifecycles**: Identifies unsafe lifecycle methods
+* **Development only**: No effect in production builds
+* **Double rendering**: Helps find side effects in render methods
+* **Deprecated warnings**: Warns about deprecated React features
+* **Unsafe lifecycles**: Identifies unsafe lifecycle methods
 
 ```jsx
 import React from 'react';
