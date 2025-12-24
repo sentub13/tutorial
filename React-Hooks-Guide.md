@@ -8,11 +8,11 @@
 
 **Hooks are functions that let you use state and lifecycle features in functional components.**
 
-• **Functional components**: No more class components needed
-• **Reusable logic**: Share stateful logic between components
-• **Simpler code**: Less boilerplate than class components
-• **Better testing**: Easier to test and reason about
-• **Gradual adoption**: Can use alongside existing class components
+* **Functional components**: No more class components needed
+* **Reusable logic**: Share stateful logic between components
+* **Simpler code**: Less boilerplate than class components
+* **Better testing**: Easier to test and reason about
+* **Gradual adoption**: Can use alongside existing class components
 
 ```jsx
 // Before Hooks - Class Component
@@ -55,10 +55,10 @@ function Counter() {
 
 **Hooks must follow specific rules to work correctly with React's internal mechanisms.**
 
-• **Top level only**: Never call hooks inside loops, conditions, or nested functions
-• **React functions only**: Only call hooks from React function components or custom hooks
-• **Same order**: Hooks must be called in the same order every time
-• **Consistent calls**: React relies on call order to track hook state
+* **Top level only**: Never call hooks inside loops, conditions, or nested functions
+* **React functions only**: Only call hooks from React function components or custom hooks
+* **Same order**: Hooks must be called in the same order every time
+* **Consistent calls**: React relies on call order to track hook state
 
 ```jsx
 // ❌ WRONG - Breaking Rules of Hooks
@@ -101,10 +101,10 @@ function GoodComponent({ condition }) {
 
 **useState adds state to functional components and returns current state and setter function.**
 
-• **State management**: Manages component's local state
-• **Returns array**: [currentState, setterFunction]
-• **Triggers re-render**: Calling setter causes component to re-render
-• **Initial value**: Can be a value or function
+* **State management**: Manages component's local state
+* **Returns array**: [currentState, setterFunction]
+* **Triggers re-render**: Calling setter causes component to re-render
+* **Initial value**: Can be a value or function
 
 ```jsx
 import { useState } from 'react';
@@ -164,10 +164,10 @@ function computeExpensiveValue() {
 
 **useEffect handles side effects in functional components like API calls, subscriptions, and DOM manipulation.**
 
-• **Side effects**: Data fetching, subscriptions, manual DOM changes
-• **Lifecycle replacement**: Combines componentDidMount, componentDidUpdate, componentWillUnmount
-• **Dependency array**: Controls when effect runs
-• **Cleanup function**: Return function for cleanup (like componentWillUnmount)
+* **Side effects**: Data fetching, subscriptions, manual DOM changes
+* **Lifecycle replacement**: Combines componentDidMount, componentDidUpdate, componentWillUnmount
+* **Dependency array**: Controls when effect runs
+* **Cleanup function**: Return function for cleanup (like componentWillUnmount)
 
 ```jsx
 import { useState, useEffect } from 'react';
@@ -224,10 +224,10 @@ async function fetchUser() {
 
 **useState manages state, useEffect handles side effects - they serve different purposes.**
 
-• **useState**: State management, triggers re-renders
-• **useEffect**: Side effects, doesn't return state
-• **When they run**: useState during render, useEffect after render
-• **Purpose**: useState for data, useEffect for actions
+* **useState**: State management, triggers re-renders
+* **useEffect**: Side effects, doesn't return state
+* **When they run**: useState during render, useEffect after render
+* **Purpose**: useState for data, useEffect for actions
 
 ```jsx
 import { useState, useEffect } from 'react';
@@ -292,9 +292,9 @@ function subscribeToUpdates() {
 
 **Three effect hooks that run at different phases of the render cycle.**
 
-• **useEffect**: Runs after DOM updates (asynchronous)
-• **useLayoutEffect**: Runs before browser paint (synchronous)
-• **useInsertionEffect**: Runs before DOM mutations (CSS-in-JS libraries)
+* **useEffect**: Runs after DOM updates (asynchronous)
+* **useLayoutEffect**: Runs before browser paint (synchronous)
+* **useInsertionEffect**: Runs before DOM mutations (CSS-in-JS libraries)
 
 ```jsx
 import { useState, useEffect, useLayoutEffect, useInsertionEffect } from 'react';
@@ -398,10 +398,10 @@ function PracticalExample() {
 
 **Avoid useEffect for calculations, event handlers, and operations that don't need side effects.**
 
-• **Calculations**: Use regular variables or useMemo instead
-• **Event handlers**: Define functions directly, don't wrap in useEffect
-• **Transforming data**: Do it during render, not in useEffect
-• **Initializing state**: Use useState initializer or useMemo
+* **Calculations**: Use regular variables or useMemo instead
+* **Event handlers**: Define functions directly, don't wrap in useEffect
+* **Transforming data**: Do it during render, not in useEffect
+* **Initializing state**: Use useState initializer or useMemo
 
 ```jsx
 // ❌ WRONG - Don't use useEffect for calculations
@@ -450,10 +450,10 @@ function GoodButton() {
 
 **React compares each dependency with its previous value using Object.is() to decide if effect should run.**
 
-• **Shallow comparison**: Uses Object.is() for each dependency
-• **Array order**: Dependencies must be in same order every render
-• **Reference equality**: Objects/arrays compared by reference, not content
-• **Missing deps**: Can cause stale closures and bugs
+* **Shallow comparison**: Uses Object.is() for each dependency
+* **Array order**: Dependencies must be in same order every render
+* **Reference equality**: Objects/arrays compared by reference, not content
+* **Missing deps**: Can cause stale closures and bugs
 
 ```jsx
 import { useState, useEffect } from 'react';
@@ -514,10 +514,10 @@ function compareDependencies(prevDeps, nextDeps) {
 
 **Stale closure occurs when a function captures old values from previous renders.**
 
-• **Closure problem**: Function remembers old values
-• **Common with**: useEffect, event handlers, timers
-• **Symptoms**: Using outdated state or props
-• **Solution**: Use functional updates or useRef
+* **Closure problem**: Function remembers old values
+* **Common with**: useEffect, event handlers, timers
+* **Symptoms**: Using outdated state or props
+* **Solution**: Use functional updates or useRef
 
 ```jsx
 import { useState, useEffect, useRef } from 'react';
@@ -585,10 +585,10 @@ function FixedWithRef() {
 
 **Use functional updates, useRef, or include dependencies to avoid stale state.**
 
-• **Functional updates**: Use prev => prev + 1 instead of direct values
-• **useRef**: Store mutable references that don't cause re-renders
-• **Dependencies**: Include all used values in dependency array
-• **useCallback**: Memoize functions that depend on state
+* **Functional updates**: Use prev => prev + 1 instead of direct values
+* **useRef**: Store mutable references that don't cause re-renders
+* **Dependencies**: Include all used values in dependency array
+* **useCallback**: Memoize functions that depend on state
 
 ```jsx
 import { useState, useEffect, useRef, useCallback } from 'react';
@@ -663,10 +663,10 @@ function useStableCallback(callback) {
 
 **Use useRef for mutable values that don't need to trigger re-renders.**
 
-• **No re-renders**: Changing ref.current doesn't cause re-render
-• **DOM access**: Direct access to DOM elements
-• **Mutable values**: Store values that change but don't affect UI
-• **Previous values**: Keep track of previous state/props
+* **No re-renders**: Changing ref.current doesn't cause re-render
+* **DOM access**: Direct access to DOM elements
+* **Mutable values**: Store values that change but don't affect UI
+* **Previous values**: Keep track of previous state/props
 
 ```jsx
 import { useState, useRef, useEffect } from 'react';
@@ -756,10 +756,10 @@ function UsageGuide() {
 
 **useMemo memoizes expensive calculations and prevents unnecessary re-computations.**
 
-• **Performance optimization**: Avoid expensive calculations on every render
-• **Referential equality**: Keep same object reference between renders
-• **Dependency-based**: Only recalculates when dependencies change
-• **Don't overuse**: Only for expensive operations or referential equality
+* **Performance optimization**: Avoid expensive calculations on every render
+* **Referential equality**: Keep same object reference between renders
+* **Dependency-based**: Only recalculates when dependencies change
+* **Don't overuse**: Only for expensive operations or referential equality
 
 ```jsx
 import { useState, useMemo, useCallback } from 'react';
@@ -865,10 +865,10 @@ const Chart = React.memo(({ config }) => {
 
 **useCallback memoizes functions to prevent unnecessary re-creations and child re-renders.**
 
-• **Function memoization**: Returns same function reference between renders
-• **Child optimization**: Prevents unnecessary re-renders of child components
-• **Dependency-based**: Only recreates when dependencies change
-• **Event handlers**: Especially useful for event handlers passed to children
+* **Function memoization**: Returns same function reference between renders
+* **Child optimization**: Prevents unnecessary re-renders of child components
+* **Dependency-based**: Only recreates when dependencies change
+* **Event handlers**: Especially useful for event handlers passed to children
 
 ```jsx
 import { useState, useCallback, memo } from 'react';
@@ -940,10 +940,10 @@ const NameInput = memo(({ onUpdate }) => {
 
 **useMemo memoizes values, useCallback memoizes functions - both prevent unnecessary recalculations.**
 
-• **useMemo**: Returns memoized value (result of computation)
-• **useCallback**: Returns memoized function (the function itself)
-• **Purpose**: useMemo for expensive calculations, useCallback for stable function references
-• **Equivalent**: useCallback(fn, deps) === useMemo(() => fn, deps)
+* **useMemo**: Returns memoized value (result of computation)
+* **useCallback**: Returns memoized function (the function itself)
+* **Purpose**: useMemo for expensive calculations, useCallback for stable function references
+* **Equivalent**: useCallback(fn, deps) === useMemo(() => fn, deps)
 
 ```jsx
 import { useState, useMemo, useCallback } from 'react';
@@ -1031,10 +1031,10 @@ function ComparisonSummary() {
 
 **useReducer manages complex state with predictable updates through reducer functions.**
 
-• **Complex state**: Better for objects with multiple related values
-• **Predictable updates**: All state changes go through reducer function
-• **Action-based**: Update state by dispatching actions
-• **Redux-like**: Similar pattern to Redux but local to component
+* **Complex state**: Better for objects with multiple related values
+* **Predictable updates**: All state changes go through reducer function
+* **Action-based**: Update state by dispatching actions
+* **Redux-like**: Similar pattern to Redux but local to component
 
 ```jsx
 import { useReducer, useState } from 'react';
@@ -1199,10 +1199,10 @@ async function submitForm(data) {
 
 **Yes, hooks can replace all class lifecycle methods with useEffect and other hooks.**
 
-• **useEffect**: Covers most lifecycle methods
-• **useLayoutEffect**: For synchronous effects
-• **Custom hooks**: Can encapsulate complex lifecycle logic
-• **Cleaner code**: More predictable than class lifecycles
+* **useEffect**: Covers most lifecycle methods
+* **useLayoutEffect**: For synchronous effects
+* **Custom hooks**: Can encapsulate complex lifecycle logic
+* **Cleaner code**: More predictable than class lifecycles
 
 ```jsx
 import { useState, useEffect, useLayoutEffect, useRef } from 'react';
@@ -1360,10 +1360,10 @@ function trackPageView() {
 
 **Custom hooks are functions that start with 'use' and can call other hooks.**
 
-• **Reusable logic**: Extract and share stateful logic between components
-• **Naming convention**: Must start with 'use'
-• **Composition**: Can use other hooks inside
-• **Return anything**: Can return values, functions, or objects
+* **Reusable logic**: Extract and share stateful logic between components
+* **Naming convention**: Must start with 'use'
+* **Composition**: Can use other hooks inside
+* **Return anything**: Can return values, functions, or objects
 
 ```jsx
 import { useState, useEffect, useCallback } from 'react';
@@ -1496,10 +1496,10 @@ function useApi(baseUrl) {
 
 **Use custom hooks to share stateful logic between components without wrapper components.**
 
-• **Custom hooks**: Extract logic into reusable functions
-• **Composition**: Combine multiple hooks for complex logic
-• **No wrapper hell**: Avoid nested HOC components
-• **Better testing**: Easier to test isolated logic
+* **Custom hooks**: Extract logic into reusable functions
+* **Composition**: Combine multiple hooks for complex logic
+* **No wrapper hell**: Avoid nested HOC components
+* **Better testing**: Easier to test isolated logic
 
 ```jsx
 import { useState, useEffect, useCallback } from 'react';
