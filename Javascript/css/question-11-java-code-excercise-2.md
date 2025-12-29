@@ -1,7 +1,3 @@
-Here are 50 Java coding questions based on various topics that will help you practice and sharpen your Java programming skills:
-
-Here are the Java programs for the problems you've provided:
-
 ### 1. Reverse a String without using String inbuilt function
 ```java
 public class ReverseString {
@@ -102,19 +98,6 @@ public class CountWordsUsingHashMap {
     }
 }
 ```
-
-### Explanation:
-1. **Reverse String without inbuilt function**: The first program reverses a string by converting it into a character array and then swapping characters from both ends until they meet in the middle.
-  
-2. **Reverse String without `reverse()` method**: The second program uses a loop to reverse the string by concatenating the characters from the end to the start.
-
-3. **Swap Two Numbers using Third Variable**: The third program swaps two integers by using a temporary variable to hold one value during the swap process.
-
-4. **Swap Two Numbers without Third Variable**: The fourth program swaps two numbers without using a third variable by performing arithmetic operations.
-
-5. **Count Words Using HashMap**: The fifth program splits the string into words and counts the occurrences of each word using a `HashMap`, where the key is the word and the value is its count.
-
-Here are the Java programs for the given problems:
 
 ### 6. Iterate HashMap using While and Advanced For Loop
 ```java
