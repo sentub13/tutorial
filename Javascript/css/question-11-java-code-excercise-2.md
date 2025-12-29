@@ -279,6 +279,27 @@ public class DuplicateCharacters {
 }
 ```
 
+### 11. Find the Duplicate Characters in a Numbers
+```java
+class Main {
+    public static void main(String[] args) {
+        int[] nums = {2, 5, 2, 7, 8, 9, 5, 3};
+
+        System.out.print("Duplicate numbers: ");
+
+        for (int i = 0; i < nums.length; i++) {
+            for (int j = i + 1; j < nums.length; j++) {
+                if (nums[i] == nums[j]) {
+                    System.out.print(nums[i] + " ");
+                    break;
+                }
+            }
+        }
+    }
+}
+
+```
+
 ### 12. Find the Second-Highest Number in an Array
 ```java
 public class SecondHighestNumber {
