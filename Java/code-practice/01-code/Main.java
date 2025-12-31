@@ -23,7 +23,8 @@ public class Main01 {
         // IterateArrayList();
         // DuplicateCharacters();
         // findDuplicateNums();
-        // SecondHighestNumber();
+        // SecondHighestNumberOne();
+        // SecondHighestNumberTwo();
         // ArmstrongNumber();
         // RemoveWhiteSpacesWithReplace();
         // RemoveWhiteSpacesWithoutReplace();
@@ -334,7 +335,25 @@ public class Main01 {
     }
 
     // 12. Find the Second-Highest Number in an Array
-    public static void SecondHighestNumber() {
+    public static void SecondHighestNumberOne() {
+        int[] arr = {10, 5, 20, 20, 15, 5, 30};
+        
+        // Sort array in descending order
+        Arrays.sort(arr);
+        
+        // Traverse from end to find second highest
+        for(int i = arr.length-2; i >= 0; i--) {
+            if(arr[i] != arr[arr.length-1]) {
+                System.out.println("Second-highest number: " + arr[i]);
+                return;
+            }
+        }
+        
+        System.out.println("There is no second-highest number in the array.");
+    }
+
+    // 12. Find the Second-Highest Number in an Array
+    public static void SecondHighestNumberTwo() {
         int[] arr = {10, 5, 20, 20, 15, 5, 30};
         int highest = Integer.MIN_VALUE;
         int secondHighest = Integer.MIN_VALUE;
@@ -355,7 +374,6 @@ public class Main01 {
             System.out.println("Second-highest number: " + secondHighest);
         }
     }
-
 
 
     // 13. Check Armstrong Number

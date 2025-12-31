@@ -318,6 +318,36 @@
 
     var strrr = "I am confident that my skills, experience align closely with the requirements of this position. My expertise in front-end development like Javascript, React.Js, Angular, Redux, Nx and have good understanding of user experience (UX).";
     console.log("strrr----", strrr.length)
+	
+	// 11. Find the Duplicate Characters in a String
+	function DuplicateCharacters() {
+		var nums = [10, 5, 50, 9, 15, 20, 40, 10, 5];
+		for(var i = 0; i<nums.length; i++ ) {
+			for(var j = i+1; j<nums.length; j++ ) {
+				if(nums[i] == nums[j]) {
+					console.log("hello ===", nums[i]);
+					break;
+				}				
+			}	
+		}
+	}
+	DuplicateCharacters();
+	
+	// Find the Second-Highest Number in an Array
+	function SecondHighestNumberOne() {
+		var nums = [10, 5, 50, 9, 15, 20, 40];
+		let sortArr = nums.sort((a,b) => a - b);
+		console.log("nums---", nums);
+		for(var i = sortArr.length-2; i>= 0; i--) {
+			if(sortArr[i] == sortArr[sortArr.length-2]) {
+				console.log("hello ===", sortArr[i]);
+				break;
+			}
+			
+		}
+		
+	}
+	// SecondHighestNumberOne();
 
     </script>
   </body>
