@@ -30,11 +30,11 @@ public class Test01 {
         // RemoveWhiteSpacesWithoutReplace();
         // Factorial();
         // EvenOdd();
-        SumOfDigits();
+        // SumOfDigits();
         // MultiplicationTable();
         // LargestElement();
         // SmallestElement();
-        // VowelConsonantCount();
+        VowelConsonantCount();
         // AnagramCheck();
         // PrimeNumbers();
         // ReverseInteger();
@@ -385,25 +385,68 @@ public class Test01 {
 
     // 19. Print the Multiplication Table of a Number
     public static void MultiplicationTable() {
-        
+        int number = 5;  // Example number
+        int limit = 10;   // Table limit (multiplying by numbers 1 to 10)
+		
+		for (int i = 1; i<=limit; i++) {
+			System.out.println(number + " x " + i + " = " + (number * i));
+		}
     }
 
 
     // 20. Find the Largest Element in an Array
     public static void LargestElement() {
-        
+        int[] arr = {10, 20, 5, 30, 15};
+		int largest = arr[0];
+		
+		for(int i=0; i<arr.length; i ++) {
+			if( largest < arr[i]) {
+				largest = arr[i];
+			}
+		}
+		
+		System.out.println("largest " +largest); 
     }
 
 
     // 21. Find the Smallest Element in an Array
     public static void SmallestElement() {
-        
+        int[] arr = {10, 20, 5, 30, 15};
+		int smallest = arr[0];
+		
+		for(int i=0; i<arr.length; i ++) {
+			if( smallest > arr[i]) {
+				smallest = arr[i];
+			}
+		}
+		
+		System.out.println("smallest " +smallest); 
     }
 
 
     // 22. Count Vowels and Consonants in a String
     public static void VowelConsonantCount() {
-        
+        String str = "Hello World";
+		int vowel = 0, consonants = 0;
+		String vowelStr = "";
+		str = str.toLowerCase();
+		
+		for (int i=0; i<str.length(); i++) {
+			char ch = str.charAt(i);
+			// System.out.println("smallest " + ch); 
+			if(ch >= 'a' && ch <= 'z') {
+				if(ch == 'a' || ch == 'e' || ch == 'i' || ch == 'o' || ch == 'u') {
+					vowel ++;
+					vowelStr += ch;
+				} else {
+					consonants ++;
+				}
+			}
+		}
+		
+		System.out.println("vowel      " + vowel); 
+		System.out.println("vowelStr   " + vowelStr); 
+		System.out.println("consonants " + consonants); 
     }
 
 

@@ -535,6 +535,7 @@ public class Main01 {
 
 
     // 23. Check if Two Strings are Anagrams
+    // Two strings are anagrams if they contain the same characters with the same frequencies, but arranged in a different order.
     public static void AnagramCheck() {
         String str1 = "listen";  // Example strings
         String str2 = "silent";
@@ -609,7 +610,7 @@ public class Main01 {
         int rows = 5;  // Number of rows in the triangle
 
         // Loop to print the triangle
-        for (int i = 1; i <= rows; i++) {
+        for (int i = 1; i <= rows; i++) {MultiplicationTable
             for (int j = 1; j <= i; j++) {
                 System.out.print("* ");  // Print stars
             }
