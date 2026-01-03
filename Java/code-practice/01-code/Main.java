@@ -13,6 +13,7 @@ public class Main01 {
 
         // ReverseString();
         // ReverseStringNoReverse();
+		// ReverseInteger();
         // SwapWithThirdVariable();
         // SwapWithoutThirdVariable();
         // CountWordsUsingHashMap();
@@ -23,6 +24,7 @@ public class Main01 {
         // IterateArrayList();
         // DuplicateCharacters();
         // findDuplicateNums();
+		// RemoveDuplicates();		
         // SecondHighestNumberOne();
         // SecondHighestNumberTwo();
         // ArmstrongNumber();
@@ -36,8 +38,7 @@ public class Main01 {
         // SmallestElement();
         // VowelConsonantCount();
         // AnagramCheck();
-        // PrimeNumbers();
-        // ReverseInteger();
+        // PrimeNumbers();        
         // StringToInteger();
         // StarTriangle();
         // SumOfNaturalNumbers();
@@ -52,8 +53,7 @@ public class Main01 {
         // MedianArray();
         // NumberPattern();
         // ContainsSubstring();
-        // ReplaceCharacter();
-        // RemoveDuplicates();
+        // ReplaceCharacter();        
         // ArrayToString();
         // SwapStrings();
         // LongestWord();
@@ -127,6 +127,17 @@ public class Main01 {
         }
 
         System.out.println("Reversed string: " + reversedStr);
+    }
+	
+	 // 25. Reverse an Integer Number
+    public static void ReverseInteger() {
+        int number = 12345;
+
+        char[] charArray = String.valueOf(number).toCharArray();
+
+        for (int i = charArray.length - 1; i >= 0; i--) {
+            System.out.print(charArray[i]);
+        }
     }
 
 
@@ -580,22 +591,6 @@ public class Main01 {
     }
 
 
-    // 25. Reverse an Integer Number
-    public static void ReverseInteger() {
-        int number = 12345;  // Example number
-        int reversed = 0;
-
-        // Reverse the integer
-        while (number != 0) {
-            int digit = number % 10;  // Extract the last digit
-            reversed = reversed * 10 + digit;  // Append the digit to the reversed number
-            number /= 10;  // Remove the last digit
-        }
-
-        System.out.println("Reversed number: " + reversed);
-    }
-
-
     // 26. Convert a String to an Integer
     public static void StringToInteger() {
         String str = "12345";  // Example string
@@ -610,7 +605,7 @@ public class Main01 {
         int rows = 5;  // Number of rows in the triangle
 
         // Loop to print the triangle
-        for (int i = 1; i <= rows; i++) {MultiplicationTable
+        for (int i = 1; i <= rows; i++) {
             for (int j = 1; j <= i; j++) {
                 System.out.print("* ");  // Print stars
             }
@@ -843,15 +838,6 @@ public class Main01 {
     }
 
 
-    // 41. Remove Duplicates from an Array
-    public static void RemoveDuplicates() {
-        int[] arr = {1, 2, 3, 4, 4, 5, 5, 6};  // Example array
-        arr = Arrays.stream(arr).distinct().toArray();  // Remove duplicates using Streams
-
-        System.out.println("Array without duplicates: " + Arrays.toString(arr));
-    }
-
-
     // 42. Convert an Array to a String
     public static void ArrayToString() {
         int[] arr = {1, 2, 3, 4, 5};  // Example array
@@ -1053,5 +1039,351 @@ public class Main01 {
         int sqrt = (int) Math.sqrt(n);
         return (sqrt * sqrt == n);
     }
+
+    Here are **different star (`*`) pattern combinations in Java**.
+
+    ---
+
+    ## 1️⃣ Square Star Pattern
+
+    ```
+    * * * *
+    * * * *
+    * * * *
+    * * * *
+    ```
+
+    ```java
+    public class StarPattern {
+        public static void main(String[] args) {
+            for (int i = 1; i <= 4; i++) {
+                for (int j = 1; j <= 4; j++) {
+                    System.out.print("* ");
+                }
+                System.out.println();
+            }
+        }
+    }
+    ```
+
+    ---
+
+    ## 2️⃣ Right Triangle Star Pattern
+
+    ```
+    *
+    * *
+    * * *
+    * * * *
+    ```
+
+    ```java
+    public class StarPattern {
+        public static void main(String[] args) {
+            for (int i = 1; i <= 4; i++) {
+                for (int j = 1; j <= i; j++) {
+                    System.out.print("* ");
+                }
+                System.out.println();
+            }
+        }
+    }
+    ```
+
+    ---
+
+    ## 3️⃣ Inverted Right Triangle
+
+    ```
+    * * * *
+    * * *
+    * *
+    *
+    ```
+
+    ```java
+    public class StarPattern {
+        public static void main(String[] args) {
+            for (int i = 4; i >= 1; i--) {
+                for (int j = 1; j <= i; j++) {
+                    System.out.print("* ");
+                }
+                System.out.println();
+            }
+        }
+    }
+    ```
+
+    ---
+
+    ## 4️⃣ Pyramid Star Pattern
+
+    ```
+    *
+    * *
+    * * *
+    * * * *
+    ```
+
+    ```java
+    public class StarPattern {
+        public static void main(String[] args) {
+            int n = 4;
+
+            for (int i = 1; i <= n; i++) {
+                for (int space = n - i; space > 0; space--) {
+                    System.out.print(" ");
+                }
+                for (int star = 1; star <= i; star++) {
+                    System.out.print("* ");
+                }
+                System.out.println();
+            }
+        }
+    }
+    ```
+
+    ---
+
+    ## 5️⃣ Diamond Star Pattern
+
+    ```
+    *
+    * *
+    * * *
+    * *
+    *
+    ```
+
+    ```java
+    public class StarPattern {
+        public static void main(String[] args) {
+            int n = 3;
+
+            // Upper part
+            for (int i = 1; i <= n; i++) {
+                for (int space = n - i; space > 0; space--) {
+                    System.out.print(" ");
+                }
+                for (int star = 1; star <= i; star++) {
+                    System.out.print("* ");
+                }
+                System.out.println();
+            }
+
+            // Lower part
+            for (int i = n - 1; i >= 1; i--) {
+                for (int space = n - i; space > 0; space--) {
+                    System.out.print(" ");
+                }
+                for (int star = 1; star <= i; star++) {
+                    System.out.print("* ");
+                }
+                System.out.println();
+            }
+        }
+    }
+    ```
+
+    ## 6️⃣ Left Triangle Star Pattern
+
+    ```
+        *
+        * *
+    * * *
+    * * * *
+    ```
+
+    ```java
+    public class StarPattern {
+        public static void main(String[] args) {
+            int n = 4;
+
+            for (int i = 1; i <= n; i++) {
+                for (int space = n - i; space > 0; space--) {
+                    System.out.print("  ");
+                }
+                for (int star = 1; star <= i; star++) {
+                    System.out.print("* ");
+                }
+                System.out.println();
+            }
+        }
+    }
+    ```
+
+    ---
+
+    ## 7️⃣ Full Pyramid
+
+    ```
+        *
+    * * *
+    * * * * *
+    * * * * * * *
+    ```
+
+    ```java
+    public class StarPattern {
+        public static void main(String[] args) {
+            int n = 4;
+
+            for (int i = 1; i <= n; i++) {
+                for (int space = n - i; space > 0; space--) {
+                    System.out.print(" ");
+                }
+                for (int star = 1; star <= (2 * i - 1); star++) {
+                    System.out.print("*");
+                }
+                System.out.println();
+            }
+        }
+    }
+    ```
+
+    ---
+
+    ## 8️⃣ Inverted Full Pyramid
+
+    ```
+    * * * * * * *
+    * * * * *
+        * * *
+        *
+    ```
+
+    ```java
+    public class StarPattern {
+        public static void main(String[] args) {
+            int n = 4;
+
+            for (int i = n; i >= 1; i--) {
+                for (int space = n - i; space > 0; space--) {
+                    System.out.print(" ");
+                }
+                for (int star = 1; star <= (2 * i - 1); star++) {
+                    System.out.print("*");
+                }
+                System.out.println();
+            }
+        }
+    }
+    ```
+
+    ---
+
+    ## 9️⃣ Hollow Square
+
+    ```
+    * * * *
+    *     *
+    *     *
+    * * * *
+    ```
+
+    ```java
+    public class StarPattern {
+        public static void main(String[] args) {
+            int n = 4;
+
+            for (int i = 1; i <= n; i++) {
+                for (int j = 1; j <= n; j++) {
+                    if (i == 1 || i == n || j == 1 || j == n) {
+                        System.out.print("* ");
+                    } else {
+                        System.out.print("  ");
+                    }
+                }
+                System.out.println();
+            }
+        }
+    }
+    ```
+
+    ---
+
+    ## 🔟 Hollow Pyramid
+
+    ```
+    *
+    * *
+    *   *
+    *******
+    ```
+
+    ```java
+    public class StarPattern {
+        public static void main(String[] args) {
+            int n = 4;
+
+            for (int i = 1; i <= n; i++) {
+                for (int space = n - i; space > 0; space--) {
+                    System.out.print(" ");
+                }
+                for (int j = 1; j <= (2 * i - 1); j++) {
+                    if (j == 1 || j == (2 * i - 1) || i == n) {
+                        System.out.print("*");
+                    } else {
+                        System.out.print(" ");
+                    }
+                }
+                System.out.println();
+            }
+        }
+    }
+    ```
+
+    ---
+
+    ## 1️⃣1️⃣ Butterfly Pattern
+
+    ```
+    *      *
+    **    **
+    ***  ***
+    ********
+    ********
+    ***  ***
+    **    **
+    *      *
+    ```
+
+    ```java
+    public class StarPattern {
+        public static void main(String[] args) {
+            int n = 4;
+
+            // Upper part
+            for (int i = 1; i <= n; i++) {
+                for (int j = 1; j <= i; j++) {
+                    System.out.print("*");
+                }
+                for (int space = 1; space <= 2 * (n - i); space++) {
+                    System.out.print(" ");
+                }
+                for (int j = 1; j <= i; j++) {
+                    System.out.print("*");
+                }
+                System.out.println();
+            }
+
+            // Lower part
+            for (int i = n; i >= 1; i--) {
+                for (int j = 1; j <= i; j++) {
+                    System.out.print("*");
+                }
+                for (int space = 1; space <= 2 * (n - i); space++) {
+                    System.out.print(" ");
+                }
+                for (int j = 1; j <= i; j++) {
+                    System.out.print("*");
+                }
+                System.out.println();
+            }
+        }
+    }
+    ```
+
+
  
 }
