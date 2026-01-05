@@ -16,11 +16,11 @@ public class Main01 {
         // RemoveWhiteSpacesWithoutReplace();
         // ContainsSubstring();
         // ReplaceCharacter();
-        ArrayToString();
+        // ArrayToString();
         // SwapStrings();
         // SwapWithThirdVariable();
         // SwapWithoutThirdVariable();
-        // LongestWord();
+        LongestWord();
 
         // 02. String Analysis ================================
         // Palindrome();
@@ -115,17 +115,25 @@ public class Main01 {
         String str = "Hello World";  // Example string
         char oldChar = 'o';  // Character to replace
         char newChar = 'a';  // New character to replace with
-		
-
+		StringBuilder result = new StringBuilder();
+		for(int i = 0; i<str.length(); i++) {
+			if(str.charAt(i) == oldChar) {
+				result.append(newChar);
+			}
+			else {
+				result.append(str.charAt(i));
+			}
+		}
         
 
-        System.out.println("result: ");
+        System.out.println("result: " + result);
     }
 
     // 6. Convert an Array to a String
     public static void ArrayToString() {
         int[] arr = {1, 2, 3, 4, 5};  // Example array
 		
+		System.out.println("result: " + Arrays.toString(arr));
 		System.out.println("result: " + arr.toString());
     }
 
@@ -134,38 +142,74 @@ public class Main01 {
         String str1 = "Hello";  // First string
         String str2 = "World";  // Second string
         
+		String temp = str2;
+		str2 = str1;
+		str1 = temp;
 		
-		System.out.println("result: ");
+		System.out.println("result: " + str1 + "--" + str2);
     }
 
     // 8. Swap Two Numbers Using the Third Variable
     public static void SwapWithThirdVariable() {
         int a = 5, b = 10;
-
-        System.out.println("result: ");
+		int c = b;
+		b = a;
+		a = c;
+        System.out.println("result: " + a + "--" + b);
     }
 
     // 9. Swap Two Numbers Without Using the Third Variable
     public static void SwapWithoutThirdVariable() {
         int a = 5, b = 10;
+		a = a + b;
+		System.out.println("result: " + a);
+		b = a - b;
+		System.out.println("result: " + b);
+		a = a - b;
+		System.out.println("result: " + a);
 
-         System.out.println("result: ");
+        System.out.println("result: " + a + "--" + b);
     }
 
     // 10. Find the Longest Word in a Sentence
     public static void LongestWord() {
         String sentence = "This is a Java programming challenge.";  // Example sentence
+		String[] words = sentence.split(" ");
+		String longest = "";
+		
+		for(int i = 0; i<words.length; i++) {
+			// System.out.println("result: " + words[i]);
+			if(words[i].length() > longest.length()) {
+				longest = words[i];
+			}
+		}
+		
 
-        System.out.println("result: ");
+        System.out.println("result:2 " + longest);
     }
+	
+	// 11. Find the shortest Word in a Sentence
+	public static void shortWord() {
+		String sentence = "This is a Java programming challenge.";
+		
+		System.out.println("result: " + isPalindrome);
+	}
 
     // String Analysis  ==========================================================
     // 1. Find Whether a String or Number is Palindrome or Not
     public static void Palindrome() {
         String str = "madam";
         boolean isPalindrome = true;
+		
+		for(int i = 0; i < str.length() / 2; i++) {
+			System.out.println("result: " + i);
+			if(str.charAt(i) != str.charAt(str.length()-1-i) ) {
+				isPalindrome = false;
+				break;
+			}
+		}
 
-        System.out.println("result: ");
+        System.out.println("result: " + isPalindrome);
     }
 
     // 2. Find the Duplicate Characters in a String

@@ -21,6 +21,7 @@ public class Main01 {
         // SwapWithThirdVariable();
         // SwapWithoutThirdVariable();
         // LongestWord();
+		// shortWord();
 
         // 02. String Analysis ================================
         // Palindrome();
@@ -209,6 +210,23 @@ public class Main01 {
 
         System.out.println("The longest word in the sentence is: " + longestWord);
     }
+	
+	// 11. Find the shortest Word in a Sentence
+	public static void shortWord() {
+		String sentence = "This is a Java programming challenge.";
+		String[] words = sentence.split(" ");
+
+		String shortest = words[0]; // initialize with first word
+
+		for (int i = 1; i < words.length; i++) {
+			if (words[i].length() < shortest.length()) {
+				shortest = words[i];
+			}
+		}
+
+		System.out.println("Shortest word: " + shortest);
+	}
+
 
     // String Analysis  ==========================================================
     // 1. Find Whether a String or Number is Palindrome or Not
