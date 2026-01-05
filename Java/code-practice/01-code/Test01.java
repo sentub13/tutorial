@@ -16,7 +16,7 @@ public class Main01 {
         // RemoveWhiteSpacesWithoutReplace();
         // ContainsSubstring();
         // ReplaceCharacter();
-        // ArrayToString();
+        ArrayToString();
         // SwapStrings();
         // SwapWithThirdVariable();
         // SwapWithoutThirdVariable();
@@ -115,6 +115,7 @@ public class Main01 {
         String str = "Hello World";  // Example string
         char oldChar = 'o';  // Character to replace
         char newChar = 'a';  // New character to replace with
+		
 
         
 
@@ -125,7 +126,7 @@ public class Main01 {
     public static void ArrayToString() {
         int[] arr = {1, 2, 3, 4, 5};  // Example array
 		
-		System.out.println("result: ");
+		System.out.println("result: " + arr.toString());
     }
 
     // 7. Swap Two Strings
@@ -275,8 +276,8 @@ public class Main01 {
 
     // 8. Print the Prime Numbers Between 1 and 100
     public static void PrimeNumbers() {
-		Int startNum = 2;
-		Int endNum = 100;
+		int startNum = 2;
+		int endNum = 100;
 	
         
 		
@@ -316,7 +317,7 @@ public class Main01 {
     }
 
     // 13. Find the LCM (Least Common Multiple) of Two Numbers
-    public class LeastCommonMultiple() {
+    public static void LeastCommonMultiple() {
        
 		
 		System.out.println("result: ");
@@ -397,7 +398,7 @@ public class Main01 {
     // 8. Find the Median of an Array
     public static void MedianArray() {
         int[] arr = {12, 3, 5, 7, 19};  // Example array
-        }
+
 
         System.out.println("result: ");
     }
@@ -523,12 +524,4 @@ public class Main01 {
     //    *
 }
 
-// Length vs Size in Java
 
-// int[] arr = {1, 2, 3};
-// String str = "Hello";
-// ArrayList<Integer> list = new ArrayList<>();
-
-// System.out.println(arr.length);     // 3
-// System.out.println(str.length());   // 5
-// System.out.println(list.size());    // 0
