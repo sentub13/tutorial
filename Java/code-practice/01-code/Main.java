@@ -905,3 +905,13 @@ public class Main01 {
     //   * *
     //    *
 }
+
+// Length vs Size in Java
+
+// int[] arr = {1, 2, 3};
+// String str = "Hello";
+// ArrayList<Integer> list = new ArrayList<>();
+
+// System.out.println(arr.length);     // 3
+// System.out.println(str.length());   // 5
+// System.out.println(list.size());    // 0
