@@ -20,12 +20,13 @@ public class Main01 {
         // SwapStrings();
         // SwapWithThirdVariable();
         // SwapWithoutThirdVariable();
-        LongestWord();
+        // LongestWord();
+		// shortWord();
 
         // 02. String Analysis ================================
         // Palindrome();
         // DuplicateCharacters();
-        // RemoveDuplicates();
+        RemoveDuplicates();
         // VowelConsonantCount();
         // AnagramCheck();
         // CountOccurrences();
@@ -191,8 +192,16 @@ public class Main01 {
 	// 11. Find the shortest Word in a Sentence
 	public static void shortWord() {
 		String sentence = "This is a Java programming challenge.";
+		String[] words = sentence.split(" ");
+		String shortest = words[0];
+		for(int i = 0; i < words.length; i++) {
+			// System.out.println("result: " + i);
+			if(words[i].length() < shortest.length()) {
+				shortest = words[i];
+			}
+		}
 		
-		System.out.println("result: " + isPalindrome);
+		System.out.println("result: " + shortest);
 	}
 
     // String Analysis  ==========================================================
@@ -215,16 +224,40 @@ public class Main01 {
     // 2. Find the Duplicate Characters in a String
     public static void DuplicateCharacters() {
         String str = "programming";
-        
+		char[] chars = str.toCharArray();
+
+        for(int i = 0; i<chars.length; i++) {			
+			for(int j = i+1; j<chars.length; j++ ) {
+				if(chars[i] == chars[j]) {
+					System.out.println("result: " + chars[i]);
+					break;
+				}
+			}
+		}
 		
-		System.out.println("result: ");
+		// System.out.println("result: " + chars);
     }
 
     // 3. Remove Duplicates from an Array
     public static void RemoveDuplicates() {
         int[] arr = {1, 2, 3, 4, 4, 5, 5, 6};  // Example array
-        
-		System.out.println("result: ");
+        ArrayList<Integer> result = new ArrayList<>();
+		for(int i = 0; i<arr.length; i++) {		
+			boolean isDuplicate = false;
+		
+			for(int j = i+1; j<arr.length; j++ ) {
+				if(arr[i] == arr[j]) {
+					// System.out.println("result: " + arr[i]);
+					isDuplicate = true;
+					break;
+				}
+			}
+			if(!isDuplicate) {
+			 result.add(arr[i]);
+			 // System.out.println("result: " + arr[i]);
+			}
+		}
+		System.out.println("result: " + result);
     }
 
     // 4. Count Vowels and Consonants in a String

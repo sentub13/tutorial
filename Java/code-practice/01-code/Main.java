@@ -252,30 +252,42 @@ public class Main01 {
 
     // 2. Find the Duplicate Characters in a String
     public static void DuplicateCharacters() {
-        String str = "programming";
-        HashMap<Character, Integer> charCount = new HashMap<>();
+		String str = "programming";
+		char[] chars = str.toCharArray();
 
-        // Count each character's frequency
-        for (int i = 0; i < str.length(); i++) {
-            char ch = str.charAt(i);
-            charCount.put(ch, charCount.getOrDefault(ch, 0) + 1);
-        }
+		System.out.print("Duplicate characters: ");
 
-        System.out.println("Duplicate characters in the string:");
-        // Print characters that have a frequency greater than 1
-        for (Character key : charCount.keySet()) {
-            if (charCount.get(key) > 1) {
-                System.out.println(key + ": " + charCount.get(key));
-            }
-        }
-    }
+		for (int i = 0; i < chars.length; i++) {
+			for (int j = i + 1; j < chars.length; j++) {
+				if (chars[i] == chars[j]) {
+					System.out.print(chars[i] + " ");
+					break; // avoid printing same character again
+				}
+			}
+		}
+	}
+
 
     // 3. Remove Duplicates from an Array
     public static void RemoveDuplicates() {
         int[] arr = {1, 2, 3, 4, 4, 5, 5, 6};  // Example array
-        arr = Arrays.stream(arr).distinct().toArray();  // Remove duplicates using Streams
-
-        System.out.println("Array without duplicates: " + Arrays.toString(arr));
+        ArrayList<Integer> result = new ArrayList<>();
+		for(int i = 0; i<arr.length; i++) {		
+			boolean isDuplicate = false;
+		
+			for(int j = i+1; j<arr.length; j++ ) {
+				if(arr[i] == arr[j]) {
+					// System.out.println("result: " + arr[i]);
+					isDuplicate = true;
+					break;
+				}
+			}
+			if(!isDuplicate) {
+			 result.add(arr[i]);
+			 // System.out.println("result: " + arr[i]);
+			}
+		}
+		System.out.println("result: " + result);
     }
 
     // 4. Count Vowels and Consonants in a String
