@@ -115,8 +115,6 @@ public class Main01 {
         String str = "Hello World";  // Example string
         char oldChar = 'o';  // Character to replace
         char newChar = 'a';  // New character to replace with
-
-        StringBuilder result = new StringBuilder();
         
 
         System.out.println("result: ");
