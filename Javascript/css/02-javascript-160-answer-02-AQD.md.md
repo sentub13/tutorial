@@ -835,7 +835,7 @@ const debouncedSearch = debounce(searchFunction, 300);
 const throttledScroll = throttle(scrollHandler, 100);
 ```
 
-## **Object-Oriented Programming in JavaScript**
+## 🔹2.Object-Oriented Programming in JavaScript**
 
 ###  37. What are Object-Oriented Programming (OOP) concepts in JavaScript?
 
@@ -1681,7 +1681,7 @@ person.fullName = "Jane Smith";
 console.log(person.firstName); // "Jane"
 ```
 
-## **Arrays and Objects**
+## 🔹3.Arrays and Objects**
 
 ###  63. How can you merge two arrays in JavaScript?
 
@@ -1949,7 +1949,7 @@ for (let char of 'hello') {
 // for (let value of obj) {} // TypeError!
 ```
 
-## **Functions and Scope**
+## 🔹4.Functions and Scope**
 
 ###  74. What is the difference between local scope and global scope in JavaScript?
 
@@ -2171,7 +2171,7 @@ async function loadData() {
 }
 ```
 
-## **Asynchronous JavaScript**
+## 🔹5.Asynchronous JavaScript**
 
 ###  84. How can you handle asynchronous operations in JavaScript?
 
@@ -2368,7 +2368,7 @@ for (const item of arr) {
 const doubled = arr.map(x => x * 2);
 ```
 
-## **ES6 and Beyond**
+## 🔹6.ES6 and Beyond**
 
 ###  93. What are template literals in JavaScript?
 
@@ -2688,7 +2688,7 @@ PersonClass(); // TypeError: Class constructor cannot be invoked without 'new'
 PersonFunc(); // Works but creates issues
 ```
 
-## **Error Handling and Debugging**
+## 🔹7.Error Handling and Debugging**
 
 ###  104. What is try-catch in JavaScript? How does it work?
 
@@ -3324,7 +3324,7 @@ function getCookie(name) {
 document.cookie = 'username=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/';
 ```
 
-## **Advanced Concepts**
+## 🔹8.Advanced Concepts**
 
 ###  130. What is functional programming in JavaScript? How is it different from object-oriented programming?
 
@@ -3408,7 +3408,7 @@ class Dog extends Animal {
 const dog = new Dog(); // Works
 ```
 
-## **Performance Optimization**
+## 🔹9.Performance Optimization**
 ###  132. What are memory leaks in JavaScript, and how do you prevent them?
 
 **Memory Leaks:**
@@ -3654,7 +3654,7 @@ class VirtualList {
 }
 ```
 
-## **Frameworks and Libraries**
+## 🔹10.Frameworks and Libraries**
 ###  138. What are JavaScript frameworks, and how do they differ from libraries?
 
 **Frameworks vs Libraries:**
@@ -3712,7 +3712,7 @@ const app = new Framework({
 *  **Size**: Frameworks typically larger, libraries can be minimal
 
 
-## **Testing and Tools**
+## 🔹11.Testing and Tools**
 
 ###  139. What is unit testing in JavaScript?
 
@@ -3832,7 +3832,7 @@ expect(() => { throw new Error(); }).toThrow();
 expect(array).toContain(item);
 ```
 
-## **Advanced JavaScript Features**
+## 🔹12.Advanced JavaScript Features**
 
 ###  144. How do you use regular expressions in JavaScript?
 
@@ -4009,7 +4009,7 @@ arr.splice(2, 0, 'new item'); // Insert at index 2
 arr.splice(-1, 1); // Remove last element
 ```
 
-## **JavaScript Best Practices**
+## 🔹13.JavaScript Best Practices**
 
 ###  150. What is the importance of code minification in JavaScript?
 
