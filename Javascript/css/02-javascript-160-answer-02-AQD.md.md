@@ -835,7 +835,7 @@ const debouncedSearch = debounce(searchFunction, 300);
 const throttledScroll = throttle(scrollHandler, 100);
 ```
 
-## 🔹2. **saObject-Oriented Programming in JavaScript**
+## 🔹2. **Object-Oriented Programming in JavaScript**
 
 ###  37. What are Object-Oriented Programming (OOP) concepts in JavaScript?
 
