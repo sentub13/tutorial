@@ -11335,3 +11335,148 @@ class Point {
 ```
 
 ---
+
+### 402: What is GraalVM?
+
+**Answer (35 seconds):**
+* High-performance runtime that supports multiple programming languages
+* **Polyglot**: Run Java, JavaScript, Python, R, Ruby on same VM
+* **Native Images**: Compile Java to native executables
+* **Faster Startup**: Native images start much faster than JVM
+* **Lower Memory**: Reduced memory footprint for cloud deployments
+* **AOT Compilation**: Ahead-of-time compilation instead of JIT
+* **Limitations**: Reflection and dynamic features need configuration
+
+```java
+// GraalVM native image example
+@SpringBootApplication
+public class GraalVMApplication {
+    
+    public static void main(String[] args) {
+        SpringApplication.run(GraalVMApplication.class, args);
+    }
+    
+    @RestController
+    public class HelloController {
+        
+        @GetMapping("/hello")
+        public String hello() {
+            return "Hello from GraalVM Native Image!";
+        }
+    }
+}
+```
+
+# 🔹 Advanced Compilation
+
+### 403: What is ahead-of-time compilation?
+
+**Answer (30 seconds):**
+* Compilation of Java bytecode to native machine code before runtime
+* **Static Compilation**: Happens at build time, not runtime
+* **Faster Startup**: No JIT compilation overhead at startup
+* **Predictable Performance**: No warmup period needed
+* **Smaller Runtime**: No need for JIT compiler in runtime
+* **Trade-offs**: Less runtime optimization than JIT
+* **Use Cases**: Microservices, serverless, embedded systems
+
+```java
+// AOT compilation example with GraalVM
+public class AOTExample {
+    
+    public static void main(String[] args) {
+        System.out.println("Starting AOT compiled application");
+        
+        // This code is already compiled to native machine code
+        long start = System.currentTimeMillis();
+        
+        for (int i = 0; i < 1000000; i++) {
+            performCalculation(i);
+        }
+        
+        long end = System.currentTimeMillis();
+        System.out.println("Execution time: " + (end - start) + "ms");
+    }
+    
+    private static double performCalculation(int input) {
+        return Math.sqrt(input * input + 42);
+    }
+}
+```
+
+---
+
+### 404: What is native image compilation?
+
+**Answer (35 seconds):**
+* Process of compiling Java applications to standalone native executables
+* **Closed World**: All code must be known at compile time
+* **Static Analysis**: Analyzes entire application and dependencies
+* **Dead Code Elimination**: Removes unused code and classes
+* **No JVM Required**: Executable runs without Java runtime
+* **Reflection Configuration**: Dynamic features need explicit configuration
+* **Build Time**: Longer compilation but faster execution
+
+```java
+// Native image compilation example
+@SpringBootApplication
+public class NativeImageApp {
+    
+    public static void main(String[] args) {
+        SpringApplication.run(NativeImageApp.class, args);
+    }
+}
+```
+
+---
+
+### 405: What is tiered compilation?
+
+**Answer (35 seconds):**
+* JVM compilation strategy using multiple compilation levels
+* **Level 0**: Interpreter - executes bytecode directly
+* **Level 1**: C1 Compiler - fast compilation with basic optimizations
+* **Level 2**: C1 with profiling - collects runtime information
+* **Level 3**: C1 with full profiling - detailed execution data
+* **Level 4**: C2 Compiler - aggressive optimizations for hot methods
+* **Adaptive**: Promotes methods through levels based on usage
+* **Best of Both**: Fast startup (C1) and peak performance (C2)
+
+```java
+// Tiered compilation demonstration
+public class TieredCompilationExample {
+    
+    private static long counter = 0;
+    
+    // This method will go through compilation tiers
+    public static long fibonacci(int n) {
+        if (n <= 1) return n;
+        return fibonacci(n - 1) + fibonacci(n - 2);
+    }
+    
+    // Hot method that will reach tier 4 (C2)
+    public static void hotMethod() {
+        counter++;
+        // Simple operation that becomes hot
+        for (int i = 0; i < 100; i++) {
+            counter += i * 2;
+        }
+    }
+    
+    public static void main(String[] args) {
+        // Method starts at tier 0 (interpreter)
+        System.out.println("Starting execution...");
+        
+        // Trigger compilation through tiers
+        for (int i = 0; i < 20000; i++) {
+            hotMethod();           // Will be promoted through tiers
+            
+            if (i % 5000 == 0) {
+                fibonacci(20);     // Another hot method
+            }
+        }
+        
+        System.out.println("Final counter: " + counter);
+    }
+}
+```
