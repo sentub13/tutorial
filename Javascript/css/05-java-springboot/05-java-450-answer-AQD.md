@@ -10438,3 +10438,2204 @@ public class AlertingService {
     }
 }
 ```
+
+# 🔵 26. Advanced Architecture
+
+# 🔹 System Design
+
+### 385: What is system design for Java applications?
+
+**Answer (40 seconds):**
+* Process of defining architecture, components, and interfaces for Java systems
+* **Scalability**: Design for horizontal and vertical scaling
+* **Performance**: Optimize for throughput and latency requirements
+* **Reliability**: Build fault-tolerant systems with proper error handling
+* **Security**: Implement authentication, authorization, and data protection
+* **Maintainability**: Use clean code principles and modular design
+* **Technology Stack**: Choose appropriate frameworks, databases, and tools
+* **Trade-offs**: Balance consistency, availability, and partition tolerance (CAP theorem)
+
+```java
+// System design example - E-commerce architecture
+@RestController
+@RequestMapping("/api")
+public class OrderController {
+    
+    @Autowired private OrderService orderService;
+    @Autowired private PaymentService paymentService;
+    @Autowired private InventoryService inventoryService;
+    @Autowired private NotificationService notificationService;
+    
+    @PostMapping("/orders")
+    @Transactional
+    public ResponseEntity<Order> createOrder(@RequestBody OrderRequest request) {
+        // 1. Validate inventory
+        inventoryService.validateAvailability(request.getItems());
+        
+        // 2. Process payment
+        PaymentResult payment = paymentService.processPayment(request.getPayment());
+        
+        // 3. Create order
+        Order order = orderService.createOrder(request, payment);
+        
+        // 4. Send notifications (async)
+        notificationService.sendOrderConfirmation(order);
+        
+        return ResponseEntity.ok(order);
+    }
+}
+```
+
+---
+
+### 386: What is scalability design patterns?
+
+**Answer (35 seconds):**
+* Patterns that enable systems to handle increased load efficiently
+* **Load Balancing**: Distribute requests across multiple instances
+* **Caching**: Store frequently accessed data in memory
+* **Database Sharding**: Split data across multiple databases
+* **Asynchronous Processing**: Use message queues for non-blocking operations
+* **Microservices**: Break monolith into independently scalable services
+* **CDN**: Content delivery networks for static assets
+* **Auto-scaling**: Automatically adjust resources based on demand
+
+```java
+// Caching pattern for scalability
+@Service
+public class UserService {
+    
+    @Cacheable(value = "users", key = "#id")
+    public User findById(Long id) {
+        return userRepository.findById(id);
+    }
+    
+    @CacheEvict(value = "users", key = "#user.id")
+    public User updateUser(User user) {
+        return userRepository.save(user);
+    }
+}
+
+// Asynchronous processing pattern
+@Component
+public class OrderProcessor {
+    
+    @Async
+    @EventListener
+    public void handleOrderCreated(OrderCreatedEvent event) {
+        // Process order asynchronously
+        emailService.sendConfirmation(event.getOrder());
+        inventoryService.updateStock(event.getOrder().getItems());
+    }
+}
+```
+
+---
+
+### 387: What is reliability design patterns?
+
+**Answer (35 seconds):**
+* Patterns that ensure system continues operating despite failures
+* **Circuit Breaker**: Prevent cascading failures by failing fast
+* **Retry Pattern**: Automatically retry failed operations with backoff
+* **Bulkhead**: Isolate resources to prevent total system failure
+* **Timeout**: Set time limits to prevent hanging operations
+* **Health Check**: Monitor system health and remove unhealthy instances
+* **Graceful Degradation**: Provide reduced functionality when components fail
+* **Redundancy**: Multiple instances and failover mechanisms
+
+```java
+// Circuit breaker pattern
+@Component
+public class PaymentService {
+    
+    @CircuitBreaker(name = "payment-service", fallbackMethod = "fallbackPayment")
+    @Retry(name = "payment-service")
+    @TimeLimiter(name = "payment-service")
+    public CompletableFuture<PaymentResult> processPayment(Payment payment) {
+        return CompletableFuture.supplyAsync(() -> {
+            return externalPaymentGateway.process(payment);
+        });
+    }
+    
+    public CompletableFuture<PaymentResult> fallbackPayment(Payment payment, Exception ex) {
+        // Fallback to alternative payment method or queue for later
+        return CompletableFuture.completedFuture(
+            PaymentResult.pending("Payment queued for retry"));
+    }
+}
+```
+
+---
+
+### 388: What is availability design patterns?
+
+**Answer (35 seconds):**
+* Patterns that maximize system uptime and minimize service interruptions
+* **Active-Passive Failover**: Standby system takes over when primary fails
+* **Active-Active**: Multiple systems handle load simultaneously
+* **Geographic Distribution**: Deploy across multiple regions
+* **Zero-Downtime Deployment**: Rolling updates without service interruption
+* **Database Replication**: Master-slave or master-master setups
+* **Load Balancer Health Checks**: Route traffic only to healthy instances
+* **Disaster Recovery**: Backup and recovery procedures
+
+```java
+// Health check for availability
+@Component
+public class SystemHealthIndicator implements HealthIndicator {
+    
+    @Autowired private DatabaseHealthChecker dbChecker;
+    @Autowired private ExternalServiceChecker serviceChecker;
+    
+    @Override
+    public Health health() {
+        boolean dbHealthy = dbChecker.isHealthy();
+        boolean servicesHealthy = serviceChecker.areServicesHealthy();
+        
+        if (dbHealthy && servicesHealthy) {
+            return Health.up()
+                .withDetail("database", "UP")
+                .withDetail("external-services", "UP")
+                .build();
+        }
+        
+        return Health.down()
+            .withDetail("database", dbHealthy ? "UP" : "DOWN")
+            .withDetail("external-services", servicesHealthy ? "UP" : "DOWN")
+            .build();
+    }
+}
+```
+
+---
+
+### 389: What is event-driven architecture?
+
+**Answer (35 seconds):**
+* Architecture where components communicate through events rather than direct calls
+* **Loose Coupling**: Components don't need to know about each other
+* **Asynchronous**: Events processed independently and asynchronously
+* **Scalability**: Easy to add new event consumers without changing producers
+* **Resilience**: System continues working even if some components are down
+* **Event Store**: Persistent storage of events for replay and audit
+* **Message Brokers**: Kafka, RabbitMQ, AWS SQS for event distribution
+
+```java
+// Event-driven architecture example
+@Component
+public class OrderEventPublisher {
+    
+    @Autowired private ApplicationEventPublisher eventPublisher;
+    
+    public Order createOrder(OrderRequest request) {
+        Order order = new Order(request);
+        orderRepository.save(order);
+        
+        // Publish event - other components will react
+        eventPublisher.publishEvent(new OrderCreatedEvent(order));
+        
+        return order;
+    }
+}
+
+// Event listeners
+@Component
+public class OrderEventHandlers {
+    
+    @EventListener
+    @Async
+    public void handleOrderCreated(OrderCreatedEvent event) {
+        emailService.sendOrderConfirmation(event.getOrder());
+    }
+    
+    @EventListener
+    @Async
+    public void updateInventory(OrderCreatedEvent event) {
+        inventoryService.reserveItems(event.getOrder().getItems());
+    }
+    
+    @EventListener
+    @Async
+    public void processPayment(OrderCreatedEvent event) {
+        paymentService.processPayment(event.getOrder().getPayment());
+    }
+}
+```
+
+---
+
+### 390: What is CQRS pattern?
+
+**Answer (35 seconds):**
+* Command Query Responsibility Segregation - separate read and write operations
+* **Commands**: Operations that change state (Create, Update, Delete)
+* **Queries**: Operations that read data without side effects
+* **Separate Models**: Different models optimized for reads vs writes
+* **Performance**: Optimize read and write operations independently
+* **Scalability**: Scale read and write sides differently
+* **Complexity**: Adds complexity but provides flexibility for complex domains
+
+```java
+// CQRS implementation
+// Command side - for writes
+@Component
+public class OrderCommandHandler {
+    
+    @Autowired private OrderRepository orderRepository;
+    @Autowired private EventPublisher eventPublisher;
+    
+    public void handle(CreateOrderCommand command) {
+        Order order = new Order(command.getCustomerId(), command.getItems());
+        orderRepository.save(order);
+        
+        eventPublisher.publish(new OrderCreatedEvent(order.getId()));
+    }
+}
+
+// Query side - for reads
+@Component
+public class OrderQueryHandler {
+    
+    @Autowired private OrderReadModelRepository readRepository;
+    
+    public List<OrderSummary> getOrdersByCustomer(Long customerId) {
+        return readRepository.findOrderSummariesByCustomerId(customerId);
+    }
+    
+    public OrderDetails getOrderDetails(Long orderId) {
+        return readRepository.findOrderDetailsById(orderId);
+    }
+}
+
+// Separate read model optimized for queries
+@Entity
+public class OrderSummary {
+    private Long orderId;
+    private Long customerId;
+    private BigDecimal totalAmount;
+    private String status;
+    private LocalDateTime createdAt;
+}
+```
+
+---
+
+### 391: What is event sourcing?
+
+**Answer (35 seconds):**
+* Pattern where application state is stored as sequence of events
+* **Event Store**: Immutable log of all events that occurred
+* **State Reconstruction**: Current state derived by replaying events
+* **Audit Trail**: Complete history of all changes for compliance
+* **Time Travel**: Reconstruct state at any point in time
+* **Scalability**: Events can be processed asynchronously
+* **Complexity**: More complex than traditional CRUD operations
+
+```java
+// Event sourcing implementation
+@Entity
+public class OrderAggregate {
+    private Long id;
+    private List<Event> events = new ArrayList<>();
+    
+    public void createOrder(CreateOrderCommand command) {
+        OrderCreatedEvent event = new OrderCreatedEvent(
+            command.getCustomerId(), 
+            command.getItems()
+        );
+        applyEvent(event);
+    }
+    
+    public void addItem(AddItemCommand command) {
+        ItemAddedEvent event = new ItemAddedEvent(
+            command.getOrderId(), 
+            command.getItem()
+        );
+        applyEvent(event);
+    }
+    
+    private void applyEvent(Event event) {
+        events.add(event);
+        // Apply event to current state
+        when(event);
+    }
+    
+    // Reconstruct state from events
+    public static OrderAggregate fromEvents(List<Event> events) {
+        OrderAggregate aggregate = new OrderAggregate();
+        events.forEach(aggregate::when);
+        return aggregate;
+    }
+}
+
+// Event store
+@Repository
+public class EventStore {
+    
+    public void saveEvents(Long aggregateId, List<Event> events) {
+        events.forEach(event -> {
+            EventRecord record = new EventRecord(aggregateId, event);
+            eventRepository.save(record);
+        });
+    }
+    
+    public List<Event> getEvents(Long aggregateId) {
+        return eventRepository.findByAggregateIdOrderByVersion(aggregateId)
+            .stream()
+            .map(EventRecord::getEvent)
+            .collect(Collectors.toList());
+    }
+}
+```
+
+---
+
+### 392: What is domain-driven design?
+
+**Answer (40 seconds):**
+* Software design approach focused on modeling complex business domains
+* **Ubiquitous Language**: Common vocabulary between developers and domain experts
+* **Bounded Context**: Clear boundaries around domain models
+* **Aggregates**: Consistency boundaries for related entities
+* **Domain Services**: Business logic that doesn't belong to entities
+* **Repositories**: Abstract data access for aggregates
+* **Value Objects**: Immutable objects representing domain concepts
+* **Domain Events**: Capture important business events
+
+```java
+// Domain-driven design example
+// Aggregate root
+@Entity
+public class Order {
+    @Id private OrderId id;
+    private CustomerId customerId;
+    private List<OrderItem> items;
+    private OrderStatus status;
+    private Money totalAmount;
+    
+    // Business logic in domain
+    public void addItem(Product product, Quantity quantity) {
+        if (status != OrderStatus.DRAFT) {
+            throw new IllegalStateException("Cannot modify confirmed order");
+        }
+        
+        OrderItem item = new OrderItem(product, quantity);
+        items.add(item);
+        recalculateTotal();
+        
+        // Domain event
+        DomainEvents.raise(new ItemAddedToOrderEvent(id, item));
+    }
+    
+    public void confirm() {
+        if (items.isEmpty()) {
+            throw new IllegalStateException("Cannot confirm empty order");
+        }
+        
+        status = OrderStatus.CONFIRMED;
+        DomainEvents.raise(new OrderConfirmedEvent(id));
+    }
+}
+
+// Value object
+public class Money {
+    private final BigDecimal amount;
+    private final Currency currency;
+    
+    public Money(BigDecimal amount, Currency currency) {
+        if (amount.compareTo(BigDecimal.ZERO) < 0) {
+            throw new IllegalArgumentException("Amount cannot be negative");
+        }
+        this.amount = amount;
+        this.currency = currency;
+    }
+    
+    public Money add(Money other) {
+        if (!currency.equals(other.currency)) {
+            throw new IllegalArgumentException("Cannot add different currencies");
+        }
+        return new Money(amount.add(other.amount), currency);
+    }
+}
+```
+
+---
+
+### 393: What is clean architecture?
+
+**Answer (35 seconds):**
+* Architecture that separates concerns into concentric layers
+* **Independence**: Business logic independent of frameworks and databases
+* **Dependency Rule**: Dependencies point inward toward business logic
+* **Entities**: Core business objects with enterprise-wide rules
+* **Use Cases**: Application-specific business rules
+* **Interface Adapters**: Convert data between use cases and external systems
+* **Frameworks**: Outermost layer with databases, web frameworks, UI
+
+```java
+// Clean architecture layers
+
+// 1. Entities (innermost layer)
+public class User {
+    private UserId id;
+    private Email email;
+    private String name;
+    
+    public boolean isValidForRegistration() {
+        return email != null && name != null && !name.trim().isEmpty();
+    }
+}
+
+// 2. Use Cases
+@Component
+public class RegisterUserUseCase {
+    
+    private final UserRepository userRepository;
+    private final EmailService emailService;
+    
+    public User execute(RegisterUserRequest request) {
+        // Business logic
+        if (userRepository.existsByEmail(request.getEmail())) {
+            throw new UserAlreadyExistsException();
+        }
+        
+        User user = new User(request.getEmail(), request.getName());
+        if (!user.isValidForRegistration()) {
+            throw new InvalidUserDataException();
+        }
+        
+        User savedUser = userRepository.save(user);
+        emailService.sendWelcomeEmail(savedUser);
+        
+        return savedUser;
+    }
+}
+
+// 3. Interface Adapters
+@RestController
+public class UserController {
+    
+    @Autowired private RegisterUserUseCase registerUserUseCase;
+    
+    @PostMapping("/users")
+    public ResponseEntity<UserResponse> registerUser(@RequestBody UserRequest request) {
+        RegisterUserRequest useCaseRequest = mapToUseCaseRequest(request);
+        User user = registerUserUseCase.execute(useCaseRequest);
+        UserResponse response = mapToResponse(user);
+        return ResponseEntity.ok(response);
+    }
+}
+```
+
+---
+
+### 394: What is hexagonal architecture?
+
+**Answer (35 seconds):**
+* Architecture pattern that isolates core business logic from external concerns
+* **Ports**: Interfaces that define how application communicates with outside world
+* **Adapters**: Implementations that connect ports to external systems
+* **Inside**: Business logic, domain models, use cases
+* **Outside**: Databases, web frameworks, message queues, external APIs
+* **Testability**: Easy to test business logic in isolation
+* **Flexibility**: Easy to swap external dependencies
+
+```java
+// Hexagonal architecture example
+
+// Port (interface) - defines contract
+public interface UserRepository {
+    User save(User user);
+    Optional<User> findById(UserId id);
+    boolean existsByEmail(Email email);
+}
+
+// Core business logic (inside the hexagon)
+@Component
+public class UserService {
+    
+    private final UserRepository userRepository; // Port dependency
+    private final NotificationPort notificationPort; // Another port
+    
+    public User createUser(String email, String name) {
+        Email userEmail = new Email(email);
+        
+        if (userRepository.existsByEmail(userEmail)) {
+            throw new UserAlreadyExistsException();
+        }
+        
+        User user = new User(userEmail, name);
+        User savedUser = userRepository.save(user);
+        
+        notificationPort.sendWelcomeNotification(savedUser);
+        
+        return savedUser;
+    }
+}
+
+// Adapter (implementation) - connects to external system
+@Repository
+public class JpaUserRepositoryAdapter implements UserRepository {
+    
+    @Autowired private JpaUserRepository jpaRepository;
+    
+    @Override
+    public User save(User user) {
+        UserEntity entity = mapToEntity(user);
+        UserEntity saved = jpaRepository.save(entity);
+        return mapToDomain(saved);
+    }
+    
+    @Override
+    public Optional<User> findById(UserId id) {
+        return jpaRepository.findById(id.getValue())
+            .map(this::mapToDomain);
+    }
+}
+
+// Another adapter for notifications
+@Component
+public class EmailNotificationAdapter implements NotificationPort {
+    
+    @Override
+    public void sendWelcomeNotification(User user) {
+        emailService.send(user.getEmail(), "Welcome!", "Welcome to our platform!");
+    }
+}
+```
+
+# 🔵26. JVM Internals and Advanced Topics
+---
+# 🔹 JVM Deep Dive
+
+### 395: What is JVM architecture?
+
+**Answer (40 seconds):**
+* Java Virtual Machine - runtime environment that executes Java bytecode
+* **Class Loader**: Loads classes into memory dynamically
+* **Memory Areas**: Heap, stack, method area, PC registers
+* **Execution Engine**: Interprets and compiles bytecode to native code
+* **JIT Compiler**: Just-In-Time compilation for performance optimization
+* **Garbage Collector**: Automatic memory management
+* **Native Method Interface**: Interact with native libraries
+* **Platform Independence**: Same bytecode runs on different operating systems
+
+```java
+// JVM memory areas example
+public class JVMMemoryExample {
+    
+    // Stored in Method Area (Metaspace in Java 8+)
+    private static String staticVariable = "Static data";
+    
+    // Instance variables stored in Heap
+    private String instanceVariable = "Instance data";
+    
+    public void methodExample() {
+        // Local variables stored in Stack
+        int localVariable = 42;
+        String localString = "Local data";
+        
+        // Object created in Heap, reference in Stack
+        List<String> list = new ArrayList<>();
+        
+        // Method call creates new stack frame
+        helperMethod(localVariable);
+    }
+    
+    private void helperMethod(int param) {
+        // New stack frame for this method
+        // param and local variables in this frame
+    }
+}
+```
+
+---
+
+### 396: What is class loading process?
+
+**Answer (35 seconds):**
+* Three-phase process: Loading, Linking, and Initialization
+* **Loading**: Find and load class file into memory
+* **Linking**: Verification, preparation, and resolution of references
+* **Initialization**: Execute static initializers and initialize static fields
+* **Lazy Loading**: Classes loaded only when first referenced
+* **Parent Delegation**: Child loaders delegate to parent first
+* **Security**: Bytecode verification ensures code safety
+
+```java
+// Class loading demonstration
+public class ClassLoadingExample {
+    
+    // Static block executed during initialization phase
+    static {
+        System.out.println("Class initialized");
+    }
+    
+    // Static variable initialized during preparation phase
+    private static final String CONSTANT = "Hello";
+    
+    public static void main(String[] args) {
+        System.out.println("Main method started");
+        
+        // Class loading happens here when first referenced
+        MyClass obj = new MyClass();
+        
+        // Loading another class dynamically
+        try {
+            Class<?> clazz = Class.forName("com.example.DynamicClass");
+            Object instance = clazz.getDeclaredConstructor().newInstance();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}
+
+class MyClass {
+    static {
+        System.out.println("MyClass initialized");
+    }
+}
+```
+
+---
+
+### 397: What are the types of class loaders?
+
+**Answer (35 seconds):**
+* **Bootstrap Class Loader**: Loads core Java classes (rt.jar)
+* **Extension Class Loader**: Loads extension classes (ext directory)
+* **Application Class Loader**: Loads application classes from classpath
+* **Custom Class Loaders**: User-defined loaders for specific requirements
+* **Parent Delegation Model**: Child delegates to parent before loading
+* **Namespace Isolation**: Same class can be loaded by different loaders
+* **Security**: Different loaders provide security boundaries
+
+```java
+// Class loader hierarchy demonstration
+public class ClassLoaderExample {
+    
+    public static void main(String[] args) {
+        // Get class loader for current class
+        ClassLoader appLoader = ClassLoaderExample.class.getClassLoader();
+        System.out.println("Application ClassLoader: " + appLoader);
+        
+        // Get parent (Extension ClassLoader)
+        ClassLoader extLoader = appLoader.getParent();
+        System.out.println("Extension ClassLoader: " + extLoader);
+        
+        // Get parent (Bootstrap ClassLoader - returns null)
+        ClassLoader bootLoader = extLoader.getParent();
+        System.out.println("Bootstrap ClassLoader: " + bootLoader);
+        
+        // System classes loaded by Bootstrap ClassLoader
+        ClassLoader stringLoader = String.class.getClassLoader();
+        System.out.println("String ClassLoader: " + stringLoader); // null
+    }
+}
+
+// Custom class loader example
+public class CustomClassLoader extends ClassLoader {
+    
+    @Override
+    protected Class<?> findClass(String name) throws ClassNotFoundException {
+        // Load class from custom source (database, network, etc.)
+        byte[] classData = loadClassData(name);
+        return defineClass(name, classData, 0, classData.length);
+    }
+    
+    private byte[] loadClassData(String className) {
+        // Implementation to load class bytes
+        return new byte[0]; // Placeholder
+    }
+}
+```
+
+---
+
+### 398: What is bytecode?
+
+**Answer (30 seconds):**
+* Intermediate representation of Java source code after compilation
+* **Platform Independent**: Same bytecode runs on any JVM
+* **Stack-based**: Uses operand stack for operations
+* **Instruction Set**: Specific instructions like iload, istore, invokevirtual
+* **Class File Format**: Structured format containing bytecode and metadata
+* **Verification**: JVM verifies bytecode before execution
+* **Tools**: javap command to view bytecode
+
+```java
+// Java source code
+public class BytecodeExample {
+    private int value = 10;
+    
+    public int add(int a, int b) {
+        return a + b;
+    }
+    
+    public void setValue(int newValue) {
+        this.value = newValue;
+    }
+}
+```
+
+---
+
+### 399: What is JIT compilation?
+
+**Answer (35 seconds):**
+* Just-In-Time compilation converts bytecode to native machine code at runtime
+* **Performance**: Native code executes faster than interpreted bytecode
+* **Hotspot Detection**: Identifies frequently executed code (hot spots)
+* **Optimization**: Applies optimizations based on runtime behavior
+* **Adaptive**: Optimizations improve over time with more execution data
+* **Compilation Levels**: C1 (client) and C2 (server) compilers
+* **Deoptimization**: Can revert to interpreted mode if assumptions change
+
+```java
+// JIT compilation example
+public class JITExample {
+    
+    // This method will be JIT compiled if called frequently
+    public long fibonacci(int n) {
+        if (n <= 1) return n;
+        return fibonacci(n - 1) + fibonacci(n - 2);
+    }
+    
+    public static void main(String[] args) {
+        JITExample example = new JITExample();
+        
+        // Warm up - trigger JIT compilation
+        for (int i = 0; i < 10000; i++) {
+            example.fibonacci(20);
+        }
+        
+        // Measure performance after JIT compilation
+        long start = System.nanoTime();
+        for (int i = 0; i < 1000; i++) {
+            example.fibonacci(20);
+        }
+        long end = System.nanoTime();
+        
+        System.out.println("Time after JIT: " + (end - start) / 1_000_000 + "ms");
+    }
+}
+```
+
+---
+
+### 400: What is JVM memory model?
+
+**Answer (40 seconds):**
+* Defines how threads interact with memory in multithreaded programs
+* **Main Memory**: Shared memory where all variables are stored
+* **Working Memory**: Each thread has private working memory (CPU cache)
+* **Visibility**: Changes in one thread may not be immediately visible to others
+* **Happens-Before**: Rules that guarantee memory visibility
+* **Volatile**: Ensures visibility and prevents reordering
+* **Synchronization**: synchronized blocks provide memory barriers
+* **Final Fields**: Special visibility guarantees for immutable data
+
+```java
+// JVM memory model examples
+public class MemoryModelExample {
+    
+    // Without volatile, changes may not be visible to other threads
+    private boolean flag = false;
+    
+    // With volatile, ensures visibility across threads
+    private volatile boolean volatileFlag = false;
+    
+    // Final fields have special visibility guarantees
+    private final int finalValue;
+    
+    public MemoryModelExample(int value) {
+        this.finalValue = value; // Safe publication through constructor
+    }
+    
+    // Synchronized methods provide memory barriers
+    public synchronized void setFlag(boolean value) {
+        this.flag = value;
+        // Memory barrier ensures all previous writes are visible
+    }
+    
+    // Volatile read/write example
+    public void volatileExample() {
+        // Thread 1
+        new Thread(() -> {
+            volatileFlag = true; // Write to volatile field
+        }).start();
+        
+        // Thread 2
+        new Thread(() -> {
+            while (!volatileFlag) { // Read volatile field
+                // Guaranteed to see the write from Thread 1
+            }
+            System.out.println("Flag is true!");
+        }).start();
+    }
+}
+```
+
+---
+
+### 401: What is escape analysis?
+
+**Answer (30 seconds):**
+* JVM optimization that determines if object references escape method scope
+* **Stack Allocation**: Objects that don't escape can be allocated on stack
+* **Scalar Replacement**: Break objects into individual fields
+* **Lock Elimination**: Remove unnecessary synchronization
+* **Performance**: Reduces garbage collection pressure
+* **Analysis Scope**: Method-level and inter-procedural analysis
+* **JVM Flag**: -XX:+DoEscapeAnalysis (enabled by default)
+
+```java
+// Escape analysis examples
+public class EscapeAnalysisExample {
+    
+    // Object escapes - allocated on heap
+    public Point createPoint() {
+        Point p = new Point(10, 20);
+        return p; // Object escapes method scope
+    }
+    
+    // Object doesn't escape - can be stack allocated
+    public int calculateDistance() {
+        Point p1 = new Point(0, 0);    // May be stack allocated
+        Point p2 = new Point(3, 4);    // May be stack allocated
+        
+        int dx = p2.x - p1.x;
+        int dy = p2.y - p1.y;
+        
+        return (int) Math.sqrt(dx * dx + dy * dy);
+        // p1 and p2 don't escape - eligible for optimization
+    }
+    
+    // Scalar replacement example
+    public void scalarReplacement() {
+        Point p = new Point(5, 10);  // May be replaced with int x=5, y=10
+        int sum = p.x + p.y;         // Becomes: int sum = 5 + 10
+        System.out.println(sum);
+    }
+    
+    // Lock elimination example
+    public void lockElimination() {
+        StringBuffer sb = new StringBuffer(); // Local object
+        sb.append("Hello");                   // Synchronization eliminated
+        sb.append(" World");                  // No other threads can access
+        String result = sb.toString();
+    }
+}
+
+class Point {
+    int x, y;
+    Point(int x, int y) { this.x = x; this.y = y; }
+}
+```
+
+---
+
+### 402: What is GraalVM?
+
+**Answer (35 seconds):**
+* High-performance runtime that supports multiple programming languages
+* **Polyglot**: Run Java, JavaScript, Python, R, Ruby on same VM
+* **Native Images**: Compile Java to native executables
+* **Faster Startup**: Native images start much faster than JVM
+* **Lower Memory**: Reduced memory footprint for cloud deployments
+* **AOT Compilation**: Ahead-of-time compilation instead of JIT
+* **Limitations**: Reflection and dynamic features need configuration
+
+```java
+// GraalVM native image example
+@SpringBootApplication
+public class GraalVMApplication {
+    
+    public static void main(String[] args) {
+        SpringApplication.run(GraalVMApplication.class, args);
+    }
+    
+    @RestController
+    public class HelloController {
+        
+        @GetMapping("/hello")
+        public String hello() {
+            return "Hello from GraalVM Native Image!";
+        }
+    }
+}
+```
+
+# 🔹 Advanced Compilation
+
+### 403: What is ahead-of-time compilation?
+
+**Answer (30 seconds):**
+* Compilation of Java bytecode to native machine code before runtime
+* **Static Compilation**: Happens at build time, not runtime
+* **Faster Startup**: No JIT compilation overhead at startup
+* **Predictable Performance**: No warmup period needed
+* **Smaller Runtime**: No need for JIT compiler in runtime
+* **Trade-offs**: Less runtime optimization than JIT
+* **Use Cases**: Microservices, serverless, embedded systems
+
+```java
+// AOT compilation example with GraalVM
+public class AOTExample {
+    
+    public static void main(String[] args) {
+        System.out.println("Starting AOT compiled application");
+        
+        // This code is already compiled to native machine code
+        long start = System.currentTimeMillis();
+        
+        for (int i = 0; i < 1000000; i++) {
+            performCalculation(i);
+        }
+        
+        long end = System.currentTimeMillis();
+        System.out.println("Execution time: " + (end - start) + "ms");
+    }
+    
+    private static double performCalculation(int input) {
+        return Math.sqrt(input * input + 42);
+    }
+}
+```
+
+---
+
+### 404: What is native image compilation?
+
+**Answer (35 seconds):**
+* Process of compiling Java applications to standalone native executables
+* **Closed World**: All code must be known at compile time
+* **Static Analysis**: Analyzes entire application and dependencies
+* **Dead Code Elimination**: Removes unused code and classes
+* **No JVM Required**: Executable runs without Java runtime
+* **Reflection Configuration**: Dynamic features need explicit configuration
+* **Build Time**: Longer compilation but faster execution
+
+```java
+// Native image compilation example
+@SpringBootApplication
+public class NativeImageApp {
+    
+    public static void main(String[] args) {
+        SpringApplication.run(NativeImageApp.class, args);
+    }
+}
+```
+
+---
+
+### 405: What is tiered compilation?
+
+**Answer (35 seconds):**
+* JVM compilation strategy using multiple compilation levels
+* **Level 0**: Interpreter - executes bytecode directly
+* **Level 1**: C1 Compiler - fast compilation with basic optimizations
+* **Level 2**: C1 with profiling - collects runtime information
+* **Level 3**: C1 with full profiling - detailed execution data
+* **Level 4**: C2 Compiler - aggressive optimizations for hot methods
+* **Adaptive**: Promotes methods through levels based on usage
+* **Best of Both**: Fast startup (C1) and peak performance (C2)
+
+```java
+// Tiered compilation demonstration
+public class TieredCompilationExample {
+    
+    private static long counter = 0;
+    
+    // This method will go through compilation tiers
+    public static long fibonacci(int n) {
+        if (n <= 1) return n;
+        return fibonacci(n - 1) + fibonacci(n - 2);
+    }
+    
+    // Hot method that will reach tier 4 (C2)
+    public static void hotMethod() {
+        counter++;
+        // Simple operation that becomes hot
+        for (int i = 0; i < 100; i++) {
+            counter += i * 2;
+        }
+    }
+    
+    public static void main(String[] args) {
+        // Method starts at tier 0 (interpreter)
+        System.out.println("Starting execution...");
+        
+        // Trigger compilation through tiers
+        for (int i = 0; i < 20000; i++) {
+            hotMethod();           // Will be promoted through tiers
+            
+            if (i % 5000 == 0) {
+                fibonacci(20);     // Another hot method
+            }
+        }
+        
+        System.out.println("Final counter: " + counter);
+    }
+}
+```
+
+---
+
+### 406: What is bytecode optimization?
+
+**Answer (35 seconds):**
+* JVM techniques to improve bytecode execution performance
+* **Constant Folding**: Evaluate constants at compile time
+* **Dead Code Elimination**: Remove unreachable code
+* **Method Inlining**: Replace method calls with method body
+* **Loop Optimization**: Unrolling, vectorization, range check elimination
+* **Escape Analysis**: Stack allocation and lock elimination
+* **Branch Prediction**: Optimize conditional branches
+* **Profile-Guided**: Use runtime data for better optimizations
+
+```java
+// Bytecode optimization examples
+public class BytecodeOptimizationExample {
+    
+    // Constant folding optimization
+    public int constantFolding() {
+        int a = 10;
+        int b = 20;
+        return a + b * 2; // JIT optimizes to: return 50;
+    }
+    
+    // Method inlining optimization
+    public int inliningExample(int x) {
+        return square(x) + square(x + 1); // square() method may be inlined
+    }
+    
+    private int square(int n) {
+        return n * n; // Small method - candidate for inlining
+    }
+    
+    // Loop optimization
+    public void loopOptimization(int[] array) {
+        // Range check elimination - JIT removes bounds checks
+        for (int i = 0; i < array.length; i++) {
+            array[i] = i * 2; // Bounds check eliminated after analysis
+        }
+    }
+    
+    // Branch prediction optimization
+    public int branchPrediction(int[] values) {
+        int sum = 0;
+        for (int value : values) {
+            if (value > 0) {        // JIT learns branch patterns
+                sum += value;       // Optimizes for common case
+            }
+        }
+        return sum;
+    }
+    
+    // Dead code elimination
+    public int deadCodeElimination(boolean flag) {
+        int result = 42;
+        
+        if (false) {
+            result = 100;  // Dead code - will be eliminated
+        }
+        
+        return result; // JIT optimizes to: return 42;
+    }
+}
+```
+
+# 🔵 28. Emerging Technologies
+
+# 🔹 Future Technologies
+
+### 407: What is Project Loom?
+
+**Answer (35 seconds):**
+* OpenJDK project introducing lightweight threads (virtual threads) to Java
+* **Virtual Threads**: Millions of threads with minimal memory overhead
+* **Structured Concurrency**: Better way to manage concurrent operations
+* **Blocking Operations**: Virtual threads can block without OS thread blocking
+* **Scalability**: Handle massive concurrent workloads efficiently
+* **Backward Compatible**: Works with existing thread-based code
+* **Available**: Preview in Java 19, stable in Java 21
+
+```java
+// Project Loom - Virtual Threads example
+public class VirtualThreadsExample {
+    
+    public static void main(String[] args) throws InterruptedException {
+        // Create virtual thread
+        Thread virtualThread = Thread.ofVirtual().start(() -> {
+            System.out.println("Running in virtual thread: " + Thread.currentThread());
+            try {
+                Thread.sleep(1000); // Doesn't block OS thread
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+            }
+        });
+        
+        // Create millions of virtual threads efficiently
+        try (var executor = Executors.newVirtualThreadPerTaskExecutor()) {
+            for (int i = 0; i < 1_000_000; i++) {
+                executor.submit(() -> {
+                    // Each task runs in its own virtual thread
+                    performIOOperation();
+                });
+            }
+        }
+        
+        virtualThread.join();
+    }
+    
+    private static void performIOOperation() {
+        // Simulate I/O operation - virtual thread yields efficiently
+        try {
+            Thread.sleep(100);
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+        }
+    }
+}
+```
+
+---
+
+### 408: What is Project Panama?
+
+**Answer (30 seconds):**
+* OpenJDK project improving Java's interaction with native code
+* **Foreign Function Interface**: Call native functions without JNI
+* **Foreign Memory API**: Direct access to off-heap memory
+* **Vector API**: SIMD operations for better performance
+* **Performance**: Eliminates JNI overhead and complexity
+* **Safety**: Type-safe native memory access
+* **Interoperability**: Better integration with C/C++ libraries
+
+```java
+// Project Panama - Foreign Function Interface example
+import java.lang.foreign.*;
+import java.lang.invoke.MethodHandle;
+
+public class PanamaExample {
+    
+    public static void main(String[] args) throws Throwable {
+        // Load native library
+        Linker linker = Linker.nativeLinker();
+        SymbolLookup stdlib = linker.defaultLookup();
+        
+        // Find strlen function from C standard library
+        MemorySegment strlenAddress = stdlib.find("strlen").orElseThrow();
+        
+        // Create method handle for strlen
+        FunctionDescriptor strlenDescriptor = FunctionDescriptor.of(
+            ValueLayout.JAVA_LONG, ValueLayout.ADDRESS);
+        MethodHandle strlen = linker.downcallHandle(strlenAddress, strlenDescriptor);
+        
+        // Allocate native memory for string
+        try (Arena arena = Arena.ofConfined()) {
+            MemorySegment cString = arena.allocateUtf8String("Hello Panama!");
+            
+            // Call native strlen function
+            long length = (long) strlen.invoke(cString);
+            System.out.println("String length: " + length);
+        }
+    }
+    
+    // Vector API example (Panama sub-project)
+    public void vectorExample() {
+        var species = FloatVector.SPECIES_256;
+        float[] a = {1.0f, 2.0f, 3.0f, 4.0f, 5.0f, 6.0f, 7.0f, 8.0f};
+        float[] b = {2.0f, 2.0f, 2.0f, 2.0f, 2.0f, 2.0f, 2.0f, 2.0f};
+        float[] result = new float[8];
+        
+        // SIMD vector operations
+        var va = FloatVector.fromArray(species, a, 0);
+        var vb = FloatVector.fromArray(species, b, 0);
+        var vr = va.mul(vb); // Parallel multiplication
+        vr.intoArray(result, 0);
+    }
+}
+```
+
+---
+
+### 409: What is Project Valhalla?
+
+**Answer (35 seconds):**
+* OpenJDK project introducing value types and specialized generics
+* **Value Classes**: Objects without identity, stored inline
+* **Primitive Classes**: User-defined primitives like int, double
+* **Specialized Generics**: Generic types over primitives without boxing
+* **Performance**: Eliminates object overhead and indirection
+* **Memory Efficiency**: Compact memory layout for data structures
+* **Backward Compatible**: Existing code continues to work
+
+```java
+// Project Valhalla - Value Classes example (future syntax)
+public value class Point {
+    private final int x;
+    private final int y;
+    
+    public Point(int x, int y) {
+        this.x = x;
+        this.y = y;
+    }
+    
+    public int x() { return x; }
+    public int y() { return y; }
+    
+    // Value classes are immutable and have no identity
+    // Stored inline in arrays and collections
+}
+
+public class ValhallaBenefits {
+    
+    public static void main(String[] args) {
+        // Array of value classes - stored inline, no object headers
+        Point[] points = new Point[1000];
+        for (int i = 0; i < points.length; i++) {
+            points[i] = new Point(i, i * 2); // No heap allocation
+        }
+        
+        // Specialized generics - no boxing
+        List<int> numbers = List.of(1, 2, 3, 4, 5); // Future: primitive in generics
+        
+        // Current workaround vs future
+        List<Integer> currentWay = List.of(1, 2, 3); // Boxing overhead
+        // List<int> futureWay = List.of(1, 2, 3);   // No boxing
+    }
+}
+```
+
+---
+
+### 410: What is Project Amber?
+
+**Answer (35 seconds):**
+* OpenJDK project delivering small, productivity-focused language features
+* **Local Variable Type Inference**: var keyword for cleaner code
+* **Switch Expressions**: Enhanced switch with return values
+* **Text Blocks**: Multi-line string literals
+* **Pattern Matching**: Destructuring and type testing
+* **Records**: Compact data classes
+* **Sealed Classes**: Restricted inheritance hierarchies
+
+```java
+// Project Amber features
+public class AmberFeatures {
+    
+    // Records (delivered in Java 14)
+    public record Person(String name, int age) {
+        // Automatically generates constructor, getters, equals, hashCode, toString
+    }
+    
+    // Sealed classes (delivered in Java 17)
+    public sealed interface Shape permits Circle, Rectangle, Triangle {
+        double area();
+    }
+    
+    public record Circle(double radius) implements Shape {
+        public double area() { return Math.PI * radius * radius; }
+    }
+    
+    public static void main(String[] args) {
+        // var keyword (delivered in Java 10)
+        var message = "Hello Amber!";
+        var numbers = List.of(1, 2, 3, 4, 5);
+        
+        // Text blocks (delivered in Java 15)
+        var json = """
+            {
+                "name": "John",
+                "age": 30,
+                "city": "New York"
+            }
+            """;
+        
+        // Switch expressions (delivered in Java 14)
+        var dayType = switch (java.time.LocalDate.now().getDayOfWeek()) {
+            case MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY -> "Weekday";
+            case SATURDAY, SUNDAY -> "Weekend";
+        };
+        
+        // Pattern matching for instanceof (delivered in Java 16)
+        Object obj = "Hello";
+        if (obj instanceof String s) {
+            System.out.println("String length: " + s.length());
+        }
+        
+        // Pattern matching for switch (preview)
+        var result = switch (obj) {
+            case String s -> "String: " + s;
+            case Integer i -> "Integer: " + i;
+            case null -> "null value";
+            default -> "Unknown type";
+        };
+    }
+}
+```
+
+---
+
+### 411: What is WebAssembly with Java?
+
+**Answer (30 seconds):**
+* Technology to run Java applications in web browsers via WebAssembly
+* **Browser Execution**: Java code runs directly in browser without plugins
+* **Performance**: Near-native performance in web environments
+* **Portability**: Same Java code runs on server and client
+* **Tools**: TeaVM, CheerpJ, GraalVM compile Java to WebAssembly
+* **Use Cases**: Web applications, games, scientific computing
+* **Limitations**: Limited Java API support, larger bundle sizes
+
+```java
+// Java code that can be compiled to WebAssembly
+public class WebAssemblyExample {
+    
+    // Simple calculation that can run in browser
+    public static double calculateDistance(double x1, double y1, double x2, double y2) {
+        double dx = x2 - x1;
+        double dy = y2 - y1;
+        return Math.sqrt(dx * dx + dy * dy);
+    }
+    
+    // Game logic example
+    public static class GameEngine {
+        private int score = 0;
+        private double playerX = 0;
+        private double playerY = 0;
+        
+        public void updatePlayer(double deltaX, double deltaY) {
+            playerX += deltaX;
+            playerY += deltaY;
+        }
+        
+        public int getScore() { return score; }
+        public double getPlayerX() { return playerX; }
+        public double getPlayerY() { return playerY; }
+    }
+    
+    // Export methods for JavaScript interaction
+    public static void main(String[] args) {
+        // This main method won't be used in WebAssembly
+        // Instead, individual methods are exported
+    }
+}
+```
+
+---
+
+### 412: What is cloud native Java?
+
+**Answer (35 seconds):**
+* Java applications designed specifically for cloud environments
+* **Microservices**: Decomposed into small, independent services
+* **Containers**: Packaged in Docker containers for portability
+* **Orchestration**: Managed by Kubernetes for scaling and resilience
+* **Fast Startup**: Optimized for quick container startup times
+* **Low Memory**: Efficient memory usage for cost optimization
+* **Observability**: Built-in monitoring, logging, and tracing
+* **Frameworks**: Spring Boot, Quarkus, Micronaut for cloud-native development
+
+```java
+// Cloud-native Java application example
+@SpringBootApplication
+@EnableEurekaClient
+public class CloudNativeApp {
+    
+    public static void main(String[] args) {
+        SpringApplication.run(CloudNativeApp.class, args);
+    }
+}
+
+@RestController
+@RequestMapping("/api")
+public class UserController {
+    
+    @Autowired private UserService userService;
+    
+    // Health check endpoint for Kubernetes
+    @GetMapping("/health")
+    public ResponseEntity<String> health() {
+        return ResponseEntity.ok("UP");
+    }
+    
+    // Metrics endpoint for monitoring
+    @GetMapping("/metrics")
+    public ResponseEntity<Map<String, Object>> metrics() {
+        Map<String, Object> metrics = new HashMap<>();
+        metrics.put("users.count", userService.getUserCount());
+        metrics.put("memory.used", Runtime.getRuntime().totalMemory());
+        return ResponseEntity.ok(metrics);
+    }
+    
+    @GetMapping("/users/{id}")
+    @CircuitBreaker(name = "user-service", fallbackMethod = "fallbackUser")
+    public User getUser(@PathVariable Long id) {
+        return userService.findById(id);
+    }
+    
+    public User fallbackUser(Long id, Exception ex) {
+        return new User(id, "Default User", "default@email.com");
+    }
+}
+```
+
+---
+
+### 413: What is serverless Java?
+
+**Answer (35 seconds):**
+* Running Java applications without managing servers or infrastructure
+* **Function as a Service**: Deploy individual functions that scale automatically
+* **Event-Driven**: Functions triggered by events (HTTP, database, queue)
+* **Pay-per-Use**: Only pay for actual execution time
+* **Auto-Scaling**: Automatically scales from zero to thousands of instances
+* **Cold Start**: Challenge with Java's startup time
+* **Platforms**: AWS Lambda, Azure Functions, Google Cloud Functions
+* **Frameworks**: Spring Cloud Function, Quarkus, Micronaut for serverless
+
+```java
+// AWS Lambda function example
+public class ServerlessHandler implements RequestHandler<APIGatewayProxyRequestEvent, APIGatewayProxyResponseEvent> {
+    
+    @Override
+    public APIGatewayProxyResponseEvent handleRequest(APIGatewayProxyRequestEvent input, Context context) {
+        
+        // Extract data from request
+        String body = input.getBody();
+        Map<String, String> headers = input.getHeaders();
+        
+        // Business logic
+        String result = processRequest(body);
+        
+        // Return response
+        APIGatewayProxyResponseEvent response = new APIGatewayProxyResponseEvent();
+        response.setStatusCode(200);
+        response.setBody(result);
+        response.setHeaders(Map.of("Content-Type", "application/json"));
+        
+        return response;
+    }
+    
+    private String processRequest(String input) {
+        // Process the request
+        return "{\"message\": \"Processed: " + input + "\"}";
+    }
+}
+
+// Spring Cloud Function example
+@Component
+public class UserFunctions {
+    
+    @Bean
+    public Function<User, User> processUser() {
+        return user -> {
+            // Transform user data
+            user.setProcessedAt(Instant.now());
+            return user;
+        };
+    }
+    
+    @Bean
+    public Consumer<String> logMessage() {
+        return message -> {
+            System.out.println("Received: " + message);
+        };
+    }
+    
+    @Bean
+    public Supplier<String> generateId() {
+        return () -> UUID.randomUUID().toString();
+    }
+}
+
+// Quarkus native serverless (faster cold start)
+@Path("/hello")
+public class GreetingResource {
+    
+    @GET
+    @Produces(MediaType.TEXT_PLAIN)
+    public String hello() {
+        return "Hello from Quarkus serverless!";
+    }
+}
+```
+
+---
+
+### 414: What is edge computing with Java?
+
+**Answer (35 seconds):**
+* Running Java applications closer to end users for reduced latency
+* **Edge Locations**: Data centers near users (CDN nodes, cell towers)
+* **Low Latency**: Millisecond response times for real-time applications
+* **Bandwidth Optimization**: Process data locally, send only results
+* **Offline Capability**: Continue working when disconnected from cloud
+* **IoT Integration**: Process sensor data at the edge
+* **Challenges**: Limited resources, intermittent connectivity
+* **Solutions**: Lightweight Java runtimes, GraalVM native images
+
+```java
+// Edge computing Java application
+@SpringBootApplication
+public class EdgeApplication {
+    
+    public static void main(String[] args) {
+        SpringApplication.run(EdgeApplication.class, args);
+    }
+}
+
+@RestController
+public class EdgeController {
+    
+    @Autowired private LocalDataProcessor processor;
+    @Autowired private CloudSyncService cloudSync;
+    
+    // Process data locally at edge
+    @PostMapping("/process")
+    public ResponseEntity<ProcessResult> processData(@RequestBody SensorData data) {
+        
+        // Process immediately at edge for low latency
+        ProcessResult result = processor.processLocally(data);
+        
+        // Async sync to cloud when connectivity available
+        cloudSync.syncWhenAvailable(data, result);
+        
+        return ResponseEntity.ok(result);
+    }
+    
+    // Health check for edge node
+    @GetMapping("/health")
+    public ResponseEntity<EdgeHealth> health() {
+        EdgeHealth health = new EdgeHealth();
+        health.setStatus("UP");
+        health.setConnectivity(cloudSync.isCloudReachable());
+        health.setLocalStorage(processor.getStorageStatus());
+        return ResponseEntity.ok(health);
+    }
+}
+
+@Service
+public class LocalDataProcessor {
+    
+    private final Map<String, Object> localCache = new ConcurrentHashMap<>();
+    
+    public ProcessResult processLocally(SensorData data) {
+        // Process data without cloud dependency
+        double processedValue = applyLocalAlgorithm(data.getValue());
+        
+        // Store locally for offline capability
+        localCache.put(data.getId(), processedValue);
+        
+        // Return immediate result
+        return new ProcessResult(data.getId(), processedValue, Instant.now());
+    }
+    
+    private double applyLocalAlgorithm(double input) {
+        // Lightweight processing suitable for edge
+        return input * 1.5 + Math.sin(input);
+    }
+    
+    public String getStorageStatus() {
+        return "Used: " + localCache.size() + " entries";
+    }
+}
+```
+
+# 🔹 Integration with Modern Technologies
+
+### 415: What is artificial intelligence in Java?
+
+**Answer (35 seconds):**
+* Using Java for AI and machine learning applications
+* **Libraries**: Deeplearning4j, Weka, MOA for ML algorithms
+* **Integration**: Call Python AI models via JNI or REST APIs
+* **Big Data**: Spark, Hadoop for large-scale data processing
+* **Neural Networks**: Deep learning frameworks in Java ecosystem
+* **NLP**: Natural language processing with OpenNLP, Stanford CoreNLP
+* **Computer Vision**: ImageJ, OpenCV Java bindings
+* **Production**: Java's enterprise features for AI model deployment
+
+```java
+// AI/ML example with Deeplearning4j
+import org.deeplearning4j.nn.conf.MultiLayerConfiguration;
+import org.deeplearning4j.nn.conf.NeuralNetConfiguration;
+import org.deeplearning4j.nn.conf.layers.DenseLayer;
+import org.deeplearning4j.nn.conf.layers.OutputLayer;
+import org.deeplearning4j.nn.multilayer.MultiLayerNetwork;
+import org.nd4j.linalg.activations.Activation;
+import org.nd4j.linalg.dataset.DataSet;
+import org.nd4j.linalg.factory.Nd4j;
+
+public class JavaAIExample {
+    
+    public static void main(String[] args) {
+        // Create neural network configuration
+        MultiLayerConfiguration config = new NeuralNetConfiguration.Builder()
+            .list()
+            .layer(new DenseLayer.Builder()
+                .nIn(4)  // Input features
+                .nOut(10) // Hidden neurons
+                .activation(Activation.RELU)
+                .build())
+            .layer(new OutputLayer.Builder()
+                .nIn(10)
+                .nOut(3)  // Output classes
+                .activation(Activation.SOFTMAX)
+                .build())
+            .build();
+        
+        // Create and initialize network
+        MultiLayerNetwork model = new MultiLayerNetwork(config);
+        model.init();
+        
+        // Training data (features and labels)
+        INDArray features = Nd4j.rand(100, 4); // 100 samples, 4 features
+        INDArray labels = Nd4j.rand(100, 3);   // 100 samples, 3 classes
+        DataSet dataSet = new DataSet(features, labels);
+        
+        // Train the model
+        for (int i = 0; i < 1000; i++) {
+            model.fit(dataSet);
+        }
+        
+        // Make predictions
+        INDArray testInput = Nd4j.rand(1, 4);
+        INDArray prediction = model.output(testInput);
+        System.out.println("Prediction: " + prediction);
+    }
+}
+
+// NLP example with Stanford CoreNLP
+public class NLPExample {
+    
+    public void analyzeText(String text) {
+        // Initialize NLP pipeline
+        Properties props = new Properties();
+        props.setProperty("annotators", "tokenize,ssplit,pos,lemma,ner,sentiment");
+        StanfordCoreNLP pipeline = new StanfordCoreNLP(props);
+        
+        // Create document
+        CoreDocument document = new CoreDocument(text);
+        pipeline.annotate(document);
+        
+        // Extract information
+        for (CoreSentence sentence : document.sentences()) {
+            System.out.println("Sentiment: " + sentence.sentiment());
+            
+            for (CoreEntityMention entity : sentence.entityMentions()) {
+                System.out.println("Entity: " + entity.text() + " (" + entity.entityType() + ")");
+            }
+        }
+    }
+}
+```
+
+---
+
+### 416: What is machine learning with Java?
+
+**Answer (35 seconds):**
+* Implementing ML algorithms and models using Java ecosystem
+* **Weka**: Comprehensive ML library with GUI and API
+* **Deeplearning4j**: Deep learning for Java with GPU support
+* **Smile**: Statistical machine learning library
+* **Apache Spark MLlib**: Distributed machine learning
+* **MOA**: Massive online analysis for streaming data
+* **Integration**: TensorFlow Java, ONNX Runtime for Java
+* **Production**: Enterprise-grade ML model serving and monitoring
+
+```java
+// Machine Learning with Weka
+import weka.classifiers.trees.J48;
+import weka.core.Instances;
+import weka.core.converters.ConverterUtils.DataSource;
+
+public class WekaMLExample {
+    
+    public static void main(String[] args) throws Exception {
+        // Load dataset
+        DataSource source = new DataSource("data/iris.arff");
+        Instances data = source.getDataSet();
+        
+        // Set class attribute (last attribute)
+        if (data.classIndex() == -1) {
+            data.setClassIndex(data.numAttributes() - 1);
+        }
+        
+        // Split data into training and testing
+        int trainSize = (int) Math.round(data.numInstances() * 0.8);
+        Instances trainData = new Instances(data, 0, trainSize);
+        Instances testData = new Instances(data, trainSize, data.numInstances() - trainSize);
+        
+        // Create and train classifier
+        J48 classifier = new J48(); // Decision tree
+        classifier.buildClassifier(trainData);
+        
+        // Evaluate model
+        Evaluation eval = new Evaluation(trainData);
+        eval.evaluateModel(classifier, testData);
+        
+        System.out.println("Accuracy: " + eval.pctCorrect() + "%");
+        System.out.println(eval.toSummaryString());
+    }
+}
+
+// Apache Spark MLlib example
+public class SparkMLExample {
+    
+    public static void main(String[] args) {
+        SparkSession spark = SparkSession.builder()
+            .appName("ML Example")
+            .master("local[*]")
+            .getOrCreate();
+        
+        // Load data
+        Dataset<Row> data = spark.read()
+            .option("header", "true")
+            .option("inferSchema", "true")
+            .csv("data/housing.csv");
+        
+        // Feature engineering
+        VectorAssembler assembler = new VectorAssembler()
+            .setInputCols(new String[]{"bedrooms", "bathrooms", "sqft"})
+            .setOutputCol("features");
+        
+        Dataset<Row> featureData = assembler.transform(data);
+        
+        // Split data
+        Dataset<Row>[] splits = featureData.randomSplit(new double[]{0.8, 0.2});
+        Dataset<Row> trainData = splits[0];
+        Dataset<Row> testData = splits[1];
+        
+        // Create and train model
+        LinearRegression lr = new LinearRegression()
+            .setFeaturesCol("features")
+            .setLabelCol("price");
+        
+        LinearRegressionModel model = lr.fit(trainData);
+        
+        // Make predictions
+        Dataset<Row> predictions = model.transform(testData);
+        predictions.select("features", "price", "prediction").show();
+        
+        // Evaluate model
+        RegressionEvaluator evaluator = new RegressionEvaluator()
+            .setLabelCol("price")
+            .setPredictionCol("prediction")
+            .setMetricName("rmse");
+        
+        double rmse = evaluator.evaluate(predictions);
+        System.out.println("RMSE: " + rmse);
+        
+        spark.stop();
+    }
+}
+```
+
+---
+
+### 417: What is blockchain development with Java?
+
+**Answer (35 seconds):**
+* Building blockchain applications and smart contracts using Java
+* **Web3j**: Java library for Ethereum blockchain interaction
+* **Hyperledger Fabric**: Enterprise blockchain with Java SDK
+* **Corda**: Blockchain platform built in Kotlin/Java
+* **Smart Contracts**: Deploy and interact with blockchain contracts
+* **DApps**: Decentralized applications with Java backends
+* **Cryptocurrency**: Bitcoin and Ethereum integration
+* **Enterprise**: Supply chain, finance, identity management solutions
+
+```java
+// Ethereum blockchain interaction with Web3j
+import org.web3j.protocol.Web3j;
+import org.web3j.protocol.http.HttpService;
+import org.web3j.protocol.core.methods.response.EthGetBalance;
+import org.web3j.utils.Convert;
+
+public class BlockchainExample {
+    
+    private Web3j web3j;
+    
+    public BlockchainExample() {
+        // Connect to Ethereum node
+        web3j = Web3j.build(new HttpService("https://mainnet.infura.io/v3/YOUR_PROJECT_ID"));
+    }
+    
+    public void getAccountBalance(String address) throws Exception {
+        // Get account balance
+        EthGetBalance ethGetBalance = web3j
+            .ethGetBalance(address, DefaultBlockParameterName.LATEST)
+            .send();
+        
+        BigInteger balance = ethGetBalance.getBalance();
+        BigDecimal etherBalance = Convert.fromWei(balance.toString(), Convert.Unit.ETHER);
+        
+        System.out.println("Balance: " + etherBalance + " ETH");
+    }
+    
+    public void deployContract() throws Exception {
+        // Load credentials
+        Credentials credentials = WalletUtils.loadCredentials("password", "wallet.json");
+        
+        // Deploy smart contract
+        MyContract contract = MyContract.deploy(
+            web3j, 
+            credentials, 
+            new DefaultGasProvider()
+        ).send();
+        
+        System.out.println("Contract deployed at: " + contract.getContractAddress());
+        
+        // Interact with contract
+        TransactionReceipt receipt = contract.setValue(BigInteger.valueOf(42)).send();
+        BigInteger value = contract.getValue().send();
+        System.out.println("Contract value: " + value);
+    }
+}
+
+// Hyperledger Fabric example
+public class FabricExample {
+    
+    public void initializeFabric() throws Exception {
+        // Create network gateway
+        Gateway.Builder builder = Gateway.createBuilder();
+        
+        // Load identity
+        Path walletPath = Paths.get("wallet");
+        Wallet wallet = Wallets.newFileSystemWallet(walletPath);
+        
+        // Connect to network
+        try (Gateway gateway = builder.identity(wallet, "user1")
+                .networkConfig(Paths.get("connection.yaml"))
+                .connect()) {
+            
+            // Get network and contract
+            Network network = gateway.getNetwork("mychannel");
+            Contract contract = network.getContract("mycontract");
+            
+            // Submit transaction
+            byte[] result = contract.submitTransaction("createAsset", "asset1", "blue", "35", "tom", "1000");
+            System.out.println("Transaction result: " + new String(result));
+            
+            // Query ledger
+            byte[] queryResult = contract.evaluateTransaction("queryAsset", "asset1");
+            System.out.println("Asset: " + new String(queryResult));
+        }
+    }
+}
+
+// Cryptocurrency price tracking
+public class CryptoTracker {
+    
+    public void trackBitcoinPrice() {
+        // Connect to cryptocurrency API
+        RestTemplate restTemplate = new RestTemplate();
+        
+        String url = "https://api.coindesk.com/v1/bpi/currentprice.json";
+        ResponseEntity<String> response = restTemplate.getForEntity(url, String.class);
+        
+        // Parse JSON response
+        ObjectMapper mapper = new ObjectMapper();
+        JsonNode root = mapper.readTree(response.getBody());
+        
+        String price = root.path("bpi").path("USD").path("rate").asText();
+        System.out.println("Bitcoin price: " + price);
+    }
+}
+```
+
+---
+
+### 418: What is IoT development with Java?
+
+**Answer (35 seconds):**
+* Building Internet of Things applications using Java ecosystem
+* **Device Programming**: Java ME, Android Things for IoT devices
+* **Edge Computing**: Process sensor data locally with Java
+* **MQTT Integration**: Message queuing for IoT communication
+* **Cloud Connectivity**: Connect devices to cloud platforms
+* **Data Processing**: Stream processing with Apache Kafka, Storm
+* **Protocols**: HTTP, CoAP, MQTT, WebSocket support
+* **Frameworks**: Eclipse IoT, Apache Camel for IoT integration
+
+```java
+// IoT device simulation with MQTT
+import org.eclipse.paho.client.mqttv3.*;
+
+public class IoTDeviceExample {
+    
+    private MqttClient mqttClient;
+    private final String BROKER_URL = "tcp://iot.eclipse.org:1883";
+    private final String CLIENT_ID = "JavaIoTDevice";
+    
+    public void connectToMqttBroker() throws Exception {
+        mqttClient = new MqttClient(BROKER_URL, CLIENT_ID);
+        
+        MqttConnectOptions options = new MqttConnectOptions();
+        options.setCleanSession(true);
+        
+        mqttClient.connect(options);
+        System.out.println("Connected to MQTT broker");
+        
+        // Subscribe to commands
+        mqttClient.subscribe("device/commands", this::handleCommand);
+    }
+    
+    public void publishSensorData() throws Exception {
+        // Simulate sensor readings
+        SensorData data = new SensorData();
+        data.setTemperature(25.5 + Math.random() * 10);
+        data.setHumidity(60 + Math.random() * 20);
+        data.setTimestamp(Instant.now());
+        
+        // Convert to JSON
+        ObjectMapper mapper = new ObjectMapper();
+        String json = mapper.writeValueAsString(data);
+        
+        // Publish to MQTT topic
+        MqttMessage message = new MqttMessage(json.getBytes());
+        message.setQos(1);
+        mqttClient.publish("sensors/temperature", message);
+        
+        System.out.println("Published: " + json);
+    }
+    
+    private void handleCommand(String topic, MqttMessage message) {
+        String command = new String(message.getPayload());
+        System.out.println("Received command: " + command);
+        
+        // Process device commands
+        switch (command) {
+            case "START_MONITORING":
+                startSensorMonitoring();
+                break;
+            case "STOP_MONITORING":
+                stopSensorMonitoring();
+                break;
+            default:
+                System.out.println("Unknown command: " + command);
+        }
+    }
+}
+
+// IoT data processing with Apache Kafka
+@Component
+public class IoTDataProcessor {
+    
+    @KafkaListener(topics = "sensor-data")
+    public void processSensorData(String sensorDataJson) {
+        try {
+            ObjectMapper mapper = new ObjectMapper();
+            SensorData data = mapper.readValue(sensorDataJson, SensorData.class);
+            
+            // Process sensor data
+            if (data.getTemperature() > 30) {
+                sendAlert("High temperature detected: " + data.getTemperature());
+            }
+            
+            // Store in database
+            sensorDataRepository.save(data);
+            
+            // Send to analytics
+            analyticsService.processData(data);
+            
+        } catch (Exception e) {
+            logger.error("Error processing sensor data", e);
+        }
+    }
+    
+    private void sendAlert(String message) {
+        // Send alert via email, SMS, or push notification
+        alertService.sendAlert(message);
+    }
+}
+
+// IoT gateway with Apache Camel
+public class IoTGateway extends RouteBuilder {
+    
+    @Override
+    public void configure() throws Exception {
+        // Route from MQTT to HTTP REST API
+        from("mqtt:sensor-data?host=tcp://localhost:1883")
+            .log("Received sensor data: ${body}")
+            .marshal().json()
+            .to("http://cloud-api.example.com/sensors");
+        
+        // Route from file system to MQTT (for local sensors)
+        from("file:sensors?noop=true")
+            .log("Processing file: ${header.CamelFileName}")
+            .to("mqtt:file-data?host=tcp://localhost:1883");
+        
+        // Route for device management
+        from("rest:post:/devices/{deviceId}/command")
+            .log("Command for device ${header.deviceId}: ${body}")
+            .to("mqtt:device-commands?host=tcp://localhost:1883");
+    }
+}
+
+// IoT device data model
+public class SensorData {
+    private String deviceId;
+    private double temperature;
+    private double humidity;
+    private double pressure;
+    private Instant timestamp;
+    private Location location;
+    
+    // Getters and setters
+}
+```
+
+# 🔵 29. Best Practices and Professional Development
+---
+# 🔹 Coding Best Practices
+
+### 419: What are some Java coding best practices?
+
+**Answer (40 seconds):**
+* **Naming Conventions**: Use meaningful names for classes, methods, variables
+* **Code Organization**: Keep classes small, single responsibility principle
+* **Error Handling**: Use specific exceptions, don't catch generic Exception
+* **Resource Management**: Use try-with-resources for auto-closing
+* **Immutability**: Prefer immutable objects when possible
+* **Documentation**: Write clear JavaDoc for public APIs
+* **Testing**: Write unit tests for all public methods
+* **Performance**: Avoid premature optimization, profile first
+
+```java
+// Good practices examples
+public class UserService {
+    
+    // Meaningful names
+    private final UserRepository userRepository;
+    private final EmailValidator emailValidator;
+    
+    // Constructor injection (immutable dependencies)
+    public UserService(UserRepository userRepository, EmailValidator emailValidator) {
+        this.userRepository = Objects.requireNonNull(userRepository);
+        this.emailValidator = Objects.requireNonNull(emailValidator);
+    }
+    
+    /**
+     * Creates a new user with validation
+     * @param email user's email address
+     * @param name user's full name
+     * @return created user
+     * @throws InvalidEmailException if email format is invalid
+     * @throws UserAlreadyExistsException if user already exists
+     */
+    public User createUser(String email, String name) {
+        // Input validation
+        if (!emailValidator.isValid(email)) {
+            throw new InvalidEmailException("Invalid email format: " + email);
+        }
+        
+        // Business logic
+        if (userRepository.existsByEmail(email)) {
+            throw new UserAlreadyExistsException("User already exists: " + email);
+        }
+        
+        // Create immutable user object
+        User user = User.builder()
+            .email(email)
+            .name(name)
+            .createdAt(Instant.now())
+            .build();
+            
+        return userRepository.save(user);
+    }
+    
+    // Try-with-resources for resource management
+    public List<String> readUserEmails(String filename) throws IOException {
+        try (BufferedReader reader = Files.newBufferedReader(Paths.get(filename))) {
+            return reader.lines()
+                .filter(line -> !line.trim().isEmpty())
+                .collect(Collectors.toList());
+        }
+    }
+}
+```
+
+---
+
+### 420: How do you handle exceptions properly in Java?
+
+**Answer (35 seconds):**
+* **Specific Exceptions**: Catch specific exceptions, not generic Exception
+* **Early Validation**: Validate inputs early and throw meaningful exceptions
+* **Resource Cleanup**: Use try-with-resources or finally blocks
+* **Don't Swallow**: Never catch and ignore exceptions silently
+* **Logging**: Log exceptions with context information
+* **Recovery**: Handle exceptions at appropriate level
+* **Custom Exceptions**: Create domain-specific exception classes
+
+```java
+// Proper exception handling examples
+public class FileProcessor {
+    
+    private static final Logger logger = LoggerFactory.getLogger(FileProcessor.class);
+    
+    // Custom exceptions for domain-specific errors
+    public static class FileProcessingException extends Exception {
+        public FileProcessingException(String message, Throwable cause) {
+            super(message, cause);
+        }
+    }
+    
+    // Proper exception handling with try-with-resources
+    public String processFile(String filename) throws FileProcessingException {
+        // Input validation
+        if (filename == null || filename.trim().isEmpty()) {
+            throw new IllegalArgumentException("Filename cannot be null or empty");
+        }
+        
+        try (BufferedReader reader = Files.newBufferedReader(Paths.get(filename))) {
+            return reader.lines()
+                .collect(Collectors.joining("\n"));
+                
+        } catch (IOException e) {
+            // Log with context and wrap in domain exception
+            logger.error("Failed to process file: {}", filename, e);
+            throw new FileProcessingException("Unable to process file: " + filename, e);
+        }
+    }
+    
+    // Handle exceptions at appropriate level
+    public void processMultipleFiles(List<String> filenames) {
+        for (String filename : filenames) {
+            try {
+                String content = processFile(filename);
+                // Process content
+            } catch (FileProcessingException e) {
+                // Log and continue with next file
+                logger.warn("Skipping file due to error: {}", filename, e);
+            }
+        }
+    }
+    
+    // Don't catch what you can't handle
+    public void badExample() {
+        try {
+            riskyOperation();
+        } catch (Exception e) {
+            // BAD: Swallowing exception
+            // e.printStackTrace(); // Even worse
+        }
+    }
+    
+    // Good: Let caller handle or wrap appropriately
+    public void goodExample() throws ServiceException {
+        try {
+            riskyOperation();
+        } catch (SpecificException e) {
+            throw new ServiceException("Operation failed", e);
+        }
+    }
+}
+```
