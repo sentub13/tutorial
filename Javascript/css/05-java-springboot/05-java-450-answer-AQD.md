@@ -7137,7 +7137,7 @@ public class UserBean {
 
 # 🔵 20. Microservices and Distributed Systems
 ---
-# 🔹 ### Microservices Architecture
+# 🔹 Microservices Architecture
 
 ### 296: What are microservices?
 
