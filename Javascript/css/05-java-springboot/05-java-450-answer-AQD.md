@@ -651,10 +651,31 @@ d.instanceMethod(); // Runtime decides which method
 ---
 # 🔹 1. Method Overloading and Overriding
 
-### 32. What is the other name of method overloading?
-* **Compile-time polymorphism** or **Static polymorphism**
-* Also called **Early binding**
-* Method resolution happens at compile time
+### 32. What is method overloading?
+
+Method overloading means having multiple methods with the same name but different parameters in the same class.
+
+**Key Points:**
+- Same method name, different parameters
+- Compile-time polymorphism
+- Parameters can differ by number, type, or order
+
+**Example:**
+```java
+public class Calculator {
+    public int add(int a, int b) {
+        return a + b;
+    }
+    
+    public double add(double a, double b) {
+        return a + b;
+    }
+    
+    public int add(int a, int b, int c) {
+        return a + b + c;
+    }
+}
+```
 
 ### 33. How will you implement method overloading in Java?
 * Define multiple methods with **same name** but **different parameters**
@@ -704,22 +725,32 @@ public class Test {
 }
 ```
 
-## Method Overriding
+# 🔹 Method Overriding
 
-### 37. How do we implement method overriding in Java?
-* **Inherit from parent class**
-* **Redefine method** with same signature in child class
-* Use `@Override` annotation for safety
+### 37. What is method overriding?
 
+Method overriding means redefining a parent class method in the child class with the same signature.
+
+**Key Points:**
+- Same method signature as parent
+- Runtime polymorphism
+- Use @Override annotation
+- Child method is called at runtime
+
+**Example:**
 ```java
-class Animal {
-    void sound() { System.out.println("Animal sound"); }
+class Vehicle {
+    public void start() {
+        System.out.println("Vehicle starting");
+    }
 }
-class Dog extends Animal {
+
+class Car extends Vehicle {
     @Override
-    void sound() { System.out.println("Bark"); }
+    public void start() {
+        System.out.println("Car starting with key");
+    }
 }
-```
 
 ### 38. Are we allowed to override a static method in Java?
 * **No, static methods cannot be overridden**
