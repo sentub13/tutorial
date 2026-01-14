@@ -11777,3 +11777,110 @@ public class AmberFeatures {
     }
 }
 ```
+
+
+---
+
+### 411: What is WebAssembly with Java?
+
+**Answer (30 seconds):**
+* Technology to run Java applications in web browsers via WebAssembly
+* **Browser Execution**: Java code runs directly in browser without plugins
+* **Performance**: Near-native performance in web environments
+* **Portability**: Same Java code runs on server and client
+* **Tools**: TeaVM, CheerpJ, GraalVM compile Java to WebAssembly
+* **Use Cases**: Web applications, games, scientific computing
+* **Limitations**: Limited Java API support, larger bundle sizes
+
+```java
+// Java code that can be compiled to WebAssembly
+public class WebAssemblyExample {
+    
+    // Simple calculation that can run in browser
+    public static double calculateDistance(double x1, double y1, double x2, double y2) {
+        double dx = x2 - x1;
+        double dy = y2 - y1;
+        return Math.sqrt(dx * dx + dy * dy);
+    }
+    
+    // Game logic example
+    public static class GameEngine {
+        private int score = 0;
+        private double playerX = 0;
+        private double playerY = 0;
+        
+        public void updatePlayer(double deltaX, double deltaY) {
+            playerX += deltaX;
+            playerY += deltaY;
+        }
+        
+        public int getScore() { return score; }
+        public double getPlayerX() { return playerX; }
+        public double getPlayerY() { return playerY; }
+    }
+    
+    // Export methods for JavaScript interaction
+    public static void main(String[] args) {
+        // This main method won't be used in WebAssembly
+        // Instead, individual methods are exported
+    }
+}
+```
+
+---
+
+### 412: What is cloud native Java?
+
+**Answer (35 seconds):**
+* Java applications designed specifically for cloud environments
+* **Microservices**: Decomposed into small, independent services
+* **Containers**: Packaged in Docker containers for portability
+* **Orchestration**: Managed by Kubernetes for scaling and resilience
+* **Fast Startup**: Optimized for quick container startup times
+* **Low Memory**: Efficient memory usage for cost optimization
+* **Observability**: Built-in monitoring, logging, and tracing
+* **Frameworks**: Spring Boot, Quarkus, Micronaut for cloud-native development
+
+```java
+// Cloud-native Java application example
+@SpringBootApplication
+@EnableEurekaClient
+public class CloudNativeApp {
+    
+    public static void main(String[] args) {
+        SpringApplication.run(CloudNativeApp.class, args);
+    }
+}
+
+@RestController
+@RequestMapping("/api")
+public class UserController {
+    
+    @Autowired private UserService userService;
+    
+    // Health check endpoint for Kubernetes
+    @GetMapping("/health")
+    public ResponseEntity<String> health() {
+        return ResponseEntity.ok("UP");
+    }
+    
+    // Metrics endpoint for monitoring
+    @GetMapping("/metrics")
+    public ResponseEntity<Map<String, Object>> metrics() {
+        Map<String, Object> metrics = new HashMap<>();
+        metrics.put("users.count", userService.getUserCount());
+        metrics.put("memory.used", Runtime.getRuntime().totalMemory());
+        return ResponseEntity.ok(metrics);
+    }
+    
+    @GetMapping("/users/{id}")
+    @CircuitBreaker(name = "user-service", fallbackMethod = "fallbackUser")
+    public User getUser(@PathVariable Long id) {
+        return userService.findById(id);
+    }
+    
+    public User fallbackUser(Long id, Exception ex) {
+        return new User(id, "Default User", "default@email.com");
+    }
+}
+```
