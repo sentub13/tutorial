@@ -12047,5 +12047,3 @@ public class LocalDataProcessor {
 }
 ```
 
-### 415: What is artificial intelligence in Java?
-
