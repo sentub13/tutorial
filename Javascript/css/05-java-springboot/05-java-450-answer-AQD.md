@@ -213,10 +213,10 @@ public class ByteCharDemo {
 ### 12. What are the main principles of Object-Oriented Programming (OOP)?
 
 **Answer:**
-* **Encapsulation**: Hide internal details, expose through methods
-* **Inheritance**: Child class inherits parent properties
-* **Polymorphism**: Same method, different behaviors
-* **Abstraction**: Hide complexity, show essential features
+- **Encapsulation**: Wrapping data and methods into a single unit (class) and restricting access to some components using access modifiers.
+- **Inheritance**: The ability of a class to inherit the properties and behaviors of another class.
+- **Polymorphism**: Allowing one entity to take multiple forms (e.g., method overloading, method overriding).
+- **Abstraction**: Hiding the implementation details and showing only the necessary functionality to the user.
 
 ```java
 // Encapsulation
