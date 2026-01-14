@@ -11884,3 +11884,165 @@ public class UserController {
     }
 }
 ```
+
+---
+
+### 413: What is serverless Java?
+
+**Answer (35 seconds):**
+* Running Java applications without managing servers or infrastructure
+* **Function as a Service**: Deploy individual functions that scale automatically
+* **Event-Driven**: Functions triggered by events (HTTP, database, queue)
+* **Pay-per-Use**: Only pay for actual execution time
+* **Auto-Scaling**: Automatically scales from zero to thousands of instances
+* **Cold Start**: Challenge with Java startup time
+* **Platforms**: AWS Lambda, Azure Functions, Google Cloud Functions
+* **Frameworks**: Spring Cloud Function, Quarkus, Micronaut for serverless
+
+```java
+// AWS Lambda function example
+public class ServerlessHandler implements RequestHandler<APIGatewayProxyRequestEvent, APIGatewayProxyResponseEvent> {
+    
+    @Override
+    public APIGatewayProxyResponseEvent handleRequest(APIGatewayProxyRequestEvent input, Context context) {
+        
+        // Extract data from request
+        String body = input.getBody();
+        Map<String, String> headers = input.getHeaders();
+        
+        // Business logic
+        String result = processRequest(body);
+        
+        // Return response
+        APIGatewayProxyResponseEvent response = new APIGatewayProxyResponseEvent();
+        response.setStatusCode(200);
+        response.setBody(result);
+        response.setHeaders(Map.of("Content-Type", "application/json"));
+        
+        return response;
+    }
+    
+    private String processRequest(String input) {
+        // Process the request
+        return "{\"message\": \"Processed: " + input + "\"}";
+    }
+}
+
+// Spring Cloud Function example
+@Component
+public class UserFunctions {
+    
+    @Bean
+    public Function<User, User> processUser() {
+        return user -> {
+            // Transform user data
+            user.setProcessedAt(Instant.now());
+            return user;
+        };
+    }
+    
+    @Bean
+    public Consumer<String> logMessage() {
+        return message -> {
+            System.out.println("Received: " + message);
+        };
+    }
+    
+    @Bean
+    public Supplier<String> generateId() {
+        return () -> UUID.randomUUID().toString();
+    }
+}
+
+// Quarkus native serverless (faster cold start)
+@Path("/hello")
+public class GreetingResource {
+    
+    @GET
+    @Produces(MediaType.TEXT_PLAIN)
+    public String hello() {
+        return "Hello from Quarkus serverless!";
+    }
+}
+```
+
+---
+
+### 414: What is edge computing with Java?
+
+**Answer (35 seconds):**
+* Running Java applications closer to end users for reduced latency
+* **Edge Locations**: Data centers near users (CDN nodes, cell towers)
+* **Low Latency**: Millisecond response times for real-time applications
+* **Bandwidth Optimization**: Process data locally, send only results
+* **Offline Capability**: Continue working when disconnected from cloud
+* **IoT Integration**: Process sensor data at the edge
+* **Challenges**: Limited resources, intermittent connectivity
+* **Solutions**: Lightweight Java runtimes, GraalVM native images
+
+```java
+// Edge computing Java application
+@SpringBootApplication
+public class EdgeApplication {
+    
+    public static void main(String[] args) {
+        SpringApplication.run(EdgeApplication.class, args);
+    }
+}
+
+@RestController
+public class EdgeController {
+    
+    @Autowired private LocalDataProcessor processor;
+    @Autowired private CloudSyncService cloudSync;
+    
+    // Process data locally at edge
+    @PostMapping("/process")
+    public ResponseEntity<ProcessResult> processData(@RequestBody SensorData data) {
+        
+        // Process immediately at edge for low latency
+        ProcessResult result = processor.processLocally(data);
+        
+        // Async sync to cloud when connectivity available
+        cloudSync.syncWhenAvailable(data, result);
+        
+        return ResponseEntity.ok(result);
+    }
+    
+    // Health check for edge node
+    @GetMapping("/health")
+    public ResponseEntity<EdgeHealth> health() {
+        EdgeHealth health = new EdgeHealth();
+        health.setStatus("UP");
+        health.setConnectivity(cloudSync.isCloudReachable());
+        health.setLocalStorage(processor.getStorageStatus());
+        return ResponseEntity.ok(health);
+    }
+}
+
+@Service
+public class LocalDataProcessor {
+    
+    private final Map<String, Object> localCache = new ConcurrentHashMap<>();
+    
+    public ProcessResult processLocally(SensorData data) {
+        // Process data without cloud dependency
+        double processedValue = applyLocalAlgorithm(data.getValue());
+        
+        // Store locally for offline capability
+        localCache.put(data.getId(), processedValue);
+        
+        // Return immediate result
+        return new ProcessResult(data.getId(), processedValue, Instant.now());
+    }
+    
+    private double applyLocalAlgorithm(double input) {
+        // Lightweight processing suitable for edge
+        return input * 1.5 + Math.sin(input);
+    }
+    
+    public String getStorageStatus() {
+        return "Used: " + localCache.size() + " entries";
+    }
+}
+```
