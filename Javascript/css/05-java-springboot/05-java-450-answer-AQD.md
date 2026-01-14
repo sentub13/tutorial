@@ -8433,3 +8433,975 @@ public class MemoryProfiledService {
     }
 }
 ```
+
+---
+
+### 338: What is CPU profiling?
+
+**Answer (30 seconds):**
+* Analysis of CPU usage to identify performance hotspots
+* **Method Profiling**: Time spent in each method
+* **Call Tree**: Method call hierarchy and execution paths
+* **Sampling**: Periodic snapshots of thread stacks
+* **Instrumentation**: Detailed method entry/exit tracking
+* **Flame Graphs**: Visual representation of CPU usage
+* **Tools**: JProfiler, async-profiler, Java Flight Recorder
+
+```java
+// CPU profiling with custom timing
+@Component
+public class CpuProfiledService {
+    
+    @Timed(name = "user.processing.time", description = "Time spent processing users")
+    public void processUsers(List<User> users) {
+        users.parallelStream()
+            .forEach(this::processUser);
+    }
+    
+    // Manual timing for critical sections
+    public String expensiveOperation(String input) {
+        long startTime = System.nanoTime();
+        try {
+            // CPU-intensive operation
+            return performComplexCalculation(input);
+        } finally {
+            long duration = System.nanoTime() - startTime;
+            if (duration > 1_000_000_000) { // 1 second
+                logger.warn("Slow operation took {}ms", duration / 1_000_000);
+            }
+        }
+    }
+}
+```
+
+---
+
+### 339: What is application performance monitoring (APM)?
+
+**Answer (35 seconds):**
+* Comprehensive monitoring of application performance in production
+* **Real-time Monitoring**: Live performance metrics and alerts
+* **Distributed Tracing**: Track requests across microservices
+* **Error Tracking**: Capture and analyze application errors
+* **User Experience**: Monitor real user interactions and page loads
+* **Infrastructure**: Server resources, database performance
+* **Tools**: New Relic, AppDynamics, Dynatrace, Elastic APM
+
+```java
+// APM integration with Micrometer
+@Configuration
+public class ApmConfig {
+    
+    @Bean
+    public MeterRegistry meterRegistry() {
+        return new PrometheusMeterRegistry(PrometheusConfig.DEFAULT);
+    }
+    
+    @Bean
+    public TimedAspect timedAspect(MeterRegistry registry) {
+        return new TimedAspect(registry);
+    }
+}
+
+@RestController
+public class MonitoredController {
+    
+    @Timed(name = "api.requests", description = "API request duration")
+    @Counted(name = "api.calls", description = "API call count")
+    @GetMapping("/api/data")
+    public ResponseEntity<String> getData() {
+        return ResponseEntity.ok("data");
+    }
+}
+```
+
+---
+
+### 340: What is code profiling?
+
+**Answer (25 seconds):**
+* Detailed analysis of code execution to identify performance issues
+* **Static Analysis**: Code review without execution
+* **Dynamic Analysis**: Runtime performance measurement
+* **Line-by-line**: Execution time per code line
+* **Method Hotspots**: Most time-consuming methods
+* **Call Graphs**: Method invocation patterns
+* **IDE Integration**: Built-in profilers in IDEs
+
+```java
+// Code profiling with annotations
+@Component
+public class ProfiledCodeService {
+    
+    // Profile specific methods
+    @Profile("development")
+    @EventListener
+    public void onMethodExecution(MethodExecutionEvent event) {
+        if (event.getDuration() > 100) {
+            logger.info("Slow method: {} took {}ms", 
+                event.getMethodName(), event.getDuration());
+        }
+    }
+    
+    // Benchmark critical code sections
+    @Benchmark
+    public String optimizedStringOperation(List<String> items) {
+        StringBuilder sb = new StringBuilder();
+        for (String item : items) {
+            sb.append(item).append(",");
+        }
+        return sb.toString();
+    }
+}
+```
+
+---
+
+### 341: What is database optimization?
+
+**Answer (35 seconds):**
+* Techniques to improve database query performance and efficiency
+* **Indexing**: Create indexes on frequently queried columns
+* **Query Optimization**: Write efficient SQL queries
+* **Connection Pooling**: Reuse database connections
+* **Caching**: Cache query results and frequently accessed data
+* **Normalization**: Proper database design to reduce redundancy
+* **Partitioning**: Split large tables for better performance
+
+```java
+// Database optimization techniques
+@Repository
+public class OptimizedUserRepository {
+    
+    // Use indexes effectively
+    @Query("SELECT u FROM User u WHERE u.email = :email") // Index on email
+    User findByEmail(@Param("email") String email);
+    
+    // Batch operations
+    @Modifying
+    @Query("UPDATE User u SET u.lastLogin = :now WHERE u.id IN :ids")
+    void updateLastLogin(@Param("ids") List<Long> ids, @Param("now") LocalDateTime now);
+    
+    // Pagination for large datasets
+    @Query("SELECT u FROM User u ORDER BY u.createdAt DESC")
+    Page<User> findAllUsers(Pageable pageable);
+    
+    // Fetch joins to avoid N+1 queries
+    @Query("SELECT u FROM User u LEFT JOIN FETCH u.orders WHERE u.id = :id")
+    User findUserWithOrders(@Param("id") Long id);
+}
+```
+
+---
+
+### 342: What is query optimization?
+
+**Answer (35 seconds):**
+* Process of improving SQL query performance and execution time
+* **Index Usage**: Ensure queries use appropriate indexes
+* **Query Structure**: Avoid SELECT *, use specific columns
+* **JOIN Optimization**: Use proper join types and order
+* **WHERE Clauses**: Filter early to reduce dataset size
+* **EXPLAIN Plans**: Analyze query execution plans
+* **Avoid N+1**: Use batch queries and joins instead of loops
+
+```java
+// Query optimization examples
+@Repository
+public class OptimizedQueryRepository {
+    
+    // Bad: N+1 query problem
+    // List<Order> orders = orderRepository.findAll();
+    // orders.forEach(order -> order.getCustomer().getName()); // N queries
+    
+    // Good: Single query with join
+    @Query("SELECT o FROM Order o JOIN FETCH o.customer")
+    List<Order> findAllOrdersWithCustomers();
+    
+    // Use specific columns instead of SELECT *
+    @Query("SELECT new com.example.UserDto(u.id, u.name, u.email) FROM User u")
+    List<UserDto> findUserSummaries();
+    
+    // Optimize with proper WHERE conditions
+    @Query("SELECT u FROM User u WHERE u.active = true AND u.createdAt > :date")
+    List<User> findActiveUsersAfter(@Param("date") LocalDateTime date);
+    
+    // Use native query for complex optimizations
+    @Query(value = "SELECT * FROM users u WHERE u.score > (SELECT AVG(score) FROM users)", 
+           nativeQuery = true)
+    List<User> findAboveAverageUsers();
+}
+```
+
+---
+
+### 343: What is lazy loading?
+
+**Answer (30 seconds):**
+* Design pattern that defers loading of data until it's actually needed
+* **JPA/Hibernate**: Load related entities only when accessed
+* **Performance**: Reduces initial load time and memory usage
+* **N+1 Problem**: Can cause multiple queries if not handled properly
+* **Proxy Objects**: Hibernate creates proxies for lazy-loaded entities
+* **Best Practice**: Use fetch joins when you know you'll need the data
+
+```java
+// Lazy loading examples
+@Entity
+public class User {
+    @Id
+    private Long id;
+    private String name;
+    
+    // Lazy loading - orders loaded only when accessed
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+    private List<Order> orders;
+    
+    // Eager loading - always loaded with user
+    @ManyToOne(fetch = FetchType.EAGER)
+    private Department department;
+}
+
+@Service
+public class UserService {
+    
+    // Lazy loading in action
+    public void processUser(Long userId) {
+        User user = userRepository.findById(userId);
+        // Orders not loaded yet
+        
+        if (needsOrders(user)) {
+            user.getOrders().size(); // Now orders are loaded
+        }
+    }
+    
+    // Avoid N+1 with explicit fetch
+    public List<User> getUsersWithOrders() {
+        return userRepository.findAllWithOrders(); // Single query with JOIN FETCH
+    }
+}
+```
+
+---
+
+### 344: What is eager loading?
+
+**Answer (25 seconds):**
+* Loading strategy that fetches all related data immediately
+* **JPA/Hibernate**: Load associated entities along with main entity
+* **Performance Trade-off**: Higher initial load time but fewer queries later
+* **Memory Usage**: Uses more memory upfront
+* **Use Cases**: When you know you'll need the related data
+* **Configuration**: FetchType.EAGER or explicit fetch joins
+
+```java
+// Eager loading examples
+@Entity
+public class Order {
+    @Id
+    private Long id;
+    
+    // Eager loading - customer always loaded with order
+    @ManyToOne(fetch = FetchType.EAGER)
+    private Customer customer;
+    
+    // Lazy loading - items loaded on demand
+    @OneToMany(mappedBy = "order", fetch = FetchType.LAZY)
+    private List<OrderItem> items;
+}
+
+@Repository
+public class OrderRepository extends JpaRepository<Order, Long> {
+    
+    // Explicit eager loading with fetch join
+    @Query("SELECT o FROM Order o JOIN FETCH o.customer JOIN FETCH o.items")
+    List<Order> findAllOrdersWithDetails();
+    
+    // Conditional eager loading
+    @EntityGraph(attributePaths = {"customer", "items"})
+    @Query("SELECT o FROM Order o WHERE o.status = :status")
+    List<Order> findByStatusWithDetails(@Param("status") OrderStatus status);
+}
+```
+
+---
+
+### 345: What is pagination?
+
+**Answer (30 seconds):**
+* Technique to split large datasets into smaller, manageable chunks
+* **Performance**: Reduces memory usage and improves response time
+* **User Experience**: Faster page loads and better navigation
+* **Database**: Uses LIMIT/OFFSET or cursor-based pagination
+* **Spring Data**: Pageable interface for easy implementation
+* **Cursor Pagination**: More efficient for large datasets
+
+```java
+// Pagination implementation
+@RestController
+public class UserController {
+    
+    // Basic pagination
+    @GetMapping("/users")
+    public Page<User> getUsers(
+        @RequestParam(defaultValue = "0") int page,
+        @RequestParam(defaultValue = "20") int size,
+        @RequestParam(defaultValue = "id") String sortBy) {
+        
+        Pageable pageable = PageRequest.of(page, size, Sort.by(sortBy));
+        return userService.findAll(pageable);
+    }
+    
+    // Cursor-based pagination for better performance
+    @GetMapping("/users/cursor")
+    public List<User> getUsersCursor(
+        @RequestParam(required = false) Long lastId,
+        @RequestParam(defaultValue = "20") int limit) {
+        
+        return userService.findUsersAfter(lastId, limit);
+    }
+}
+
+@Repository
+public class UserRepository extends JpaRepository<User, Long> {
+    
+    // Cursor pagination query
+    @Query("SELECT u FROM User u WHERE (:lastId IS NULL OR u.id > :lastId) ORDER BY u.id")
+    List<User> findUsersAfter(@Param("lastId") Long lastId, Pageable pageable);
+}
+```
+
+# 🔵 23. Testing
+
+# 🔹 Testing Fundamentals
+
+### 346: What is unit testing in Java?
+
+**Answer (30 seconds):**
+* Testing individual components or methods in isolation
+* **Fast Execution**: Tests run quickly without external dependencies
+* **Automated**: Can be run automatically in CI/CD pipelines
+* **Isolated**: Each test is independent and doesn't affect others
+* **Frameworks**: JUnit, TestNG are popular Java testing frameworks
+* **Best Practice**: Write tests before or alongside production code
+
+```java
+// Simple unit test example
+public class CalculatorTest {
+    private Calculator calculator = new Calculator();
+    
+    @Test
+    public void testAddition() {
+        int result = calculator.add(2, 3);
+        assertEquals(5, result);
+    }
+    
+    @Test
+    public void testDivisionByZero() {
+        assertThrows(ArithmeticException.class, () -> {
+            calculator.divide(10, 0);
+        });
+    }
+}
+```
+
+---
+
+### 347: What is JUnit?
+
+**Answer (25 seconds):**
+* Most popular unit testing framework for Java applications
+* **Annotations**: @Test, @BeforeEach, @AfterEach for test lifecycle
+* **Assertions**: assertEquals, assertTrue, assertThrows for verification
+* **Test Runners**: Execute tests and report results
+* **Integration**: Works with IDEs, build tools, and CI systems
+* **Current Version**: JUnit 5 (Jupiter) is the latest
+
+```java
+// JUnit 5 example
+class UserServiceTest {
+    
+    @BeforeEach
+    void setUp() {
+        userService = new UserService();
+    }
+    
+    @Test
+    @DisplayName("Should create user with valid data")
+    void shouldCreateUserWithValidData() {
+        User user = userService.createUser("John", "john@email.com");
+        
+        assertAll(
+            () -> assertNotNull(user.getId()),
+            () -> assertEquals("John", user.getName()),
+            () -> assertEquals("john@email.com", user.getEmail())
+        );
+    }
+}
+```
+
+---
+
+### 348: What are the annotations used in JUnit?
+
+**Answer (35 seconds):**
+* **@Test**: Marks method as test case
+* **@BeforeEach**: Runs before each test method
+* **@AfterEach**: Runs after each test method
+* **@BeforeAll**: Runs once before all tests in class
+* **@AfterAll**: Runs once after all tests in class
+* **@DisplayName**: Custom test name for reports
+* **@Disabled**: Skip test execution
+* **@ParameterizedTest**: Run test with multiple parameters
+
+```java
+class JUnitAnnotationsExample {
+    
+    @BeforeAll
+    static void initAll() {
+        // Setup once for all tests
+    }
+    
+    @BeforeEach
+    void init() {
+        // Setup before each test
+    }
+    
+    @Test
+    @DisplayName("Custom test name")
+    void testMethod() {
+        assertTrue(true);
+    }
+    
+    @ParameterizedTest
+    @ValueSource(strings = {"hello", "world"})
+    void testWithParameters(String input) {
+        assertNotNull(input);
+    }
+    
+    @Disabled("Not implemented yet")
+    @Test
+    void skippedTest() {
+        // This test will be skipped
+    }
+}
+```
+
+---
+
+### 349: What is TestNG?
+
+**Answer (30 seconds):**
+* Alternative testing framework to JUnit with additional features
+* **Flexible Configuration**: XML configuration files for test suites
+* **Data Providers**: Built-in support for parameterized tests
+* **Parallel Execution**: Run tests in parallel out of the box
+* **Dependency Testing**: Tests can depend on other tests
+* **Groups**: Organize tests into logical groups
+* **Better Reporting**: Enhanced HTML reports
+
+```java
+// TestNG example
+public class TestNGExample {
+    
+    @BeforeClass
+    public void setUp() {
+        // Setup for all tests in class
+    }
+    
+    @Test(groups = "smoke")
+    public void smokeTest() {
+        assertTrue(true);
+    }
+    
+    @Test(dependsOnMethods = "smokeTest")
+    public void dependentTest() {
+        // Runs only if smokeTest passes
+    }
+    
+    @DataProvider
+    public Object[][] testData() {
+        return new Object[][] {{"test1"}, {"test2"}};
+    }
+    
+    @Test(dataProvider = "testData")
+    public void parameterizedTest(String input) {
+        assertNotNull(input);
+    }
+}
+```
+
+---
+
+### 350: What is the difference between JUnit and TestNG?
+
+**Answer (35 seconds):**
+* **Configuration**: TestNG uses XML, JUnit uses annotations
+* **Parallel Execution**: TestNG has built-in support, JUnit needs plugins
+* **Test Dependencies**: TestNG supports dependent tests, JUnit doesn't
+* **Data Providers**: TestNG has built-in data providers, JUnit uses parameters
+* **Grouping**: TestNG has test groups, JUnit uses tags
+* **Reporting**: TestNG has better default reports
+* **Popularity**: JUnit is more widely used, TestNG popular in enterprise
+
+```java
+// JUnit approach
+@ParameterizedTest
+@ValueSource(ints = {1, 2, 3})
+void junitParameterized(int value) {
+    assertTrue(value > 0);
+}
+
+// TestNG approach
+@DataProvider
+public Object[][] data() {
+    return new Object[][]{{1}, {2}, {3}};
+}
+
+@Test(dataProvider = "data", groups = "unit")
+public void testngParameterized(int value) {
+    assertTrue(value > 0);
+}
+```
+
+---
+
+### 351: What is mocking in Java testing?
+
+**Answer (30 seconds):**
+* Creating fake objects to simulate real dependencies in tests
+* **Isolation**: Test units without depending on external systems
+* **Control**: Define exact behavior of dependencies
+* **Verification**: Check if methods were called with correct parameters
+* **Frameworks**: Mockito, EasyMock, PowerMock
+* **Types**: Mock, Stub, Spy objects with different behaviors
+
+```java
+// Mockito example
+@ExtendWith(MockitoExtension.class)
+class UserServiceTest {
+    
+    @Mock
+    private UserRepository userRepository;
+    
+    @InjectMocks
+    private UserService userService;
+    
+    @Test
+    void shouldFindUserById() {
+        // Given
+        User mockUser = new User(1L, "John");
+        when(userRepository.findById(1L)).thenReturn(mockUser);
+        
+        // When
+        User result = userService.findById(1L);
+        
+        // Then
+        assertEquals("John", result.getName());
+        verify(userRepository).findById(1L);
+    }
+}
+```
+
+---
+
+### 352: What is Mockito?
+
+**Answer (30 seconds):**
+* Most popular mocking framework for Java unit testing
+* **Easy Syntax**: Simple and readable mocking API
+* **Annotations**: @Mock, @InjectMocks, @Spy for setup
+* **Stubbing**: Define return values with when().thenReturn()
+* **Verification**: Check method calls with verify()
+* **Argument Matchers**: Flexible parameter matching
+* **Spying**: Partial mocking of real objects
+
+```java
+// Mockito features
+@ExtendWith(MockitoExtension.class)
+class MockitoExample {
+    
+    @Mock
+    private PaymentService paymentService;
+    
+    @Test
+    void mockitoFeatures() {
+        // Stubbing
+        when(paymentService.processPayment(any(Payment.class)))
+            .thenReturn(new PaymentResult(true));
+        
+        // Method call
+        PaymentResult result = paymentService.processPayment(new Payment(100));
+        
+        // Verification
+        verify(paymentService).processPayment(argThat(p -> p.getAmount() == 100));
+        
+        // Assertion
+        assertTrue(result.isSuccess());
+    }
+}
+```
+
+---
+
+### 353: What is integration testing?
+
+**Answer (30 seconds):**
+* Testing interaction between multiple components or systems
+* **Real Dependencies**: Uses actual databases, web services, file systems
+* **End-to-End**: Tests complete workflows across system boundaries
+* **Spring Boot**: @SpringBootTest for full application context
+* **Test Containers**: Docker containers for isolated test environments
+* **Slower**: Takes more time than unit tests but provides higher confidence
+
+```java
+// Integration test example
+@SpringBootTest
+@Testcontainers
+class UserIntegrationTest {
+    
+    @Container
+    static PostgreSQLContainer<?> postgres = new PostgreSQLContainer<>("postgres:13")
+            .withDatabaseName("testdb")
+            .withUsername("test")
+            .withPassword("test");
+    
+    @Autowired
+    private UserService userService;
+    
+    @Test
+    void shouldSaveAndRetrieveUser() {
+        // Given
+        User user = new User("John", "john@email.com");
+        
+        // When
+        User saved = userService.save(user);
+        User retrieved = userService.findById(saved.getId());
+        
+        // Then
+        assertEquals("John", retrieved.getName());
+    }
+}
+```
+
+---
+
+### 354: What is test-driven development (TDD)?
+
+**Answer (35 seconds):**
+* Development approach where tests are written before production code
+* **Red-Green-Refactor**: Write failing test, make it pass, improve code
+* **Benefits**: Better design, higher test coverage, fewer bugs
+* **Test First**: Forces thinking about requirements and API design
+* **Small Steps**: Incremental development with immediate feedback
+* **Confidence**: Refactoring is safer with comprehensive test suite
+
+```java
+// TDD example - Red phase (failing test)
+@Test
+void shouldCalculateAreaOfRectangle() {
+    Rectangle rectangle = new Rectangle(5, 3);
+    assertEquals(15, rectangle.getArea()); // This will fail initially
+}
+
+// Green phase - minimal implementation
+public class Rectangle {
+    private int width, height;
+    
+    public Rectangle(int width, int height) {
+        this.width = width;
+        this.height = height;
+    }
+    
+    public int getArea() {
+        return width * height; // Make test pass
+    }
+}
+
+// Refactor phase - improve code quality while keeping tests green
+```
+
+# 🔹 Advanced Testing
+
+### 355: What is behavior-driven development (BDD)?
+
+**Answer (35 seconds):**
+* Extension of TDD focusing on behavior specification in natural language
+* **Given-When-Then**: Structure tests as scenarios with clear steps
+* **Collaboration**: Involves developers, testers, and business stakeholders
+* **Living Documentation**: Tests serve as executable specifications
+* **Tools**: Cucumber, JBehave for Java BDD frameworks
+* **User Stories**: Tests written from user perspective
+
+```java
+// Step definitions
+public class UserRegistrationSteps {
+    
+    @Given("a new user with email {string}")
+    public void aNewUserWithEmail(String email) {
+        this.user = new User(email);
+    }
+    
+    @When("the user registers with valid information")
+    public void theUserRegistersWithValidInformation() {
+        this.result = userService.register(user);
+    }
+    
+    @Then("the user should be created successfully")
+    public void theUserShouldBeCreatedSuccessfully() {
+        assertTrue(result.isSuccess());
+    }
+}
+```
+
+---
+
+### 356: What is acceptance testing?
+
+**Answer (30 seconds):**
+* Testing to verify system meets business requirements and user needs
+* **User Perspective**: Tests from end-user point of view
+* **Business Criteria**: Validates acceptance criteria are met
+* **Black Box**: Tests functionality without knowing internal implementation
+* **Automated**: Often automated using tools like Selenium, REST Assured
+* **Sign-off**: Final validation before production deployment
+
+```java
+// Acceptance test example
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+class UserAcceptanceTest {
+    
+    @Autowired
+    private TestRestTemplate restTemplate;
+    
+    @Test
+    void userCanRegisterAndLogin() {
+        // User registration
+        UserRegistrationRequest request = new UserRegistrationRequest("john@email.com", "password");
+        ResponseEntity<String> registerResponse = restTemplate.postForEntity("/api/register", request, String.class);
+        assertEquals(HttpStatus.CREATED, registerResponse.getStatusCode());
+        
+        // User login
+        LoginRequest loginRequest = new LoginRequest("john@email.com", "password");
+        ResponseEntity<String> loginResponse = restTemplate.postForEntity("/api/login", loginRequest, String.class);
+        assertEquals(HttpStatus.OK, loginResponse.getStatusCode());
+        assertNotNull(loginResponse.getBody()); // JWT token
+    }
+}
+```
+
+---
+
+### 357: What is contract testing?
+
+**Answer (35 seconds):**
+* Testing to ensure services can communicate correctly with each other
+* **API Contracts**: Verify API specifications are followed
+* **Consumer-Driven**: Consumers define expectations for providers
+* **Pact**: Popular framework for contract testing
+* **Microservices**: Essential for distributed system reliability
+* **Early Detection**: Catch integration issues before deployment
+* **Documentation**: Contracts serve as API documentation
+
+```java
+// Pact contract testing example
+@ExtendWith(PactConsumerTestExt.class)
+@PactTestFor(providerName = "user-service")
+class UserServiceContractTest {
+    
+    @Pact(consumer = "order-service")
+    public RequestResponsePact getUserPact(PactDslWithProvider builder) {
+        return builder
+            .given("user exists")
+            .uponReceiving("get user by id")
+            .path("/users/1")
+            .method("GET")
+            .willRespondWith()
+            .status(200)
+            .body(newJsonBody(body -> {
+                body.numberType("id", 1);
+                body.stringType("name", "John");
+                body.stringType("email", "john@email.com");
+            }).build())
+            .toPact();
+    }
+    
+    @Test
+    void testGetUser(MockServer mockServer) {
+        UserServiceClient client = new UserServiceClient(mockServer.getUrl());
+        User user = client.getUser(1L);
+        assertEquals("John", user.getName());
+    }
+}
+```
+
+---
+
+### 358: What is mutation testing?
+
+**Answer (30 seconds):**
+* Testing technique that evaluates quality of test suite by introducing bugs
+* **Mutants**: Modified versions of code with small changes
+* **Mutation Score**: Percentage of mutants killed by tests
+* **Test Quality**: Measures how well tests detect defects
+* **Tools**: PIT (Pitest) is popular Java mutation testing tool
+* **Expensive**: Computationally intensive but provides valuable insights
+
+```java
+// Original code
+public class Calculator {
+    public int add(int a, int b) {
+        return a + b; // Mutant might change + to -
+    }
+    
+    public boolean isPositive(int number) {
+        return number > 0; // Mutant might change > to >=
+    }
+}
+
+// Test that would catch mutations
+@Test
+void testAddition() {
+    assertEquals(5, calculator.add(2, 3)); // Would catch + to - mutation
+    assertEquals(0, calculator.add(-2, 2)); // Edge case
+}
+
+@Test
+void testIsPositive() {
+    assertTrue(calculator.isPositive(1));   // Would catch > to >= mutation
+    assertFalse(calculator.isPositive(0));  // Critical for boundary
+    assertFalse(calculator.isPositive(-1));
+}
+```
+
+---
+
+### 359: What is performance testing?
+
+**Answer (35 seconds):**
+* Testing to evaluate system performance under various load conditions
+* **Load Testing**: Normal expected load
+* **Stress Testing**: Beyond normal capacity to find breaking point
+* **Volume Testing**: Large amounts of data
+* **Spike Testing**: Sudden load increases
+* **Tools**: JMeter, Gatling for Java applications
+* **Metrics**: Response time, throughput, resource utilization
+
+```java
+// JUnit performance test
+@Test
+@Timeout(value = 2, unit = TimeUnit.SECONDS)
+void shouldCompleteWithinTimeLimit() {
+    // Test must complete within 2 seconds
+    String result = expensiveOperation();
+    assertNotNull(result);
+}
+
+// Microbenchmark with JMH
+@BenchmarkMode(Mode.AverageTime)
+@OutputTimeUnit(TimeUnit.NANOSECONDS)
+public class StringConcatenationBenchmark {
+    
+    @Benchmark
+    public String stringBuilder() {
+        return new StringBuilder().append("Hello").append(" World").toString();
+    }
+}
+```
+
+---
+
+### 360: What is security testing?
+
+**Answer (35 seconds):**
+* Testing to identify security vulnerabilities and ensure data protection
+* **Authentication**: Verify login mechanisms work correctly
+* **Authorization**: Ensure users can only access permitted resources
+* **Input Validation**: Test for SQL injection, XSS vulnerabilities
+* **Session Management**: Verify secure session handling
+* **Tools**: OWASP ZAP, SonarQube for security analysis
+* **Penetration Testing**: Simulated attacks to find weaknesses
+
+```java
+// Security testing examples
+@SpringBootTest
+class SecurityTest {
+    
+    @Autowired
+    private MockMvc mockMvc;
+    
+    @Test
+    void shouldRequireAuthenticationForProtectedEndpoint() throws Exception {
+        mockMvc.perform(get("/api/admin/users"))
+            .andExpect(status().isUnauthorized());
+    }
+    
+    @Test
+    void shouldPreventSQLInjection() throws Exception {
+        String maliciousInput = "'; DROP TABLE users; --";
+        
+        mockMvc.perform(get("/api/users/search")
+                .param("name", maliciousInput))
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$.length()").value(0)); // No results, table not dropped
+    }
+    
+    @Test
+    void shouldPreventXSS() throws Exception {
+        String xssPayload = "<script>alert('xss')</script>";
+        
+        mockMvc.perform(post("/api/comments")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("{\"text\":\"" + xssPayload + "\"}"))
+            .andExpect(status().isBadRequest()); // Input validation should reject
+    }
+    
+    @Test
+    @WithMockUser(roles = "USER")
+    void shouldDenyAccessToAdminEndpoint() throws Exception {
+        mockMvc.perform(get("/api/admin/settings"))
+            .andExpect(status().isForbidden());
+    }
+}
+```
+
+# 🔵 24. DevOps and Build Tools
+---
+# 🔹 Build Tools
+
+### 361: What is Maven?
+
+**Answer (30 seconds):**
+* Build automation and project management tool for Java projects
+* **POM**: Project Object Model (pom.xml) defines project structure
+* **Dependencies**: Automatic dependency management from central repository
+* **Lifecycle**: Standard build phases (compile, test, package, deploy)
+* **Plugins**: Extensible through plugins for various tasks
+* **Convention**: Convention over configuration approach
+
+```xml
+<!-- pom.xml example -->
+<project>
+    <groupId>com.example</groupId>
+    <artifactId>my-app</artifactId>
+    <version>1.0.0</version>
+    <packaging>jar</packaging>
+    
+    <dependencies>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+            <version>2.7.0</version>
+        </dependency>
+    </dependencies>
+    
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
+</project>
+```
