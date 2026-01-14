@@ -201,7 +201,60 @@ When facing **latency issues in PostgreSQL or MySQL** in a **microservices-based
 * Use **connection pooling** to reduce overhead.
 * Archive old data to keep tables lean.
 
-This approach helps reduce latency while keeping the system scalable and maintainable.
+### Redis vs In-Memory Caching difference
+
+### 📌 In-Memory Caching (e.g., HashMap, ConcurrentHashMap)
+
+* Cache is stored **inside the application memory**
+* Very fast (no network call)
+* Data is **lost if the app restarts**
+* Cache is **not shared** across multiple servers
+* Best for **single-instance or simple applications**
+* Limited by **JVM heap size**
+
+**Example:**
+
+```java
+Map<String, String> cache = new ConcurrentHashMap<>();
+```
+
+---
+
+### 📌 Redis Caching
+
+* Cache is stored in a **separate in-memory data store**
+* Slight network overhead but still very fast
+* Supports **persistence and TTL**
+* Cache is **shared across multiple app instances**
+* Ideal for **distributed systems and microservices**
+* Supports advanced data structures (List, Set, Hash, Pub/Sub)
+
+**Example:**
+
+```java
+jedis.setex("user:1", 300, "John");
+```
+
+---
+
+### 🔹 Key Differences at a Glance
+
+| Feature                | In-Memory Cache    | Redis       |
+| ---------------------- | ------------------ | ----------- |
+| Scope                  | Single application | Distributed |
+| Persistence            | ❌ No               | ✅ Optional  |
+| Scalability            | Limited            | High        |
+| TTL support            | Manual             | Built-in    |
+| Multi-instance support | ❌ No               | ✅ Yes       |
+
+---
+
+### 🔹 One-line interview answer:
+
+> “In-memory caching is fastest but limited to a single application instance, while Redis is a distributed cache that supports persistence, TTL, and scalability across multiple services.”
+
+
+
 
 
 Read the question and give 60 - 70 sec easy spoken answer with bulltet points
