@@ -1,22 +1,15 @@
----
+import java.util.Scanner;
 
-## ✅ Hello World Program
+// ✅ Hello World Program
 
-```java
 public class Main {
     public static void main(String[] args) {
         System.out.println("Hello, World!");
+        fnSumTwoNumbers();
     }
-}
-```
 
-## ✅ Sum of Two Numbers
-
-```java
-import java.util.Scanner;
-
-public class Main {
-    public static void main(String[] args) {
+    // ✅ Sum of Two Numbers
+    public static void fnSumTwoNumbers() {
         Scanner sc = new Scanner(System.in);
         int a = sc.nextInt();
         int b = sc.nextInt();
@@ -24,7 +17,9 @@ public class Main {
         sc.close();
     }
 }
-```
+
+
+
 
 ## ✅ Check Even or Odd
 
