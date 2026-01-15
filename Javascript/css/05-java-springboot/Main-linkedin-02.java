@@ -15,6 +15,26 @@ public class Main {
         // fnFibonacciSeries();
         // fnReverseNumberAndString();
         // fnPalindromeNumberAndStringCheck();
+        // fnArmstrongNumberCheck();
+        // fnPrimeNumberCheck();
+        // fnPrintAllPrimeNumbers();
+        // fnMultiplicationTableFfNumber();
+        // fnSumAllElements();
+        // fnSumOfDigitsOfNumber();
+        // fnPrintNumbersWithoutLoop();
+        // fnSquarePattern();
+        // fnRightTrianglePattern();
+        // fnIvertedTrianglePattern();
+        // fnPyramidPattern();
+        // fnDiamondPattern();
+        // fnNumberPattern();
+        // fnAlphabetPattern();
+        // fnFindLargestAndSmallestElement();
+        // fneRverseArray();
+        // fnSortAnArrayWithBuildMethodAndWithoutMethod();
+        // DuplicateCharacters();
+        // fnFindDuplicateElementsWithInbuildMethodandWithout();
+        // fnFindMissingNumberInArray();
     }
 
     // ## ✅ Sum of Two Numbers
@@ -186,16 +206,9 @@ public class Main {
         // 121 is a palindrome number.
     }
 
-}
-
-
-
-## ✅ Armstrong Number Check (3-digit)
-
-```java
-public class Main {
-    public static void main(String[] args) {
-        int n = new java.util.Scanner(System.in).nextInt();
+    // ## ✅ Armstrong Number Check (3-digit)
+    public static void fnArmstrongNumberCheck () {
+        int n = 12;
         int temp = n, sum = 0;
 
         while (temp != 0) {
@@ -206,15 +219,10 @@ public class Main {
 
         System.out.println(sum == n ? "Armstrong" : "Not Armstrong");
     }
-}
-```
 
-## ✅ Prime Number Check
-
-```java
-public class Main {
-    public static void main(String[] args) {
-        int n = new java.util.Scanner(System.in).nextInt();
+    // Prime Number Check
+    public static void fnPrimeNumberCheck() {
+        int n = 12;
 
         if (n < 2) {
             System.out.println("Not Prime");
@@ -230,54 +238,63 @@ public class Main {
 
         System.out.println("Prime");
     }
-}
-```
 
-## ✅ Print All Prime Numbers Between 1 and N
+    // ## ✅ Print All Prime Numbers Between 1 and N
+    public static void fnPrintAllPrimeNumbers() {
+        System.out.println("Prime numbers between 1 and 100:");
 
-```java
-public class Main {
+        // Loop through numbers from 1 to 100
+        for (int num = 2; num <= 100; num++) {
+            boolean isPrime = true;
 
-    static boolean isPrime(int n) {
-        if (n < 2) return false;
-        for (int i = 2; i * i <= n; i++) {
-            if (n % i == 0) return false;
-        }
-        return true;
-    }
+            // Check if num is prime
+            for (int i = 2; i <= Math.sqrt(num); i++) {
+                if (num % i == 0) {
+                    isPrime = false;
+                    break;
+                }
+            }
 
-    public static void main(String[] args) {
-        int n = new java.util.Scanner(System.in).nextInt();
-
-        for (int i = 2; i <= n; i++) {
-            if (isPrime(i)) {
-                System.out.print(i + " ");
+            // If the number is prime, print it
+            if (isPrime) {
+                System.out.print(num + " ");
             }
         }
+        // Prime numbers between 1 and 100: 2 3 5 7 11 13 17 19 23 29 31 37 41 43 47 53 59 61 67 71 73 79 83 89 97
     }
-}
-```
 
-## ✅ Multiplication Table of a Number
-
-```java
-public class Main {
-    public static void main(String[] args) {
-        int n = new java.util.Scanner(System.in).nextInt();
+    // ## ✅ Multiplication Table of a Number
+    public static void fnMultiplicationTableFfNumber() {
+        int n = 5;
 
         for (int i = 1; i <= 10; i++) {
             System.out.println(n + " x " + i + " = " + (n * i));
         }
+
+        // 5 x 1 = 5
+        // 5 x 2 = 10
+        // 5 x 3 = 15
+        // 5 x 4 = 20
+        // 5 x 5 = 25
     }
-}
-```
 
-## ✅ Sum of Digits of a Number
+    // ## ✅ Sum All Elements of an Array
+    public static void fnSumAllElements() {
+        int[] arr = {1, 2, 3, 4, 5};  // Example array
+        int sum = 0;
 
-```java
-public class Main {
-    public static void main(String[] args) {
-        int n = new java.util.Scanner(System.in).nextInt();
+        // Loop through the array to sum all elements
+        for (int i = 0; i < arr.length; i++) {
+            sum += arr[i];
+        }
+
+        System.out.println("Sum of all elements in the array: " + sum);
+        // Sum of all elements in the array: 15
+    }
+
+    // ## ✅ Sum of Digits of a Number
+    public static void fnSumOfDigitsOfNumber() {
+        int n = 100;
         int sum = 0;
 
         while (n != 0) {
@@ -286,32 +303,20 @@ public class Main {
         }
 
         System.out.println(sum);
+        // 5
     }
-}
-```
 
-## ✅ Print Numbers 1 to 100 Without Loop (Using Recursion)
+    // ✅ Print Numbers 1 to 100W ithout Loop (Using Recursion)
+    public static void fnPrintNumbersWithoutLoop (int i) {
+        if (i > 10) return;
 
-```java
-public class Main {
-
-    static void print(int i) {
-        if (i > 100) return;
         System.out.println(i);
-        print(i + 1);
+        fnPrintNumbersWithoutLoop(i + 1);
+        // 12345678910
     }
 
-    public static void main(String[] args) {
-        print(1);
-    }
-}
-```
-
-## ✅ Square Pattern (`****`)
-
-```java
-public class Main {
-    public static void main(String[] args) {
+    // ## ✅ Square Pattern (`****`)
+    public static void fnSquarePattern () {
         int n = 4;
 
         for (int i = 0; i < n; i++) {
@@ -320,15 +325,14 @@ public class Main {
             }
             System.out.println();
         }
+        // ****
+        // ****
+        // ****
+        // ****
     }
-}
-```
 
-## ✅ Right Triangle Pattern
-
-```java
-public class Main {
-    public static void main(String[] args) {
+    // ## ✅ Right Triangle Pattern
+    public static void fnRightTrianglePattern() {
         int n = 5;
 
         for (int i = 1; i <= n; i++) {
@@ -337,15 +341,15 @@ public class Main {
             }
             System.out.println();
         }
+        // *
+        // **
+        // ***
+        // ****
+        // *****
     }
-}
-```
 
-## ✅ Inverted Triangle Pattern
-
-```java
-public class Main {
-    public static void main(String[] args) {
+    // ## ✅ Inverted Triangle Pattern
+    public static void fnIvertedTrianglePattern() {
         int n = 5;
 
         for (int i = n; i >= 1; i--) {
@@ -354,19 +358,19 @@ public class Main {
             }
             System.out.println();
         }
+        
+        // *****
+        // ****
+        // ***
+        // **
+        // *
     }
-}
-```
 
-## ✅ Pyramid Pattern
-
-```java
-public class Main {
-    public static void main(String[] args) {
+    //## ✅ Pyramid Pattern
+    public static void fnPyramidPattern() {
         int n = 5;
 
         for (int i = 1; i <= n; i++) {
-
             for (int s = 1; s <= n - i; s++) {
                 System.out.print(" ");
             }
@@ -377,20 +381,19 @@ public class Main {
 
             System.out.println();
         }
+        //     *
+        //    ***
+        //   *****
+        //  *******
+        // *********           
     }
-}
-```
 
-## ✅ Diamond Pattern
-
-```java
-public class Main {
-    public static void main(String[] args) {
+    // ## ✅ Diamond Pattern
+    public static void fnDiamondPattern() {
         int n = 5;
 
         // Upper half
         for (int i = 1; i <= n; i++) {
-
             for (int s = 1; s <= n - i; s++) {
                 System.out.print(" ");
             }
@@ -404,7 +407,6 @@ public class Main {
 
         // Lower half
         for (int i = n - 1; i >= 1; i--) {
-
             for (int s = 1; s <= n - i; s++) {
                 System.out.print(" ");
             }
@@ -415,15 +417,19 @@ public class Main {
 
             System.out.println();
         }
+        //     *
+        //    ***
+        //   *****
+        //  *******
+        // *********
+        //  *******
+        //   *****
+        //    ***
+        //     *
     }
-}
-```
 
-## ✅ Number Pattern (1, 12, 123, ...)
-
-```java
-public class Main {
-    public static void main(String[] args) {
+    // ## ✅ Number Pattern (1, 12, 123, ...)
+    public static void fnNumberPattern () {
         int n = 5;
 
         for (int i = 1; i <= n; i++) {
@@ -432,15 +438,15 @@ public class Main {
             }
             System.out.println();
         }
+        // 1
+        // 12
+        // 123
+        // 1234
+        // 12345
     }
-}
-```
 
-## ✅ Alphabet Pattern (A, AB, ABC, ...)
-
-```java
-public class Main {
-    public static void main(String[] args) {
+    // ## ✅ Alphabet Pattern (A, AB, ABC, ...)
+    public static void fnAlphabetPattern () {
         int n = 5;
 
         for (int i = 1; i <= n; i++) {
@@ -449,15 +455,15 @@ public class Main {
             }
             System.out.println();
         }
+        // A
+        // AB
+        // ABC
+        // ABCD
+        // ABCDE
     }
-}
-```
 
-## ✅ Find Largest and Smallest Element in an Array
-
-```java
-public class Main {
-    public static void main(String[] args) {
+    // ## ✅ Find Largest and Smallest Element in an Array
+    public static void fnFindLargestAndSmallestElement () {
         int[] arr = {5, 2, 9, -1, 7};
 
         int min = arr[0];
@@ -469,59 +475,82 @@ public class Main {
         }
 
         System.out.println("Min = " + min + ", Max = " + max);
+        // Min = -1, Max = 9
     }
-}
-```
+    
 
-## ✅ Reverse an Array
-
-```java
-import java.util.Arrays;
-
-public class Main {
-    public static void main(String[] args) {
+    // ## ✅ Reverse an Array
+    public static void fneRverseArray() {
         int[] arr = {1, 2, 3, 4, 5};
-
-        for (int i = 0, j = arr.length - 1; i < j; i++, j--) {
-            int temp = arr[i];
-            arr[i] = arr[j];
-            arr[j] = temp;
+        int[] reversed = new int[arr.length];
+    
+        int index = 0;
+        for (int i = arr.length - 1; i >= 0; i--) {
+            reversed[index++] = arr[i];
         }
-
-        System.out.println(Arrays.toString(arr));
+    
+        System.out.println(Arrays.toString(reversed));
+        // [5, 4, 3, 2, 1]
     }
-}
-```
 
-## ✅ Sort an Array (Ascending / Descending)
-
-```java
-import java.util.Arrays;
-import java.util.Collections;
-
-public class Main {
-    public static void main(String[] args) {
-        Integer[] arr = {5, 1, 4, 2, 3};
+    // ## ✅ Sort an Array (Ascending / Descending)
+    public static void fnSortAnArrayWithBuildMethodAndWithoutMethod () {
+        // with in built function
+        Integer[] arrData = {5, 1, 4, 2, 3};
 
         // Ascending
-        Arrays.sort(arr);
-        System.out.println(Arrays.toString(arr));
+        Arrays.sort(arrData);
+        System.out.println(Arrays.toString(arrData));
 
         // Descending
-        Arrays.sort(arr, Collections.reverseOrder());
-        System.out.println(Arrays.toString(arr));
+        Arrays.sort(arrData, Collections.reverseOrder());
+        System.out.println(Arrays.toString(arrData));
+        
+        // [1, 2, 3, 4, 5]
+        // [5, 4, 3, 2, 1]
+        
+        // Using loop  =========
+        int[] arr = {5, 2, 9, 1, 5, 6};
+
+        for (int i = 0; i < arr.length; i++) {
+            for (int j = i + 1; j < arr.length; j++) {
+                if (arr[i] > arr[j]) {
+                    int temp = arr[i];
+                    arr[i] = arr[j];
+                    arr[j] = temp;
+                }
+            }
+        }
+
+        for (int i = 0; i < arr.length; i++) {
+            System.out.print(arr[i] + " ");
+        }
+
+        // 1 2 5 5 6 9
     }
-}
-```
 
-## ✅ Find Duplicate Elements in an Array
+    // ## ✅ Find the Duplicate Characters in a String
+    public static void DuplicateCharacters() {
+		String str = "programming";
+		char[] chars = str.toCharArray();
 
-```java
-import java.util.HashSet;
-import java.util.Set;
+		System.out.print("Duplicate characters: ");
 
-public class Main {
-    public static void main(String[] args) {
+		for (int i = 0; i < chars.length; i++) {
+			for (int j = i + 1; j < chars.length; j++) {
+				if (chars[i] == chars[j]) {
+					System.out.print(chars[i] + " ");
+					break; // avoid printing same character again
+				}
+			}
+		}
+
+        // Duplicate characters: r g m 
+	}
+
+    // ## ✅ Find Duplicate Elements in an Array
+    public static void fnFindDuplicateElementsWithInbuildMethodandWithout () {
+        // With Inbuild functions
         int[] arr = {1, 2, 3, 1, 2, 4, 5};
 
         Set<Integer> seen = new HashSet<>();
@@ -534,15 +563,25 @@ public class Main {
         }
 
         System.out.println(duplicates);
+        // [1, 2]
+        
+        // using without inbuilt method ======
+        int[] nums = {2, 5, 2, 7, 8, 9, 5, 3};
+        System.out.print("Duplicate numbers: ");
+
+        for (int i = 0; i < nums.length; i++) {
+            for (int j = i + 1; j < nums.length; j++) {
+                if (nums[i] == nums[j]) {
+                    System.out.print(nums[i] + " ");
+                    break;
+                }
+            }
+        }
+        // 2 5 
     }
-}
-```
 
-## ✅ Find Missing Number in an Array (1 to N)
-
-```java
-public class Main {
-    public static void main(String[] args) {
+    // ## ✅ Find Missing Number in an Array (1 to N)
+    public static void fnFindMissingNumberInArray () {
         int[] arr = {1, 2, 4, 5};
         int n = 5;
 
@@ -554,9 +593,15 @@ public class Main {
         }
 
         System.out.println(totalSum - arrSum);
+        // 3
     }
 }
-```
+
+
+
+
+
+
 
 ## ✅ Find Second Largest Element in an Array
 
