@@ -13,6 +13,8 @@ public class Main {
         // fnSwapTwoNumbers();
         // fnFactorialOfNumber();
         // fnFibonacciSeries();
+        // fnReverseNumberAndString();
+        // fnPalindromeNumberAndStringCheck();
     }
 
     // ## ✅ Sum of Two Numbers
@@ -118,46 +120,75 @@ public class Main {
         }
     }
 
-}
+    // ## ✅ Reverse a Number  and string
+    public static void fnReverseNumberAndString() {
+        
+        // Reverse Numbers
+        int number = 12345;
+        char[] charArray = String.valueOf(number).toCharArray();
 
+        for (int i = charArray.length - 1; i >= 0; i--) {
+            System.out.print(charArray[i]);
+        }
+        // 54321  
+        
+        // Reverse String
+        String str = "HelloWorld";
+        String reversedStr = "";
+        for (int i = str.length() - 1; i >= 0; i--) {
+            reversedStr += str.charAt(i);
+        }
+        System.out.println("------------");
+        System.out.println("Reversed string: " + reversedStr);
+        // Reversed string: dlroWolleH
+    }
 
+    // ## ✅ Palindrome Number Check
+    public static void fnPalindromeNumberAndStringCheck() {
+        // check palindrome with string
+        String str = "madam";
+        boolean isPalindromeNum = true;
 
-
-## ✅ Reverse a Number
-
-```java
-public class Main {
-    public static void main(String[] args) {
-        int n = new java.util.Scanner(System.in).nextInt();
-        int rev = 0;
-
-        while (n != 0) {
-            rev = rev * 10 + n % 10;
-            n /= 10;
+        // Check if string is palindrome
+        int length = str.length();
+        for (int i = 0; i < length / 2; i++) {
+            if (str.charAt(i) != str.charAt(length - 1 - i)) {
+                isPalindromeNum = false;
+                break;
+            }
         }
 
-        System.out.println(rev);
-    }
-}
-```
-
-## ✅ Palindrome Number Check
-
-```java
-public class Main {
-    public static void main(String[] args) {
-        int n = new java.util.Scanner(System.in).nextInt();
-        int temp = n, rev = 0;
-
-        while (n != 0) {
-            rev = rev * 10 + n % 10;
-            n /= 10;
+        if (isPalindromeNum) {
+            System.out.println(str + " is a palindrome.");
+        } else {
+            System.out.println(str + " is not a palindrome.");
         }
-
-        System.out.println(temp == rev ? "Palindrome" : "Not Palindrome");
+        // madam is a palindrome.
+        
+        // check palindrome with number
+        int number = 121;
+        char[] charArray = String.valueOf(number).toCharArray();
+        
+        boolean isPalindrome = true;
+        
+        for (int i = 0; i < charArray.length / 2; i++) {
+            if (charArray[i] != charArray[charArray.length - 1 - i]) {
+                isPalindrome = false;
+                break;
+            }
+        }
+        
+        if (isPalindrome) {
+            System.out.println(number + " is a palindrome number.");
+        } else {
+            System.out.println(number + " is not a palindrome number.");
+        }
+        // 121 is a palindrome number.
     }
+
 }
-```
+
+
 
 ## ✅ Armstrong Number Check (3-digit)
 
