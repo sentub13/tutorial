@@ -1,6 +1,6 @@
 import java.util.Scanner;
 
-// ✅ Hello World Program
+// ## ✅ Hello World Program
 
 public class Main {
     public static void main(String[] args) {
@@ -8,7 +8,7 @@ public class Main {
         fnSumTwoNumbers();
     }
 
-    // ✅ Sum of Two Numbers
+    // ## ✅ Sum of Two Numbers
     public static void fnSumTwoNumbers() {
         Scanner sc = new Scanner(System.in);
         int a = sc.nextInt();
