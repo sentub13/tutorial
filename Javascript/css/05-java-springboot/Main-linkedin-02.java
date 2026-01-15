@@ -1,11 +1,18 @@
 import java.util.Scanner;
 
 // ## ✅ Hello World Program
-
 public class Main {
     public static void main(String[] args) {
         System.out.println("Hello, World!");
-        fnSumTwoNumbers();
+        // fnSumTwoNumbers();
+        // fnCheckEvenOrOdd();
+        // fnLargestOfTwoNumbers();
+        // fnLargestOfThreeNumbers();
+        // fnPositiveNegativeOrZeroCheck();
+        // fnFeapYearCheck();
+        // fnSwapTwoNumbers();
+        // fnFactorialOfNumber();
+        // fnFibonacciSeries();
     }
 
     // ## ✅ Sum of Two Numbers
@@ -16,66 +23,37 @@ public class Main {
         System.out.println(a + b);
         sc.close();
     }
-}
 
-
-
-
-## ✅ Check Even or Odd
-
-```java
-public class Main {
-    public static void main(String[] args) {
-        int n = new java.util.Scanner(System.in).nextInt();
+    // ## ✅ Check Even or Odd
+    public static void fnCheckEvenOrOdd() {
+        int n = 23;
         System.out.println(n % 2 == 0 ? "Even" : "Odd");
     }
-}
-```
 
-## ✅ Largest of Two Numbers
-
-```java
-import java.util.Scanner;
-
-public class Main {
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        int a = sc.nextInt();
-        int b = sc.nextInt();
+    
+    // ## ✅ Largest of Two Numbers
+    public static void fnLargestOfTwoNumbers() {
+        int a = 23;
+        int b = 11;
         System.out.println(a > b ? a : b);
-        sc.close();
     }
-}
-```
 
-## ✅ Largest of Three Numbers
-
-```java
-import java.util.Scanner;
-
-public class Main {
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        int a = sc.nextInt();
-        int b = sc.nextInt();
-        int c = sc.nextInt();
+    // ## ✅ Largest of Three Numbers
+    public static void fnLargestOfThreeNumbers() {
+        int a = 22;
+        int b = 11;
+        int c = 55;
 
         int max = a;
         if (b > max) max = b;
         if (c > max) max = c;
 
         System.out.println(max);
-        sc.close();
     }
-}
-```
 
-## ✅ Positive, Negative, or Zero Check
-
-```java
-public class Main {
-    public static void main(String[] args) {
-        int n = new java.util.Scanner(System.in).nextInt();
+    // ## ✅ Positive, Negative, or Zero Check
+    public static void fnPositiveNegativeOrZeroCheck() {
+        int n = 30;
 
         if (n > 0)
             System.out.println("Positive");
@@ -84,29 +62,19 @@ public class Main {
         else
             System.out.println("Zero");
     }
-}
-```
 
-## ✅ Leap Year Check
-
-```java
-public class Main {
-    public static void main(String[] args) {
-        int year = new java.util.Scanner(System.in).nextInt();
+    // ## ✅ Leap Year Check
+    public static void fnFeapYearCheck() {
+        int year = 2024;
 
         boolean leap = (year % 400 == 0) ||
                        (year % 4 == 0 && year % 100 != 0);
 
         System.out.println(leap ? "Leap Year" : "Not Leap Year");
     }
-}
-```
 
-## ✅ Swap Two Numbers (With & Without Third Variable)
-
-```java
-public class Main {
-    public static void main(String[] args) {
+    // ## ✅ Swap Two Numbers (With & Without Third Variable)
+    public static void fnSwapTwoNumbers () {
 
         int a = 10, b = 20;
 
@@ -124,15 +92,10 @@ public class Main {
         a ^= b;
         System.out.println(a + " " + b);
     }
-}
-```
 
-## ✅ Factorial of a Number (Iterative)
-
-```java
-public class Main {
-    public static void main(String[] args) {
-        int n = new java.util.Scanner(System.in).nextInt();
+    // ## ✅ Factorial of a Number (Iterative)
+    public static void fnFactorialOfNumber() {
+        int n = 5;
         long fact = 1;
 
         for (int i = 2; i <= n; i++) {
@@ -141,15 +104,10 @@ public class Main {
 
         System.out.println(fact);
     }
-}
-```
 
-## ✅ Fibonacci Series (First N Terms)
-
-```java
-public class Main {
-    public static void main(String[] args) {
-        int n = new java.util.Scanner(System.in).nextInt();
+    // ## ✅ Fibonacci Series (First N Terms)
+    public static void fnFibonacciSeries() {
+        int n = 5;
         long a = 0, b = 1;
 
         for (int i = 0; i < n; i++) {
@@ -159,8 +117,11 @@ public class Main {
             b = c;
         }
     }
+
 }
-```
+
+
+
 
 ## ✅ Reverse a Number
 
