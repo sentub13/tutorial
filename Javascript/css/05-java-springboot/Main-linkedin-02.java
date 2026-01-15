@@ -1,4 +1,11 @@
 import java.util.Scanner;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.LinkedHashSet;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 // ## ✅ Hello World Program
 public class Main {
@@ -32,9 +39,17 @@ public class Main {
         // fnFindLargestAndSmallestElement();
         // fneRverseArray();
         // fnSortAnArrayWithBuildMethodAndWithoutMethod();
-        // DuplicateCharacters();
+        // fnDuplicateCharacters();
         // fnFindDuplicateElementsWithInbuildMethodandWithout();
         // fnFindMissingNumberInArray();
+        // fnSecondHighestNumber();
+        // fnMatrixAdditionSubtractionMultiplication();
+        // fnTransposeOfMatrix();
+        // fnVowelConsonantCount();
+        // fnFirstNonRepeatedChar();
+        // fnAnagramCheck();
+        // fnCommonElementsInTwoArrays();
+        // fnFindSubstring();
     }
 
     // ## ✅ Sum of Two Numbers
@@ -152,7 +167,7 @@ public class Main {
         }
         // 54321  
         
-        // Reverse String
+        // Reverse String 1
         String str = "HelloWorld";
         String reversedStr = "";
         for (int i = str.length() - 1; i >= 0; i--) {
@@ -161,6 +176,21 @@ public class Main {
         System.out.println("------------");
         System.out.println("Reversed string: " + reversedStr);
         // Reversed string: dlroWolleH
+
+        // Reverse String 2
+        String strTemp = "HelloWorld";
+        char[] strArr = strTemp.toCharArray();
+        String reversedStrTemp = "";
+        for (int i = strArr.length - 1; i >= 0; i--) {
+            reversedStrTemp += strArr[i];
+        }
+        System.out.println("Reversed string: " + reversedStrTemp);
+        // Reversed string: dlroWolleH
+
+        // Reverse String 3
+        String s = "hello";
+        String reversed = new StringBuilder(s).reverse().toString();
+        System.out.println(reversed);
     }
 
     // ## ✅ Palindrome Number Check
@@ -204,6 +234,13 @@ public class Main {
             System.out.println(number + " is not a palindrome number.");
         }
         // 121 is a palindrome number.
+
+        // ============
+        String s = "madam";
+        String rev = new StringBuilder(s).reverse().toString();
+
+        System.out.println(s.equals(rev) ? "Palindrome" : "Not Palindrome");
+        // Palindrome
     }
 
     // ## ✅ Armstrong Number Check (3-digit)
@@ -530,7 +567,8 @@ public class Main {
     }
 
     // ## ✅ Find the Duplicate Characters in a String
-    public static void DuplicateCharacters() {
+    public static void fnDuplicateCharacters() {
+        // Way 1 ====
 		String str = "programming";
 		char[] chars = str.toCharArray();
 
@@ -546,6 +584,21 @@ public class Main {
 		}
 
         // Duplicate characters: r g m 
+
+        // way 2 ========
+        String s = "programming";
+
+        Set<Character> set = new LinkedHashSet<>();
+        StringBuilder sb = new StringBuilder();
+
+        for (char ch : s.toCharArray()) {
+            if (set.add(ch)) {
+                sb.append(ch);
+            }
+        }
+
+        System.out.println(sb.toString());
+        // progamin
 	}
 
     // ## ✅ Find Duplicate Elements in an Array
@@ -595,43 +648,33 @@ public class Main {
         System.out.println(totalSum - arrSum);
         // 3
     }
-}
 
+    // ## ✅ Find Second Largest Element in an Array
+    public static void fnSecondHighestNumber() {
+        int[] arr = {10, 5, 20, 20, 15, 5, 30};
+        int highest = Integer.MIN_VALUE;
+        int secondHighest = Integer.MIN_VALUE;
 
-
-
-
-
-
-## ✅ Find Second Largest Element in an Array
-
-```java
-public class Main {
-    public static void main(String[] args) {
-        int[] arr = {5, 1, 9, 2, 9, 7};
-
-        Integer first = null;
-        Integer second = null;
-
-        for (int v : arr) {
-            if (first == null || v > first) {
-                second = first;
-                first = v;
-            } else if (v != first && (second == null || v > second)) {
-                second = v;
+        // Iterate through the array to find the highest and second-highest numbers
+        for (int num : arr) {
+            if (num > highest) {
+                secondHighest = highest;
+                highest = num;
+            } else if (num > secondHighest && num < highest) {
+                secondHighest = num;
             }
         }
 
-        System.out.println(second);
+        if (secondHighest == Integer.MIN_VALUE) {
+            System.out.println("There is no second-highest number in the array.");
+        } else {
+            System.out.println("Second-highest number: " + secondHighest);
+        }
+        // Second-highest number: 20
     }
-}
-```
 
-## ✅ Matrix Addition, Subtraction, and Multiplication
-
-```java
-public class Main {
-    public static void main(String[] args) {
+    // ## ✅ Matrix Addition, Subtraction, and Multiplication
+    public static void fnMatrixAdditionSubtractionMultiplication() {
         int[][] A = {{1, 2}, {3, 4}};
         int[][] B = {{5, 6}, {7, 8}};
         int n = 2;
@@ -664,15 +707,13 @@ public class Main {
             }
             System.out.println();
         }
+        
+        // 19 22 
+        // 43 50 
     }
-}
-```
 
-## ✅ Transpose of a Matrix
-
-```java
-public class Main {
-    public static void main(String[] args) {
+    // ## ✅ Transpose of a Matrix
+    public static void fnTransposeOfMatrix() {
         int[][] A = {{1, 2, 3}, {4, 5, 6}};
         int rows = A.length;
         int cols = A[0].length;
@@ -691,93 +732,67 @@ public class Main {
             }
             System.out.println();
         }
+        
+        // 1 4 
+        // 2 5 
+        // 3 6 
     }
-}
-```
 
-## ✅ String Reversal
+    // ## ✅ Count Vowels and Consonants in a String
+    public static void fnVowelConsonantCount() {
+        String str = "Hello World";  // Example string
+        int vowels = 0, consonants = 0;
 
-```java
-public class Main {
-    public static void main(String[] args) {
-        String s = "hello";
-        String reversed = new StringBuilder(s).reverse().toString();
-        System.out.println(reversed);
-    }
-}
-```
+        // Convert the string to lowercase to make the check case-insensitive
+        str = str.toLowerCase();
 
-## ✅ Check if a String is a Palindrome
-
-```java
-public class Main {
-    public static void main(String[] args) {
-        String s = "madam";
-        String rev = new StringBuilder(s).reverse().toString();
-
-        System.out.println(s.equals(rev) ? "Palindrome" : "Not Palindrome");
-    }
-}
-```
-
-## ✅ Count Vowels and Consonants in a String
-
-```java
-public class Main {
-    public static void main(String[] args) {
-        String s = "Interview Prep".toLowerCase();
-
-        int vowels = 0;
-        int consonants = 0;
-
-        for (char ch : s.toCharArray()) {
+        // Loop through each character and count vowels and consonants
+        for (int i = 0; i < str.length(); i++) {
+            char ch = str.charAt(i);
             if (ch >= 'a' && ch <= 'z') {
-                if ("aeiou".indexOf(ch) >= 0)
+                if (ch == 'a' || ch == 'e' || ch == 'i' || ch == 'o' || ch == 'u') {
                     vowels++;
-                else
+                } else {
                     consonants++;
+                }
             }
         }
 
-        System.out.println("Vowels = " + vowels + ", Consonants = " + consonants);
+        System.out.println("Vowels: " + vowels);
+        System.out.println("Consonants: " + consonants);
+
+        // Vowels: 3
+        // Consonants: 7
     }
-}
-```
 
-## ✅ Remove Duplicate Characters from a String
+    // ## ✅ Find First Non-Repeated Character in a String
+    public static void fnFirstNonRepeatedChar () {
+        // way one ==================
+        String str = "stress";
+        char result = ' ';
+        char[] strArr = str.toCharArray();
 
-```java
-import java.util.LinkedHashSet;
-import java.util.Set;
+        for (int i = 0; i < strArr.length; i++) {
+            char ch = strArr[i];
+            boolean repeated = false;
 
-public class Main {
-    public static void main(String[] args) {
-        String s = "programming";
+            for (int j = 0; j < strArr.length; j++) {
+                if (i != j && ch == strArr[j]) {
+                    repeated = true;
+                    break;
+                }
+            }
 
-        Set<Character> set = new LinkedHashSet<>();
-        StringBuilder sb = new StringBuilder();
-
-        for (char ch : s.toCharArray()) {
-            if (set.add(ch)) {
-                sb.append(ch);
+            if (!repeated) {
+                result = ch;
+                break;
             }
         }
 
-        System.out.println(sb.toString());
-    }
-}
-```
+        System.out.println(result); // Output: t
 
-## ✅ Find First Non-Repeated Character in a String
-
-```java
-import java.util.LinkedHashMap;
-import java.util.Map;
-
-public class Main {
-    public static void main(String[] args) {
+        // way two ==================
         String s = "swiss";
-
         Map<Character, Integer> map = new LinkedHashMap<>();
 
         for (char ch : s.toCharArray()) {
@@ -792,37 +807,56 @@ public class Main {
         }
 
         System.out.println("None");
+        // w
     }
-}
-```
 
-## ✅ Check Anagram Strings
+    // ## ✅ Check Anagram Strings
+    public static void fnAnagramCheck() {
+        String str1 = "listen";  // Example strings
+        String str2 = "silent";
 
-```java
-import java.util.Arrays;
+        // Convert strings to character arrays
+        char[] arr1 = str1.toCharArray();
+        char[] arr2 = str2.toCharArray();
 
-public class Main {
-    public static void main(String[] args) {
-        String a = "listen";
-        String b = "silent";
+        // Sort the arrays
+        Arrays.sort(arr1);
+        Arrays.sort(arr2);
 
-        char[] x = a.replaceAll("\\s", "").toLowerCase().toCharArray();
-        char[] y = b.replaceAll("\\s", "").toLowerCase().toCharArray();
-
-        Arrays.sort(x);
-        Arrays.sort(y);
-
-        System.out.println(Arrays.equals(x, y) ? "Anagram" : "Not Anagram");
+        // Compare sorted arrays
+        if (Arrays.equals(arr1, arr2)) {
+            System.out.println(str1 + " and " + str2 + " are anagrams.");
+        } else {
+            System.out.println(str1 + " and " + str2 + " are not anagrams.");
+        }
+        // listen and silent are anagrams.
     }
-}
-```
 
-## ✅ Find Substring in a String (Without `contains()`)
+    // ## ✅ Find the Common Elements Between Two Arrays
+    public static void fnCommonElementsInTwoArrays() {
+        int[] arr1 = {1, 2, 3, 4, 5};
+        int[] arr2 = {3, 4, 5, 6, 7};
 
-```java
-public class Main {
+        // Using a HashSet to find common elements
+        HashSet<Integer> set = new HashSet<>();
+        for (int num : arr1) {
+            set.add(num);
+        }
 
-    static boolean contains(String s, String sub) {
+        System.out.println("Common elements:");
+        for (int num : arr2) {
+            if (set.contains(num)) {
+                System.out.print(num + " ");
+            }
+        }
+        // 3 4 5 
+    }
+
+    // ✅ Find Substring in a String (Without using contains())
+    static void fnFindSubstring(String sub, String s) {
+        // Way one: without contain
+        boolean found = false;
+
         for (int i = 0; i + sub.length() <= s.length(); i++) {
             int j = 0;
 
@@ -830,16 +864,29 @@ public class Main {
                 j++;
             }
 
-            if (j == sub.length()) return true;
+            if (j == sub.length()) {
+                found = true;
+                break; // substring found, no need to check further
+            }
         }
-        return false;
+        System.out.println(found); // Print the result - true
+
+        // way two: using contain
+        String str = "Hello World";  // Example string
+        String substring = "World";  // Substring to check
+
+        // Check if the string contains the substring
+        if (str.contains(substring)) {
+            System.out.println("The string contains the substring.");
+        } else {
+            System.out.println("The string does not contain the substring.");
+        }
     }
 
-    public static void main(String[] args) {
-        System.out.println(contains("helloworld", "world"));
-    }
+
+
 }
-```
+
 
 ## ✅ Class and Object Demo
 
