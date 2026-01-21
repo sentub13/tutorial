@@ -1,8 +1,8 @@
 
 
-====================================================================================
+
 ## 02 - Core Java
-====================================================================================
+
 ### 1. What does a high-order bit represent for an integer?
 ### 2. What is the result of the following code snippet?
 ### 3. What is the result of the following code snippet?
@@ -18,9 +18,9 @@
 ### 13. What will be the output of the following Java code?
 
 
-====================================================================================
-03 - Advance Java
-====================================================================================
+
+## 03 - Advance Java
+
 ### 1. Which access modifier is used to access members of an inherited class when two classes are in different packages?
 - a) private  
 - b) default  
@@ -51,7 +51,7 @@ class MyClass {
         myVariable = 10;
     }
 }
-````
+```
 
 * a) Yes ✅
 * b) No
@@ -257,9 +257,9 @@ System.out.println(sb.capacity());
 ### Use Java Stream API and method references to simplify data processing.
 
 ### Solve a short hands-on Java coding problem using collection or functional logic
-====================================================================================
+
 04 - Maven
-====================================================================================
+
 Here are the questions extracted from your HTML:
 
 ### 1. In the provided Maven dependency, what does `<groupId>` refer to?
@@ -272,9 +272,9 @@ Here are the questions extracted from your HTML:
 ### 8. Which file is used to configure project settings and dependencies in Maven?
 ### 9. What is Maven primarily used for in Java development?
 
-====================================================================================
+
 05 - JDBC Data base connect
-====================================================================================
+
 ### 1. What is the main benefit of using `PreparedStatement` over `Statement`?
 ### 2. Why is using `Statement` in JDBC considered risky?
 3. Which CRUD operation does `executeUpdate()` typically support in JDBC?
@@ -285,9 +285,9 @@ Here are the questions extracted from your HTML:
 8. Which of the following is required to set up PostgreSQL for JDBC?
 9. What is the primary purpose of JDBC in Java?
 
-====================================================================================
+
 06 - Hibernate
-====================================================================================
+
 1. Which caching mechanism does Hibernate Level 2 cache use by default?
 2. What is the difference between `get()` and `load()` in Hibernate?
 3. How can you apply filters and fetch only selected fields in HQL?
@@ -309,9 +309,9 @@ Here are the questions extracted from your HTML:
 19. Which file is typically configured first in a Hibernate project setup?
 20. What is the primary purpose of Hibernate in Java applications?
 
-====================================================================================
+
 07 - Spring Getting started
-====================================================================================
+
 Here are the questions extracted from your HTML:
 
 1. What is the role of the Spring MVC module?
@@ -328,9 +328,9 @@ Here are the questions extracted from your HTML:
 12. What is the primary purpose of the Spring Framework?
 
 
-====================================================================================
+
 08 - Spring Framework – XML Bean Configuration Round at Telusko
-====================================================================================
+
 # Spring Framework – Multiple Choice Questions (MCQs)
 
 ---
@@ -458,9 +458,9 @@ Discuss how Spring handles autowiring, including resolving conflicts using @Prim
 
 Describe lazy loading, use of inner beans, and wiring by interface for decoupling
 
-====================================================================================
+
 09 - Spring Java-Based Configuration Interview – at Telusko
-====================================================================================
+
 ### 1. What is the purpose of the `@Configuration` annotation in Spring?
 - a) To define the scope of beans  
 - **b) To mark a class as a source of bean definitions** ✅  
@@ -606,9 +606,9 @@ Configure beans using pure Java without XML
 Perform live coding tasks based on realistic Telusko scenarios
 
 
-====================================================================================
+
 ## 10 -Spring Boot Fundamentals + Architecture Round – at Telusko
-====================================================================================
+
 ### 1. Which feature of Spring Boot allows applications to run without deploying to an external server?
 - a) Simplified configuration  
 - **b) Embedded servers** ✅  
@@ -700,9 +700,9 @@ Explain the benefits of moving from Spring to Spring Boot
 
 ### Solve 2–3 live coding tasks confidently
 
-====================================================================================
+
 ## 11 - Spring JDBC Hands-On Interview – TeluskoD
-====================================================================================
+
 ### 1. In Spring JDBC, which class is used to simplify database operations?
 - **a) JdbcTemplate** ✅  
 - b) JdbcConfig  
@@ -794,9 +794,9 @@ Explain the benefits of moving from Spring to Spring Boot
 
 ### Answer real-world interview questions confidently, such as how exceptions are handled, or how to use schema/data.sql in Spring Boot JDBC.
 
-====================================================================================
+
 ## 12 - Spring Boot Web Interview – Telusko Round with Akshay
-====================================================================================
+
 ### 1. Which component of Spring MVC is responsible for representing the application's data?
 - a) View  
 - **b) Model** ✅  
@@ -887,9 +887,9 @@ Explain the benefits of moving from Spring to Spring Boot
 ### Coding Task: Given a form with name and email fields, write a Spring controller method that accepts the data using @ModelAttribute and prints it to the console.
 
 ### Analyze a sample code snippet (shown in the interview) and explain what each annotation does and how the model data is passed to the view.
-====================================================================================
+
 ## 13 - Exploring Web MVC without Spring Boot 
-====================================================================================
+
 ### 1. In a Spring MVC app running on Tomcat, which component first receives every HTTP request and routes it to controllers?
 - a) ViewResolver  
 - b) HandlerInterceptor  
@@ -981,9 +981,9 @@ Explain the benefits of moving from Spring to Spring Boot
 
 ### Answer follow-up questions confidently, justify code decisions, and explain MVC flow using real-world terms.
 
-====================================================================================
+
 ## 15 - RESR using Spring boot
-====================================================================================
+
 ### 1. Which of the following is NOT a valid HTTP method used in REST APIs?
 - a) GET  
 - b) POST  
@@ -1075,9 +1075,9 @@ Explain the benefits of moving from Spring to Spring Boot
 
 ### Confidently demonstrate the ability to test REST APIs using Postman and interpret results.
 
-====================================================================================
+
 ## 16- spring Data JPA 
-====================================================================================
+
 ### 1. Which pattern does Spring Data JPA follow?
 - a) Singleton Pattern  
 - **b) Repository Pattern** ✅  
@@ -1160,9 +1160,9 @@ Explain the benefits of moving from Spring to Spring Boot
 
 ### Create a custom query using the @Query annotation in a repository interface.
 
-====================================================================================
+
 ## 17.Spring Data Rest
-====================================================================================
+
 ### 1. What does Spring Data REST automatically expose for Spring Data repositories?
 - a) SOAP endpoints  
 - b) GraphQL endpoints  
@@ -1250,9 +1250,9 @@ Explain the benefits of moving from Spring to Spring Boot
 
 ### Define a simple Product entity with id and name, and create a repository interface that exposes it via Spring Data REST (without writing controller code).
 
-====================================================================================
+
 ## 19. Spring AOP
-====================================================================================
+
 ### 1. What is the main purpose of aspect-oriented programming (AOP)?
 - a) To increase code duplication  
 - **b) To handle cross-cutting concerns** ✅  
@@ -1342,9 +1342,9 @@ Explain the benefits of moving from Spring to Spring Boot
 
 ### Explain what a JoinPoint is and how it's used inside advice methods.
 
-====================================================================================
+
 ## 20. Spring Security 
-====================================================================================
+
 ### 1. What is the primary purpose of Spring Security?
 - a) Database management  
 - b) Managing HTTP requests  
@@ -1474,9 +1474,9 @@ Explain the benefits of moving from Spring to Spring Boot
 
 ### Describe the responsibilities of UserDetailsService and AuthenticationProvider.
 
-====================================================================================
+
 ## 22. JWT(JSON WEB TOKEN) and OAuth2
-====================================================================================
+
 ### 1. What algorithm is commonly used to sign a JWT?
 - a) AES  
 - b) RSA  
@@ -1600,9 +1600,9 @@ Explain the benefits of moving from Spring to Spring Boot
 
 ### Show understanding of OAuth2 login flow using Google or GitHub.
 
-====================================================================================
+
 ## 23. Docker
-====================================================================================
+
 ### 1. What is Docker primarily used for?
 - a) Network Virtualization  
 - **b) Containerization** ✅  
@@ -1694,9 +1694,9 @@ Explain the benefits of moving from Spring to Spring Boot
 
 ### Use Docker Compose to define and run a multi-container setup (Spring Boot + Postgres).
 
-====================================================================================
+
 ## 24. Cloud Deployment
-====================================================================================
+
 ### 1. What is the primary benefit of deploying a Spring Boot application to the cloud?
 - a) Reduced development time  
 - b) Automatic code generation  
@@ -1788,15 +1788,15 @@ Explain the benefits of moving from Spring to Spring Boot
 
 ### Successfully demonstrate basic cloud deployment steps using simple CLI or YAML commands.
 
-====================================================================================
-
-====================================================================================
 
 
 
-====================================================================================
+
+
+
+
 ## 25. Microservices
-====================================================================================
+
 # Spring Boot Microservices – Multiple Choice Questions
 
 ---
@@ -1892,9 +1892,9 @@ Explain the benefits of moving from Spring to Spring Boot
 
 ### Be able to create and run multiple Spring Boot services communicating with each other.
 
-====================================================================================
+
 ## 27.git
-====================================================================================
+
 ### 1. What type of Version Control System is Git?
 - a) Local Version Control System  
 - b) Centralized Version Control System (CVCS)  
@@ -1977,9 +1977,9 @@ Explain the benefits of moving from Spring to Spring Boot
 ### Simulate pushing to and pulling from a remote repository (e.g., GitHub).
 
 ### Resolve a simple merge conflict or explain the process with confidence
-====================================================================================
+
 ## 28. DSA (Optiona)
-====================================================================================
+
 What defines a full binary tree?
 What traversal visits the left subtree, then root, then right subtree in a binary tree?
 What is the time complexity to insert a node at the beginning of a singly linked list?
