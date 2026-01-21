@@ -272,40 +272,263 @@ System.out.println(sb.capacity());
 
 
 ## 05 - JDBC Data base connect
-
 ### 1. What is the main benefit of using `PreparedStatement` over `Statement`?
-### 2. Why is using `Statement` in JDBC considered risky?
-3. Which CRUD operation does `executeUpdate()` typically support in JDBC?
-4. What does `ResultSet` in JDBC represent?
-5. Which JDBC interface is used to execute SQL queries and retrieve results?
-6. Which external file is needed to connect PostgreSQL with Java using JDBC?
-7. What is the correct order of steps in JDBC programming?
-8. Which of the following is required to set up PostgreSQL for JDBC?
-9. What is the primary purpose of JDBC in Java?
 
+a) It executes queries faster than all other JDBC interfaces
+b) It does not require a database connection
+c) It automatically commits transactions
+**d) It allows parameterized queries and prevents SQL injection ✅**
+
+---
+
+### 2. Why is using `Statement` in JDBC considered risky?
+
+a) It cannot execute SELECT queries
+b) It requires too much memory
+c) It does not support transactions
+**d) It is prone to SQL injection attacks ✅**
+
+---
+
+### 3. Which CRUD operation does `executeUpdate()` typically support in JDBC?
+
+a) SELECT
+b) JOIN
+c) None of the above
+**d) INSERT, UPDATE, DELETE ✅**
+
+---
+
+### 4. What does `ResultSet` in JDBC represent?
+
+a) A connection to the database
+b) The SQL statement executed
+c) The database driver
+**d) The results returned by a SQL query ✅**
+
+---
+
+### 5. Which JDBC interface is used to execute SQL queries and retrieve results?
+
+a) Connection
+b) DriverManager
+c) ResultSet
+**d) Statement / PreparedStatement ✅**
+
+---
+
+### 6. Which external file is needed to connect PostgreSQL with Java using JDBC?
+
+a) postgres.properties
+b) pgsql.xml
+c) java.sql
+**d) postgresql.jar ✅**
+
+---
+
+### 7. What is the correct order of steps in JDBC programming?
+
+a) Establish connection → Load driver → Execute query → Process results → Close connection
+b) Load driver → Execute query → Establish connection → Create statement → Close connection
+c) Create statement → Load driver → Establish connection → Execute query → Process results
+**d) Load driver → Establish connection → Create statement → Execute query → Process results → Close connection ✅**
+
+---
+
+### 8. Which of the following is required to set up PostgreSQL for JDBC?
+
+a) PostgreSQL database installation
+b) PostgreSQL JDBC driver (JAR file)
+c) Correct URL, username, and password for connection
+**d) All of the above ✅**
+
+---
+
+### 9. What is the primary purpose of JDBC in Java?
+
+a) To manage transactions automatically
+b) To create user interfaces for databases
+c) To replace SQL in Java programs
+**d) To provide a standard API for connecting and interacting with databases ✅**
 
 ## 06 - Hibernate
+### 1. Which caching mechanism does Hibernate Level 2 cache use by default?
 
-1. Which caching mechanism does Hibernate Level 2 cache use by default?
-2. What is the difference between `get()` and `load()` in Hibernate?
-3. How can you apply filters and fetch only selected fields in HQL?
-4. Which method fetches data using HQL?
-5. What is HQL in Hibernate?
-6. Which annotation is used for caching in Hibernate?
-7. In Hibernate, what is eager fetching?
-8. Which Hibernate annotation is used to map many-to-many relationships?
-9. Which annotation is used for `OneToMany` and `ManyToOne` relationships?
-10. What does `@OneToOne` mapping define in Hibernate?
-11. Which Hibernate annotation is used for reusable embeddable objects like address?
-12. How do you change the table and column names in Hibernate mappings?
-13. Which Hibernate methods are used to update or delete objects?
-14. Which method is used to fetch data in Hibernate?
-15. Why is refactoring important in a Hibernate project?
-16. What is the purpose of `show_sql=true` in Hibernate configuration?
-17. What is required for a successful data save using Hibernate?
-18. Why might an initial attempt to save data in Hibernate fail?
-19. Which file is typically configured first in a Hibernate project setup?
-20. What is the primary purpose of Hibernate in Java applications?
+a) In-memory cache per session
+b) No caching
+c) Query cache only
+**d) EHCache or any configured cache provider ✅**
+
+---
+
+### 2. What is the difference between `get()` and `load()` in Hibernate?
+
+a) `get()` returns a proxy, `load()` hits the database immediately
+b) `get()` throws exception if object not found, `load()` returns null
+c) Both behave the same
+**d) `get()` hits database immediately and returns null if not found, `load()` returns a proxy and throws exception if object not found ✅**
+
+---
+
+### 3. How can you apply filters and fetch only selected fields in HQL?
+
+a) Using native SQL queries
+b) Using Criteria API only
+c) Using SessionFactory methods
+**d) Using `select` clause and `where` filters in HQL ✅**
+
+---
+
+### 4. Which method fetches data using HQL?
+
+a) session.save()
+b) session.persist()
+c) session.delete()
+**d) session.createQuery().list() ✅**
+
+---
+
+### 5. What is HQL in Hibernate?
+
+a) High-Level Query tool for SQL optimization
+b) Hibernate Quick Language for database creation
+c) SQL variant for caching
+**d) Hibernate Query Language, an object-oriented query language ✅**
+
+---
+
+### 6. Which annotation is used for caching in Hibernate?
+
+a) @Entity
+b) @Table
+c) @Id
+**d) @Cache ✅**
+
+---
+
+### 7. In Hibernate, what is eager fetching?
+
+a) Fetching data only when accessed
+b) Fetching data lazily per session
+c) Fetching unrelated tables only
+**d) Fetching associated entities immediately along with parent entity ✅**
+
+---
+
+### 8. Which Hibernate annotation is used to map many-to-many relationships?
+
+a) @OneToMany
+b) @OneToOne
+c) @ManyToOne
+**d) @ManyToMany ✅**
+
+---
+
+### 9. Which annotation is used for OneToMany and ManyToOne relationships?
+
+a) @ManyToMany
+b) @OneToOne
+c) @Embeddable
+**d) @OneToMany and @ManyToOne ✅**
+
+---
+
+### 10. What does @OneToOne mapping define in Hibernate?
+
+a) Multiple parent entities for one child
+b) Multiple child entities for one parent
+c) No association
+**d) One entity is associated with exactly one other entity ✅**
+
+---
+
+### 11. Which Hibernate annotation is used for reusable embeddable objects like address?
+
+a) @Entity
+b) @Table
+c) @Id
+**d) @Embeddable ✅**
+
+---
+
+### 12. How do you change the table and column names in Hibernate mappings?
+
+a) By editing database schema manually
+b) By using native SQL only
+c) By using mapping files only
+**d) By using @Table and @Column annotations ✅**
+
+---
+
+### 13. Which Hibernate methods are used to update or delete objects?
+
+a) session.load()
+b) session.get()
+c) session.find()
+**d) session.update() and session.delete() ✅**
+
+---
+
+### 14. Which method is used to fetch data in Hibernate?
+
+a) session.save()
+b) session.persist()
+c) session.delete()
+**d) session.get() or session.load() ✅**
+
+---
+
+### 15. Why is refactoring important in a Hibernate project?
+
+a) To increase SQL query complexity
+b) To remove Hibernate annotations
+c) To generate database schema automatically
+**d) To improve code maintainability and readability ✅**
+
+---
+
+### 16. What is the purpose of `show_sql=true` in Hibernate configuration?
+
+a) To execute queries faster
+b) To enable caching
+c) To create tables automatically
+**d) To display generated SQL statements in console ✅**
+
+---
+
+### 17. What is required for a successful data save using Hibernate?
+
+a) Only defining entity classes
+b) Only database connection
+c) Only configuration files
+**d) Proper mapping, session, and transaction management ✅**
+
+---
+
+### 18. Why might an initial attempt to save data in Hibernate fail?
+
+a) Hibernate does not support inserts
+b) Only HQL can save data
+c) Because database is read-only
+**d) Missing transaction or incorrect mapping ✅**
+
+---
+
+### 19. Which file is typically configured first in a Hibernate project setup?
+
+a) Mapping XML for entities
+b) POJO class
+c) Database table
+**d) hibernate.cfg.xml or hibernate.properties ✅**
+
+---
+
+### 20. What is the primary purpose of Hibernate in Java applications?
+
+a) To replace JDBC completely
+b) To generate UI for database
+c) To execute only HQL queries
+**d) To provide ORM (Object-Relational Mapping) and simplify database interactions ✅**
 
 
 ## 07 - Spring Getting started
