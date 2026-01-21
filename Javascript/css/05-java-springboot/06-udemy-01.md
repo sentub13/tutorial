@@ -373,368 +373,369 @@ System.out.println(sb.capacity());
 ## 05 - JDBC Data base connect
 ### 1. What is the main benefit of using `PreparedStatement` over `Statement`?
 
-a) It executes queries faster than all other JDBC interfaces
-b) It does not require a database connection
-c) It automatically commits transactions
+- a) It executes queries faster than all other JDBC interfaces
+- b) It does not require a database connection
+- c) It automatically commits transactions
 **d) It allows parameterized queries and prevents SQL injection ✅**
 
 ---
 
 ### 2. Why is using `Statement` in JDBC considered risky?
 
-a) It cannot execute SELECT queries
-b) It requires too much memory
-c) It does not support transactions
+- a) It cannot execute SELECT queries
+- b) It requires too much memory
+- c) It does not support transactions
 **d) It is prone to SQL injection attacks ✅**
 
 ---
 
 ### 3. Which CRUD operation does `executeUpdate()` typically support in JDBC?
 
-a) SELECT
-b) JOIN
-c) None of the above
+- a) SELECT
+- b) JOIN
+- c) None of the above
 **d) INSERT, UPDATE, DELETE ✅**
 
 ---
 
 ### 4. What does `ResultSet` in JDBC represent?
 
-a) A connection to the database
-b) The SQL statement executed
-c) The database driver
+- a) A connection to the database
+- b) The SQL statement executed
+- c) The database driver
 **d) The results returned by a SQL query ✅**
 
 ---
 
 ### 5. Which JDBC interface is used to execute SQL queries and retrieve results?
 
-a) Connection
-b) DriverManager
-c) ResultSet
+- a) Connection
+- b) DriverManager
+- c) ResultSet
 **d) Statement / PreparedStatement ✅**
 
 ---
 
 ### 6. Which external file is needed to connect PostgreSQL with Java using JDBC?
 
-a) postgres.properties
-b) pgsql.xml
-c) java.sql
+- a) postgres.properties
+- b) pgsql.xml
+- c) java.sql
 **d) postgresql.jar ✅**
 
 ---
 
 ### 7. What is the correct order of steps in JDBC programming?
 
-a) Establish connection → Load driver → Execute query → Process results → Close connection
-b) Load driver → Execute query → Establish connection → Create statement → Close connection
-c) Create statement → Load driver → Establish connection → Execute query → Process results
+- a) Establish connection → Load driver → Execute query → Process results → Close connection
+- b) Load driver → Execute query → Establish connection → Create statement → Close connection
+- c) Create statement → Load driver → Establish connection → Execute query → Process results
 **d) Load driver → Establish connection → Create statement → Execute query → Process results → Close connection ✅**
 
 ---
 
 ### 8. Which of the following is required to set up PostgreSQL for JDBC?
 
-a) PostgreSQL database installation
-b) PostgreSQL JDBC driver (JAR file)
-c) Correct URL, username, and password for connection
+- a) PostgreSQL database installation
+- b) PostgreSQL JDBC driver (JAR file)
+- c) Correct URL, username, and password for connection
 **d) All of the above ✅**
 
 ---
 
 ### 9. What is the primary purpose of JDBC in Java?
 
-a) To manage transactions automatically
-b) To create user interfaces for databases
-c) To replace SQL in Java programs
+- a) To manage transactions automatically
+- b) To create user interfaces for databases
+- c) To replace SQL in Java programs
 **d) To provide a standard API for connecting and interacting with databases ✅**
+
 
 ## 06 - Hibernate
 ### 1. Which caching mechanism does Hibernate Level 2 cache use by default?
 
-a) In-memory cache per session
-b) No caching
-c) Query cache only
+- a) In-memory cache per session
+- b) No caching
+- c) Query cache only
 **d) EHCache or any configured cache provider ✅**
 
 ---
 
 ### 2. What is the difference between `get()` and `load()` in Hibernate?
 
-a) `get()` returns a proxy, `load()` hits the database immediately
-b) `get()` throws exception if object not found, `load()` returns null
-c) Both behave the same
+- a) `get()` returns a proxy, `load()` hits the database immediately
+- b) `get()` throws exception if object not found, `load()` returns null
+- c) Both behave the same
 **d) `get()` hits database immediately and returns null if not found, `load()` returns a proxy and throws exception if object not found ✅**
 
 ---
 
 ### 3. How can you apply filters and fetch only selected fields in HQL?
 
-a) Using native SQL queries
-b) Using Criteria API only
-c) Using SessionFactory methods
+- a) Using native SQL queries
+- b) Using Criteria API only
+- c) Using SessionFactory methods
 **d) Using `select` clause and `where` filters in HQL ✅**
 
 ---
 
 ### 4. Which method fetches data using HQL?
 
-a) session.save()
-b) session.persist()
-c) session.delete()
+- a) session.save()
+- b) session.persist()
+- c) session.delete()
 **d) session.createQuery().list() ✅**
 
 ---
 
 ### 5. What is HQL in Hibernate?
 
-a) High-Level Query tool for SQL optimization
-b) Hibernate Quick Language for database creation
-c) SQL variant for caching
+- a) High-Level Query tool for SQL optimization
+- b) Hibernate Quick Language for database creation
+- c) SQL variant for caching
 **d) Hibernate Query Language, an object-oriented query language ✅**
 
 ---
 
 ### 6. Which annotation is used for caching in Hibernate?
 
-a) @Entity
-b) @Table
-c) @Id
+- a) @Entity
+- b) @Table
+- c) @Id
 **d) @Cache ✅**
 
 ---
 
 ### 7. In Hibernate, what is eager fetching?
 
-a) Fetching data only when accessed
-b) Fetching data lazily per session
-c) Fetching unrelated tables only
+- a) Fetching data only when accessed
+- b) Fetching data lazily per session
+- c) Fetching unrelated tables only
 **d) Fetching associated entities immediately along with parent entity ✅**
 
 ---
 
 ### 8. Which Hibernate annotation is used to map many-to-many relationships?
 
-a) @OneToMany
-b) @OneToOne
-c) @ManyToOne
+- a) @OneToMany
+- b) @OneToOne
+- c) @ManyToOne
 **d) @ManyToMany ✅**
 
 ---
 
 ### 9. Which annotation is used for OneToMany and ManyToOne relationships?
 
-a) @ManyToMany
-b) @OneToOne
-c) @Embeddable
+- a) @ManyToMany
+- b) @OneToOne
+- c) @Embeddable
 **d) @OneToMany and @ManyToOne ✅**
 
 ---
 
 ### 10. What does @OneToOne mapping define in Hibernate?
 
-a) Multiple parent entities for one child
-b) Multiple child entities for one parent
-c) No association
+- a) Multiple parent entities for one child
+- b) Multiple child entities for one parent
+- c) No association
 **d) One entity is associated with exactly one other entity ✅**
 
 ---
 
 ### 11. Which Hibernate annotation is used for reusable embeddable objects like address?
 
-a) @Entity
-b) @Table
-c) @Id
+- a) @Entity
+- b) @Table
+- c) @Id
 **d) @Embeddable ✅**
 
 ---
 
 ### 12. How do you change the table and column names in Hibernate mappings?
 
-a) By editing database schema manually
-b) By using native SQL only
-c) By using mapping files only
+- a) By editing database schema manually
+- b) By using native SQL only
+- c) By using mapping files only
 **d) By using @Table and @Column annotations ✅**
 
 ---
 
 ### 13. Which Hibernate methods are used to update or delete objects?
 
-a) session.load()
-b) session.get()
-c) session.find()
+- a) session.load()
+- b) session.get()
+- c) session.find()
 **d) session.update() and session.delete() ✅**
 
 ---
 
 ### 14. Which method is used to fetch data in Hibernate?
 
-a) session.save()
-b) session.persist()
-c) session.delete()
+- a) session.save()
+- b) session.persist()
+- c) session.delete()
 **d) session.get() or session.load() ✅**
 
 ---
 
 ### 15. Why is refactoring important in a Hibernate project?
 
-a) To increase SQL query complexity
-b) To remove Hibernate annotations
-c) To generate database schema automatically
+- a) To increase SQL query complexity
+- b) To remove Hibernate annotations
+- c) To generate database schema automatically
 **d) To improve code maintainability and readability ✅**
 
 ---
 
 ### 16. What is the purpose of `show_sql=true` in Hibernate configuration?
 
-a) To execute queries faster
-b) To enable caching
-c) To create tables automatically
+- a) To execute queries faster
+- b) To enable caching
+- c) To create tables automatically
 **d) To display generated SQL statements in console ✅**
 
 ---
 
 ### 17. What is required for a successful data save using Hibernate?
 
-a) Only defining entity classes
-b) Only database connection
-c) Only configuration files
+- a) Only defining entity classes
+- b) Only database connection
+- c) Only configuration files
 **d) Proper mapping, session, and transaction management ✅**
 
 ---
 
 ### 18. Why might an initial attempt to save data in Hibernate fail?
 
-a) Hibernate does not support inserts
-b) Only HQL can save data
-c) Because database is read-only
+- a) Hibernate does not support inserts
+- b) Only HQL can save data
+- c) Because database is read-only
 **d) Missing transaction or incorrect mapping ✅**
 
 ---
 
 ### 19. Which file is typically configured first in a Hibernate project setup?
 
-a) Mapping XML for entities
-b) POJO class
-c) Database table
+- a) Mapping XML for entities
+- b) POJO class
+- c) Database table
 **d) hibernate.cfg.xml or hibernate.properties ✅**
 
 ---
 
 ### 20. What is the primary purpose of Hibernate in Java applications?
 
-a) To replace JDBC completely
-b) To generate UI for database
-c) To execute only HQL queries
+- a) To replace JDBC completely
+- b) To generate UI for database
+- c) To execute only HQL queries
 **d) To provide ORM (Object-Relational Mapping) and simplify database interactions ✅**
 
 
 ## 07 - Spring Getting started
 ### 1. What is the role of the Spring MVC module?
 
-a) To manage database connections
-b) To provide dependency injection
-c) To handle caching and sessions
+- a) To manage database connections
+- b) To provide dependency injection
+- c) To handle caching and sessions
 **d) To handle web requests and responses using the Model-View-Controller pattern ✅**
 
 ---
 
 ### 2. Which of the following statements is TRUE about Spring Boot?
 
-a) Spring Boot requires manual configuration of every bean
-b) Spring Boot cannot be used with Spring MVC
-c) Spring Boot eliminates the need for dependency injection
+- a) Spring Boot requires manual configuration of every bean
+- b) Spring Boot cannot be used with Spring MVC
+- c) Spring Boot eliminates the need for dependency injection
 **d) Spring Boot simplifies Spring application setup with auto-configuration ✅**
 
 ---
 
 ### 3. Which Spring Boot feature automatically configures components based on project dependencies?
 
-a) Spring JDBC
-b) Spring MVC
-c) Spring AOP
+- a) Spring JDBC
+- b) Spring MVC
+- c) Spring AOP
 **d) Spring Boot Auto-Configuration ✅**
 
 ---
 
 ### 4. What is the default embedded server provided by Spring Boot?
 
-a) Tomcat must always be installed manually
-b) Jetty only
-c) WebSphere
+- a) Tomcat must always be installed manually
+- b) Jetty only
+- c) WebSphere
 **d) Tomcat ✅**
 
 ---
 
 ### 5. Which tool is used to generate Spring Boot projects with minimal setup?
 
-a) Maven only
-b) Gradle only
-c) Eclipse IDE
+- a) Maven only
+- b) Gradle only
+- c) Eclipse IDE
 **d) Spring Initializr ✅**
 
 ---
 
 ### 6. What is the main benefit of Dependency Injection (DI) in Spring?
 
-a) To increase coupling between classes
-b) To manually create all objects in code
-c) To enforce static method usage
+- a) To increase coupling between classes
+- b) To manually create all objects in code
+- c) To enforce static method usage
 **d) To reduce coupling and improve testability ✅**
 
 ---
 
 ### 7. Which feature of Spring is used to separate cross-cutting concerns like logging?
 
-a) Spring MVC
-b) Spring JDBC
-c) Spring Boot Starter
+- a) Spring MVC
+- b) Spring JDBC
+- c) Spring Boot Starter
 **d) Spring AOP (Aspect-Oriented Programming) ✅**
 
 ---
 
-### 8. What is the key principle of Inversion of Control (IoC)?
+### 8. What is the key principle of Inversion of Control (Io- c)?
 
-a) Classes manage their own dependencies
-b) Code explicitly creates all dependencies
-c) The application must manually wire every object
+- a) Classes manage their own dependencies
+- b) Code explicitly creates all dependencies
+- c) The application must manually wire every object
 **d) The framework controls the creation and injection of dependencies ✅**
 
 ---
 
 ### 9. What annotation is used in Spring to automatically inject dependencies?
 
-a) @Entity
-b) @Component
-c) @Service
+- a) @Entity
+- b) @Component
+- c) @Service
 **d) @Autowired ✅**
 
 ---
 
 ### 10. Which Spring module is used for integrating ORM tools like Hibernate?
 
-a) Spring MVC
-b) Spring AOP
-c) Spring Web
+- a) Spring MVC
+- b) Spring AOP
+- c) Spring Web
 **d) Spring ORM ✅**
 
 ---
 
 ### 11. What does POJO stand for in the context of Spring?
 
-a) Pre-Ordered Java Object
-b) Public Object Java Override
-c) Persistent Object Java Only
+- a) Pre-Ordered Java Object
+- b) Public Object Java Override
+- c) Persistent Object Java Only
 **d) Plain Old Java Object ✅**
 
 ---
 
 ### 12. What is the primary purpose of the Spring Framework?
 
-a) To replace Java completely
-b) To generate UI for applications
-c) To manage SQL queries only
+- a) To replace Java completely
+- b) To generate UI for applications
+- c) To manage SQL queries only
 **d) To provide a lightweight framework for dependency injection, AOP, and enterprise application development ✅**
 
 ## 08 - Spring Framework – XML Bean Configuration Round at Telusko
@@ -854,20 +855,20 @@ c) To manage SQL queries only
 - d) Session
 
 ---
-------
-Your goals
-Explain the difference between constructor and setter injection using Spring XML syntax
 
-Understand how to wire beans using the ref attribute and define relationships between beans
+## Your goals
+### Explain the difference between constructor and setter injection using Spring XML syntax
 
-Demonstrate awareness of bean scopes like singleton vs prototype
+### Understand how to wire beans using the ref attribute and define relationships between beans
 
-Discuss how Spring handles autowiring, including resolving conflicts using @Primary or matching by type
+### Demonstrate awareness of bean scopes like singleton vs prototype
 
-Describe lazy loading, use of inner beans, and wiring by interface for decoupling
+### Discuss how Spring handles autowiring, including resolving conflicts using @Primary or matching by type
+
+### Describe lazy loading, use of inner beans, and wiring by interface for decoupling
 
 
-09 - Spring Java-Based Configuration Interview – at Telusko
+## 09 - Spring Java-Based Configuration Interview – at Telusko
 
 ### 1. What is the purpose of the `@Configuration` annotation in Spring?
 - a) To define the scope of beans  
@@ -1001,19 +1002,18 @@ System.out.println(dt1 == dt2);
 * c) It allows injecting multiple beans of the same type without ambiguity
 * d) It is the default behavior in Spring
 
-----
-Your goals
-Differentiate between @Component vs @Bean and when to use each
+---
 
-Understand @Scope, @Value, and @Qualifier annotations in practical terms
+## Your goals
+### Differentiate between @Component vs @Bean and when to use each
 
-Explain field, setter, and constructor-based autowiring
+### Understand @Scope, @Value, and @Qualifier annotations in practical terms
 
-Configure beans using pure Java without XML
+### Explain field, setter, and constructor-based autowiring
 
-Perform live coding tasks based on realistic Telusko scenarios
+### Configure beans using pure Java without XML
 
-
+### Perform live coding tasks based on realistic Telusko scenarios
 
 ## 10 -Spring Boot Fundamentals + Architecture Round – at Telusko
 
@@ -1098,7 +1098,7 @@ Perform live coding tasks based on realistic Telusko scenarios
 ---
 
 ## Your goals
-Explain the benefits of moving from Spring to Spring Boot
+### Explain the benefits of moving from Spring to Spring Boot
 
 ### Use key annotations like @SpringBootApplication, @RestController, @Service, and @Repository
 
@@ -1108,6 +1108,7 @@ Explain the benefits of moving from Spring to Spring Boot
 
 ### Solve 2–3 live coding tasks confidently
 
+---
 
 ## 11 - Spring JDBC Hands-On Interview – TeluskoD
 
@@ -1202,6 +1203,7 @@ Explain the benefits of moving from Spring to Spring Boot
 
 ### Answer real-world interview questions confidently, such as how exceptions are handled, or how to use schema/data.sql in Spring Boot JDBC.
 
+---
 
 ## 12 - Spring Boot Web Interview – Telusko Round with Akshay
 
@@ -1296,6 +1298,7 @@ Explain the benefits of moving from Spring to Spring Boot
 
 ### Analyze a sample code snippet (shown in the interview) and explain what each annotation does and how the model data is passed to the view.
 
+--- 
 ## 13 - Exploring Web MVC without Spring Boot 
 
 ### 1. In a Spring MVC app running on Tomcat, which component first receives every HTTP request and routes it to controllers?
@@ -1389,6 +1392,7 @@ Explain the benefits of moving from Spring to Spring Boot
 
 ### Answer follow-up questions confidently, justify code decisions, and explain MVC flow using real-world terms.
 
+---
 
 ## 15 - RESR using Spring boot
 
@@ -1483,6 +1487,7 @@ Explain the benefits of moving from Spring to Spring Boot
 
 ### Confidently demonstrate the ability to test REST APIs using Postman and interpret results.
 
+---
 
 ## 16- spring Data JPA 
 
@@ -1557,6 +1562,7 @@ Explain the benefits of moving from Spring to Spring Boot
 - d) To define a PUT endpoint  
 
 ---
+
 ## Your goals
 ### Understand the basic purpose of Spring Data JPA and what problems it solves.
 
@@ -1568,6 +1574,7 @@ Explain the benefits of moving from Spring to Spring Boot
 
 ### Create a custom query using the @Query annotation in a repository interface.
 
+---
 
 ## 17.Spring Data Rest
 
@@ -1658,7 +1665,7 @@ Explain the benefits of moving from Spring to Spring Boot
 
 ### Define a simple Product entity with id and name, and create a repository interface that exposes it via Spring Data REST (without writing controller code).
 
-
+---
 ## 19. Spring AOP
 
 ### 1. What is the main purpose of aspect-oriented programming (AOP)?
@@ -1750,7 +1757,7 @@ Explain the benefits of moving from Spring to Spring Boot
 
 ### Explain what a JoinPoint is and how it's used inside advice methods.
 
-
+---
 ## 20. Spring Security 
 
 ### 1. What is the primary purpose of Spring Security?
@@ -1882,6 +1889,7 @@ Explain the benefits of moving from Spring to Spring Boot
 
 ### Describe the responsibilities of UserDetailsService and AuthenticationProvider.
 
+---
 
 ## 22. JWT(JSON WEB TOKEN) and OAuth2
 
@@ -2008,7 +2016,7 @@ Explain the benefits of moving from Spring to Spring Boot
 
 ### Show understanding of OAuth2 login flow using Google or GitHub.
 
-
+---
 ## 23. Docker
 
 ### 1. What is Docker primarily used for?
@@ -2102,6 +2110,7 @@ Explain the benefits of moving from Spring to Spring Boot
 
 ### Use Docker Compose to define and run a multi-container setup (Spring Boot + Postgres).
 
+---
 
 ## 24. Cloud Deployment
 
@@ -2196,16 +2205,9 @@ Explain the benefits of moving from Spring to Spring Boot
 
 ### Successfully demonstrate basic cloud deployment steps using simple CLI or YAML commands.
 
-
-
-
-
-
-
+---
 
 ## 25. Microservices
-
-# Spring Boot Microservices – Multiple Choice Questions
 
 ---
 
@@ -2300,6 +2302,7 @@ Explain the benefits of moving from Spring to Spring Boot
 
 ### Be able to create and run multiple Spring Boot services communicating with each other.
 
+---
 
 ## 27.git
 
@@ -2385,6 +2388,8 @@ Explain the benefits of moving from Spring to Spring Boot
 ### Simulate pushing to and pulling from a remote repository (e.g., GitHub).
 
 ### Resolve a simple merge conflict or explain the process with confidence
+
+--- 
 
 ## 28. DSA (Optiona)
 ### 1. What defines a full binary tree?
