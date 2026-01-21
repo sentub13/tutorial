@@ -7,7 +7,7 @@
 - a) The least significant value
 - b) The memory address
 - c) The decimal value of the integer
-- **d) The sign of the integer (0 for positive, 1 for negative) ✅**
+- d) The sign of the integer (0 for positive, 1 for negative) ✅
 
 ---
 
@@ -16,7 +16,7 @@
 - a) Compilation error
 - b) 0
 - c) Maximum integer value
-- **d) Wrap-around value due to overflow ✅**
+- d) Wrap-around value due to overflow ✅
 
 ---
 
@@ -25,7 +25,7 @@
 - a) 0
 - b) Exception
 - c) Integer value
-- **d) Floating-point result ✅**
+- d) Floating-point result ✅
 
 ---
 
@@ -34,7 +34,7 @@
 - a) true
 - b) 1
 - c) null
-- **d) false ✅**
+- d) false ✅
 
 ---
 
@@ -43,7 +43,7 @@
 - a) `char c = 'A';`
 - b) `char c = 65;`
 - c) `char c = '\u0041';`
-**d) `char c = "A"; ✅`**
+- d) `char c = "A"; ✅`**
 
 ---
 
@@ -52,7 +52,7 @@
 - a) Converting primitive to object automatically
 - b) Explicit casting by the programmer
 - c) Converting object to primitive automatically
-**d) Automatic conversion of smaller data type to larger data type during arithmetic operations ✅**
+- d) Automatic conversion of smaller data type to larger data type during arithmetic operations ✅
 
 ---
 
@@ -61,7 +61,7 @@
 - a) `long l = 123;`
 - b) `long l = 123l;`
 - c) `long l = 123;`
-**d) `long l = 123L; ✅`**
+- d) `long l = 123L; ✅`**
 
 ---
 
@@ -70,7 +70,7 @@
 - a) Compilation error
 - b) Runtime exception
 - c) Logical error
-**d) NoSuchMethodError ✅**
+- d) NoSuchMethodError ✅
 
 ---
 
@@ -79,7 +79,7 @@
 - a) No, it allows implicit type conversion always
 - b) No, types are checked only at runtime
 - c) No, it supports weak typing
-**d) Yes, all variables must be declared with a specific type ✅**
+- d) Yes, all variables must be declared with a specific type ✅
 
 ---
 
@@ -88,7 +88,7 @@
 - a) System.out.print()
 - b) System.out.write()
 - c) System.out.printf()
-**d) System.out.println() ✅**
+- d) System.out.println() ✅
 
 ---
 
@@ -97,7 +97,7 @@
 - a) x=10, y=10
 - b) x=20, y=20
 - c) x=10, y=20
-**d) x=20, y=10 ✅**
+- d) x=20, y=10 ✅
 
 ---
 
@@ -106,7 +106,7 @@
 - a) 10
 - b) 11
 - c) 12
-**d) 12 ✅**
+- d) 12 ✅
 
 ---
 
@@ -115,7 +115,7 @@
 - a) Hello 10
 - b) Hello 55
 - c) 10Hello
-**d) Hello 55 ✅**
+- d) Hello 55 ✅
 
 
 ## 03 - Advance Java
@@ -376,7 +376,7 @@ System.out.println(sb.capacity());
 - a) It executes queries faster than all other JDBC interfaces
 - b) It does not require a database connection
 - c) It automatically commits transactions
-**d) It allows parameterized queries and prevents SQL injection ✅**
+- d) It allows parameterized queries and prevents SQL injection ✅
 
 ---
 
@@ -385,7 +385,7 @@ System.out.println(sb.capacity());
 - a) It cannot execute SELECT queries
 - b) It requires too much memory
 - c) It does not support transactions
-**d) It is prone to SQL injection attacks ✅**
+- d) It is prone to SQL injection attacks ✅
 
 ---
 
@@ -394,7 +394,7 @@ System.out.println(sb.capacity());
 - a) SELECT
 - b) JOIN
 - c) None of the above
-**d) INSERT, UPDATE, DELETE ✅**
+- d) INSERT, UPDATE, DELETE ✅
 
 ---
 
@@ -403,7 +403,7 @@ System.out.println(sb.capacity());
 - a) A connection to the database
 - b) The SQL statement executed
 - c) The database driver
-**d) The results returned by a SQL query ✅**
+- d) The results returned by a SQL query ✅
 
 ---
 
@@ -412,7 +412,7 @@ System.out.println(sb.capacity());
 - a) Connection
 - b) DriverManager
 - c) ResultSet
-**d) Statement / PreparedStatement ✅**
+- d) Statement / PreparedStatement ✅
 
 ---
 
@@ -421,7 +421,7 @@ System.out.println(sb.capacity());
 - a) postgres.properties
 - b) pgsql.xml
 - c) java.sql
-**d) postgresql.jar ✅**
+- d) postgresql.jar ✅
 
 ---
 
@@ -430,7 +430,7 @@ System.out.println(sb.capacity());
 - a) Establish connection → Load driver → Execute query → Process results → Close connection
 - b) Load driver → Execute query → Establish connection → Create statement → Close connection
 - c) Create statement → Load driver → Establish connection → Execute query → Process results
-**d) Load driver → Establish connection → Create statement → Execute query → Process results → Close connection ✅**
+- d) Load driver → Establish connection → Create statement → Execute query → Process results → Close connection ✅
 
 ---
 
@@ -439,7 +439,7 @@ System.out.println(sb.capacity());
 - a) PostgreSQL database installation
 - b) PostgreSQL JDBC driver (JAR file)
 - c) Correct URL, username, and password for connection
-**d) All of the above ✅**
+- d) All of the above ✅
 
 ---
 
@@ -448,7 +448,7 @@ System.out.println(sb.capacity());
 - a) To manage transactions automatically
 - b) To create user interfaces for databases
 - c) To replace SQL in Java programs
-**d) To provide a standard API for connecting and interacting with databases ✅**
+- d) To provide a standard API for connecting and interacting with databases ✅
 
 
 ## 06 - Hibernate
@@ -457,7 +457,7 @@ System.out.println(sb.capacity());
 - a) In-memory cache per session
 - b) No caching
 - c) Query cache only
-**d) EHCache or any configured cache provider ✅**
+- d) EHCache or any configured cache provider ✅
 
 ---
 
@@ -466,7 +466,7 @@ System.out.println(sb.capacity());
 - a) `get()` returns a proxy, `load()` hits the database immediately
 - b) `get()` throws exception if object not found, `load()` returns null
 - c) Both behave the same
-**d) `get()` hits database immediately and returns null if not found, `load()` returns a proxy and throws exception if object not found ✅**
+- d) `get()` hits database immediately and returns null if not found, `load()` returns a proxy and throws exception if object not found ✅
 
 ---
 
@@ -475,7 +475,7 @@ System.out.println(sb.capacity());
 - a) Using native SQL queries
 - b) Using Criteria API only
 - c) Using SessionFactory methods
-**d) Using `select` clause and `where` filters in HQL ✅**
+- d) Using `select` clause and `where` filters in HQL ✅
 
 ---
 
@@ -484,7 +484,7 @@ System.out.println(sb.capacity());
 - a) session.save()
 - b) session.persist()
 - c) session.delete()
-**d) session.createQuery().list() ✅**
+- d) session.createQuery().list() ✅
 
 ---
 
@@ -493,7 +493,7 @@ System.out.println(sb.capacity());
 - a) High-Level Query tool for SQL optimization
 - b) Hibernate Quick Language for database creation
 - c) SQL variant for caching
-**d) Hibernate Query Language, an object-oriented query language ✅**
+- d) Hibernate Query Language, an object-oriented query language ✅
 
 ---
 
@@ -502,7 +502,7 @@ System.out.println(sb.capacity());
 - a) @Entity
 - b) @Table
 - c) @Id
-**d) @Cache ✅**
+- d) @Cache ✅
 
 ---
 
@@ -511,7 +511,7 @@ System.out.println(sb.capacity());
 - a) Fetching data only when accessed
 - b) Fetching data lazily per session
 - c) Fetching unrelated tables only
-**d) Fetching associated entities immediately along with parent entity ✅**
+- d) Fetching associated entities immediately along with parent entity ✅
 
 ---
 
@@ -520,7 +520,7 @@ System.out.println(sb.capacity());
 - a) @OneToMany
 - b) @OneToOne
 - c) @ManyToOne
-**d) @ManyToMany ✅**
+- d) @ManyToMany ✅
 
 ---
 
@@ -529,7 +529,7 @@ System.out.println(sb.capacity());
 - a) @ManyToMany
 - b) @OneToOne
 - c) @Embeddable
-**d) @OneToMany and @ManyToOne ✅**
+- d) @OneToMany and @ManyToOne ✅
 
 ---
 
@@ -538,7 +538,7 @@ System.out.println(sb.capacity());
 - a) Multiple parent entities for one child
 - b) Multiple child entities for one parent
 - c) No association
-**d) One entity is associated with exactly one other entity ✅**
+- d) One entity is associated with exactly one other entity ✅
 
 ---
 
@@ -547,7 +547,7 @@ System.out.println(sb.capacity());
 - a) @Entity
 - b) @Table
 - c) @Id
-**d) @Embeddable ✅**
+- d) @Embeddable ✅
 
 ---
 
@@ -556,7 +556,7 @@ System.out.println(sb.capacity());
 - a) By editing database schema manually
 - b) By using native SQL only
 - c) By using mapping files only
-**d) By using @Table and @Column annotations ✅**
+- d) By using @Table and @Column annotations ✅
 
 ---
 
@@ -565,7 +565,7 @@ System.out.println(sb.capacity());
 - a) session.load()
 - b) session.get()
 - c) session.find()
-**d) session.update() and session.delete() ✅**
+- d) session.update() and session.delete() ✅
 
 ---
 
@@ -574,7 +574,7 @@ System.out.println(sb.capacity());
 - a) session.save()
 - b) session.persist()
 - c) session.delete()
-**d) session.get() or session.load() ✅**
+- d) session.get() or session.load() ✅
 
 ---
 
@@ -583,7 +583,7 @@ System.out.println(sb.capacity());
 - a) To increase SQL query complexity
 - b) To remove Hibernate annotations
 - c) To generate database schema automatically
-**d) To improve code maintainability and readability ✅**
+- d) To improve code maintainability and readability ✅
 
 ---
 
@@ -592,7 +592,7 @@ System.out.println(sb.capacity());
 - a) To execute queries faster
 - b) To enable caching
 - c) To create tables automatically
-**d) To display generated SQL statements in console ✅**
+- d) To display generated SQL statements in console ✅
 
 ---
 
@@ -601,7 +601,7 @@ System.out.println(sb.capacity());
 - a) Only defining entity classes
 - b) Only database connection
 - c) Only configuration files
-**d) Proper mapping, session, and transaction management ✅**
+- d) Proper mapping, session, and transaction management ✅
 
 ---
 
@@ -610,7 +610,7 @@ System.out.println(sb.capacity());
 - a) Hibernate does not support inserts
 - b) Only HQL can save data
 - c) Because database is read-only
-**d) Missing transaction or incorrect mapping ✅**
+- d) Missing transaction or incorrect mapping ✅
 
 ---
 
@@ -619,7 +619,7 @@ System.out.println(sb.capacity());
 - a) Mapping XML for entities
 - b) POJO class
 - c) Database table
-**d) hibernate.cfg.xml or hibernate.properties ✅**
+- d) hibernate.cfg.xml or hibernate.properties ✅
 
 ---
 
@@ -628,7 +628,7 @@ System.out.println(sb.capacity());
 - a) To replace JDBC completely
 - b) To generate UI for database
 - c) To execute only HQL queries
-**d) To provide ORM (Object-Relational Mapping) and simplify database interactions ✅**
+- d) To provide ORM (Object-Relational Mapping) and simplify database interactions ✅
 
 
 ## 07 - Spring Getting started
@@ -637,7 +637,7 @@ System.out.println(sb.capacity());
 - a) To manage database connections
 - b) To provide dependency injection
 - c) To handle caching and sessions
-**d) To handle web requests and responses using the Model-View-Controller pattern ✅**
+- d) To handle web requests and responses using the Model-View-Controller pattern ✅
 
 ---
 
@@ -646,7 +646,7 @@ System.out.println(sb.capacity());
 - a) Spring Boot requires manual configuration of every bean
 - b) Spring Boot cannot be used with Spring MVC
 - c) Spring Boot eliminates the need for dependency injection
-**d) Spring Boot simplifies Spring application setup with auto-configuration ✅**
+- d) Spring Boot simplifies Spring application setup with auto-configuration ✅
 
 ---
 
@@ -655,7 +655,7 @@ System.out.println(sb.capacity());
 - a) Spring JDBC
 - b) Spring MVC
 - c) Spring AOP
-**d) Spring Boot Auto-Configuration ✅**
+- d) Spring Boot Auto-Configuration ✅
 
 ---
 
@@ -664,7 +664,7 @@ System.out.println(sb.capacity());
 - a) Tomcat must always be installed manually
 - b) Jetty only
 - c) WebSphere
-**d) Tomcat ✅**
+- d) Tomcat ✅
 
 ---
 
@@ -673,7 +673,7 @@ System.out.println(sb.capacity());
 - a) Maven only
 - b) Gradle only
 - c) Eclipse IDE
-**d) Spring Initializr ✅**
+- d) Spring Initializr ✅
 
 ---
 
@@ -682,7 +682,7 @@ System.out.println(sb.capacity());
 - a) To increase coupling between classes
 - b) To manually create all objects in code
 - c) To enforce static method usage
-**d) To reduce coupling and improve testability ✅**
+- d) To reduce coupling and improve testability ✅
 
 ---
 
@@ -691,7 +691,7 @@ System.out.println(sb.capacity());
 - a) Spring MVC
 - b) Spring JDBC
 - c) Spring Boot Starter
-**d) Spring AOP (Aspect-Oriented Programming) ✅**
+- d) Spring AOP (Aspect-Oriented Programming) ✅
 
 ---
 
@@ -700,7 +700,7 @@ System.out.println(sb.capacity());
 - a) Classes manage their own dependencies
 - b) Code explicitly creates all dependencies
 - c) The application must manually wire every object
-**d) The framework controls the creation and injection of dependencies ✅**
+- d) The framework controls the creation and injection of dependencies ✅
 
 ---
 
@@ -709,7 +709,7 @@ System.out.println(sb.capacity());
 - a) @Entity
 - b) @Component
 - c) @Service
-**d) @Autowired ✅**
+- d) @Autowired ✅
 
 ---
 
@@ -718,7 +718,7 @@ System.out.println(sb.capacity());
 - a) Spring MVC
 - b) Spring AOP
 - c) Spring Web
-**d) Spring ORM ✅**
+- d) Spring ORM ✅
 
 ---
 
@@ -727,7 +727,7 @@ System.out.println(sb.capacity());
 - a) Pre-Ordered Java Object
 - b) Public Object Java Override
 - c) Persistent Object Java Only
-**d) Plain Old Java Object ✅**
+- d) Plain Old Java Object ✅
 
 ---
 
@@ -736,7 +736,7 @@ System.out.println(sb.capacity());
 - a) To replace Java completely
 - b) To generate UI for applications
 - c) To manage SQL queries only
-**d) To provide a lightweight framework for dependency injection, AOP, and enterprise application development ✅**
+- d) To provide a lightweight framework for dependency injection, AOP, and enterprise application development ✅
 
 ## 08 - Spring Framework – XML Bean Configuration Round at Telusko
 
@@ -1156,7 +1156,7 @@ System.out.println(dt1 == dt2);
 - a) `src/main/java`  
 - b) `src/main/config`  
 - c) `src/test/resources`  
-- **d) `src/main/resources`** ✅  
+- - d) `src/main/resources`** ✅  
 
 ---
 
@@ -1180,7 +1180,7 @@ System.out.println(dt1 == dt2);
 - a) `spring.datasource.username`  
 - b) `spring.datasource.password`  
 - c) `spring.datasource.driver-class-name`  
-- **d) `spring.datasource.url`** ✅  
+- - d) `spring.datasource.url`** ✅  
 
 ---
 
@@ -1283,7 +1283,7 @@ System.out.println(dt1 == dt2);
 - a) Thymeleaf  
 - b) JSP  
 - c) FreeMarker  
-- **d) All of the above** ✅  
+- - d) All of the above** ✅  
 
 ---
 
@@ -1606,7 +1606,7 @@ System.out.println(dt1 == dt2);
 - a) Deletes a user  
 - b) Retrieves all user details  
 - c) Creates a new user  
-- **d) Retrieves the details of a specific user** ✅  
+- - d) Retrieves the details of a specific user** ✅  
 
 ---
 
@@ -1622,7 +1622,7 @@ System.out.println(dt1 == dt2);
 - a) GET  
 - b) DELETE  
 - c) PUT  
-- **d) POST** ✅  
+- - d) POST** ✅  
 
 ---
 
@@ -1728,7 +1728,7 @@ System.out.println(dt1 == dt2);
 - a) @Before  
 - b) @After  
 - c) @AfterReturning  
-- **d) @Around** ✅  
+- - d) @Around** ✅  
 
 ---
 
@@ -1897,7 +1897,7 @@ System.out.println(dt1 == dt2);
 - a) AES  
 - b) RSA  
 - c) SHA-256  
-- **d) HMAC-SHA256** ✅  
+- - d) HMAC-SHA256** ✅  
 
 ---
 
@@ -2031,7 +2031,7 @@ System.out.println(dt1 == dt2);
 - a) Docker Engine  
 - b) Docker Volume  
 - c) Docker Compose  
-- **d) Docker Hub** ✅  
+- - d) Docker Hub** ✅  
 
 ---
 
@@ -2374,7 +2374,7 @@ System.out.println(dt1 == dt2);
 - a) The latest commit in the repository  
 - b) The current branch  
 - c) The local Git configuration file  
-- **d) The default name for a remote repository** ✅  
+- - d) The default name for a remote repository** ✅  
 
 ---
 
@@ -2398,7 +2398,7 @@ System.out.println(dt1 == dt2);
 - a) Every node has only one - c)hild
 - b)) Every node has at most one - c)hild
 - c)) All leaf nodes are at the same level
-**d) Every node has 0 or 2 - c)hildren ✅**
+- d) Every node has 0 or 2 - c)hildren ✅
 
 ---
 
@@ -2407,7 +2407,7 @@ System.out.println(dt1 == dt2);
 - a) Pre-order traversal
 - b)) Post-order traversal
 - c)) Level-order traversal
-**d) In-order traversal ✅**
+- d) In-order traversal ✅
 
 ---
 
@@ -2416,7 +2416,7 @@ System.out.println(dt1 == dt2);
 - a) O(n)
 - b)) O(log n)
 - c)) O(n²)
-**d) O(1) ✅**
+- d) O(1) ✅
 
 ---
 
@@ -2425,7 +2425,7 @@ System.out.println(dt1 == dt2);
 - a) Queue
 - b)) Array
 - c)) Linked list
-**d) Sta- c)k ✅**
+- d) Sta- c)k ✅
 
 ---
 
@@ -2434,7 +2434,7 @@ System.out.println(dt1 == dt2);
 - a) Queue overflows
 - b)) Queue underflows
 - c)) Insert fails
-**d) Rear wraps around to the front ✅**
+- d) Rear wraps around to the front ✅
 
 ---
 
@@ -2443,7 +2443,7 @@ System.out.println(dt1 == dt2);
 - a) O(n²)
 - b)) O(n)
 - c)) O(n log n)
-**d) O(log n) ✅**
+- d) O(log n) ✅
 
 ---
 
@@ -2452,7 +2452,7 @@ System.out.println(dt1 == dt2);
 - a) The first element is returned
 - b)) Nothing happens
 - c)) A new element is added
-**d) Sta- c)kUnderflow error o- c)- c)urs ✅**
+- d) Sta- c)kUnderflow error o- c)- c)urs ✅
 
 ---
 
@@ -2461,7 +2461,7 @@ System.out.println(dt1 == dt2);
 - a) pop()
 - b)) peek()
 - c)) remove()
-**d) push() ✅**
+- d) push() ✅
 
 ---
 
@@ -2470,7 +2470,7 @@ System.out.println(dt1 == dt2);
 - a) FIFO (First In First Out)
 - b)) LILO (Last In Last Out)
 - c)) Random Order
-**d) LIFO (Last In First Out) ✅**
+- d) LIFO (Last In First Out) ✅
 
 ---
 
@@ -2479,7 +2479,7 @@ System.out.println(dt1 == dt2);
 - a) The first re- c)ursive - c)all
 - b)) The re- c)ursive - c)all that - c)reates new nodes
 - c)) The final re- c)ursive - c)all that - c)alls itself indefinitely
-**d) The terminating - c)ondition to stop re- c)ursion ✅**
+- d) The terminating - c)ondition to stop re- c)ursion ✅
 
 ---
 
@@ -2488,7 +2488,7 @@ System.out.println(dt1 == dt2);
 - a) - b)u- b)- b)le Sort
 - b)) Insertion Sort
 - c)) Sele- c)tion Sort
-**d) Merge Sort ✅**
+- d) Merge Sort ✅
 
 ---
 
@@ -2497,7 +2497,7 @@ System.out.println(dt1 == dt2);
 - a) O(log n)
 - b)) O(n log n)
 - c)) O(n)
-**d) O(n²) ✅**
+- d) O(n²) ✅
 
 ---
 
@@ -2506,7 +2506,7 @@ System.out.println(dt1 == dt2);
 - a) - b)u- b)- b)le Sort
 - b)) Insertion Sort
 - c)) Qui- c)k Sort
-**d) Sele- c)tion Sort ✅**
+- d) Sele- c)tion Sort ✅
 
 ---
 
@@ -2515,7 +2515,7 @@ System.out.println(dt1 == dt2);
 - a) Sele- c)tion Sort
 - b)) Merge Sort
 - c)) Insertion Sort
-**d) - b)u- b)- b)le Sort ✅**
+- d) - b)u- b)- b)le Sort ✅
 
 ---
 
@@ -2524,7 +2524,7 @@ System.out.println(dt1 == dt2);
 - a) O(n)
 - b)) O(log n)
 - c)) O(n²)
-**d) O(1) ✅**
+- d) O(1) ✅
 
 
 
