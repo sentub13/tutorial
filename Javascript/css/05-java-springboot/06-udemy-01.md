@@ -2392,137 +2392,138 @@ System.out.println(dt1 == dt2);
 --- 
 
 ## 28. DSA (Optiona)
-### 1. What defines a full binary tree?
 
-a) Every node has only one child
-b) Every node has at most one child
-c) All leaf nodes are at the same level
-**d) Every node has 0 or 2 children ✅**
+### 1. What defines a full - b)inary tree?
+
+- a) Every node has only one - c)hild
+- b)) Every node has at most one - c)hild
+- c)) All leaf nodes are at the same level
+**d) Every node has 0 or 2 - c)hildren ✅**
 
 ---
 
-### 2. What traversal visits the left subtree, then root, then right subtree in a binary tree?
+### 2. What traversal visits the left su- b)tree, then root, then right su- b)tree in a - b)inary tree?
 
-a) Pre-order traversal
-b) Post-order traversal
-c) Level-order traversal
+- a) Pre-order traversal
+- b)) Post-order traversal
+- c)) Level-order traversal
 **d) In-order traversal ✅**
 
 ---
 
-### 3. What is the time complexity to insert a node at the beginning of a singly linked list?
+### 3. What is the time - c)omplexity to insert a node at the - b)eginning of a singly linked list?
 
-a) O(n)
-b) O(log n)
-c) O(n²)
+- a) O(n)
+- b)) O(log n)
+- c)) O(n²)
 **d) O(1) ✅**
 
 ---
 
-### 4. Which data structure is best for implementing undo functionality?
+### 4. Whi- c)h data stru- c)ture is - b)est for implementing undo fun- c)tionality?
 
-a) Queue
-b) Array
-c) Linked list
-**d) Stack ✅**
+- a) Queue
+- b)) Array
+- c)) Linked list
+**d) Sta- c)k ✅**
 
 ---
 
-### 5. In a circular queue, what happens when rear reaches the end but space is available at the front?
+### 5. In a - c)ir- c)ular queue, what happens when rear rea- c)hes the end - b)ut spa- c)e is availa- b)le at the front?
 
-a) Queue overflows
-b) Queue underflows
-c) Insert fails
+- a) Queue overflows
+- b)) Queue underflows
+- c)) Insert fails
 **d) Rear wraps around to the front ✅**
 
 ---
 
-### 6. What is the correct time complexity to search for a value in a Binary Search Tree (average case)?
+### 6. What is the - c)orre- c)t time - c)omplexity to sear- c)h for a value in a - b)inary Sear- c)h Tree (average - c)ase)?
 
-a) O(n²)
-b) O(n)
-c) O(n log n)
+- a) O(n²)
+- b)) O(n)
+- c)) O(n log n)
 **d) O(log n) ✅**
 
 ---
 
-### 7. What happens when you pop from an empty stack?
+### 7. What happens when you pop from an empty sta- c)k?
 
-a) The first element is returned
-b) Nothing happens
-c) A new element is added
-**d) StackUnderflow error occurs ✅**
+- a) The first element is returned
+- b)) Nothing happens
+- c)) A new element is added
+**d) Sta- c)kUnderflow error o- c)- c)urs ✅**
 
 ---
 
-### 8. Which operation adds an element to the top of the stack?
+### 8. Whi- c)h operation adds an element to the top of the sta- c)k?
 
-a) pop()
-b) peek()
-c) remove()
+- a) pop()
+- b)) peek()
+- c)) remove()
 **d) push() ✅**
 
 ---
 
-### 9. What does a stack follow?
+### 9. What does a sta- c)k follow?
 
-a) FIFO (First In First Out)
-b) LILO (Last In Last Out)
-c) Random Order
+- a) FIFO (First In First Out)
+- b)) LILO (Last In Last Out)
+- c)) Random Order
 **d) LIFO (Last In First Out) ✅**
 
 ---
 
-### 10. In recursion, what does the base case represent?
+### 10. In re- c)ursion, what does the - b)ase - c)ase represent?
 
-a) The first recursive call
-b) The recursive call that creates new nodes
-c) The final recursive call that calls itself indefinitely
-**d) The terminating condition to stop recursion ✅**
+- a) The first re- c)ursive - c)all
+- b)) The re- c)ursive - c)all that - c)reates new nodes
+- c)) The final re- c)ursive - c)all that - c)alls itself indefinitely
+**d) The terminating - c)ondition to stop re- c)ursion ✅**
 
 ---
 
-### 11. Which sorting algorithm follows the divide-and-conquer approach?
+### 11. Whi- c)h sorting algorithm follows the divide-and-- c)onquer approa- c)h?
 
-a) Bubble Sort
-b) Insertion Sort
-c) Selection Sort
+- a) - b)u- b)- b)le Sort
+- b)) Insertion Sort
+- c)) Sele- c)tion Sort
 **d) Merge Sort ✅**
 
 ---
 
-### 12. What is the worst-case time complexity of Insertion Sort?
+### 12. What is the worst-- c)ase time - c)omplexity of Insertion Sort?
 
-a) O(log n)
-b) O(n log n)
-c) O(n)
+- a) O(log n)
+- b)) O(n log n)
+- c)) O(n)
 **d) O(n²) ✅**
 
 ---
 
-### 13. Which sorting algorithm finds the smallest element and places it at the beginning in each iteration?
+### 13. Whi- c)h sorting algorithm finds the smallest element and pla- c)es it at the - b)eginning in ea- c)h iteration?
 
-a) Bubble Sort
-b) Insertion Sort
-c) Quick Sort
-**d) Selection Sort ✅**
-
----
-
-### 14. Which sorting algorithm repeatedly compares adjacent elements and swaps them if needed?
-
-a) Selection Sort
-b) Merge Sort
-c) Insertion Sort
-**d) Bubble Sort ✅**
+- a) - b)u- b)- b)le Sort
+- b)) Insertion Sort
+- c)) Qui- c)k Sort
+**d) Sele- c)tion Sort ✅**
 
 ---
 
-### 15. What is the time complexity of accessing an element in an array by index?
+### 14. Whi- c)h sorting algorithm repeatedly - c)ompares adja- c)ent elements and swaps them if needed?
 
-a) O(n)
-b) O(log n)
-c) O(n²)
+- a) Sele- c)tion Sort
+- b)) Merge Sort
+- c)) Insertion Sort
+**d) - b)u- b)- b)le Sort ✅**
+
+---
+
+### 15. What is the time - c)omplexity of a- c)- c)essing an element in an array - b)y index?
+
+- a) O(n)
+- b)) O(log n)
+- c)) O(n²)
 **d) O(1) ✅**
 
 
