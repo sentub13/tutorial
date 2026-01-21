@@ -7,7 +7,7 @@
 - a) The least significant value
 - b) The memory address
 - c) The decimal value of the integer
--**d) The sign of the integer (0 for positive, 1 for negative) ✅**
+- **d) The sign of the integer (0 for positive, 1 for negative) ✅**
 
 ---
 
@@ -16,7 +16,7 @@
 - a) Compilation error
 - b) 0
 - c) Maximum integer value
--**d) Wrap-around value due to overflow ✅**
+- **d) Wrap-around value due to overflow ✅**
 
 ---
 
@@ -25,7 +25,7 @@
 - a) 0
 - b) Exception
 - c) Integer value
--**d) Floating-point result ✅**
+- **d) Floating-point result ✅**
 
 ---
 
@@ -34,7 +34,7 @@
 - a) true
 - b) 1
 - c) null
--**d) false ✅**
+- **d) false ✅**
 
 ---
 
