@@ -1,4 +1,4 @@
-## 🔹 1. Java Interview Questions - Basic Concepts
+# 🔹 1. Java Interview Questions - Basic Concepts
 
 ### 1. What is Java and what are its key features?
 
@@ -35,16 +35,30 @@ public class HelloWorld {
 - JRE = JVM + Runtime libraries
 - JVM = Executes bytecode
 
----
+
+### 2. What are difference between Core and Advanced Java?
+* Core Java covers fundamental concepts - OOP, collections, exceptions, multithreading
+* It's the foundation every Java developer needs to know
+* Advanced Java includes enterprise technologies - servlets, JSP, JDBC, frameworks
+* Core Java is like learning to drive, Advanced Java is like learning to race
+
+
+| Core Java                              | Advanced Java                               |
+| -------------------------------------- | ------------------------------------------- |
+| Basics of Java language                | Used to build enterprise applications       |
+| Covers OOP, loops, arrays, collections | Covers JDBC, Servlets, JSP, Frameworks      |
+| Used for standalone applications       | Used for web and distributed applications   |
+| Focus on logic & syntax                | Focus on database & server-side programming |
+
 
 ### 3. What are the main principles of Object-Oriented Programming?
 
 **Answer:**
 The four main principles are:
-- **Encapsulation** - Bundling data and methods together
-- **Inheritance** - Creating new classes based on existing ones
-- **Polymorphism** - One interface, multiple implementations
-- **Abstraction** - Hiding complex implementation details
+- **Encapsulation**: Wrapping data and methods into a single unit (class) and restricting access to some components using access modifiers.
+- **Inheritance**: The ability of a class to inherit the properties and behaviors of another class.
+- **Polymorphism**: Allowing one entity to take multiple forms (e.g., method overloading, method overriding).
+- **Abstraction**: Hiding the implementation details and showing only the necessary functionality to the user.
 
 **Example:**
 ```java
@@ -189,14 +203,19 @@ Circle c = new Circle(); // Valid
 // Shape s = new Shape(); // Error - cannot instantiate
 ```
 
-## 🔹 2. Java Interview Questions - Data Types and Variables
+### 8. What is a package in Java? 
+A package in Java is a collection of related classes and interfaces grouped to organize code and prevent naming conflicts. 
+- Built-in packages: java.lang, java.util, etc.
+- User-defined packages: Created by developers for organizing custom classes
 
-### 1. What are primitive data types in Java?
+# 🔹 2. Java Interview Questions - Data Types and Variables
+
+### 1. What are data types in Java?
 
 **Answer:**
-Primitive data types are the basic building blocks that store simple values directly in memory.
+There is two type of data Primitive Data and Non-Primitive Data
 
-**8 Primitive Types:**
+**8 Primitive Data :**
 - **byte** - 8-bit integer (-128 to 127)
 - **short** - 16-bit integer (-32,768 to 32,767)
 - **int** - 32-bit integer (most commonly used)
@@ -205,6 +224,12 @@ Primitive data types are the basic building blocks that store simple values dire
 - **double** - 64-bit decimal (default for decimals)
 - **char** - 16-bit Unicode character
 - **boolean** - true or false
+
+**8 Non-Primitive Data :**
+- **String** - Used to store text
+- **Array** - Used to store multiple values
+- **Class** - Blueprint for objects
+- **Interface** - Defines method structure for classes
 
 **Example:**
 ```java
@@ -441,7 +466,15 @@ class MyClass {
 }
 ```
 
-## 🔹 3. Java Classes and Objects - Interview Q&A
+### 9. What is coercion in Java? 
+Coercion in Java refers to the automatic or explicit conversion of one data 
+type into another. 
+- Implicit coercion: Automatically converts smaller data types to larger
+ones (e.g., int to double).
+- Explicit coercion (casting): Converts larger data types to smaller ones
+using type casting (e.g., (int) 3.14).
+
+# 🔹 3. Java Classes and Objects - Interview Q&A
 
 ### 1. What is a constructor in Java?
 
@@ -630,50 +663,18 @@ class Circle extends Shape {
 }
 ```
 
-### 7. What is dynamic method dispatch?
+### 7. What is the difference between a constructor and a method in Java? 
 
 Dynamic method dispatch is the mechanism where the correct overridden method is called at runtime based on the actual object type, not the reference type.
 
-**Key Points:**
-- Runtime polymorphism
-- Method call resolved at runtime
-- Depends on actual object, not reference type
-- Enables polymorphic behavior
+| Constructor                                 | Method                                 |
+|-------------------------------------------|---------------------------------------|
+| Used to initialize objects                 | Used to perform operations            |
+| Has no return type                        | Always has a return type (void if not returning anything) |
+| Must have same name as class              | Can have any valid name               |
 
-**Example:**
-```java
-class Animal {
-    public void makeSound() {
-        System.out.println("Animal makes sound");
-    }
-}
 
-class Cat extends Animal {
-    @Override
-    public void makeSound() {
-        System.out.println("Cat meows");
-    }
-}
-
-class Dog extends Animal {
-    @Override
-    public void makeSound() {
-        System.out.println("Dog barks");
-    }
-}
-
-public class Test {
-    public static void main(String[] args) {
-        Animal animal1 = new Cat(); // Reference type: Animal, Object type: Cat
-        Animal animal2 = new Dog(); // Reference type: Animal, Object type: Dog
-        
-        animal1.makeSound(); // Prints "Cat meows" - Dynamic dispatch
-        animal2.makeSound(); // Prints "Dog barks" - Dynamic dispatch
-    }
-}
-```
-
-## 🔹 4. Java Inheritance Interview 
+# 🔹 4. Java Inheritance Interview 
 
 ### 1. Why doesn't Java support multiple inheritance?
 
@@ -877,7 +878,7 @@ class Student {
 * **IS-A**: When there's a clear parent-child relationship
 * **HAS-A**: When you need flexibility and want to avoid inheritance limitations
 
-## 🔹 5. Interfaces and Abstract Classes 
+# 🔹 5. Interfaces and Abstract Classes 
 
 ### 1. What is an interface in Java?
 
@@ -1168,7 +1169,7 @@ class GoldenRetriever implements Dog {
 * Functional interface = Lambda expressions
 * Interface inheritance = Multiple extends allowed
 
-## 🔹 6. Java Exception Handling 
+# 🔹 6. Java Exception Handling 
 ### 1. What is an exception in Java?
 
 An exception is an event that disrupts the normal flow of program execution. It's an object that represents an error or unexpected condition.
@@ -1406,7 +1407,7 @@ try {
 * Custom exceptions for business logic
 * Exception chaining preserves error context
 
-## 🔹 7. Java Collections Framework 
+# 🔹 7. Java Collections Framework 
 
 ### 1. What is Java Collections Framework?
 
@@ -1642,7 +1643,7 @@ pq.offer(5); pq.offer(1); pq.offer(3);
 System.out.println(pq.poll()); // Output: 1 (smallest first)
 ```
 
-## 🔹 8. Multithreading and Synchronization 
+# 🔹 8. Multithreading and Synchronization 
 
 ### 1. What is multithreading?
 
@@ -1947,7 +1948,7 @@ class RaceConditionExample {
   - Provide lock-free thread-safe operations
 
 
-## 🔹 9. Advanced Concurrency 
+# 🔹 9. Advanced Concurrency 
 
 ### 1. What is ExecutorService?
 
@@ -2120,7 +2121,7 @@ synchronized (this) {
 * **Synchronized**: Simple mutual exclusion, better readability
 
 
-## 🔹 10 .JVM and Memory Management 
+# 🔹 10 .JVM and Memory Management 
 
 ### 1. What are the different memory areas in JVM?
 
@@ -2408,7 +2409,7 @@ Understanding JVM memory management is crucial for:
 
 **Key Takeaway:** Modern JVM handles most memory management automatically, but understanding these concepts helps in optimization and troubleshooting.
 
-## 🔹 11. Java I/O Interview 
+# 🔹 11. Java I/O Interview 
 
 ### 1. What are the different ways to read a file in Java?
 
@@ -2605,24 +2606,7 @@ server.register(selector, SelectionKey.OP_ACCEPT);
 Files.copy(source, target, StandardCopyOption.REPLACE_EXISTING);
 ```
 
----
-
-### Quick Reference
-
-**File Reading Performance (Best to Worst):**
-1. `Files.readAllBytes()` - Small files
-2. `BufferedReader` - Line-by-line processing
-3. `FileChannel` - Large files with NIO
-4. `FileReader` - Simple character reading
-5. `FileInputStream` - Raw byte reading
-
-**Memory Usage:**
-* **Lowest**: Streaming with `Files.lines()`
-* **Moderate**: `BufferedReader`
-* **Highest**: `Files.readAllLines()` (loads entire file)
-
-
-## 🔹 12. Java Generics 
+# 🔹 12. Java Generics 
 
 ### 1. What are generics in Java?
 
@@ -2779,7 +2763,7 @@ List<Integer> intList = new ArrayList<>(); // OK
 // List<int> primitiveList; // Compile error
 ```
 
-## 🔹 13. Java Annotations and Reflection 
+# 🔹 13. Java Annotations and Reflection 
 ### 1. What are annotations in Java?
 
 Annotations are metadata that provide information about code without affecting its execution.
@@ -3014,18 +2998,126 @@ try {
     log.error("Method execution failed", cause);
 }
 ```
+### 11. What is Mockito?
 
-### Key Takeaways
+**Spoken Answer (25 seconds):**
+* Mockito is a mocking framework for unit testing in Java
+* It creates fake objects (mocks) to simulate dependencies
+* Helps test your code in isolation without real database or external services
+* Use @Mock annotation and when().thenReturn() for behavior
 
-* **Annotations**: Metadata for code documentation and processing
-* **Retention policies**: Control annotation lifecycle
-* **Reflection**: Powerful but expensive runtime introspection
-* **Use cases**: Frameworks, testing, serialization
-* **Performance**: Cache reflective operations when possible
-* **Security**: Be cautious with access control bypass
-* **Exception handling**: Always handle reflection exceptions properly
+**Example:**
+```java
+@ExtendWith(MockitoExtension.class)
+class UserServiceTest {
+    @Mock
+    private UserRepository userRepository;
+    
+    @InjectMocks
+    private UserService userService;
+    
+    @Test
+    void testFindUser() {
+        // Mock behavior
+        when(userRepository.findById(1L))
+            .thenReturn(new User("John"));
+        
+        User user = userService.getUser(1L);
+        assertEquals("John", user.getName());
+        
+        // Verify interaction
+        verify(userRepository).findById(1L);
+    }
+}
+```
 
-## 🔹 14. Lambda Expressions and Streams API 
+# 🔵 17. Java Web Development 
+---
+# 🔹 Servlets and JSP
+### 262: What is servlet in Java?
+
+**Answer (30 seconds):**
+* Server-side Java program that handles HTTP requests and responses
+* Runs inside servlet container like Tomcat, Jetty
+* Extends HttpServlet class and overrides doGet(), doPost() methods
+* Platform-independent way to build web applications
+* Manages dynamic web content generation
+
+```java
+@WebServlet("/hello")
+public class HelloServlet extends HttpServlet {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) {
+        response.setContentType("text/html");
+        PrintWriter out = response.getWriter();
+        out.println("<h1>Hello World!</h1>");
+    }
+}
+```
+
+---
+
+### 263: What is the servlet lifecycle?
+
+**Answer (35 seconds):**
+* **Loading**: Container loads servlet class
+* **Instantiation**: Creates servlet instance
+* **Initialization**: Calls init() method once
+* **Service**: Calls service() method for each request (doGet/doPost)
+* **Destruction**: Calls destroy() method before removing servlet
+* Container manages entire lifecycle automatically
+
+```java
+public class MyServlet extends HttpServlet {
+    public void init() { /* Initialize resources */ }
+    public void service(HttpServletRequest req, HttpServletResponse res) { /* Handle requests */ }
+    public void destroy() { /* Cleanup resources */ }
+}
+```
+
+---
+
+### 264: What is JSP (JavaServer Pages)?
+
+**Answer (30 seconds):**
+* Server-side technology for creating dynamic web pages
+* HTML with embedded Java code using special tags
+* Compiled into servlets by container automatically
+* Separates presentation layer from business logic
+* Easier to write than pure servlets for UI-heavy applications
+
+```jsp
+<%@ page language="java" contentType="text/html" %>
+<html>
+<body>
+    <h1>Welcome <%= request.getParameter("name") %>!</h1>
+    <% String time = new Date().toString(); %>
+    <p>Current time: <%= time %></p>
+</body>
+</html>
+```
+
+---
+
+### 265: What is the difference between servlet and JSP?
+
+**Answer (35 seconds):**
+* **Servlet**: Pure Java code, HTML embedded in Java
+* **JSP**: HTML with embedded Java code
+* **Performance**: Servlets slightly faster, JSPs compiled to servlets
+* **Development**: JSPs easier for UI, servlets better for business logic
+* **Maintenance**: JSPs better for designers, servlets for developers
+* **Use Case**: Combine both - servlets for logic, JSPs for presentation
+
+```java
+// Servlet - Java with HTML
+out.println("<html><body><h1>" + message + "</h1></body></html>");
+
+// JSP - HTML with Java
+<html><body><h1><%= message %></h1></body></html>
+```
+
+
+# 🔹 14. Lambda Expressions and Streams API 
 
 ### 1. What are lambda expressions?
 
@@ -3176,7 +3268,7 @@ int sum = numbers.parallelStream()
     .sum();
 ```
 
-### 6. What is the difference between Collection and Stream?
+### 6. What is the difference between Collection and Stream API?
 
 **Answer:**
 
@@ -3203,6 +3295,84 @@ stream.forEach(System.out::println);
 
 // Need new stream for another operation
 collection.stream().map(String::toUpperCase).forEach(System.out::println);
+```
+
+### 6. What is a Parallel Stream?
+
+Parallel Stream is a feature introduced in Java 8 that enables concurrent processing of stream elements across multiple threads.
+
+**Key Characteristics:**
+- Automatically splits data into chunks for parallel processing
+- Uses ForkJoinPool for thread management
+- Best suited for CPU-intensive operations on large datasets
+- Not always faster due to overhead
+
+**Example:**
+```java
+List<Integer> numbers = Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
+
+// Sequential processing
+long sequentialSum = numbers.stream()
+    .mapToInt(Integer::intValue)
+    .sum();
+
+// Parallel processing
+long parallelSum = numbers.parallelStream()
+    .mapToInt(Integer::intValue)
+    .sum();
+
+// Complex processing example
+List<String> results = largeDataset.parallelStream()
+    .filter(item -> item.length() > 5)
+    .map(String::toUpperCase)
+    .collect(Collectors.toList());
+```
+
+### 7. Difference between Parallel Stream and Multithreading
+
+| Aspect | Parallel Stream | Multithreading |
+|--------|----------------|----------------|
+| **Thread Management** | Automatic (ForkJoinPool) | Manual thread creation/management |
+| **Complexity** | Simple, declarative | Complex, requires synchronization |
+| **Use Case** | Data processing operations | Concurrent tasks, I/O operations |
+| **Control** | Limited control over threads | Full control over thread lifecycle |
+| **Overhead** | Built-in splitting overhead | Custom overhead management |
+| **Debugging** | Harder to debug | Easier to debug with proper tools |
+
+**Parallel Stream Example:**
+```java
+// Automatic parallelization
+List<Integer> results = data.parallelStream()
+    .filter(n -> n > 100)
+    .map(n -> n * 2)
+    .collect(Collectors.toList());
+```
+
+**Multithreading Example:**
+```java
+// Manual thread management
+ExecutorService executor = Executors.newFixedThreadPool(4);
+
+List<Future<Integer>> futures = new ArrayList<>();
+for (int i = 0; i < data.size(); i++) {
+    final int index = i;
+    Future<Integer> future = executor.submit(() -> {
+        return processData(data.get(index));
+    });
+    futures.add(future);
+}
+
+List<Integer> results = futures.stream()
+    .map(future -> {
+        try {
+            return future.get();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    })
+    .collect(Collectors.toList());
+
+executor.shutdown();
 ```
 
 ### 7. What are intermediate and terminal operations?
@@ -3330,7 +3500,7 @@ findUserById(123L)
     .ifPresent(System.out::println);
 ```
 
-## 🔹 15. JDBC Interview 
+# 🔹 15. JDBC Interview 
 
 ### 1. What is JDBC?
 
@@ -3585,7 +3755,106 @@ conn.rollback(sp1); // Rollback to specific savepoint
 conn.commit();
 ```
 
-## 🔹 16. Design Patterns 
+
+### 8. How do you Handle Large Data Processing?
+
+#### Streaming (Low Memory)
+I process large files or datasets **line by line** using Java Streams.
+This avoids loading everything into memory.
+
+
+```java
+Files.lines(Path.of("large-file.txt"))
+     .filter(l -> l.contains("ERROR"))
+     .forEach(this::processError);
+```
+
+
+#### Batch Processing
+Instead of processing all data at once, I divide it into **smaller batches** (like 1000 records per batch).
+This reduces memory usage and improves performance.
+In Spring Boot, I use **Spring Batch** for this.
+
+```java
+int BATCH = 1000;
+
+for (int i = 0; i < data.size(); i += BATCH) {
+    processBatch(data.subList(i, Math.min(i + BATCH, data.size())));
+}
+```
+
+#### Database Pagination (Spring Data JPA)
+When data comes from a database, I fetch and process it **page by page** using `PageRequest`.
+This prevents memory overflow and keeps processing stable.
+
+```java
+int page = 0;
+Page<DataItem> result;
+
+do {
+    result = repo.findByStatus("PENDING", PageRequest.of(page++, 1000));
+    processBatch(result.getContent());
+} while (result.hasNext());
+```
+
+
+#### Async / Parallel Processing
+I use **CompletableFuture and Parallel Streams** to process data in parallel across CPU cores.
+This improves speed and handles large volumes efficiently.
+
+```java
+CompletableFuture.runAsync(() ->
+    data.parallelStream()
+        .filter(this::isValid)
+        .forEach(this::save)
+);
+```
+
+
+#### Memory-Efficient Caching
+
+```java
+Map<String, WeakReference<Data>> cache = new ConcurrentHashMap<>();
+```
+
+### 7. What is the difference between Direct Servlet and JSP?
+
+**Spoken Answer (30 seconds):**
+* Servlets are Java classes that handle HTTP requests programmatically
+* JSP (JavaServer Pages) mixes HTML with Java code for dynamic web pages
+* Servlets are better for business logic, JSP for presentation layer
+* JSP gets compiled to servlets behind the scenes
+* Modern apps use REST APIs instead of JSP for frontend separation
+
+**Example:**
+```java
+// Direct Servlet
+@WebServlet("/hello")
+public class HelloServlet extends HttpServlet {
+    
+    @Override
+    protected void doGet(HttpServletRequest request, 
+                        HttpServletResponse response) throws IOException {
+        response.setContentType("text/html");
+        PrintWriter out = response.getWriter();
+        out.println("<h1>Hello from Servlet!</h1>");
+        out.println("<p>User: " + request.getParameter("name") + "</p>");
+    }
+}
+
+// JSP (hello.jsp)
+<%@ page contentType="text/html;charset=UTF-8" %>
+<html>
+<head><title>Hello JSP</title></head>
+<body>
+    <h1>Hello from JSP!</h1>
+    <p>User: <%= request.getParameter("name") %></p>
+    <p>Current time: <%= new java.util.Date() %></p>
+</body>
+</html>
+```
+
+# 🔹 16. Design Patterns 
 
 ### 1. What are design patterns?
 
@@ -3831,7 +4100,7 @@ class MilkDecorator implements Coffee {
 **Remember:** Focus on the problem each pattern solves, not just the implementation details!
 
 
-## 🔹 17. Spring Framework Interview Questions & Answers
+# 🔹 17. Spring Framework Interview Questions & Answers
 
 ### 1. What is Spring Framework?
 
@@ -3882,13 +4151,36 @@ public class OrderService {
 
 ### 3. What is Dependency Injection?
 
-Dependency Injection is a technique where dependencies are provided to an object rather than the object creating them.
+**Spoken Answer (30 seconds):**
+* Dependency Injection is a design pattern where objects don't create their dependencies themselves
+* Instead, dependencies are provided from outside, usually by a framework
+* It promotes loose coupling and makes code more testable and maintainable
+* Think of it like ordering food - you don't cook it yourself, someone brings it to you
 
-**Key Points:**
-- Three types: Constructor, Setter, and Field injection
-- Constructor injection is recommended
-- Makes testing easier with mock objects
-- Reduces boilerplate code
+**Example:**
+```java
+// Without DI - tight coupling
+class OrderService {
+    private EmailService emailService = new EmailService(); // Bad
+}
+
+// With DI - loose coupling
+class OrderService {
+    private EmailService emailService;
+    
+    public OrderService(EmailService emailService) {
+        this.emailService = emailService; // Good - injected
+    }
+}
+```
+
+## 2. What are the best ways to implement Dependency Injection in Java?
+
+**Spoken Answer (35 seconds):**
+* Three main types: Constructor injection, Setter injection, and Field injection
+* Constructor injection is preferred - it ensures required dependencies are provided
+* Use frameworks like Spring, Guice, or CDI for automatic injection
+* Annotations like @Autowired, @Inject make it simple
 
 **Example:**
 ```java
@@ -3896,9 +4188,15 @@ Dependency Injection is a technique where dependencies are provided to an object
 public class UserService {
     private final UserRepository userRepository;
     
-    // Constructor injection (recommended)
+    // Constructor injection - best practice
     public UserService(UserRepository userRepository) {
         this.userRepository = userRepository;
+    }
+    
+    // Setter injection
+    @Autowired
+    public void setEmailService(EmailService emailService) {
+        this.emailService = emailService;
     }
 }
 ```
@@ -3931,9 +4229,45 @@ ApplicationContext context = new ClassPathXmlApplicationContext("beans.xml");
 
 ---
 
+### 272. What is BeanFactory?
+
+* `BeanFactory` is **basic Spring container**.
+* Handles **lazy initialization** and **basic IoC**, but fewer features than ApplicationContext.
+
+```java
+BeanFactory factory = new XmlBeanFactory(new ClassPathResource("beans.xml"));
+```
+
+### What is a Java Bean?
+
+A **Java Bean** is a simple Java class that follows some standard rules so it can be used as a reusable component.
+
+**Rules of a Java Bean**
+
+1. It must have a **public no-argument constructor**.
+2. All fields should be **private**.
+3. It should provide **public getter and setter methods** for accessing fields.
+4. It should implement **Serializable** (optional but recommended).
+
+```java
+public class Person {
+    private String name;
+
+    public Person() {}
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+}
+```
+
 ### 5. What are Spring beans?
 
-Spring beans are objects managed by the Spring IoC container.
+**Spring Bean** is an object that is created, managed, and injected by the **Spring IoC Container**.
 
 **Key Points:**
 - Objects whose lifecycle is managed by Spring
@@ -3944,20 +4278,22 @@ Spring beans are objects managed by the Spring IoC container.
 **Example:**
 ```java
 @Component
-public class EmailService {
-    // This is a Spring bean
-}
-
-@Configuration
-public class AppConfig {
-    @Bean
-    public DatabaseService databaseService() {
-        return new DatabaseService(); // This creates a bean
+public class MyService {
+    public void show() {
+        System.out.println("Hello from Spring Bean");
     }
 }
 ```
 
----
+Here, `MyService` becomes a **Spring Bean** because of `@Component`.
+
+You can inject it like this:
+
+```java
+@Autowired
+private MyService myService;
+```
+
 
 ### 6. What is Spring Boot?
 
@@ -3996,15 +4332,15 @@ Auto-configuration automatically configures Spring beans based on classpath depe
 **Example:**
 ```java
 // If H2 database is on classpath, Spring Boot automatically configures:
-// - DataSource
-// - JdbcTemplate  
-// - Transaction manager
+- DataSource
+- JdbcTemplate  
+- Transaction manager
 
 // You just need to add dependency in pom.xml:
-// <dependency>
-//     <groupId>com.h2database</groupId>
-//     <artifactId>h2</artifactId>
-// </dependency>
+<dependency>
+    <groupId>com.h2database</groupId>
+    <artifactId>h2</artifactId>
+</dependency>
 ```
 
 ---
@@ -4156,26 +4492,158 @@ public class MyService {
 }
 ```
 
----
+### 13. What is Spring Cloud?
 
-### Quick Reference Summary
+**Spoken Answer (35 seconds):**
+* Spring Cloud is a framework for building distributed systems and microservices
+* It provides tools for configuration management, service discovery, circuit breakers
+* Built on top of Spring Boot, makes microservices development easier
+* Includes Netflix OSS components like Eureka, Hystrix, Zuul
 
-| Annotation | Purpose |
-|------------|---------|
-| @Component | Generic Spring bean |
-| @Service | Business logic layer |
-| @Repository | Data access layer |
-| @Autowired | Dependency injection |
-| @Qualifier | Specify which bean to inject |
-| @SpringBootApplication | Main Spring Boot class |
+**Example:**
+```java
+// Service Discovery with Eureka
+@SpringBootApplication
+@EnableEurekaClient
+public class OrderServiceApplication {
+    public static void main(String[] args) {
+        SpringApplication.run(OrderServiceApplication.class, args);
+    }
+}
 
-**Best Practices:**
-- Use constructor injection over field injection
-- Prefer @Service and @Repository over @Component for clarity
-- Use @Qualifier when multiple beans of same type exist
-- Keep ApplicationContext usage minimal in business logic
+// Load balancing
+@RestController
+public class OrderController {
+    @Autowired
+    @LoadBalanced
+    private RestTemplate restTemplate;
+    
+    @GetMapping("/orders/{id}")
+    public Order getOrder(@PathVariable String id) {
+        return restTemplate.getForObject(
+            "http://inventory-service/items/" + id, Order.class);
+    }
+}
+```
 
-## 🔹 18. RESTful Services 
+### 14. How do you integrate a Java application with a cloud environment?
+
+**Spoken Answer (35 seconds):**
+* Use cloud-native frameworks like Spring Boot with cloud connectors
+* Deploy using containers (Docker) and orchestration (Kubernetes)
+* Leverage cloud services - databases, messaging, storage through APIs
+* Use configuration management for different environments
+* Implement health checks and monitoring
+
+**Example:**
+```java
+// Cloud-ready Spring Boot app
+@SpringBootApplication
+@EnableCloudConfig
+public class CloudApp {
+    @Value("${cloud.database.url}")
+    private String dbUrl;
+    
+    @Bean
+    public DataSource dataSource() {
+        return DataSourceBuilder.create()
+            .url(dbUrl)
+            .build();
+    }
+}
+
+// Docker deployment
+// Dockerfile
+FROM openjdk:11
+COPY target/app.jar app.jar
+EXPOSE 8080
+ENTRYPOINT ["java", "-jar", "app.jar"]
+```
+
+
+## 17. How do you secure a Java Spring Boot application?
+
+**Spoken Answer (35 seconds):**
+* Use Spring Security for authentication and authorization
+* Implement JWT or OAuth2 for token-based security
+* Enable HTTPS and disable HTTP
+* Validate all inputs to prevent injection attacks
+* Use method-level security with @PreAuthorize
+* Configure CORS properly and use security headers
+
+**Example:**
+```java
+@Configuration
+@EnableWebSecurity
+@EnableMethodSecurity
+public class SecurityConfig {
+    
+    @Bean
+    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+        return http
+            .csrf(csrf -> csrf.disable())
+            .sessionManagement(session -> session.sessionCreationPolicy(STATELESS))
+            .authorizeHttpRequests(auth -> auth
+                .requestMatchers("/api/public/**").permitAll()
+                .requestMatchers("/api/admin/**").hasRole("ADMIN")
+                .anyRequest().authenticated()
+            )
+            .oauth2ResourceServer(oauth2 -> oauth2.jwt())
+            .build();
+    }
+}
+
+@RestController
+public class SecureController {
+    
+    @PreAuthorize("hasRole('ADMIN')")
+    @GetMapping("/admin/users")
+    public List<User> getUsers() {
+        return userService.getAllUsers();
+    }
+}
+```
+
+# 🔹 18. RESTful Services 
+
+### 13. What is CORS, and how does it work?
+
+**Spoken Answer (30 seconds):**
+* CORS stands for Cross-Origin Resource Sharing
+* Browser security feature that blocks requests from different domains
+* Backend must explicitly allow frontend domain to access APIs
+* Use @CrossOrigin annotation or global configuration in Spring
+* Prevents malicious websites from accessing your APIs
+
+**Example:**
+```java
+// Method level CORS
+@RestController
+public class ProductController {
+    
+    @CrossOrigin(origins = "http://localhost:3000")
+    @GetMapping("/products")
+    public List<Product> getProducts() {
+        return productService.getAllProducts();
+    }
+}
+
+// Global CORS configuration
+@Configuration
+public class CorsConfig {
+    @Bean
+    public WebMvcConfigurer corsConfigurer() {
+        return new WebMvcConfigurer() {
+            @Override
+            public void addCorsMappings(CorsRegistry registry) {
+                registry.addMapping("/api/**")
+                    .allowedOrigins("http://localhost:3000")
+                    .allowedMethods("GET", "POST", "PUT", "DELETE");
+            }
+        };
+    }
+}
+```
 
 ### 1. What are RESTful web services?
 
@@ -4325,7 +4793,7 @@ HTTP status codes indicate the result of an HTTP request.
 * **5xx** - Server Error (500 Internal Error, 503 Unavailable)
 
 **Common REST API Status Codes:**
-```
+```java
 // Success responses
 200 OK              // GET, PUT successful
 201 Created         // POST successful
@@ -4344,7 +4812,7 @@ HTTP status codes indicate the result of an HTTP request.
 ```
 
 **Practical Usage:**
-```javascript
+```java
 // API Response Examples
 GET /api/users/999
 Response: 404 Not Found
@@ -4359,25 +4827,100 @@ DELETE /api/users/123
 Response: 204 No Content
 ```
 
----
+## 24. How do you secure REST APIs in a Spring Boot application?
 
-### Quick Interview Tips
+**Spoken Answer (35 seconds):**
+* Use Spring Security with JWT or OAuth2 tokens
+* Implement authentication filters and authorization rules
+* Validate input data and sanitize outputs
+* Enable HTTPS and configure CORS properly
+* Use rate limiting and API versioning
+* Add security headers and audit logging
 
-**Remember:**
-* REST is about **resources**, not actions
-* Use **nouns** in URLs, not verbs (`/users` not `/getUsers`)
-* HTTP methods define the **action**
-* Status codes communicate **results**
-* Keep APIs **stateless** and **predictable**
+**Example:**
+```java
+// Security configuration
+@Configuration
+@EnableWebSecurity
+public class ApiSecurityConfig {
+    
+    @Bean
+    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+        return http
+            .csrf(csrf -> csrf.disable())
+            .sessionManagement(session -> session.sessionCreationPolicy(STATELESS))
+            .authorizeHttpRequests(auth -> auth
+                .requestMatchers("/api/auth/**").permitAll()
+                .requestMatchers(HttpMethod.GET, "/api/products/**").permitAll()
+                .requestMatchers("/api/admin/**").hasRole("ADMIN")
+                .anyRequest().authenticated()
+            )
+            .oauth2ResourceServer(oauth2 -> oauth2.jwt())
+            .headers(headers -> headers.frameOptions().deny())
+            .build();
+    }
+}
 
-**Common Mistakes to Avoid:**
-* Using GET for data modification
-* Ignoring proper status codes
-* Making APIs stateful
-* Poor resource naming conventions
+// Secured REST controller
+@RestController
+@RequestMapping("/api")
+@Validated
+public class SecureApiController {
+    
+    @PreAuthorize("hasRole('USER')")
+    @GetMapping("/profile")
+    public UserProfile getProfile(Authentication auth) {
+        return userService.getProfile(auth.getName());
+    }
+    
+    @PostMapping("/orders")
+    public ResponseEntity<Order> createOrder(
+            @Valid @RequestBody OrderRequest request,
+            Authentication auth) {
+        Order order = orderService.createOrder(request, auth.getName());
+        return ResponseEntity.status(201).body(order);
+    }
+}
+```
 
+# 🔹 19. Microservices 
 
-## 🔹 19. Microservices 
+### 1. Monolithic vs Microservices Architecture
+
+**Monolithic Architecture:**
+- Single deployable unit where all components are tightly coupled
+- All functionality runs in one process/application
+- Shared database and runtime environment
+- Simple to develop, test, and deploy initially
+
+```java
+E-commerce App
+- User Module
+- Product Module
+- Order Module
+(All inside one codebase & one deployment)
+```
+
+**Microservices Architecture:**
+- Application broken into small, independent services
+- Each service has its own database and can be deployed independently
+- Services communicate over well-defined APIs
+- Better scalability and technology diversity
+
+```java
+E-commerce App
+- User Service
+- Product Service
+- Order Service
+(each has its own database & deployment)
+```
+
+**Key Differences:**
+- **Scalability**: Microservices allow scaling individual components
+- **Technology Stack**: Microservices enable different technologies per service
+- **Deployment**: Monoliths deploy as one unit, microservices deploy independently
+- **Complexity**: Monoliths are simpler initially, microservices add operational complexity
+- **Team Structure**: Microservices support autonomous teams
 
 ### 1. What are microservices?
 
@@ -4408,7 +4951,27 @@ public class OrderService {
 }
 ```
 
----
+### 2. How do Microservices Communicate with Each Other?
+
+**Synchronous Communication:**
+- **REST APIs**: HTTP-based communication using JSON/XML
+- **gRPC**: High-performance RPC framework using Protocol Buffers
+- **GraphQL**: Query language for APIs
+
+**Asynchronous Communication:**
+- **Message Queues**: RabbitMQ, Apache Kafka, AWS SQS
+- **Event Streaming**: Apache Kafka for real-time event processing
+- **Pub/Sub**: Google Pub/Sub, AWS SNS
+
+**Communication Patterns:**
+- **Request-Response**: Direct synchronous calls
+- **Event-Driven**: Services publish/subscribe to events
+- **Saga Pattern**: Distributed transaction management
+
+**Supporting Infrastructure:**
+- **Service Discovery**: Eureka, Consul, Kubernetes DNS
+- **API Gateway**: Single entry point for client requests
+- **Load Balancers**: Distribute traffic across service instances
 
 ### 2. What are the advantages of microservices?
 
@@ -4438,7 +5001,186 @@ A simple user registration might involve:
 * User Service → Email Service → Notification Service
 If any service fails, you need proper error handling and rollback mechanisms.
 
----
+### 3. How do you Handle Failures in Microservices?
+
+**Resilience Patterns:**
+
+**Circuit Breaker Pattern:**
+```java
+@Component
+public class PaymentService {
+    
+    @CircuitBreaker(name = "payment-service", fallbackMethod = "fallbackPayment")
+    public PaymentResponse processPayment(PaymentRequest request) {
+        // Call external payment service
+        return externalPaymentService.process(request);
+    }
+    
+    public PaymentResponse fallbackPayment(PaymentRequest request, Exception ex) {
+        return PaymentResponse.builder()
+            .status("PENDING")
+            .message("Payment will be processed later")
+            .build();
+    }
+}
+```
+
+**Retry Mechanism:**
+```java
+@Retryable(value = {Exception.class}, maxAttempts = 3, backoff = @Backoff(delay = 1000))
+public String callExternalService() {
+    // Service call that might fail
+    return restTemplate.getForObject("/api/data", String.class);
+}
+```
+
+**Timeout Configuration:**
+```java
+@RestTemplate
+public RestTemplate restTemplate() {
+    HttpComponentsClientHttpRequestFactory factory = new HttpComponentsClientHttpRequestFactory();
+    factory.setConnectTimeout(5000);
+    factory.setReadTimeout(10000);
+    return new RestTemplate(factory);
+}
+```
+
+**Other Failure Handling Strategies:**
+- **Bulkhead Pattern**: Isolate resources to prevent cascade failures
+- **Health Checks**: Monitor service health and remove unhealthy instances
+- **Graceful Degradation**: Provide reduced functionality when services fail
+- **Distributed Tracing**: Track requests across services for debugging
+
+### 4. How do you Handle Exception Handling in Spring Boot?
+
+**Global Exception Handler:**
+```java
+@ControllerAdvice
+public class GlobalExceptionHandler {
+    
+    @ExceptionHandler(ResourceNotFoundException.class)
+    public ResponseEntity<ErrorResponse> handleResourceNotFound(ResourceNotFoundException ex) {
+        ErrorResponse error = ErrorResponse.builder()
+            .timestamp(LocalDateTime.now())
+            .status(HttpStatus.NOT_FOUND.value())
+            .error("Resource Not Found")
+            .message(ex.getMessage())
+            .build();
+        return new ResponseEntity<>(error, HttpStatus.NOT_FOUND);
+    }
+    
+    @ExceptionHandler(ValidationException.class)
+    public ResponseEntity<ErrorResponse> handleValidation(ValidationException ex) {
+        ErrorResponse error = ErrorResponse.builder()
+            .timestamp(LocalDateTime.now())
+            .status(HttpStatus.BAD_REQUEST.value())
+            .error("Validation Failed")
+            .message(ex.getMessage())
+            .build();
+        return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
+    }
+    
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<ErrorResponse> handleGeneral(Exception ex) {
+        ErrorResponse error = ErrorResponse.builder()
+            .timestamp(LocalDateTime.now())
+            .status(HttpStatus.INTERNAL_SERVER_ERROR.value())
+            .error("Internal Server Error")
+            .message("An unexpected error occurred")
+            .build();
+        return new ResponseEntity<>(error, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+}
+```
+
+**Custom Exception:**
+```java
+public class ResourceNotFoundException extends RuntimeException {
+    public ResourceNotFoundException(String message) {
+        super(message);
+    }
+}
+```
+
+**Validation with Custom Messages:**
+```java
+@RestController
+public class UserController {
+    
+    @PostMapping("/users")
+    public ResponseEntity<User> createUser(@Valid @RequestBody CreateUserRequest request) {
+        User user = userService.createUser(request);
+        return ResponseEntity.ok(user);
+    }
+}
+```
+
+### 5. How do you Improve Performance in Spring Boot Application?
+
+**Caching:**
+```java
+@Service
+public class UserService {
+    
+    @Cacheable(value = "users", key = "#id")
+    public User getUserById(Long id) {
+        return userRepository.findById(id);
+    }
+    
+    @CacheEvict(value = "users", key = "#user.id")
+    public User updateUser(User user) {
+        return userRepository.save(user);
+    }
+}
+```
+
+**Database Optimization:**
+```java
+@Entity
+public class User {
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
+    private List<Order> orders;
+}
+
+// Use pagination
+@Repository
+public interface UserRepository extends JpaRepository<User, Long> {
+    Page<User> findByStatus(String status, Pageable pageable);
+}
+```
+
+**Async Processing:**
+```java
+@Service
+public class EmailService {
+    
+    @Async
+    public CompletableFuture<Void> sendEmail(String to, String subject, String body) {
+        // Send email asynchronously
+        emailClient.send(to, subject, body);
+        return CompletableFuture.completedFuture(null);
+    }
+}
+```
+
+**Configuration Optimizations:**
+```java
+# Connection pooling
+spring.datasource.hikari.maximum-pool-size=20
+spring.datasource.hikari.minimum-idle=5
+
+# JPA optimizations
+spring.jpa.hibernate.ddl-auto=none
+spring.jpa.show-sql=false
+spring.jpa.properties.hibernate.jdbc.batch_size=25
+
+# Compression
+server.compression.enabled=true
+server.compression.mime-types=application/json,application/xml,text/html,text/xml,text/plain
+
+# HTTP/2
+server.http2.enabled=true
+```
 
 ### 4. What is service discovery?
 
@@ -4456,7 +5198,7 @@ Service discovery is the mechanism that allows services to find and communicate 
 * Kubernetes built-in service discovery
 
 **Example:**
-```
+```java
 Order Service needs Payment Service
 → Queries Service Registry: "Where is Payment Service?"
 → Registry responds: "Payment Service is at 192.168.1.100:8080"
@@ -4483,7 +5225,7 @@ An API Gateway is a single entry point that sits between clients and microservic
 * Nginx Plus
 
 **Example:**
-```
+```java
 Mobile App → API Gateway → User Service (for profile)
                       → Order Service (for orders)
                       → Product Service (for catalog)
@@ -4507,7 +5249,7 @@ Circuit breaker is a design pattern that prevents cascading failures by monitori
 * Improves overall system resilience
 
 **Example Implementation:**
-```
+```java
 if (failureCount > threshold) {
     // Circuit is OPEN - return cached response or error
     return fallbackResponse();
@@ -4524,10 +5266,88 @@ if (failureCount > threshold) {
 }
 ```
 
-**Real-World Example:**
-If Payment Service is down, instead of waiting 30 seconds for timeout, circuit breaker immediately returns "Payment temporarily unavailable" after detecting the pattern of failures.
+### 7. Have you worked with the Java 11 HTTP Client? How does it differ from the HTTP clients used in earlier Java versions?
 
-## 🔹 20. Performance Tuning Interview Questions & Answers
+* The Java 11 HTTP Client (java.net.http.HttpClient) introduced several key improvements:
+* 1. Built-in support for HTTP/2 and WebSocket protocols
+* 2. Synchronous and asynchronous request handling via CompletableFuture 
+* 3. Fluent builder API for constructing requests
+* 4. Better performance and connection pooling compared to HttpURLConnection
+* 5. Support for both text and binary data
+* 6. Native support for request/response body handlers
+
+
+**Example usage:**
+```java
+HttpClient client = HttpClient.newHttpClient();
+HttpRequest request = HttpRequest.newBuilder()
+    .uri(URI.create("https://api.example.com/data"))
+    .build();
+    
+// Synchronous:
+HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+
+// Asynchronous:
+CompletableFuture<HttpResponse<String>> future = client.sendAsync(request, 
+    HttpResponse.BodyHandlers.ofString());
+```
+
+ * Compared to older HttpURLConnection:
+ * - No need for manual connection management
+ * - Cleaner API without checked exceptions
+ * - Built-in support for modern HTTP features
+ * - Better error handling and timeout management
+
+# 🔹 20. Performance Tuning Interview Questions & Answers
+
+### 1. How do you handle security in a Java application?
+
+**Spoken Answer (35 seconds):**
+* Use Spring Security for authentication and authorization
+* JWT tokens for stateless authentication
+* HTTPS for encrypted communication
+* Input validation to prevent SQL injection
+* Role-based access control (RBAC)
+* Password encryption with BCrypt
+
+**Example:**
+```java
+// Security configuration
+@Configuration
+@EnableWebSecurity
+public class SecurityConfig {
+    
+    @Bean
+    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+        return http
+            .csrf().disable()
+            .authorizeHttpRequests(auth -> auth
+                .requestMatchers("/api/auth/**").permitAll()
+                .requestMatchers("/api/admin/**").hasRole("ADMIN")
+                .anyRequest().authenticated()
+            )
+            .oauth2ResourceServer(oauth2 -> oauth2.jwt())
+            .build();
+    }
+    
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
+}
+
+// JWT token validation
+@RestController
+public class AuthController {
+    
+    @PostMapping("/login")
+    public ResponseEntity<String> login(@RequestBody LoginRequest request) {
+        // Validate credentials
+        String token = jwtService.generateToken(request.getUsername());
+        return ResponseEntity.ok(token);
+    }
+}
+```
 
 ### 1. How do you identify performance bottlenecks?
 
@@ -4727,19 +5547,7 @@ java -XX:+PrintCompilation -XX:+UnlockDiagnosticVMOptions -XX:+PrintInlining MyA
 java -XX:+TieredCompilation MyApp
 ```
 
----
-
-### Key Performance Tips:
-* Profile before optimizing
-* Use appropriate data structures
-* Minimize object creation
-* Implement proper caching
-* Optimize database queries
-* Monitor GC behavior
-* Use connection pooling
-* Enable JIT optimizations
-
-## 🔹 21. Modern Java Features 
+# 🔹 21. Modern Java Features 
 
 ### 1. What are the new features in Java 8?
 
@@ -4916,130 +5724,465 @@ Java follows a predictable 6-month release cycle since Java 9:
   - Upgrade path: Java 8 → Java 11 → Java 17 → Java 21
   - Test new features in non-LTS versions
 
-## 🔹 22. Cloud and Containerization 
+# 🔹 22. Cloud and Containerization 
 
 ### 1. What is containerization?
 
-Containerization is packaging applications with all their dependencies into lightweight, portable containers.
+**Spoken Answer (30 seconds):**
+* Containerization packages applications with all dependencies into lightweight, portable containers
+* Ensures consistent runtime across different environments
+* Containers share the host OS kernel, making them more efficient than VMs
+* Popular tools: Docker, Podman, containerd
 
-**Key Points:**
-- Bundles code, runtime, libraries, and settings together
-- Runs consistently across different environments
-- Isolated from the host system
-- More efficient than virtual machines
-
-**Example:** 
-- Your Node.js app + dependencies → Docker container
-- Runs same way on dev laptop, staging, and production
+**Example:**
+```dockerfile
+FROM node:16-alpine
+WORKDIR /app
+COPY package.json .
+RUN npm install
+COPY . .
+EXPOSE 3000
+CMD ["npm", "start"]
+```
 
 ---
 
 ### 2. What is Docker?
 
-Docker is a platform that creates, manages, and runs containers using containerization technology.
-
-**Key Points:**
-- Uses Docker images as blueprints
-- Docker Engine runs containers
-- Dockerfile defines how to build images
-- Cross-platform compatibility
+**Spoken Answer (25 seconds):**
+* Docker is a containerization platform that creates, deploys, and manages containers
+* Uses images as blueprints to create containers
+* Provides isolation, portability, and scalability
+* Key components: Docker Engine, Images, Containers, Dockerfile
 
 **Example:**
-```dockerfile
-FROM node:16
-COPY . /app
-WORKDIR /app
-RUN npm install
-CMD ["npm", "start"]
+```bash
+# Build image
+docker build -t my-app .
+
+# Run container
+docker run -p 3000:3000 my-app
+
+# List containers
+docker ps
 ```
 
 ---
 
 ### 3. What is Kubernetes?
 
-Kubernetes is an orchestration platform that manages containerized applications at scale across clusters.
-
-**Key Points:**
-- Automates deployment, scaling, and management
-- Self-healing (restarts failed containers)
-- Load balancing and service discovery
-- Rolling updates with zero downtime
+**Spoken Answer (35 seconds):**
+* Kubernetes is a container orchestration platform for managing containerized applications at scale
+* Automates deployment, scaling, and management of containers
+* Provides service discovery, load balancing, and self-healing capabilities
+* Key concepts: Pods, Services, Deployments, Nodes
 
 **Example:**
-- Deploy 100 web app containers
-- Auto-scale based on traffic
-- Replace failed containers automatically
+```yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: web-app
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: web
+  template:
+    metadata:
+      labels:
+        app: web
+    spec:
+      containers:
+      - name: web
+        image: nginx:latest
+        ports:
+        - containerPort: 80
+```
 
 ---
 
 ### 4. What is cloud computing?
 
-Cloud computing delivers computing services over the internet instead of using local servers.
+**Spoken Answer (30 seconds):**
+* Cloud computing delivers computing services over the internet on-demand
+* Three main models: IaaS, PaaS, SaaS
+* Benefits: scalability, cost-effectiveness, accessibility, automatic updates
+* Major providers: AWS, Azure, Google Cloud, IBM Cloud
 
-**Key Points:**
-- On-demand resource access
-- Pay-as-you-use pricing
-- Scalable and flexible
-- Three main types: IaaS, PaaS, SaaS
+**Example:**
+```javascript
+// AWS SDK example
+const AWS = require('aws-sdk');
+const s3 = new AWS.S3();
 
-**Examples:**
-- **IaaS:** AWS EC2, Azure VMs
-- **PaaS:** Heroku, Google App Engine
-- **SaaS:** Gmail, Salesforce
+const params = {
+  Bucket: 'my-bucket',
+  Key: 'file.txt',
+  Body: 'Hello Cloud!'
+};
+
+s3.upload(params, (err, data) => {
+  console.log('File uploaded:', data.Location);
+});
+```
 
 ---
 
 ### 5. What is distributed system?
 
-A distributed system is multiple computers working together as a single system to achieve common goals.
+**Spoken Answer (35 seconds):**
+* Distributed system consists of multiple computers working together as a single system
+* Components communicate over a network to achieve common goals
+* Challenges: network failures, data consistency, fault tolerance
+* Examples: microservices, CDNs, distributed databases
 
-**Key Points:**
-- Components communicate over network
-- No shared memory between nodes
-- Fault tolerance and redundancy
-- Horizontal scaling capability
+**Example:**
+```javascript
+// Microservice communication
+const express = require('express');
+const axios = require('axios');
 
-**Examples:**
-- Netflix streaming (multiple data centers)
-- Google Search (thousands of servers)
-- Banking systems (ATMs, branches, online)
+app.get('/user/:id', async (req, res) => {
+  try {
+    const user = await axios.get(`http://user-service/users/${req.params.id}`);
+    const orders = await axios.get(`http://order-service/orders/user/${req.params.id}`);
+    
+    res.json({ user: user.data, orders: orders.data });
+  } catch (error) {
+    res.status(500).json({ error: 'Service unavailable' });
+  }
+});
+```
 
 ---
 
 ### 6. What is load balancing?
 
-Load balancing distributes incoming requests across multiple servers to prevent overload and ensure availability.
+**Spoken Answer (30 seconds):**
+* Load balancing distributes incoming requests across multiple servers
+* Prevents server overload and improves application availability
+* Types: Round Robin, Least Connections, IP Hash, Weighted
+* Can be implemented at different layers: L4 (transport) or L7 (application)
 
-**Key Points:**
-- Prevents single point of failure
-- Improves response times
-- Enables horizontal scaling
-- Health checks monitor server status
+**Example:**
+```java
+# Nginx load balancer config
+upstream backend {
+    server server1.example.com weight=3;
+    server server2.example.com weight=2;
+    server server3.example.com;
+}
 
-**Examples:**
-- **Round Robin:** Request 1→Server A, Request 2→Server B
-- **Least Connections:** Route to server with fewest active connections
-- **Geographic:** Route users to nearest data center
+server {
+    listen 80;
+    location / {
+        proxy_pass http://backend;
+    }
+}
+```
 
----
+# 🔹 23. MISC Questions
 
-### 7. What is caching strategies?
+### 7. What are caching strategies in Java?
 
-Caching strategies store frequently accessed data in fast storage to reduce response times and database load.
+**Spoken Answer (40 seconds):**
+* Caching stores frequently accessed data in fast storage for quick retrieval
+* Common strategies: Cache-Aside, Write-Through, Write-Behind, Refresh-Ahead
+* Java implementations: Ehcache, Redis, Caffeine, Hazelcast
+* Improves performance by reducing database calls and computation time
 
-**Key Points:**
-- Temporary storage for quick access
-- Reduces backend load
-- Improves user experience
-- Various levels and types
+**Example:**
+```java
+// Using Caffeine cache
+import com.github.benmanes.caffeine.cache.Cache;
+import com.github.benmanes.caffeine.cache.Caffeine;
 
-**Examples:**
-- **Browser Cache:** Store CSS/JS files locally
-- **CDN Cache:** Images served from nearest location
-- **Database Cache:** Redis stores frequent queries
-- **Application Cache:** In-memory data storage
+public class UserService {
+    private Cache<String, User> userCache = Caffeine.newBuilder()
+        .maximumSize(1000)
+        .expireAfterWrite(10, TimeUnit.MINUTES)
+        .build();
+    
+    public User getUser(String id) {
+        return userCache.get(id, this::fetchUserFromDB);
+    }
+    
+    private User fetchUserFromDB(String id) {
+        // Database call
+        return userRepository.findById(id);
+    }
+}
+```
 
-**Common Strategies:**
-- **Cache-Aside:** App manages cache manually
-- **Write-Through:** Write to cache and database simultaneously
-- **Write-Behind:** Write to cache first, database later
+## 9. What are the main features of an eCommerce application?
+
+**Spoken Answer (35 seconds):**
+* User management - registration, login, profiles
+* Product catalog - browse, search, filter products
+* Shopping cart and wishlist functionality
+* Payment processing and order management
+* Inventory tracking and admin dashboard
+* Reviews, ratings, and recommendations
+
+**Core Features:**
+- User Authentication & Authorization
+- Product Management (CRUD)
+- Shopping Cart & Checkout
+- Payment Gateway Integration
+- Order Tracking
+- Admin Panel
+- Search & Filtering
+- Reviews & Ratings
+
+## 10. Explain the flowchart of an eCommerce application (frontend and backend).
+
+**Spoken Answer (40 seconds):**
+* Frontend: User browses products, adds to cart, proceeds to checkout
+* Backend: Validates requests, processes payments, updates inventory
+* Flow: Browse → Add to Cart → Login → Checkout → Payment → Order Confirmation
+* Database stores users, products, orders, payments
+* APIs connect frontend and backend for real-time updates
+
+**Simple Flow:**
+```java
+// Backend API endpoints
+@RestController
+public class ECommerceController {
+    
+    @GetMapping("/products")
+    public List<Product> getProducts() {
+        return productService.getAllProducts();
+    }
+    
+    @PostMapping("/cart/add")
+    public Cart addToCart(@RequestBody CartItem item) {
+        return cartService.addItem(item);
+    }
+    
+    @PostMapping("/orders")
+    public Order createOrder(@RequestBody OrderRequest request) {
+        // 1. Validate cart
+        // 2. Process payment
+        // 3. Update inventory
+        // 4. Create order
+        return orderService.processOrder(request);
+    }
+}
+```
+
+**Flow Diagram:**
+```
+Frontend: Browse → Cart → Checkout → Payment
+    ↓         ↓      ↓         ↓
+Backend:  API → Validate → Process → Confirm
+    ↓         ↓      ↓         ↓
+Database: Products → Cart → Payment → Orders
+```
+
+## 11. What are the components and tools used in the backend of an eCommerce application?
+
+**Spoken Answer (35 seconds):**
+* Framework: Spring Boot for REST APIs and business logic
+* Database: MySQL/PostgreSQL for data, Redis for caching
+* Security: Spring Security for authentication and authorization
+* Payment: Stripe, PayPal APIs for payment processing
+* Message Queue: RabbitMQ for async processing
+* Monitoring: Actuator for health checks
+
+**Backend Stack:**
+```java
+// Main application
+@SpringBootApplication
+@EnableJpaRepositories
+@EnableRedisRepositories
+public class ECommerceBackend {
+    
+    @Autowired
+    private PaymentService paymentService; // Stripe integration
+    
+    @Autowired
+    private RedisTemplate redisTemplate; // Caching
+    
+    @Autowired
+    private RabbitTemplate rabbitTemplate; // Messaging
+}
+
+// Database entities
+@Entity
+public class Product {
+    @Id
+    private Long id;
+    private String name;
+    private BigDecimal price;
+}
+```
+
+## 12. Explain the Git workflow used in an eCommerce application.
+
+**Spoken Answer (35 seconds):**
+* Use GitFlow: main branch for production, develop for integration
+* Feature branches for new features, hotfix branches for urgent fixes
+* Pull requests for code review before merging
+* CI/CD pipeline triggers on merge to develop/main
+* Tag releases for version control
+
+**Git Workflow:**
+```bash
+# Create feature branch
+git checkout -b feature/payment-integration
+git add .
+git commit -m "Add Stripe payment integration"
+git push origin feature/payment-integration
+
+# Create pull request, after review:
+git checkout develop
+git merge feature/payment-integration
+
+# Release to production
+git checkout main
+git merge develop
+git tag v1.2.0
+```
+
+## 18. What is Event-Driven Architecture in Java?
+
+**Spoken Answer (35 seconds):**
+* Event-driven architecture uses events to trigger actions between services
+* Services communicate through events instead of direct API calls
+* Promotes loose coupling and scalability
+* Use Spring Events for internal events, Kafka for external events
+* Events are immutable and represent something that happened
+
+**Example:**
+```java
+// Event class
+public class OrderCreatedEvent {
+    private final String orderId;
+    private final String customerId;
+    private final LocalDateTime timestamp;
+    
+    // constructor, getters
+}
+
+// Event publisher
+@Service
+public class OrderService {
+    
+    @Autowired
+    private ApplicationEventPublisher eventPublisher;
+    
+    public Order createOrder(OrderRequest request) {
+        Order order = new Order(request);
+        orderRepository.save(order);
+        
+        // Publish event
+        eventPublisher.publishEvent(
+            new OrderCreatedEvent(order.getId(), order.getCustomerId())
+        );
+        return order;
+    }
+}
+
+// Event listener
+@Component
+public class EmailNotificationService {
+    
+    @EventListener
+    public void handleOrderCreated(OrderCreatedEvent event) {
+        emailService.sendOrderConfirmation(event.getCustomerId());
+    }
+}
+```
+
+## 19. Can you write the business logic for a CRUD service in Java?
+
+**Spoken Answer (30 seconds):**
+* CRUD means Create, Read, Update, Delete operations
+* Use Spring Boot with JPA for database operations
+* Create service layer for business logic, repository for data access
+* Add validation and error handling
+* Return appropriate HTTP status codes
+
+**Example:**
+```java
+@Entity
+public class Product {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    private String name;
+    private BigDecimal price;
+    // getters, setters
+}
+
+@Repository
+public interface ProductRepository extends JpaRepository<Product, Long> {
+    List<Product> findByNameContaining(String name);
+}
+
+@Service
+public class ProductService {
+    
+    @Autowired
+    private ProductRepository repository;
+    
+    public Product create(Product product) {
+        return repository.save(product);
+    }
+    
+    public List<Product> getAll() {
+        return repository.findAll();
+    }
+    
+    public Product getById(Long id) {
+        return repository.findById(id)
+            .orElseThrow(() -> new ProductNotFoundException(id));
+    }
+    
+    public Product update(Long id, Product product) {
+        Product existing = getById(id);
+        existing.setName(product.getName());
+        existing.setPrice(product.getPrice());
+        return repository.save(existing);
+    }
+    
+    public void delete(Long id) {
+        repository.deleteById(id);
+    }
+}
+
+@RestController
+@RequestMapping("/api/products")
+public class ProductController {
+    
+    @Autowired
+    private ProductService service;
+    
+    @PostMapping
+    public ResponseEntity<Product> create(@Valid @RequestBody Product product) {
+        return ResponseEntity.status(201).body(service.create(product));
+    }
+    
+    @GetMapping
+    public List<Product> getAll() {
+        return service.getAll();
+    }
+    
+    @GetMapping("/{id}")
+    public Product getById(@PathVariable Long id) {
+        return service.getById(id);
+    }
+    
+    @PutMapping("/{id}")
+    public Product update(@PathVariable Long id, @RequestBody Product product) {
+        return service.update(id, product);
+    }
+    
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
+        service.delete(id);
+        return ResponseEntity.noContent().build();
+    }
+}
+```
