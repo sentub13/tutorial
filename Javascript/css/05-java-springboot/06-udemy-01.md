@@ -2,123 +2,119 @@
 
 
 ## 02 - Core Java
-Ah! I see exactly what you mean — the formatting for your quiz makes all the options run together instead of appearing clearly **line by line under each question**. I can fix it so that each option appears neatly, like this:
-
----
-
 ### 1. What does a high-order bit represent for an integer?
 
-a) The least significant value
-b) The memory address
-c) The decimal value of the integer
+- a) The least significant value
+- b) The memory address
+- c) The decimal value of the integer
 **d) The sign of the integer (0 for positive, 1 for negative) ✅**
 
 ---
 
 ### 2. What is the result of the following code snippet? *(Assume integer overflow example)*
 
-a) Compilation error
-b) 0
-c) Maximum integer value
+- a) Compilation error
+- b) 0
+- c) Maximum integer value
 **d) Wrap-around value due to overflow ✅**
 
 ---
 
 ### 3. What is the result of the following code snippet? *(Assume floating-point division)*
 
-a) 0
-b) Exception
-c) Integer value
+- a) 0
+- b) Exception
+- c) Integer value
 **d) Floating-point result ✅**
 
 ---
 
 ### 4. What is the default value assigned to a variable of boolean type?
 
-a) true
-b) 1
-c) null
+- a) true
+- b) 1
+- c) null
 **d) false ✅**
 
 ---
 
 ### 5. Choose an invalid way to declare a character variable in Java.
 
-a) `char c = 'A';`
-b) `char c = 65;`
-c) `char c = '\u0041';`
+- a) `char c = 'A';`
+- b) `char c = 65;`
+- c) `char c = '\u0041';`
 **d) `char c = "A"; ✅`**
 
 ---
 
 ### 6. What do you mean by type promotion in Java?
 
-a) Converting primitive to object automatically
-b) Explicit casting by the programmer
-c) Converting object to primitive automatically
+- a) Converting primitive to object automatically
+- b) Explicit casting by the programmer
+- c) Converting object to primitive automatically
 **d) Automatic conversion of smaller data type to larger data type during arithmetic operations ✅**
 
 ---
 
 ### 7. Which of the following is the valid way to represent a long literal in Java?
 
-a) `long l = 123;`
-b) `long l = 123l;`
-c) `long l = 123;`
+- a) `long l = 123;`
+- b) `long l = 123l;`
+- c) `long l = 123;`
 **d) `long l = 123L; ✅`**
 
 ---
 
 ### 8. What kind of error will be thrown if the main method is not found in the Java program?
 
-a) Compilation error
-b) Runtime exception
-c) Logical error
+- a) Compilation error
+- b) Runtime exception
+- c) Logical error
 **d) NoSuchMethodError ✅**
 
 ---
 
 ### 9. Is Java a Strictly Typed Language?
 
-a) No, it allows implicit type conversion always
-b) No, types are checked only at runtime
-c) No, it supports weak typing
+- a) No, it allows implicit type conversion always
+- b) No, types are checked only at runtime
+- c) No, it supports weak typing
 **d) Yes, all variables must be declared with a specific type ✅**
 
 ---
 
 ### 10. Which method is used to add a new line character at the end of the output in the console?
 
-a) System.out.print()
-b) System.out.write()
-c) System.out.printf()
+- a) System.out.print()
+- b) System.out.write()
+- c) System.out.printf()
 **d) System.out.println() ✅**
 
 ---
 
 ### 11. What will be the value of variables ‘x’ and ‘y’ from the given code? *(Assume `x = y = 10; x += y;`)*
 
-a) x=10, y=10
-b) x=20, y=20
-c) x=10, y=20
+- a) x=10, y=10
+- b) x=20, y=20
+- c) x=10, y=20
 **d) x=20, y=10 ✅**
 
 ---
 
-### 12. Predict the output of the code: *(Assume `int a=5; System.out.println(a++ + ++a);`)*
+### 12. Predict the output of the code: *(Assume `int a=5; System.out.println(a++ + ++- a);`)*
 
-a) 10
-b) 11
-c) 12
+- a) 10
+- b) 11
+- c) 12
 **d) 12 ✅**
 
 ---
 
 ### 13. What will be the output of the following Java code? *(Assume string concatenation `System.out.println("Hello " + 5 + 5);`)*
 
-a) Hello 10
-b) Hello 55
-c) 10Hello
+- a) Hello 10
+- b) Hello 55
+- c) 10Hello
 **d) Hello 55 ✅**
 
 
