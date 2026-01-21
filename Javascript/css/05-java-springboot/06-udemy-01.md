@@ -532,27 +532,115 @@ c) To execute only HQL queries
 
 
 ## 07 - Spring Getting started
+### 1. What is the role of the Spring MVC module?
 
-Here are the questions extracted from your HTML:
+a) To manage database connections
+b) To provide dependency injection
+c) To handle caching and sessions
+**d) To handle web requests and responses using the Model-View-Controller pattern ✅**
 
-1. What is the role of the Spring MVC module?
-2. Which of the following statements is TRUE about Spring Boot?
-3. Which Spring Boot feature automatically configures components based on project dependencies?
-4. What is the default embedded server provided by Spring Boot?
-5. Which tool is used to generate Spring Boot projects with minimal setup?
-6. What is the main benefit of Dependency Injection (DI) in Spring?
-7. Which feature of Spring is used to separate cross-cutting concerns like logging?
-8. What is the key principle of Inversion of Control (IoC)?
-9. What annotation is used in Spring to automatically inject dependencies?
-10. Which Spring module is used for integrating ORM tools like Hibernate?
-11. What does POJO stand for in the context of Spring?
-12. What is the primary purpose of the Spring Framework?
+---
 
+### 2. Which of the following statements is TRUE about Spring Boot?
 
+a) Spring Boot requires manual configuration of every bean
+b) Spring Boot cannot be used with Spring MVC
+c) Spring Boot eliminates the need for dependency injection
+**d) Spring Boot simplifies Spring application setup with auto-configuration ✅**
 
-08 - Spring Framework – XML Bean Configuration Round at Telusko
+---
 
-# Spring Framework – Multiple Choice Questions (MCQs)
+### 3. Which Spring Boot feature automatically configures components based on project dependencies?
+
+a) Spring JDBC
+b) Spring MVC
+c) Spring AOP
+**d) Spring Boot Auto-Configuration ✅**
+
+---
+
+### 4. What is the default embedded server provided by Spring Boot?
+
+a) Tomcat must always be installed manually
+b) Jetty only
+c) WebSphere
+**d) Tomcat ✅**
+
+---
+
+### 5. Which tool is used to generate Spring Boot projects with minimal setup?
+
+a) Maven only
+b) Gradle only
+c) Eclipse IDE
+**d) Spring Initializr ✅**
+
+---
+
+### 6. What is the main benefit of Dependency Injection (DI) in Spring?
+
+a) To increase coupling between classes
+b) To manually create all objects in code
+c) To enforce static method usage
+**d) To reduce coupling and improve testability ✅**
+
+---
+
+### 7. Which feature of Spring is used to separate cross-cutting concerns like logging?
+
+a) Spring MVC
+b) Spring JDBC
+c) Spring Boot Starter
+**d) Spring AOP (Aspect-Oriented Programming) ✅**
+
+---
+
+### 8. What is the key principle of Inversion of Control (IoC)?
+
+a) Classes manage their own dependencies
+b) Code explicitly creates all dependencies
+c) The application must manually wire every object
+**d) The framework controls the creation and injection of dependencies ✅**
+
+---
+
+### 9. What annotation is used in Spring to automatically inject dependencies?
+
+a) @Entity
+b) @Component
+c) @Service
+**d) @Autowired ✅**
+
+---
+
+### 10. Which Spring module is used for integrating ORM tools like Hibernate?
+
+a) Spring MVC
+b) Spring AOP
+c) Spring Web
+**d) Spring ORM ✅**
+
+---
+
+### 11. What does POJO stand for in the context of Spring?
+
+a) Pre-Ordered Java Object
+b) Public Object Java Override
+c) Persistent Object Java Only
+**d) Plain Old Java Object ✅**
+
+---
+
+### 12. What is the primary purpose of the Spring Framework?
+
+a) To replace Java completely
+b) To generate UI for applications
+c) To manage SQL queries only
+**d) To provide a lightweight framework for dependency injection, AOP, and enterprise application development ✅**
+
+## 08 - Spring Framework – XML Bean Configuration Round at Telusko
+
+## 09 Spring Framework 
 
 ---
 
@@ -2200,21 +2288,139 @@ Explain the benefits of moving from Spring to Spring Boot
 ### Resolve a simple merge conflict or explain the process with confidence
 
 ## 28. DSA (Optiona)
+### 1. What defines a full binary tree?
 
-What defines a full binary tree?
-What traversal visits the left subtree, then root, then right subtree in a binary tree?
-What is the time complexity to insert a node at the beginning of a singly linked list?
-Which data structure is best for implementing undo functionality?
-In a circular queue, what happens when rear reaches the end but space is available at the front?
-What is the correct time complexity to search for a value in a Binary Search Tree (average case)?
-What happens when you pop from an empty stack?
-Which operation adds an element to the top of the stack?
-What does a stack follow?
-In recursion, what does the base case represent?
-Which sorting algorithm follows the divide-and-conquer approach?
-What is the worst-case time complexity of Insertion Sort?
-Which sorting algorithm finds the smallest element and places it at the beginning in each iteration?
-Which sorting algorithm repeatedly compares adjacent elements and swaps them if needed?
-What is the time complexity of accessing an element in an array by index?
+a) Every node has only one child
+b) Every node has at most one child
+c) All leaf nodes are at the same level
+**d) Every node has 0 or 2 children ✅**
+
+---
+
+### 2. What traversal visits the left subtree, then root, then right subtree in a binary tree?
+
+a) Pre-order traversal
+b) Post-order traversal
+c) Level-order traversal
+**d) In-order traversal ✅**
+
+---
+
+### 3. What is the time complexity to insert a node at the beginning of a singly linked list?
+
+a) O(n)
+b) O(log n)
+c) O(n²)
+**d) O(1) ✅**
+
+---
+
+### 4. Which data structure is best for implementing undo functionality?
+
+a) Queue
+b) Array
+c) Linked list
+**d) Stack ✅**
+
+---
+
+### 5. In a circular queue, what happens when rear reaches the end but space is available at the front?
+
+a) Queue overflows
+b) Queue underflows
+c) Insert fails
+**d) Rear wraps around to the front ✅**
+
+---
+
+### 6. What is the correct time complexity to search for a value in a Binary Search Tree (average case)?
+
+a) O(n²)
+b) O(n)
+c) O(n log n)
+**d) O(log n) ✅**
+
+---
+
+### 7. What happens when you pop from an empty stack?
+
+a) The first element is returned
+b) Nothing happens
+c) A new element is added
+**d) StackUnderflow error occurs ✅**
+
+---
+
+### 8. Which operation adds an element to the top of the stack?
+
+a) pop()
+b) peek()
+c) remove()
+**d) push() ✅**
+
+---
+
+### 9. What does a stack follow?
+
+a) FIFO (First In First Out)
+b) LILO (Last In Last Out)
+c) Random Order
+**d) LIFO (Last In First Out) ✅**
+
+---
+
+### 10. In recursion, what does the base case represent?
+
+a) The first recursive call
+b) The recursive call that creates new nodes
+c) The final recursive call that calls itself indefinitely
+**d) The terminating condition to stop recursion ✅**
+
+---
+
+### 11. Which sorting algorithm follows the divide-and-conquer approach?
+
+a) Bubble Sort
+b) Insertion Sort
+c) Selection Sort
+**d) Merge Sort ✅**
+
+---
+
+### 12. What is the worst-case time complexity of Insertion Sort?
+
+a) O(log n)
+b) O(n log n)
+c) O(n)
+**d) O(n²) ✅**
+
+---
+
+### 13. Which sorting algorithm finds the smallest element and places it at the beginning in each iteration?
+
+a) Bubble Sort
+b) Insertion Sort
+c) Quick Sort
+**d) Selection Sort ✅**
+
+---
+
+### 14. Which sorting algorithm repeatedly compares adjacent elements and swaps them if needed?
+
+a) Selection Sort
+b) Merge Sort
+c) Insertion Sort
+**d) Bubble Sort ✅**
+
+---
+
+### 15. What is the time complexity of accessing an element in an array by index?
+
+a) O(n)
+b) O(log n)
+c) O(n²)
+**d) O(1) ✅**
+
+
 
 
