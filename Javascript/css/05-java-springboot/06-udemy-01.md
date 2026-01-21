@@ -2,6 +2,10 @@
 
 
 ## 02 - Core Java
+Ah! I see exactly what you mean — the formatting for your quiz makes all the options run together instead of appearing clearly **line by line under each question**. I can fix it so that each option appears neatly, like this:
+
+---
+
 ### 1. What does a high-order bit represent for an integer?
 
 a) The least significant value
