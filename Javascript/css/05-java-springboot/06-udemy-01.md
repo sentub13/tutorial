@@ -271,7 +271,7 @@ System.out.println(sb.capacity());
 ### 9. What is Maven primarily used for in Java development?
 
 
-05 - JDBC Data base connect
+## 05 - JDBC Data base connect
 
 ### 1. What is the main benefit of using `PreparedStatement` over `Statement`?
 ### 2. Why is using `Statement` in JDBC considered risky?
@@ -284,7 +284,7 @@ System.out.println(sb.capacity());
 9. What is the primary purpose of JDBC in Java?
 
 
-06 - Hibernate
+## 06 - Hibernate
 
 1. Which caching mechanism does Hibernate Level 2 cache use by default?
 2. What is the difference between `get()` and `load()` in Hibernate?
@@ -308,7 +308,7 @@ System.out.println(sb.capacity());
 20. What is the primary purpose of Hibernate in Java applications?
 
 
-07 - Spring Getting started
+## 07 - Spring Getting started
 
 Here are the questions extracted from your HTML:
 
