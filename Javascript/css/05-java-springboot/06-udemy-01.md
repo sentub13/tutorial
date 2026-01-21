@@ -258,9 +258,7 @@ System.out.println(sb.capacity());
 
 ### Solve a short hands-on Java coding problem using collection or functional logic
 
-04 - Maven
-
-Here are the questions extracted from your HTML:
+## 04 - Maven
 
 ### 1. In the provided Maven dependency, what does `<groupId>` refer to?
 ### 2. What does the `<dependency>` element represent in a Maven project configuration?
