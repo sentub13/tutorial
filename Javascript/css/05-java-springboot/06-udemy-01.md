@@ -21,30 +21,242 @@
 ====================================================================================
 03 - Advance Java
 ====================================================================================
-### 1. Can an abstract class be instantiated directly with the new operator in Java?
-### 2. In what order are the constructors executed when a class hierarchy is created?
-### 3. What is the purpose of the lambda operator (->) in Java lambda expressions?
-### 4. Can a subclass reference variable be assigned to a superclass reference variable?
+### 1. Which access modifier is used to access members of an inherited class when two classes are in different packages?
+- a) private  
+- b) default  
+- c) protected ✅  
+- d) static  
+
+---
+
+### 2. Which principle emphasizes the binding of data and methods within a class?
+- a) Polymorphism  
+- b) Encapsulation ✅  
+- c) Abstraction  
+- d) Inheritance  
+
+---
+
+### 3. Can the value of a variable be changed if it is initialized with the `final` keyword?
+- a) Yes  
+- b) No ✅  
+
+---
+
+### 4. Does the given code define a valid way to initialize the value of a `final` variable?
+```java
+class MyClass {
+    private final int myVariable;
+    {
+        myVariable = 10;
+    }
+}
+````
+
+* a) Yes ✅
+* b) No
+
+---
+
+### 5. Which keyword is used to define a class member that can be accessed without reference to any object?
+
+* a) final
+* b) static ✅
+* c) public
+* d) private
+
+---
+
+### 6. Which keyword is used to achieve inheritance in Java?
+
+* a) final
+* b) extends ✅
+* c) this
+* d) implements
+
+---
+
+### 7. Can a class be a superclass of itself in Java?
+
+* a) Yes
+* b) No ✅
+
+---
+
+### 8. Is method shadowing or method hiding possible with a private method?
+
+* a) Yes ✅
+* b) No
+
+---
+
+### 9. What is the return type of overridden methods?
+
+* a) Covariant Return Types ✅
+* b) Different from a superclass
+* c) void only
+* d) Not specified
+
+---
+
+### 10. What interface is implemented by the `String`, `StringBuffer`, and `StringBuilder` classes?
+
+* a) String Sequence
+* b) CharSequence ✅
+* c) StringManipulator
+* d) CharSequenceBuffer
+
+---
+
+### 11. What will be the output of the given code snippet?
+
+```java
+char chars[] = {'a', 'b', 'c', 'd', 'e', 'f'};
+String str = new String(chars,1,3);
+System.out.println(str);
+```
+
+* a) ['b', 'c', 'd']
+* b) ['b', 'c', 'd', 'e']
+* c) bcd ✅
+* d) bcde
+
+---
+
+### 12. Which constructor of `StringBuffer` reserves room for 16 characters without reallocation?
+
+* a) StringBuffer() ✅
+* b) StringBuffer(int size)
+* c) StringBuffer(String str)
+* d) StringBuffer(CharSequence chars)
+
+---
+
+### 13. Which class can be used when multiple threads are involved and thread-safety is required?
+
+* a) StringBuilder
+* b) StringBuffer ✅
+* c) Both can be used
+* d) None of the above
+
+---
+
+### 14. Determine the capacity of the `StringBuffer` before and after the use of `trimToSize()` method:
+
+```java
+StringBuffer sb = new StringBuffer("Java Code");
+System.out.println(sb.capacity());
+sb.trimToSize();
+System.out.println(sb.capacity());
+```
+
+* a) 16 and 16
+* b) 16 and 9
+* c) 25 and 9 ✅
+* d) 25 and 16
+
+---
+
+### 15. What Java keyword is employed for specifying a default method within a Java interface?
+
+* a) new
+* b) override
+* c) implements
+* d) default ✅
+
+---
+
+### 16. When implementing a Java interface, methods must possess the following access modifier:
+
+* a) public ✅
+* b) abstract
+* c) private
+* d) protected
+
+---
+
+### 17. By default, the methods enclosed within a Java interface are characterized as:
+
+* a) abstract and public ✅
+* b) private and static
+* c) final and protected
+* d) synchronized and void
+
+---
+
+### 18. What do inner classes promote in Java?
+
+* a) Composition and aggregation ✅
+* b) Inheritance
+* c) Polymorphism
+* d) Abstraction
+
+---
+
+### 19. What is the key requirement for an interface to be considered a functional interface?
+
+* a) It must define at least one abstract method
+* b) It must define multiple abstract methods
+* c) It must define only one abstract method ✅
+* d) It must define a method named "run"
+
+---
+
+### 20. Which of the given expressions returns `true` if the value of the parameter `n` is even?
+
+* a) `(n) -> (n% * 2)! = 0`
+* b) `(n) -> (n % 2) == 0` ✅
+* c) `() -> (n% * 2) == 0`
+* d) `(n% * 2) -> (n) == 0`
+
+---
+
+### 21. Can a subclass reference variable be assigned to a superclass reference variable?
+
+* a) Yes ✅
+* b) No
+
+---
+
+### 22. What is the purpose of the lambda operator `->` in Java lambda expressions?
+
+* a) It specifies the required parameters of an expression
+* b) It converts an expression to a method with a name
+* c) Divides the expression into parameter list and lambda body ✅
+* d) It indicates a constant value in an expression
+
+---
+
+### 23. In what order are the constructors executed when a class hierarchy is created?
+
+* a) From subclass to superclass
+* b) From superclass to subclass ✅
+* c) Any random order
+* d) They do not execute in a class hierarchy
+
+---
+
+### 24. Can an abstract class be instantiated directly with the `new` operator in Java?
+
+* a) Yes
+* b) No ✅
+
+
 ### 5. What is the output of the code?
 ### 6. Comment on the statement: "The method defined by a lambda expression does not have a name."
 ### 7. What is the output of the code?
-### 8. By default, the methods enclosed within a Java interface are characterized as:
-### 9. When implementing a Java interface, methods must possess the following access modifier:
-### 10. What Java keyword is employed for specifying a default method within a Java interface?
-### 11. Determine the capacity of the StringBuffer before and after the use of trimToSize() method in the given code:
 ### 12. What will be the value of the s1 and s2 variables after the execution of the following code?
-### 13. Which class can be used when multiple threads are involved and thread-safety is required?
-### 14. Which constructor of StringBuffer reserves room for 16 characters without reallocation?
-### 15. What will be the output of the given code snippet?
-### 16. What interface is implemented by the String, StringBuffer, and StringBuilder classes?
-### 17. What is the return type of overridden methods?
-### 18. Can a class be a superclass of itself in Java?
-### 19. Which keyword is used to achieve inheritance in Java?
-### 20. Which keyword is used to define a class member that can be accessed without reference to any object?
-### 21. Does the given code defines the valid way to initialize the value to the final variable?
-### 22. Can the value of a variable be changed if it is initialized with the 'final' keyword?
-### 23. Which principle emphasizes the binding of data and methods within a class?
 
+## Your goals
+### Differentiate between abstract classes, interfaces, enums, and annotations based on design use cases.
+
+### Apply exception handling best practices using try-catch, custom exceptions, and throws.
+
+### Demonstrate understanding of multithreading and thread lifecycle.
+
+### Use Java Stream API and method references to simplify data processing.
+
+### Solve a short hands-on Java coding problem using collection or functional logic
 ====================================================================================
 04 - Maven
 ====================================================================================
