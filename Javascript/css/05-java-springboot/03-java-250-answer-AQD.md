@@ -1601,7 +1601,7 @@ Comparator<Student> byAge = (s1, s2) -> s1.age - s2.age;
 Collections.sort(students, byAge);
 ```
 
-### 9. What is WeakHashMap, IdentityHashMap, LinkedHashMap, PriorityQueue?
+### 9. What is WeakHashMap, IdentityHashMap, LinkedHashMap, PriorityQueue, ConcurrentHashMap?
 
 **Answer:**
 
@@ -1641,6 +1641,17 @@ LinkedHashMap<String, String> linkedMap = new LinkedHashMap<>();
 PriorityQueue<Integer> pq = new PriorityQueue<>();
 pq.offer(5); pq.offer(1); pq.offer(3);
 System.out.println(pq.poll()); // Output: 1 (smallest first)
+```
+
+####  ConcurrentHashMap
+
+`ConcurrentHashMap<K, V>` is part of `java.util.concurrent` and implements the `Map` interface.
+It allows **multiple threads to read and write concurrently** with minimal contention.
+
+```java
+import java.util.concurrent.ConcurrentHashMap;
+
+ConcurrentHashMap<String, Integer> map = new ConcurrentHashMap<>();
 ```
 
 # 🔹 8. Multithreading and Synchronization 
@@ -4949,27 +4960,25 @@ public class OrderService {
 }
 ```
 
-### 2. How do Microservices Communicate with Each Other?
+### 2. How did microservices communicate with each other?**
 
-**Synchronous Communication:**
-- **REST APIs**: HTTP-based communication using JSON/XML
-- **gRPC**: High-performance RPC framework using Protocol Buffers
-- **GraphQL**: Query language for APIs
+**Spoken Answer:**
 
-**Asynchronous Communication:**
-- **Message Queues**: RabbitMQ, Apache Kafka, AWS SQS
-- **Event Streaming**: Apache Kafka for real-time event processing
-- **Pub/Sub**: Google Pub/Sub, AWS SNS
+> In our system, microservices mainly communicated using **REST APIs over HTTP**.
+> For synchronous communication, we used **Feign Client** with service discovery through **Eureka**.
+>
+> For asynchronous communication, especially for event-based workflows, we used **Kafka**. This helped us reduce tight coupling and improve scalability.
 
-**Communication Patterns:**
-- **Request-Response**: Direct synchronous calls
-- **Event-Driven**: Services publish/subscribe to events
-- **Saga Pattern**: Distributed transaction management
+**Example Code (Feign Client):**
 
-**Supporting Infrastructure:**
-- **Service Discovery**: Eureka, Consul, Kubernetes DNS
-- **API Gateway**: Single entry point for client requests
-- **Load Balancers**: Distribute traffic across service instances
+```java
+@FeignClient(name = "payment-service")
+public interface PaymentClient {
+
+    @GetMapping("/payments/{orderId}")
+    PaymentResponse getPayment(@PathVariable Long orderId);
+}
+```
 
 ### 2. What are the advantages of microservices?
 
@@ -5115,6 +5124,12 @@ public class UserController {
 
 ### 5. How do you Improve Performance in Spring Boot Application?
 
+> To improve performance in a Spring Boot application, you can do several things. 
+* First, enable caching for frequently accessed data using Spring’s `@Cacheable` annotation. 
+* Second, use asynchronous processing for heavy tasks with `@Async`. 
+* Third, optimize database queries—use pagination and indexing. 
+* Fourth, avoid unnecessary autowiring of heavy beans. Finally, tune the JVM and connection pool for better throughput.
+
 **Caching:**
 ```java
 @Service
@@ -5123,11 +5138,6 @@ public class UserService {
     @Cacheable(value = "users", key = "#id")
     public User getUserById(Long id) {
         return userRepository.findById(id);
-    }
-    
-    @CacheEvict(value = "users", key = "#user.id")
-    public User updateUser(User user) {
-        return userRepository.save(user);
     }
 }
 ```
