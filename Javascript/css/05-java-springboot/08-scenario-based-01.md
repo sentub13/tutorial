@@ -1,104 +1,97 @@
+# **Java – Practical / Situation-Based Questions**
 
+### **Q1.** Your service is slow under high load. How did you identify and fix the performance issue?
 
-### **Java – Practical / Situation-Based Questions**
+### **Q2.** How did you handle concurrency issues in a real project?
 
-### Q1. *Your service is slow under high load. How did you identify and fix the performance issue?*
+### **Q3.** How did you handle global exception handling in your application?
 
-### Q2. *How did you handle concurrency issues in a real project?*
+### **Q4.** How did you secure your APIs?
 
-### Q3. *How did you handle global exception handling in your application?*
+### **Q5.** One microservice is down. How did you prevent system failure?
 
-### Q4. *How did you secure your APIs?*
+### **Q6.** How did microservices communicate with each other?
 
-### Q5. *One microservice is down. How did you prevent system failure?*
+### **Q7.** How did you handle distributed transactions?
 
-### Q6. *How did microservices communicate with each other?*
+### **Q8.** How did you deploy your Spring Boot application to the cloud?
 
-### Q7. *How did you handle distributed transactions?*
+### **Q9.** How did you manage configuration in cloud environments?
 
-### Q8. *How did you deploy your Spring Boot application to cloud?*
-
-### Q9. *How did you manage configuration in cloud environments?*
-
-### Q10. *How did you monitor and troubleshoot production issues?*
-
-==================
-
-
-
-## **Java – Practical / Real-World Scenarios**
-0. **Your service is slow under high load. How did you identify and fix the performance issue?**
-
-**1. **Your Java service started consuming high CPU in production. How did you identify the rot cause and fix it?**
-
-2. **Describe a situation where you faced a memory leak in Java. How did you detect and resolve it?**
-
-3. **How did you handle concurrency issues in a multi-threaded Java application you worked on? Give a real example.**
-
-4. **You had to process a large file (millions of records). How did you design the Java code to avoid OutOfMemory errors?**
-
-5. **Tell me about a time when you refactored legacy Java code. What problems did it have and what improvements did you make?**
-
+### **Q10.** How did you monitor and troubleshoot production issues?
 
 ---
 
-## **Spring Boot – Hands-On Implementation Questions**
-6. **How did you secure your APIs?6.**
+# **Java – Practical / Real-World Scenarios**
 
-6. **How did you implement global exception handling in a Spring Boot application, and why was it needed?**
+### **Q11.** Your service is slow under high load. How did you identify and fix the performance issue?
 
-7. **Describe a real scenario where you secured REST APIs using Spring Security. What authentication and authorization approach did you use?**
+### **Q12.** Your Java service started consuming high CPU in production. How did you identify the root cause and fix it?
 
-8. **How did you externalize configuration for different environments (dev, QA, prod) in Spring Boot?**
+### **Q13.** Describe a situation where you faced a memory leak in Java. How did you detect and resolve it?
 
-9. **Tell me about a performance issue in a Spring Boot application and what changes you made to fix it.**
+### **Q14.** How did you handle concurrency issues in a multi-threaded Java application you worked on? Give a real example.
 
-10. **How did you implement pagination, sorting, and filtering in a real Spring Boot REST API?**
+### **Q15.** You had to process a large file (millions of records). How did you design the Java code to avoid OutOfMemory errors?
+
+### **Q16.** Tell me about a time when you refactored legacy Java code. What problems did it have and what improvements did you make?
+
+### **Q17.** Tell me about a time you faced concurrency issues such as race conditions or deadlocks. How did you debug and fix them?
+
+### **Q18.** How did you optimize slow-performing Java code in a production system? What tools and techniques did you use?
+
+### **Q19.** Describe a scenario where improper object creation impacted performance. How did you reduce object creation or improve memory usage?
+
+### **Q20.** You had to implement parallel processing in Java. How did you decide between threads, ExecutorService, or parallel streams?
+
+### **Q21.** Explain a situation where you refactored legacy Java code. How did you improve maintainability and performance?
+
+### **Q22.** How did you handle exception handling and logging in a large Java application to make production issues easier to debug?
+
+### **Q23.** Describe a situation where you had to tune JVM settings in production. What parameters did you change and why?
 
 ---
 
-## **Microservices – Production Scenarios**
-### Q5. *One microservice is down. How did you prevent system failure?*
+# **Spring Boot – Hands-On Implementation Questions**
 
-11. **One microservice was frequently failing and impacting other services. How did you isolate and handle the failure?**
+### **Q24.** How did you secure your APIs in Spring Boot?
 
-12. **How did you manage communication between microservices in your project (sync vs async)? Why did you choose that approach?**
+### **Q25.** How did you implement global exception handling in a Spring Boot application, and why was it needed?
 
-13. **Describe a real scenario where you implemented circuit breaker, retry, or timeout mechanisms.**
+### **Q26.** Describe a real scenario where you secured REST APIs using Spring Security. What authentication and authorization approach did you use?
 
-14. **How did you handle distributed transactions across multiple microservices without using a single database transaction?**
+### **Q27.** How did you externalize configuration for different environments (dev, QA, prod) in Spring Boot?
 
-15. **What challenges did you face while deploying multiple microservices, and how did you solve service discovery and routing?**
+### **Q28.** Tell me about a performance issue in a Spring Boot application and what changes you made to fix it.
+
+### **Q29.** How did you implement pagination, sorting, and filtering in a real Spring Boot REST API?
 
 ---
 
-## **Cloud (AWS / GCP) – Practical Experience**
+# **Microservices – Production Scenarios**
 
-16. **How did you deploy a Spring Boot microservice to AWS/GCP? Walk me through the complete flow.**
+### **Q30.** One microservice is down. How did you prevent system failure?
 
-17. **Describe how you handled application secrets (DB passwords, API keys) in cloud environments.**
+### **Q31.** One microservice was frequently failing and impacting other services. How did you isolate and handle the failure?
 
-18. **Your application went down in production on the cloud. How did you troubleshoot and restore the service?**
+### **Q32.** How did you manage communication between microservices in your project (synchronous vs asynchronous)? Why did you choose that approach?
 
-19. **How did you implement logging, monitoring, and alerting for your microservices in AWS/GCP?**
+### **Q33.** Describe a real scenario where you implemented circuit breaker, retry, or timeout mechanisms.
 
-20. **How did you design your application for scalability and high availability in the cloud?**
+### **Q34.** How did you handle distributed transactions across multiple microservices without using a single database transaction?
 
-==================
+### **Q35.** What challenges did you face while deploying multiple microservices, and how did you solve service discovery and routing?
 
+---
 
+# **Cloud (AWS / GCP) – Practical Experience**
 
+### **Q36.** How did you deploy a Spring Boot microservice to AWS/GCP? Walk me through the complete flow.
 
-4. **Tell me about a time you faced concurrency issues (race conditions or deadlocks). How did you debug and fix them?**
+### **Q37.** Describe how you handled application secrets (DB passwords, API keys) in cloud environments.
 
-5. **How did you optimize slow-performing Java code in a production system? What tools and techniques did you use?**
+### **Q38.** Your application went down in production on the cloud. How did you troubleshoot and restore the service?
 
-6. **Describe a scenario where improper object creation impacted performance. How did you reduce object creation or improve memory usage?**
+### **Q39.** How did you implement logging, monitoring, and alerting for your microservices in AWS/GCP?
 
-7. **You had to implement parallel processing in Java. How did you decide between threads, ExecutorService, or parallel streams?**
-
-8. **Explain a situation where you refactored legacy Java code. What were the main problems and how did you improve maintainability and performance?**
-
-9. **How did you handle exception handling and logging in a large Java application to make production issues easier to debug?**
-
-10. **Describe a situation where you had to tune JVM settings in production. What parameters did you change and why?**
+### **Q40.** How did you design your application for scalability and high availability in the cloud?
