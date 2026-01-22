@@ -1426,6 +1426,29 @@ Set<Integer> set = new HashSet<>();
 Map<String, Integer> map = new HashMap<>();
 ```
 
+**Difference between Collection and Collections:**
+
+**Spoken-style answer:**
+“`Collection` is a **Java interface** representing a group of objects (`List`, `Set`, `Queue`). You use it to store data.
+`Collections` is a **utility class** with **static methods** like `sort()`, `reverse()`, or `synchronizedList()` to work on collections.”
+
+**Example:**
+
+```java
+Collection<String> coll = new ArrayList<>(); // interface
+coll.add("Java");
+
+List<String> list = new ArrayList<>();
+Collections.sort(list); // utility class
+```
+
+**Memory tip:**
+
+* **Collection** = group of objects
+* **Collections** = helper methods for collections
+
+
+
 ### 2. What is the difference between ArrayList and LinkedList?
 
 **Answer:**
@@ -3274,7 +3297,14 @@ int sum = numbers.parallelStream()
     .filter(n -> n > 5)
     .mapToInt(Integer::intValue)
     .sum();
+
+// merge two lists
+List<String> merged = Stream.concat(list1.stream(), list2.stream())
+                            .toList(); // Java 16+ uses .toList(), for Java 8 use Collectors.toList()
+
 ```
+
+
 
 ### 6. What is the difference between Collection and Stream API?
 
@@ -4439,38 +4469,113 @@ public class OrderService {
 
 ---
 
-### 11. What is @Qualifier annotation?
+### 11. What is @Primary, @Qualifier, @Component, @Configuration, @PatchMapping annotation?
 
-@Qualifier is used when multiple beans of the same type exist and you need to specify which one to inject.
+Great question — this is a **very common Spring interview topic**.
+I’ll answer it in a **real-time spoken style**, explaining *why and when* we use each annotation, with **short, clear code examples**.
 
-**Key Points:**
-- Resolves ambiguity when multiple beans of same type exist
-- Used with @Autowired
-- Can specify bean name or custom qualifier
-- Helps in precise dependency injection
+---
+
+## **What are `@Primary`, `@Qualifier`, `@Component`, and `@Configuration`?**
+
+### **@Component**
+
+**Spoken Answer:**
+“`@Component` is used to tell Spring that this class is a bean and should be managed by the Spring container. Spring automatically detects it during component scanning.”
+
+**When to use:**
+
+* For general-purpose beans
+* When you want Spring to auto-create the object
 
 **Example:**
+
 ```java
-@Service
-public class NotificationService {
-    
-    @Autowired
-    @Qualifier("emailSender")
-    private MessageSender emailSender;
-    
-    @Autowired
-    @Qualifier("smsSender") 
-    private MessageSender smsSender;
+@Component
+public class EmailService {
+    public void send() {
+        System.out.println("Sending email");
+    }
 }
-
-@Component("emailSender")
-public class EmailSender implements MessageSender { }
-
-@Component("smsSender")
-public class SmsSender implements MessageSender { }
 ```
 
 ---
+
+### **@Configuration**
+
+**Spoken Answer:**
+“`@Configuration` is used when we want to define beans explicitly using `@Bean` methods. It’s mainly used for Java-based configuration instead of XML.”
+
+**When to use:**
+
+* To create beans manually
+* For third-party or complex bean creation
+
+**Example:**
+
+```java
+@Configuration
+public class AppConfig {
+
+    @Bean
+    public PaymentService paymentService() {
+        return new PaymentService();
+    }
+}
+```
+
+---
+
+### **@Primary**
+
+**Spoken Answer:**
+“When multiple beans of the same type exist and Spring gets confused, `@Primary` tells Spring which bean should be chosen by default.”
+
+**Example Scenario:**
+Two implementations of the same interface.
+
+```java
+@Component
+@Primary
+public class CreditCardPayment implements PaymentService {
+}
+```
+
+```java
+@Component
+public class UpiPayment implements PaymentService {
+}
+```
+
+👉 Spring will inject `CreditCardPayment` by default.
+
+---
+
+### **@Qualifier**
+
+**Spoken Answer:**
+“`@Qualifier` is used when we want to explicitly specify which bean to inject when multiple beans of the same type are present.”
+
+**Example:**
+
+```java
+@Autowired
+@Qualifier("upiPayment")
+private PaymentService paymentService;
+```
+### **@PatchMapping**
+“`@PatchMapping` is used for partial updates of a resource in REST APIs, where only specific fields are modified instead of replacing the entire object.”
+
+```java
+@PatchMapping("/users/{id}")
+public ResponseEntity<User> updateEmail(
+        @PathVariable Long id,
+        @RequestBody Map<String, Object> updates) {
+
+    User updatedUser = userService.updateUser(id, updates);
+    return ResponseEntity.ok(updatedUser);
+}
+```
 
 ### 12. What is ApplicationContext?
 

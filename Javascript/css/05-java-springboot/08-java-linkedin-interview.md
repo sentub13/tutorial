@@ -12,48 +12,28 @@ Java Questions
 
 How does Parallel Stream work internally and When should Parallel Streams be avoided?
 
-How do you improve performance in a Spring Boot application?
-How do you handle large data processing?
 How do you explain a technical solution to a client?
-
-🔹 Behavioral Questions (Consultant Focus)
 Tell me about a challenging issue you faced in a project
 How do you handle production incidents?
 How do you manage tight deadlines?
 How do you handle disagreements with teammates?
 Have you worked with clients directly?
 
-🔹 Round 3 – HR / Background Check
-Tell me about yourself
-Current role and responsibilities day to day
-Why are you looking for a change?
-Notice period & availability
-Salary expectations
 
 
 ================
 HCl Interview
 
  🔹Java 8 & Core Java 
-What are the major features introduced in Java 8?
-How do you convert pre–Java 8 code into Lambda expressions? Can you give an example?
-What happens if the @FunctionalInterface annotation is not used?
-What is a Functional Interface? Name some predefined functional interfaces in Java 8.
-How is Java 8 used in multithreading? What improvements were introduced?
-What are the differences in methods used in the Collections framework?
-What are Stream API intermediate operations? Can you explain with examples?
-What is the Optional class? What methods does it provide and where should it be used?
 
-🔹 Collections & Streams 
-What is the difference between Collection and Collections in Java?
-How do you merge two lists using Java 8 Streams?
-(Example: empList3 = empList1 + empList2)
+
+What happens if the @FunctionalInterface annotation is not used?
+How is Java 8 used in multithreading? What improvements were introduced?
+
+
 
 🔹 Spring Boot & JPA 
-Which Spring Boot annotations have you used and what are their purposes?
-What is @PatchMapping and when should it be used?
-What is the difference between @Primary and @Qualifier?
-What is the difference between @Component and @Configuration?
+
 What are the different types of beans in Spring?
 What are session bean types in Spring Boot?
 What is a Many-to-One mapping in JPA?
