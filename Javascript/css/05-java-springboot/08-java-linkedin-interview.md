@@ -1,25 +1,4 @@
 
-## ✅ **Tell me about yourself (Java Developer)**
-
-> I am a Full Stack Java Developer with over 3.5 years of experience in designing, developing, and maintaining enterprise-level web applications. My primary expertise is in Java, Spring Boot, and microservices architecture, along with hands-on experience in RESTful APIs, database design, and frontend technologies like React and Angular.
->
-> Currently, I am working at OqulusTech LLC, where I am involved in building scalable backend services, integrating third-party APIs, and optimizing application performance. I follow clean coding practices, write unit and integration tests, and collaborate closely with cross-functional teams to deliver high-quality software solutions.
->
-> I am passionate about solving complex problems, learning new technologies, and contributing to systems that are reliable, secure, and scalable.
-
----
-
-## ✅ **Current role & day-to-day responsibilities (Java Developer)**
-
-> In my current role, my day-to-day responsibilities include designing and developing REST APIs using Java and Spring Boot, implementing business logic, and ensuring code quality through unit testing with JUnit and Mockito.
->
-> I work extensively with relational databases like MySQL and PostgreSQL, writing optimized queries and managing schema changes. I also participate in code reviews, bug fixing, and performance tuning.
->
-> As part of a microservices-based system, I handle service-to-service communication, implement security using Spring Security and JWT, and support CI/CD pipelines using tools like Git, Docker, and Jenkins. I collaborate daily with frontend developers, QA, and product teams in Agile/Scrum ceremonies to ensure timely delivery of features.
-
-
-==========
-
 🔹 Round 1 – Technical (Java + Spring Boot)
 Java Questions
 Explain OOP concepts with real examples
