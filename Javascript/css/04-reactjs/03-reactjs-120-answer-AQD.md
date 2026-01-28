@@ -11018,7 +11018,7 @@ function DataComponent({ url }) {
 ### How do you handle Performance Optimization in reactjs?
 
 * **Use `React.memo`** to prevent unnecessary re-renders
-* **Use `useCallback` & `useMemo`** to memoize functions and values
+* **Use `useCallback` & `useMemo` do you handle Performance Optimization in** to memoize functions and values
 * **Lazy load components** with `React.lazy` and `Suspense`
 * **Avoid unnecessary state updates** and lift state only when needed
 * **Optimize lists** using proper `key` props and virtualization
