@@ -20,9 +20,9 @@ public class Mainlinkedin01 {
         // fnFeapYearCheck();
         // fnSwapTwoNumbers();
         // fnFactorialOfNumber();
-        // fnFindFactorialUsingRecursion(5);
-        // fnFibonacciSeries();
-        // fibonacci(10);
+         fnFindFactorialUsingRecursion(5);
+         fnFibonacciSeries();
+         fibonacci(10);
         // fnReverseNumberAndString();
         // fnPalindromeNumberAndStringCheck();
         // fnArmstrongNumberCheck();
@@ -74,8 +74,9 @@ public class Mainlinkedin01 {
     public static void fnLargestOfTwoNumbers() {
         int a = 23;
         int b = 11;
-       
 
+        int result = a > b ? a: b;
+        System.out.println(result);
         //Output: 23
     }
 
@@ -84,13 +85,19 @@ public class Mainlinkedin01 {
         int a = 22;
         int b = 11;
         int c = 55;
-
+		
+		int max = a;
+		if(b > max) max = b;
+		if(c > max) max = c;
+		
+		System.out.println(max);		
         //Output: 55
     }
 
     // ## ✅ Positive, Negative, or Zero Check
     public static void fnPositiveNegativeOrZeroCheck() {
         int n = 30;
+
 
         //Output: Positive
     }
@@ -99,26 +106,32 @@ public class Mainlinkedin01 {
     public static void fnFeapYearCheck() {
         int year = 2024;
 
-        
-
+        boolean leap = (year % 400 == 0) || (year % 4 == 0) || (year % 100 != 0);
+		
+		System.out.println(leap ? "Leap Year" : "Not Leap Ywar");
         //Output: Leap Year
+		
 		// 2000 → Leap Year ✅ 2023 → Not a Leap Year ❌
     }
 
     // ## ✅ Swap Two Numbers (With & Without Third Variable)
     public static void fnSwapTwoNumbers () {
-        int a = 10, b = 20;
-
+        int a = 10, b = 20, c;		 
         // With third variable
+		c = a;
+		a = b;
+		b = c;
         
-        System.out.println(a + " " + b);
+        // System.out.println(a + " 1 " + b);
         //Output: 20 10
 
         // Without third variable (XOR)
-        a = 10;
-        b = 20;
+        a = a + b;
+		b = a - b;
+		a = a - b;
+		
         
-        System.out.println(a + " " + b);
+        System.out.println(a + " 2 " + b);
         //Output: 20 10
     }
 
@@ -131,8 +144,13 @@ public class Mainlinkedin01 {
 
     // ## ✅ Find Factorial Using Recursion
     static long fnFindFactorialUsingRecursion(int n) {
+        if(n < 0) {
+            throw new IllegalArgumentException("n must be non-negative");
+        }
+		long num = (n <= 1) ? 1L : n * fnFindFactorialUsingRecursion(n - 1);
         
-        return 0;
+		System.out.println(num);
+        return num;
         // Output: 
         // 1
         // 2
@@ -145,6 +163,15 @@ public class Mainlinkedin01 {
     // ## ✅ Fibonacci Series (First N Terms)
     public static void fnFibonacciSeries() {
         int n = 5;
+		long a = 0, b = 1;
+		
+		for (int i = 0; i < n; i++) {
+			System.out.print(a + (i < n - 1 ? " " : ""));
+			long c = a + b;
+			a = b;
+			b = c;
+		}
+		
 
         // Output: 0 1 1 2 3
     }

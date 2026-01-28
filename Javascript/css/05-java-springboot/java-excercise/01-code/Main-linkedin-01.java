@@ -20,9 +20,9 @@ public class Mainlinkedin01 {
         // fnFeapYearCheck();
         // fnSwapTwoNumbers();
         // fnFactorialOfNumber();
-        // fnFindFactorialUsingRecursion(5)
+        // fnFindFactorialUsingRecursion(5);
         // fnFibonacciSeries();
-        // fnFindNthFibonacciNumberUsingRecursion(10)
+        // fibonacci(10);
         // fnReverseNumberAndString();
         // fnPalindromeNumberAndStringCheck();
         // fnArmstrongNumberCheck();
@@ -77,7 +77,8 @@ public class Mainlinkedin01 {
     public static void fnLargestOfTwoNumbers() {
         int a = 23;
         int b = 11;
-        System.out.println(a > b ? a : b);
+
+        //Output: 23
     }
 
     // ## ✅ Largest of Three Numbers
@@ -149,7 +150,20 @@ public class Mainlinkedin01 {
 
     // ## ✅ Find Factorial Using Recursion
     static long fnFindFactorialUsingRecursion(int n) {
-        return n <= 1 ? 1 : n * fnFindFactorialUsingRecursion(n - 1);
+        if (n < 0) {
+            throw new IllegalArgumentException("n must be non-negative");
+        }
+
+        long num = (n <= 1) ? 1L : n * fnFindFactorialUsingRecursion(n - 1);
+        System.out.println(num);
+        return num;
+
+        // Output: 
+        // 1
+        // 2
+        // 6
+        // 24
+        // 120
     }
 
     // ## ✅ Fibonacci Series (First N Terms)
@@ -166,8 +180,21 @@ public class Mainlinkedin01 {
     }
 
     // ## ✅ Find Nth Fibonacci Number Using Recursion
-    static long fnFindNthFibonacciNumberUsingRecursion(int n) {
-        return n <= 1 ? n : fnFindNthFibonacciNumberUsingRecursion(n - 1) + fnFindNthFibonacciNumberUsingRecursion(n - 2);
+    static long fibonacci(int n) {
+        if (n < 0) throw new IllegalArgumentException("n must be non-negative");
+        if (n <= 1) return n;
+
+        long a = 0, b = 1;
+        for (int i = 2; i <= n; i++) {
+            long temp = a + b;
+            a = b;
+            b = temp;
+        }
+        
+        System.out.println(b);
+        return b;
+
+        //Output: 55
     }
 
     // ## ✅ Reverse a Number  and string

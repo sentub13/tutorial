@@ -2368,7 +2368,7 @@ class LifecycleMethods extends React.Component {
     );
   }
 }
----
+```
 
 ### 5. What is React reconciliation?
 
@@ -2674,7 +2674,8 @@ function BatchingComparison() {
 
 ### 2. What is Concurrent Rendering?
 
-**Concurrent rendering allows React to pause, resume, and prioritize work for better user experience.**
+**Concurrent Rendering** allows React to render updates in the background without blocking the UI, keeping the app responsive by prioritizing important updates.
+
 
 * **Interruptible**: React can pause work and handle urgent updates
 * **Priority-based**: High priority updates interrupt low priority ones
@@ -3136,7 +3137,8 @@ import React, { Suspense, lazy, useState } from 'react';\n\n// Lazy load compone
 
 ### 7. What is lazy loading?
 
-**Lazy loading defers loading of components until they're actually needed, improving initial load performance.**
+**Lazy loading** is a technique where resources (like components, images, or data) are loaded **only when they are needed**, instead of all at once, improving performance and reducing initial load time.
+
 
 * **On-demand loading**: Load components when needed, not upfront
 * **Better performance**: Faster initial page load
@@ -3151,7 +3153,7 @@ import React, { Suspense, lazy, useState, useEffect } from 'react';\n\n// Basic 
 
 ### 8. How does `React.memo` work internally?
 
-**React.memo is a higher-order component that memoizes the result and only re-renders when props change.**
+**React.memo** is a higher-order component that **prevents unnecessary re-renders** by memoizing a component.
 
 * **Shallow comparison**: Compares props using Object.is()
 * **Memoization**: Caches the rendered result
