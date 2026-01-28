@@ -2379,7 +2379,7 @@ class LifecycleMethods extends React.Component {
 * **Key optimization**: Uses keys to identify moved/added/removed elements
 * **Performance**: Makes React fast by avoiding unnecessary DOM operations
 
-````jsx
+```jsx
 function ReconciliationExample() {
   const [items, setItems] = useState([
     { id: 1, name: 'Apple' },
