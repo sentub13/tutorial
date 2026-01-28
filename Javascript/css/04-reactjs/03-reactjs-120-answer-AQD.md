@@ -1,4 +1,4 @@
-## 🟢 1. React Fundamentals
+# 🟢 1. React Fundamentals
 
 ### 1. What is React and why is it used?
 
@@ -417,7 +417,7 @@ root.render(
 );
 ```
 
-## 🟢 2. React Hooks (Core + Advanced)
+# 🟢 2. React Hooks (Core + Advanced)
 
 ---
 
@@ -2063,7 +2063,7 @@ async function authenticate(credentials) {
 
 ---
 
-## 🟡 3. Component Lifecycle & Internals
+# 🟡 3. Component Lifecycle & Internals
 
 ---
 
@@ -4868,7 +4868,7 @@ export default LargeListDemo;
 
 ---
 
-## 🟡 5. State Management
+# 🟡 5. State Management
 
 ### 1. Local State vs Global State
 
@@ -5281,7 +5281,7 @@ export const { clearProducts } = productsSlice.actions;
 export default productsSlice.reducer;
 ```
 
-## 🟠 6. Routing (React Router v6)
+# 🟠 6. Routing (React Router v6)
 
 ### 1. What is React Router and How Does It Work?
 
@@ -5546,7 +5546,7 @@ function TestApp() {
 // MemoryRouter: No URL changes
 ```
 
-## 🟠 7. Data Fetching & Side Effects
+# 🟠 7. Data Fetching & Side Effects
 
 ### 1. How Do You Handle API Calls in React?
 
@@ -5965,7 +5965,7 @@ function ReactQueryUserSearch() {
 }
 ```
 
-## 🟠 8. Architecture & Design Patterns
+# 🟠 8. Architecture & Design Patterns
 
 ### 1. How Do You Structure a Large-Scale React Application?
 
@@ -6819,7 +6819,7 @@ const ProtectedComponent = withAuth(MyComponent);
 withAuth(withLoading(withError(Component))) // Too many wrappers
 ```
 
-## 🔵 9. Testing (Modern React)
+# 🔵 9. Testing (Modern React)
 
 ### 1. What Testing Libraries Are Used in React?
 
@@ -7019,7 +7019,7 @@ test('calls onDelete when delete button clicked', async () => {
   expect(mockOnDelete).toHaveBeenCalledWith(1);
 });
 ```
-## 🔵 10. Build Tools & Tooling
+# 🔵 10. Build Tools & Tooling
 
 ### 1. What is Vite and Why is it Faster than Webpack?
 
@@ -7855,7 +7855,7 @@ import * as _ from 'lodash';
 // 4. Manual deployment processes
 ```
 
-## 🔵 11. SSR, Next.js & Modern Web
+# 🔵 11. SSR, Next.js & Modern Web
 
 ### 1. What is SSR in React?
 
@@ -8643,7 +8643,7 @@ async function updateUser(formData) {
 // Good: Server Component with direct access
 ```
 
-## 🔴 12. Security & Real-World Scenarios
+# 🔴 12. Security & Real-World Scenarios
 
 ### 1. How Does React Prevent XSS?
 
@@ -11015,7 +11015,16 @@ function DataComponent({ url }) {
 */
 ```
 
-### Performance Optimization Summary
+### How do you handle Performance Optimization in reactjs?
+
+* **Use `React.memo`** to prevent unnecessary re-renders
+* **Use `useCallback` & `useMemo`** to memoize functions and values
+* **Lazy load components** with `React.lazy` and `Suspense`
+* **Avoid unnecessary state updates** and lift state only when needed
+* **Optimize lists** using proper `key` props and virtualization
+* **Use Concurrent features** like `startTransition` (React 18)
+* **Image optimization** like `svg or small image`
+* **Code splitting** like `Large bundles`
 
 | Technique | Use Case | Impact |
 |-----------|----------|--------|
