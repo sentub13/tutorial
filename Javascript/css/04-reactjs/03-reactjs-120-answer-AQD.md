@@ -3018,87 +3018,40 @@ function generateLargeList() {
 * **Better UX**: Keeps interface responsive during heavy updates
 
 ```jsx
-import { useState, useTransition, startTransition } from 'react';
+import React, { useState, useTransition } from "react";
 
-function TransitionExample() {
-  const [query, setQuery] = useState('');
+function TransitionDemo() {
+  const [query, setQuery] = useState("");
   const [results, setResults] = useState([]);
   const [isPending, startTransition] = useTransition();
-  
-  const handleSearch = (value) => {
-    // Urgent update - immediate
+
+  const handleChange = (value) => {
+    // Urgent update: input value updates immediately
     setQuery(value);
-    
-    // Non-urgent update - can be interrupted
+
+    // Non-urgent update: expensive search
     startTransition(() => {
-      // Expensive search operation
-      const searchResults = performExpensiveSearch(value);
-      setResults(searchResults);
+      const filtered = Array.from({ length: 10000 }, (_, i) => `Item ${i}`)
+        .filter(item => item.toLowerCase().includes(value.toLowerCase()));
+      setResults(filtered);
     });
   };
-  
+
   return (
     <div>
-      <h2>useTransition Example</h2>
-      
-      {/* Input stays responsive */}
-      <input
-        value={query}
-        onChange={(e) => handleSearch(e.target.value)}
+      <h2>useTransition Demo</h2>
+      <input 
+        value={query} 
+        onChange={(e) => handleChange(e.target.value)} 
         placeholder="Search..."
       />
-      
-      {/* Show pending state */}
-      {isPending && <div>🔍 Searching...</div>}
-      
-      {/* Results update with lower priority */}
-      <div style={{ opacity: isPending ? 0.5 : 1 }}>
-        <p>Results for "{query}": {results.length} found</p>
-        <ul>
-          {results.slice(0, 50).map(result => (
-            <li key={result.id}>{result.title}</li>
-          ))}
-        </ul>
-      </div>
+      {isPending && <p>🔄 Loading...</p>}
+      <p>Results: {results.length}</p>
     </div>
   );
 }
 
-// Using startTransition without hook
-function StartTransitionExample() {
-  const [tab, setTab] = useState('home');
-  const [content, setContent] = useState('Home content');
-  
-  const switchTab = (newTab) => {
-    // Urgent update - immediate tab switch
-    setTab(newTab);
-    
-    // Non-urgent update - content loading
-    startTransition(() => {
-      // Simulate expensive content loading
-      const newContent = loadTabContent(newTab);
-      setContent(newContent);
-    });
-  };
-  
-  return (
-    <div>
-      <h2>startTransition Example</h2>
-      
-      {/* Tabs switch immediately */}
-      <div>
-        {['home', 'about', 'contact'].map(tabName => (
-          <button
-            key={tabName}
-            onClick={() => switchTab(tabName)}
-            style={{
-              background: tab === tabName ? '#007bff' : '#f8f9fa',
-              color: tab === tabName ? 'white' : 'black'
-            }}
-          >
-            {tabName.charAt(0).toUpperCase() + tabName.slice(1)}
-          </button>
-        ))}\n      </div>\n      \n      {/* Content loads with lower priority */}\n      <div>\n        <h3>Current Tab: {tab}</h3>\n        <p>{content}</p>\n      </div>\n    </div>\n  );\n}\n\n// Complex example with multiple transitions\nfunction MultipleTransitionsExample() {\n  const [filter, setFilter] = useState('all');\n  const [sort, setSort] = useState('name');\n  const [items, setItems] = useState(generateItems(1000));\n  const [isPending, startTransition] = useTransition();\n  \n  const updateView = (newFilter, newSort) => {\n    // Urgent updates - immediate UI feedback\n    setFilter(newFilter);\n    setSort(newSort);\n    \n    // Non-urgent update - expensive filtering and sorting\n    startTransition(() => {\n      let filtered = generateItems(5000);\n      \n      // Expensive filtering\n      if (newFilter !== 'all') {\n        filtered = filtered.filter(item => item.category === newFilter);\n      }\n      \n      // Expensive sorting\n      filtered.sort((a, b) => {\n        if (newSort === 'name') return a.name.localeCompare(b.name);\n        if (newSort === 'price') return a.price - b.price;\n        return a.id - b.id;\n      });\n      \n      setItems(filtered);\n    });\n  };\n  \n  return (\n    <div>\n      <h2>Multiple Transitions</h2>\n      \n      {/* Controls update immediately */}\n      <div>\n        <select \n          value={filter} \n          onChange={(e) => updateView(e.target.value, sort)}\n        >\n          <option value=\"all\">All Categories</option>\n          <option value=\"electronics\">Electronics</option>\n          <option value=\"clothing\">Clothing</option>\n          <option value=\"books\">Books</option>\n        </select>\n        \n        <select \n          value={sort} \n          onChange={(e) => updateView(filter, e.target.value)}\n        >\n          <option value=\"name\">Sort by Name</option>\n          <option value=\"price\">Sort by Price</option>\n          <option value=\"id\">Sort by ID</option>\n        </select>\n      </div>\n      \n      {isPending && <div>🔄 Updating results...</div>}\n      \n      {/* Results update with lower priority */}\n      <div style={{ opacity: isPending ? 0.7 : 1 }}>\n        <p>Filter: {filter}, Sort: {sort}</p>\n        <p>Items: {items.length}</p>\n        <ul>\n          {items.slice(0, 100).map(item => (\n            <li key={item.id}>\n              {item.name} - ${item.price} ({item.category})\n            </li>\n          ))}\n        </ul>\n      </div>\n    </div>\n  );\n}\n\nfunction performExpensiveSearch(query) {\n  const allItems = generateItems(10000);\n  \n  // Simulate expensive search\n  return allItems.filter(item => \n    item.name.toLowerCase().includes(query.toLowerCase()) ||\n    item.category.toLowerCase().includes(query.toLowerCase())\n  );\n}\n\nfunction loadTabContent(tab) {\n  // Simulate expensive content loading\n  const content = {\n    home: 'Welcome to the home page with lots of dynamic content...',\n    about: 'About us page with company information and history...',\n    contact: 'Contact information and form with validation...'\n  };\n  \n  // Simulate delay\n  for (let i = 0; i < 1000000; i++) {\n    Math.random();\n  }\n  \n  return content[tab] || 'Loading...';\n}\n\nfunction generateItems(count) {\n  const categories = ['electronics', 'clothing', 'books', 'home', 'sports'];\n  \n  return Array.from({ length: count }, (_, i) => ({\n    id: i,\n    name: `Item ${i}`,\n    price: Math.floor(Math.random() * 1000) + 10,\n    category: categories[i % categories.length]\n  }));\n}
+export default TransitionDemo;
 ```
 
 ---
