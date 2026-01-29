@@ -1815,20 +1815,37 @@ public void method() {
 
 ## 3. What is the difference between PermGen and Metaspace?
 
-**PermGen (Java 7 and earlier):**
-- Fixed size heap area
-- Stored class metadata
-- Caused OutOfMemoryError when full
-- Part of heap memory
+**PermGen:**
+PermGen is a memory area in **Java 7 and earlier** that stores **class metadata, method definitions, and interned strings**.
 
-**Metaspace (Java 8+):**
-- Native memory (outside heap)
-- Dynamic size expansion
-- Automatically managed by OS
-- Better memory utilization
-- Eliminates PermGen OutOfMemoryError
+**Characteristics:**
 
-Metaspace replaced PermGen to solve memory limitations and provide better class metadata management.
+* Fixed size (`-XX:PermSize`, `-XX:MaxPermSize`)
+* Part of JVM memory
+* Can cause `OutOfMemoryError: PermGen space` if full
+
+**Metaspace**
+
+**Definition:**
+Metaspace is a memory area in **Java 8 and later** that stores **class metadata only**.
+
+**Characteristics:**
+
+* Dynamically resizable (limited by system memory)
+* Stored in **native memory** outside the JVM heap
+* Reduces PermGen-related memory errors
+
+**Key Differences**
+
+| Feature          | PermGen                           | Metaspace              |
+| ---------------- | --------------------------------- | ---------------------- |
+| Java Version     | Java 7 and earlier                | Java 8 and later       |
+| Stores           | Class metadata + interned strings | Class metadata only    |
+| Memory Size      | Fixed                             | Dynamic (resizable)    |
+| Location         | JVM memory                        | Native memory          |
+| OutOfMemory Risk | High                              | Lower                  |
+| Config Option    | `-XX:MaxPermSize`                 | `-XX:MaxMetaspaceSize` |
+
 
 ## 4. What is garbage collection?
 
@@ -1849,29 +1866,76 @@ obj = null; // object becomes eligible for garbage collection
 
 ## 5. What are the types of garbage collectors?
 
-Java provides several garbage collectors, each optimized for different application requirements and performance characteristics.
 
-**Serial GC:**
-- Single-threaded
-- Good for small applications
+In Java, **Garbage Collectors (GC)** are responsible for **automatically reclaiming memory** used by objects that are no longer needed. Java provides several types of garbage collectors.
 
-**Parallel GC:**
-- Multi-threaded
-- Default for server applications
+**Types of Garbage Collectors**
 
-**G1 GC:**
-- Low-latency collector
-- Good for large heaps
+1. **Serial Garbage Collector**
 
-**ZGC/Shenandoah:**
-- Ultra-low latency
-- Concurrent collection
+   * **Single-threaded** collector, good for **small applications**.
+   * Performs GC **stop-the-world** for minor and major collections.
 
-**CMS (deprecated):**
-- Concurrent mark-sweep
-- Low pause times
+   ```java
+   JVM option: -XX:+UseSerialGC
+   ```
 
-Choose based on application needs: throughput vs latency requirements.
+2. **Parallel Garbage Collector (Throughput Collector)**
+
+   * **Multi-threaded**, uses multiple threads for **minor GC**.
+   * Focused on **high throughput** (less CPU idle time).
+
+   ```text
+   JVM option: -XX:+UseParallelGC
+   ```
+
+3. **Concurrent Mark-Sweep (CMS) Collector**
+
+   * **Concurrent collector** for **low-latency applications**.
+   * Performs **most GC work concurrently with application threads**.
+
+   ```java
+   JVM option: -XX:+UseConcMarkSweepGC
+   ```
+
+4. **G1 (Garbage-First) Collector**
+
+   * Divides heap into **regions** and collects **garbage in parallel**.
+   * Designed for **large heaps and low pause times**.
+
+   ```java
+   JVM option: -XX:+UseG1GC
+   ```
+
+5. **Z Garbage Collector (ZGC)**
+
+   * **Low-latency, scalable** collector for **very large heaps**.
+   * Pauses are typically **<10ms**, even with TB-sized heaps.
+
+   ```java
+   JVM option: -XX:+UseZGC
+   ```
+
+6. **Shenandoah GC**
+
+   * Focuses on **low pause times** by doing **concurrent compaction**.
+   * Available in **OpenJDK 12+**.
+
+   ```java
+   JVM option: -XX:+UseShenandoahGC
+   ```
+
+**Summary Table**
+
+| Garbage Collector | Threads    | Pause Time     | Use Case                   |
+| ----------------- | ---------- | -------------- | -------------------------- |
+| Serial GC         | Single     | Stop-the-world | Small apps, single CPU     |
+| Parallel GC       | Multiple   | Stop-the-world | High throughput apps       |
+| CMS GC            | Concurrent | Low-latency    | Responsive apps            |
+| G1 GC             | Concurrent | Low-medium     | Large heaps, low pause     |
+| ZGC               | Concurrent | Very low       | Very large heaps, scalable |
+| Shenandoah GC     | Concurrent | Very low       | Low-latency applications   |
+
 
 ## 6. What is generational garbage collection?
 
