@@ -1537,8 +1537,22 @@ public void increment() {
 
 * **Simple example**
 
+1. **Thread-based**
+* Java provides the **`Thread` class** and **`Runnable` interface** to create and manage concurrent tasks.
+
 ```java
-new Thread(() -> System.out.println("Task running")).start();
+class MyTask extends Thread {
+    public void run() {
+        System.out.println("Task running in thread: " + Thread.currentThread().getName());
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        MyTask t1 = new MyTask();
+        t1.start(); // Runs concurrently
+    }
+}
 ```
 
 This creates a new thread that runs concurrently with the main thread.
@@ -1589,26 +1603,36 @@ executor.shutdown(); // Graceful shutdown
 
 Java provides several predefined thread pool types through Executors class, each optimized for different use cases.
 
-**Fixed Thread Pool:**
-- Fixed number of threads
-- Good for known workload
+1. **Fixed Thread Pool**
+   * Has a **fixed number of threads**.
+   * Tasks wait in a queue if all threads are busy.
 
-**Cached Thread Pool:**
-- Creates threads as needed
-- Reuses idle threads
+   ```java
+   ExecutorService fixedPool = Executors.newFixedThreadPool(3);
+   ```
 
-**Single Thread Executor:**
-- Single worker thread
-- Sequential task execution
+2. **Cached Thread Pool**
+   * **Creates new threads as needed** and reuses idle threads.
+   * Suitable for **short-lived tasks**.
 
-**Scheduled Thread Pool:**
-- Supports delayed and periodic tasks
+   ```java
+   ExecutorService cachedPool = Executors.newCachedThreadPool();
+   ```
 
-```java
-ExecutorService fixed = Executors.newFixedThreadPool(10);
-ExecutorService cached = Executors.newCachedThreadPool();
-ExecutorService single = Executors.newSingleThreadExecutor();
-ScheduledExecutorService scheduled = Executors.newScheduledThreadPool(5);
+3. **Single Thread Pool**
+   * **Only one thread**, executes tasks **sequentially**.
+
+   ```java
+   ExecutorService singlePool = Executors.newSingleThreadExecutor();
+   ```
+
+4. **Scheduled Thread Pool**
+   * Runs tasks **after a delay or periodically**.
+
+   ```java
+   ScheduledExecutorService scheduledPool = Executors.newScheduledThreadPool(2);
+   ```
+
 ```
 
 ## 3. What is Future and CompletableFuture?
