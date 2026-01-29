@@ -2475,7 +2475,7 @@ function FiberExample() {
 function generateItems(count) {
   return Array.from({ length: count }, (_, i) => ({
     id: i,
-    name: `Item ${i}`,
+    name: Item ${i},
     value: Math.random()
   }));
 }
