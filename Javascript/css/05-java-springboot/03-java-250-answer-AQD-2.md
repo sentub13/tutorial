@@ -1864,13 +1864,9 @@ obj = null; // object becomes eligible for garbage collection
 
 ## 5. What are the types of garbage collectors?
 
-
 In Java, **Garbage Collectors (GC)** are responsible for **automatically reclaiming memory** used by objects that are no longer needed. Java provides several types of garbage collectors.
 
-**Types of Garbage Collectors**
-
 1. **Serial Garbage Collector**
-
    * **Single-threaded** collector, good for **small applications**.
    * Performs GC **stop-the-world** for minor and major collections.
 
@@ -1879,7 +1875,6 @@ In Java, **Garbage Collectors (GC)** are responsible for **automatically reclaim
    ```
 
 2. **Parallel Garbage Collector (Throughput Collector)**
-
    * **Multi-threaded**, uses multiple threads for **minor GC**.
    * Focused on **high throughput** (less CPU idle time).
 
@@ -1888,7 +1883,6 @@ In Java, **Garbage Collectors (GC)** are responsible for **automatically reclaim
    ```
 
 3. **Concurrent Mark-Sweep (CMS) Collector**
-
    * **Concurrent collector** for **low-latency applications**.
    * Performs **most GC work concurrently with application threads**.
 
@@ -1897,7 +1891,6 @@ In Java, **Garbage Collectors (GC)** are responsible for **automatically reclaim
    ```
 
 4. **G1 (Garbage-First) Collector**
-
    * Divides heap into **regions** and collects **garbage in parallel**.
    * Designed for **large heaps and low pause times**.
 
@@ -1906,7 +1899,6 @@ In Java, **Garbage Collectors (GC)** are responsible for **automatically reclaim
    ```
 
 5. **Z Garbage Collector (ZGC)**
-
    * **Low-latency, scalable** collector for **very large heaps**.
    * Pauses are typically **<10ms**, even with TB-sized heaps.
 
@@ -1915,7 +1907,6 @@ In Java, **Garbage Collectors (GC)** are responsible for **automatically reclaim
    ```
 
 6. **Shenandoah GC**
-
    * Focuses on **low pause times** by doing **concurrent compaction**.
    * Available in **OpenJDK 12+**.
 
@@ -1961,7 +1952,6 @@ This approach optimizes GC performance by focusing on areas where most garbage e
 A **Minor GC** occurs in the **Young Generation** of the heap and cleans up short-lived objects like temporary variables. It happens frequently and is usually very fast, causing minimal pause.
 
 A **Major GC** (also called **Full GC**) runs on the **Old Generation** and removes long-lived objects that are no longer needed. It happens less often but takes more time and can significantly impact application performance.
-
 
 **Minor GC:**
 - Cleans Young Generation only
