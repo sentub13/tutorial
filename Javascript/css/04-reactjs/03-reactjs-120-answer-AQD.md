@@ -2169,7 +2169,7 @@ class LifecycleExample extends React.Component {
 * **Unmounting**: useEffect cleanup function
 * **No direct equivalent**: Some class methods have no direct hook equivalent
 
-```jsx
+```typescript
 import { useState, useEffect, useLayoutEffect, useRef } from 'react';
 
 function FunctionalLifecycle({ userId }) {

@@ -1710,13 +1710,20 @@ public synchronized void method() {
 
 JVM divides memory into several distinct areas, each serving specific purposes for program execution and memory management.
 
-**Main Memory Areas:**
-- **Heap:** Object storage (Young + Old generation)
-- **Stack:** Method calls and local variables
-- **Method Area/Metaspace:** Class metadata and constants
-- **PC Register:** Current instruction pointer
-- **Native Method Stack:** Native method calls
-- **Direct Memory:** Off-heap memory (NIO operations)
+1. **Heap**
+   Stores all objects and instance variables. It is shared among all threads and managed by the Garbage Collector.
+
+2. **Method Area (Metaspace)**
+   Stores class-level data such as class metadata, method bytecode, static variables, and the runtime constant pool. It is shared among all threads.
+
+3. **Stack**
+   Stores method call frames, local variables, and partial results. Each thread has its own stack.
+
+4. **Program Counter (PC) Register**
+   Stores the address of the currently executing instruction for each thread.
+
+5. **Native Method Stack**
+   Stores information related to native (non-Java) method execution.
 
 Each area has different characteristics for garbage collection and memory allocation strategies.
 
@@ -1766,7 +1773,7 @@ Metaspace replaced PermGen to solve memory limitations and provide better class 
 
 ## 4. What is garbage collection?
 
-Garbage collection is JVM's automatic memory management process that reclaims memory occupied by objects that are no longer reachable or referenced by the application.
+**Garbage Collection** is an automatic memory management process in Java in which the JVM **identifies and removes objects that are no longer in use**, freeing up memory.
 
 - Automatic memory cleanup
 - Removes unreferenced objects
@@ -1775,6 +1782,11 @@ Garbage collection is JVM's automatic memory management process that reclaims me
 - Frees developers from manual memory management
 
 The GC identifies objects with no active references and deallocates their memory, making it available for new objects.
+
+```java
+Object obj = new Object();
+obj = null; // object becomes eligible for garbage collection
+```
 
 ## 5. What are the types of garbage collectors?
 
