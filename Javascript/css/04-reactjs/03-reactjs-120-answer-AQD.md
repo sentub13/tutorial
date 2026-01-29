@@ -2169,7 +2169,7 @@ class LifecycleExample extends React.Component {
 * **Unmounting**: useEffect cleanup function
 * **No direct equivalent**: Some class methods have no direct hook equivalent
 
-```typescript
+```jsx
 import { useState, useEffect, useLayoutEffect, useRef } from 'react';
 
 function FunctionalLifecycle({ userId }) {
@@ -2217,7 +2217,7 @@ async function fetchUser(userId) {
   const response = await fetch(`/api/users/${userId}`);
   return response.json();
 }
----
+```
 
 ### 3. Difference between `componentDidMount` and `useEffect`
 
