@@ -215,9 +215,26 @@ double area = circle.calculateArea();
 ```
 
 ## 8. What is a package in Java? 
-A package in Java is a collection of related classes and interfaces grouped to organize code and prevent naming conflicts. 
-- Built-in packages: java.lang, java.util, etc.
-- User-defined packages: Created by developers for organizing custom classes
+In Java, a **package** is a **namespace that groups related classes, interfaces, and sub-packages together**. It helps organize code, avoid naming conflicts, and control access to classes.
+
+**Key points:**
+
+* Declared at the top of a Java file using `package` keyword.
+* Allows you to import and use classes from other packages.
+* Java has built-in packages like `java.lang`, `java.util`, `java.io`.
+* You can create custom packages to organize your project logically.
+
+**Example:**
+
+```java
+package com.example.utils;
+
+public class Helper {
+    public static void printHello() {
+        System.out.println("Hello!");
+    }
+}
+```
 
 # 2. Data Types and Variables
 
@@ -277,31 +294,46 @@ String name = "John"; // reference - stores address to "John" object
 
 ## 3. What is autoboxing and unboxing?
 
-Autoboxing automatically converts primitives to their wrapper objects, while unboxing does the reverse. Java handles this conversion automatically.
+* **Autoboxing** is the automatic conversion of a **primitive type** into its corresponding **wrapper class**.
 
-```java
-// Autoboxing - primitive to wrapper
-Integer num = 100;  // int 100 becomes Integer object
+  ```java
+  int num = 10;
+  Integer numObj = num;  // Autoboxing: int → Integer
+  ```
 
-// Unboxing - wrapper to primitive  
-int value = num;    // Integer object becomes int
-```
+* **Unboxing** is the automatic conversion of a **wrapper class** back to its **primitive type**.
 
-This happens automatically in collections, method calls, and assignments.
+  ```java
+  Integer numObj = 20;
+  int num = numObj;  // Unboxing: Integer → int
+  ```
 
 ## 4. What is the difference between == and equals() method?
 
-The == operator compares memory addresses for objects, while equals() compares actual content.
+* **`==`**
 
-**For primitives:** == compares values
-**For objects:** == compares references, equals() compares content
+  * Compares **memory references** for objects (whether two references point to the same object).
+  * Compares **actual values** for primitives.
+
+* **`equals()`**
+
+  * Compares the **content or state** of objects.
+  * Often **overridden** in classes like `String`, `Integer` to compare values.
+
+**Examples:**
 
 ```java
-String a = new String("hello");
-String b = new String("hello");
+// Using ==
+String s1 = new String("Hello");
+String s2 = new String("Hello");
+System.out.println(s1 == s2); // false, different objects
 
-System.out.println(a == b);       // false - different objects
-System.out.println(a.equals(b));  // true - same content
+// Using equals()
+System.out.println(s1.equals(s2)); // true, content is the same
+
+// With primitives
+int a = 5, b = 5;
+System.out.println(a == b); // true, values are equal
 ```
 
 ## 5. What is the difference between String, StringBuilder, and StringBuffer?
@@ -310,8 +342,6 @@ System.out.println(a.equals(b));  // true - same content
 * **`StringBuilder`** is **mutable** and allows **fast modifications** of strings. It is **not thread-safe**, so it’s suitable for single-threaded operations.
 
 * **`StringBuffer`** is also **mutable** but **thread-safe** because its methods are synchronized. It’s slightly slower than `StringBuilder` due to synchronization overhead.
-
-
 
 ```java
 // String - creates new objects
@@ -323,11 +353,9 @@ StringBuilder sb = new StringBuilder("Hello");
 sb.append(" World");  // Modifies same object
 ```
 
-Use StringBuilder for single-threaded operations, StringBuffer for multi-threaded.
-
 ## 6. Why are strings immutable in Java?
 
-Strings are immutable for several important reasons:
+In Java, **strings are immutable**, meaning once a `String` object is created, its value **cannot be changed**.
 
 - **Security:** Prevents malicious code from changing string values
 - **Thread Safety:** Multiple threads can access without synchronization
@@ -335,7 +363,16 @@ Strings are immutable for several important reasons:
 - **Hashcode Caching:** Hash values remain constant for HashMap keys
 - **Performance:** JVM optimizations possible
 
-Once created, String objects cannot be modified - operations create new objects instead.
+**Example:**
+
+```java
+String s1 = "Hello";
+String s2 = s1;      // Both point to same object
+
+s1 = s1 + " World";  // Creates a new String object
+System.out.println(s1); // Hello World
+System.out.println(s2); // Hello
+```
 
 ## 7. What is string pooling?
 
