@@ -3338,43 +3338,6 @@ const MemoChild = memo(({ name, onClick }) => {
   );
 });
 
-// Demonstrating the problem with inline functions
-function InlineFunctionProblem() {
-  const [parentState, setParentState] = useState(0);
-  const [childRenders, setChildRenders] = useState(0);
-  
-  return (
-    <div>
-      <h3>Inline Function Problem Demo</h3>
-      
-      <p>Parent State: {parentState}</p>
-      <p>Child Renders: {childRenders}</p>
-      
-      <button onClick={() => setParentState(parentState + 1)}>
-        Update Parent (Watch child re-renders)
-      </button>
-      
-      {/* This child will re-render every time parent updates */}
-      <ProblematicChild 
-        onRender={() => setChildRenders(prev => prev + 1)}
-        onClick={() => console.log('This inline function causes re-renders')}
-      />
-    </div>
-  );
-}
-
-const ProblematicChild = memo(({ onRender, onClick }) => {
-  React.useEffect(() => {
-    onRender();
-  });
-  
-  return (
-    <div style={{ background: '#ffe6e6', padding: '10px' }}>
-      <p>I re-render every time parent updates!</p>
-      <button onClick={onClick}>Click</button>
-    </div>
-  );
-});
 
 // Solution with useCallback
 function SolutionWithCallback() {
