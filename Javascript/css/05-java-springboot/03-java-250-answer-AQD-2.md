@@ -1815,7 +1815,7 @@ public void method() {
 
 ## 3. What is the difference between PermGen and Metaspace?
 
-**PermGen:**
+**PermGen:** 
 PermGen is a memory area in **Java 7 and earlier** that stores **class metadata, method definitions, and interned strings**.
 
 **Characteristics:**
@@ -1824,9 +1824,7 @@ PermGen is a memory area in **Java 7 and earlier** that stores **class metadata,
 * Part of JVM memory
 * Can cause `OutOfMemoryError: PermGen space` if full
 
-**Metaspace**
-
-**Definition:**
+**Metaspace:** 
 Metaspace is a memory area in **Java 8 and later** that stores **class metadata only**.
 
 **Characteristics:**
