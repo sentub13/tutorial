@@ -3857,239 +3857,98 @@ export default function KeysDemo() {
 ```jsx
 import { useState, useEffect, useRef } from 'react';
 
-function MemoryLeakExamples() {
-  const [showComponent, setShowComponent] = useState(false);
-  
+export default function MemoryLeakDemo() {
+  const [show, setShow] = useState(false);
+
   return (
     <div>
-      <h2>Memory Leak Prevention</h2>
-      
-      <button onClick={() => setShowComponent(!showComponent)}>
-        {showComponent ? 'Hide' : 'Show'} Component
+      <h2>Memory Leak Prevention in React</h2>
+      <button onClick={() => setShow(!show)}>
+        {show ? 'Hide' : 'Show'} Components
       </button>
-      
-      {showComponent && (
-        <div>
-          <TimerLeakExample />
-          <EventListenerLeakExample />
-          <SubscriptionLeakExample />
-          <AsyncLeakExample />
+
+      {show && (
+        <div style={{ marginTop: '20px' }}>
+          <TimerExample />
+          <EventListenerExample />
+          <SubscriptionExample />
+          <AsyncExample />
         </div>
       )}
     </div>
   );
 }
 
-// ❌ Timer memory leak example
-function BadTimerExample() {
+// ✅ Timer cleanup
+function TimerExample() {
   const [count, setCount] = useState(0);
-  
-  useEffect(() => {
-    // ❌ BAD - Timer not cleaned up
-    setInterval(() => {
-      setCount(prev => prev + 1);
-    }, 1000);
-    // Missing cleanup - memory leak!
-  }, []);
-  
-  return <div>Bad Timer Count: {count}</div>;
-}
 
-// ✅ Proper timer cleanup
-function TimerLeakExample() {
-  const [count, setCount] = useState(0);
-  
   useEffect(() => {
-    console.log('Timer started');
-    
-    const timer = setInterval(() => {
-      setCount(prev => prev + 1);
-    }, 1000);
-    
-    // ✅ GOOD - Cleanup timer
-    return () => {
-      console.log('Timer cleaned up');
-      clearInterval(timer);
-    };
+    const timer = setInterval(() => setCount(c => c + 1), 1000);
+    return () => clearInterval(timer); // Cleanup on unmount
   }, []);
-  
+
   return <div>Timer Count: {count}</div>;
 }
 
 // ✅ Event listener cleanup
-function EventListenerLeakExample() {
-  const [windowSize, setWindowSize] = useState({
-    width: window.innerWidth,
-    height: window.innerHeight
-  });
-  
+function EventListenerExample() {
+  const [size, setSize] = useState({ w: window.innerWidth, h: window.innerHeight });
+
   useEffect(() => {
-    console.log('Event listener added');
-    
-    const handleResize = () => {
-      setWindowSize({
-        width: window.innerWidth,
-        height: window.innerHeight
-      });
-    };
-    
+    const handleResize = () => setSize({ w: window.innerWidth, h: window.innerHeight });
     window.addEventListener('resize', handleResize);
-    
-    // ✅ GOOD - Remove event listener
-    return () => {
-      console.log('Event listener removed');
-      window.removeEventListener('resize', handleResize);
-    };
+    return () => window.removeEventListener('resize', handleResize);
   }, []);
-  
-  return (
-    <div>
-      Window Size: {windowSize.width} x {windowSize.height}
-    </div>
-  );
+
+  return <div>Window: {size.w} x {size.h}</div>;
 }
 
-// ✅ Subscription cleanup
-function SubscriptionLeakExample() {
+// ✅ Subscription cleanup (simulated)
+function SubscriptionExample() {
   const [data, setData] = useState(null);
-  
+
   useEffect(() => {
-    console.log('Subscription started');
-    
-    // Simulate WebSocket or EventSource
-    const subscription = {
-      unsubscribe: null
-    };
-    
-    // Simulate subscription
     const interval = setInterval(() => {
-      setData({ timestamp: Date.now(), value: Math.random() });
+      setData({ value: Math.random(), time: Date.now() });
     }, 2000);
-    
-    subscription.unsubscribe = () => clearInterval(interval);
-    
-    // ✅ GOOD - Cleanup subscription
-    return () => {
-      console.log('Subscription cleaned up');
-      subscription.unsubscribe();
-    };
+
+    return () => clearInterval(interval); // Cleanup
   }, []);
-  
+
   return (
     <div>
-      Data: {data ? `${data.value.toFixed(2)} at ${new Date(data.timestamp).toLocaleTimeString()}` : 'Loading...'}
+      Data: {data ? `${data.value.toFixed(2)} @ ${new Date(data.time).toLocaleTimeString()}` : 'Loading...'}
     </div>
   );
 }
 
 // ✅ Async operation cleanup
-function AsyncLeakExample() {
+function AsyncExample() {
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(false);
-  const mountedRef = useRef(true);
-  
+  const mounted = useRef(true);
+
   useEffect(() => {
-    // Track if component is still mounted
-    mountedRef.current = true;
-    
-    return () => {
-      mountedRef.current = false;
-    };
+    mounted.current = true;
+    return () => { mounted.current = false; };
   }, []);
-  
+
   const fetchData = async () => {
     setLoading(true);
-    
-    try {
-      // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 2000));
-      const result = { message: 'Data loaded', timestamp: Date.now() };
-      
-      // ✅ GOOD - Check if component is still mounted
-      if (mountedRef.current) {
-        setData(result);
-        setLoading(false);
-      }
-    } catch (error) {
-      if (mountedRef.current) {
-        console.error('Error:', error);
-        setLoading(false);
-      }
+    await new Promise(r => setTimeout(r, 2000)); // Simulate API call
+    if (mounted.current) {
+      setData({ message: 'Data loaded', time: Date.now() });
+      setLoading(false);
     }
   };
-  
+
   return (
     <div>
       <button onClick={fetchData} disabled={loading}>
         {loading ? 'Loading...' : 'Fetch Data'}
       </button>
-      {data && <div>Data: {data.message}</div>}
-    </div>
-  );
-}
-
-// Custom hook for cleanup patterns
-function useCleanup(cleanupFn) {
-  const cleanupRef = useRef(cleanupFn);
-  
-  useEffect(() => {
-    cleanupRef.current = cleanupFn;
-  });
-  
-  useEffect(() => {
-    return () => {
-      if (cleanupRef.current) {
-        cleanupRef.current();
-      }
-    };
-  }, []);
-}
-
-// AbortController for fetch cleanup
-function FetchWithAbortExample() {
-  const [data, setData] = useState(null);
-  const [loading, setLoading] = useState(false);
-  
-  const fetchData = async () => {
-    setLoading(true);
-    
-    // ✅ GOOD - Use AbortController
-    const abortController = new AbortController();
-    
-    try {
-      const response = await fetch('/api/data', {
-        signal: abortController.signal
-      });
-      
-      if (!response.ok) throw new Error('Failed to fetch');
-      
-      const result = await response.json();
-      setData(result);
-    } catch (error) {
-      if (error.name !== 'AbortError') {
-        console.error('Fetch error:', error);
-      }
-    } finally {
-      setLoading(false);
-    }
-    
-    // Return cleanup function
-    return () => {
-      abortController.abort();
-    };
-  };
-  
-  useEffect(() => {
-    const cleanup = fetchData();
-    
-    return () => {
-      cleanup.then(fn => fn && fn());
-    };
-  }, []);
-  
-  return (
-    <div>
-      {loading ? 'Loading...' : data ? JSON.stringify(data) : 'No data'}
+      {data && <div>{data.message} @ {new Date(data.time).toLocaleTimeString()}</div>}
     </div>
   );
 }
