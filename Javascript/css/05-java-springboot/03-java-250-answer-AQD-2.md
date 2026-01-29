@@ -1633,8 +1633,6 @@ Java provides several predefined thread pool types through Executors class, each
    ScheduledExecutorService scheduledPool = Executors.newScheduledThreadPool(2);
    ```
 
-```
-
 ## 3. What is Future and CompletableFuture?
 
 **Future** represents the result of an asynchronous computation, while **CompletableFuture** is an enhanced version that supports functional programming and chaining operations.
