@@ -2479,7 +2479,7 @@ function generateItems(count) {
     value: Math.random()
   }));
 }
----
+```
 
 ### 7. What causes a component to re-render?
 
@@ -2490,7 +2490,7 @@ function generateItems(count) {
 * **Parent re-renders**: Child components re-render by default
 * **Context changes**: useContext consumers re-render when context updates
 
-````jsx
+```jsx
 import { useState, useContext, createContext, memo, useCallback } from 'react';
 
 const ThemeContext = createContext();
@@ -2563,7 +2563,7 @@ function ChildUsingContext() {
     </div>
   );
 }
----
+```
 
 
 ## 🟡 4. Rendering & Performance Optimization (High Priority)
