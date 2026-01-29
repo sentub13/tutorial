@@ -3785,203 +3785,59 @@ function ExpensiveItem({ item }) {
 
 ### 13. What happens if keys are not stable?
 
-**Unstable keys cause React to unnecessarily recreate components, losing state and degrading performance.**
+Unstable keys in React can cause **unnecessary component recreation**, **state loss**, and **performance degradation**. Keys are how React identifies which elements have changed, so unstable keys make React think elements are new on every render.
 
-* **Component recreation**: React treats elements as different when keys change
-* **State loss**: Component state is lost when keys are unstable
-* **Performance impact**: Unnecessary DOM creation and destruction
-* **Common mistake**: Using array index or Math.random() as keys
+**Impacts of unstable keys:**
+
+* **Component recreation** – React unmounts and remounts components if keys change.
+* **State loss** – Any local state inside a component is reset when it’s recreated.
+* **Performance hit** – Extra DOM operations and re-rendering can slow down your app.
+* **Common mistakes** – Using array indexes or random values (`Math.random()`) as keys.
 
 ```jsx
-import { useState } from 'react';
+import React, { useState } from 'react';
 
-function UnstableKeysExample() {
-  const [items, setItems] = useState([
-    { name: 'Apple', category: 'fruit' },
-    { name: 'Carrot', category: 'vegetable' },
-    { name: 'Banana', category: 'fruit' }
-  ]);
-  
-  const [keyStrategy, setKeyStrategy] = useState('stable');
-  
-  const addItem = () => {
-    const newItem = {
-      name: `Item ${items.length + 1}`,
-      category: Math.random() > 0.5 ? 'fruit' : 'vegetable'
-    };
-    setItems([newItem, ...items]);
-  };
-  
-  const removeFirst = () => {
-    setItems(items.slice(1));
-  };
-  
-  const shuffleItems = () => {
-    setItems([...items].sort(() => Math.random() - 0.5));
-  };
-  
-  const getKey = (item, index) => {
-    switch (keyStrategy) {
-      case 'random':
-        return Math.random(); // ❌ VERY BAD - always unstable
-      case 'index':
-        return index; // ❌ BAD - unstable when order changes
-      case 'name':
-        return item.name; // ✅ GOOD - stable and unique
-      default:
-        return `${item.name}-${item.category}`; // ✅ BEST - stable and unique
-    }
-  };
-  
-  return (
-    <div>
-      <h2>Unstable Keys Problems</h2>
-      
-      <div>
-        <label>
-          Key Strategy:
-          <select value={keyStrategy} onChange={(e) => setKeyStrategy(e.target.value)}>
-            <option value="stable">Stable (name + category)</option>
-            <option value="name">Name only</option>
-            <option value="index">Index</option>
-            <option value="random">Random (Very Bad)</option>
-          </select>
-        </label>
-      </div>
-      
-      <div>
-        <button onClick={addItem}>Add Item</button>
-        <button onClick={removeFirst}>Remove First</button>
-        <button onClick={shuffleItems}>Shuffle</button>
-      </div>
-      
-      <div>
-        <h3>Items with {keyStrategy} keys:</h3>
-        <ul>
-          {items.map((item, index) => (
-            <StatefulItem 
-              key={getKey(item, index)}
-              item={item}
-              keyStrategy={keyStrategy}
-            />
-          ))}
-        </ul>
-      </div>
-    </div>
-  );
-}
-
-// Component with state to demonstrate key stability issues
-function StatefulItem({ item, keyStrategy }) {
+function Item({ name }) {
   const [count, setCount] = useState(0);
-  const [inputValue, setInputValue] = useState('');
-  const [mountTime] = useState(Date.now());
-  
-  console.log(`StatefulItem ${item.name} rendered with ${keyStrategy} key`);
-  
+
   React.useEffect(() => {
-    console.log(`StatefulItem ${item.name} mounted`);
-    
-    return () => {
-      console.log(`StatefulItem ${item.name} unmounted (state lost!)`);
-    };
-  }, [item.name]);
-  
+    console.log(`Mounted: ${name}`);
+    return () => console.log(`Unmounted: ${name}`);
+  }, [name]);
+
   return (
-    <li style={{ 
-      border: '1px solid #ccc', 
-      margin: '5px', 
-      padding: '10px',
-      background: keyStrategy === 'random' ? '#ffe6e6' : 
-                 keyStrategy === 'index' ? '#fff3e6' : '#e6ffe6'
-    }}>
-      <div>
-        <strong>{item.name}</strong> ({item.category})
-        <small> - Mounted: {new Date(mountTime).toLocaleTimeString()}</small>
-      </div>
-      
-      <div>
-        <span>Count: {count}</span>
-        <button onClick={() => setCount(count + 1)}>+</button>
-        
-        <input 
-          value={inputValue}
-          onChange={(e) => setInputValue(e.target.value)}
-          placeholder="Type something..."
-          style={{ marginLeft: '10px', width: '120px' }}
-        />
-      </div>
+    <li>
+      {name} - Count: {count} <button onClick={() => setCount(c => c + 1)}>+</button>
     </li>
   );
 }
 
-// Demonstrating the performance impact of unstable keys
-function PerformanceImpactDemo() {
-  const [items, setItems] = useState(
-    Array.from({ length: 100 }, (_, i) => ({ id: i, name: `Item ${i}` }))
-  );
-  const [useStableKeys, setUseStableKeys] = useState(true);
-  const [renderCount, setRenderCount] = useState(0);
-  
-  const shuffleItems = () => {
-    setItems([...items].sort(() => Math.random() - 0.5));
-    setRenderCount(prev => prev + 1);
-  };
-  
+export default function KeysDemo() {
+  const [items, setItems] = useState(['Apple', 'Banana', 'Carrot']);
+  const [keyType, setKeyType] = useState('stable');
+
+  const shuffle = () => setItems([...items].sort(() => Math.random() - 0.5));
+
   return (
     <div>
-      <h3>Performance Impact of Unstable Keys</h3>
-      
-      <div>
-        <label>
-          <input 
-            type="checkbox" 
-            checked={useStableKeys}
-            onChange={(e) => setUseStableKeys(e.target.checked)}
-          />
-          Use Stable Keys
-        </label>
-        
-        <button onClick={shuffleItems}>Shuffle Items (Render #{renderCount})</button>
-      </div>
-      
-      <div style={{ height: '200px', overflow: 'auto', border: '1px solid #ccc' }}>
-        {items.slice(0, 20).map((item, index) => (
-          <PerformanceItem 
-            key={useStableKeys ? item.id : Math.random()} // Stable vs unstable
-            item={item}
-            isStable={useStableKeys}
+      <label>
+        Key type: 
+        <select value={keyType} onChange={e => setKeyType(e.target.value)}>
+          <option value="stable">Stable</option>
+          <option value="index">Index</option>
+          <option value="random">Random</option>
+        </select>
+      </label>
+      <button onClick={shuffle}>Shuffle</button>
+
+      <ul>
+        {items.map((item, i) => (
+          <Item 
+            key={keyType === 'stable' ? item : keyType === 'index' ? i : Math.random()} 
+            name={item} 
           />
         ))}
-      </div>
-    </div>
-  );
-}
-
-function PerformanceItem({ item, isStable }) {
-  const [mountTime] = useState(Date.now());
-  
-  React.useEffect(() => {
-    // Simulate expensive mount operation
-    const start = performance.now();
-    while (performance.now() - start < 1) {
-      // Busy wait for 1ms
-    }
-    
-    console.log(`${isStable ? 'Stable' : 'Unstable'} item ${item.name} mounted`);
-    
-    return () => {
-      console.log(`${isStable ? 'Stable' : 'Unstable'} item ${item.name} unmounted`);
-    };
-  }, []);
-  
-  return (
-    <div style={{ 
-      padding: '5px', 
-      border: '1px solid #ddd',
-      background: isStable ? '#e6ffe6' : '#ffe6e6'
-    }}>
-      {item.name} - Mounted: {new Date(mountTime).toLocaleTimeString()}
+      </ul>
     </div>
   );
 }
