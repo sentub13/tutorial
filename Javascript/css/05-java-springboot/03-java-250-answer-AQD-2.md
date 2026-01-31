@@ -22,20 +22,6 @@ Java compiles to bytecode that runs on the Java Virtual Machine, making it porta
 
 **JDK (Java Development Kit)** includes **JRE plus development tools** like `javac` and `jar` for compiling and building Java programs.
 
-**JVM (Java Virtual Machine):**
-- Runtime environment that executes Java bytecode
-- Platform-specific implementation
-- Handles memory management and garbage collection
-
-**JRE (Java Runtime Environment):**
-- Includes JVM plus core libraries
-- Needed to run Java applications
-- Contains runtime classes and resources
-
-**JDK (Java Development Kit):**
-- Complete development environment
-- Includes JRE plus development tools (compiler, debugger)
-- Needed to develop Java applications
 
 ```
 JDK = JRE + Development Tools (javac, javadoc, jar, etc.)
@@ -54,7 +40,6 @@ The four main principles are:
 - **Polymorphism**: Allowing one entity to take multiple forms (e.g., method overloading, method overriding).
 - **Abstraction**: Hiding the implementation details and showing only the necessary functionality to the user.
 
-These principles help create modular, maintainable, and scalable software by organizing code around objects that represent real-world entities.
 
 ## 4. What is polymorphism? Explain with examples.
 
@@ -295,14 +280,12 @@ String name = "John"; // reference - stores address to "John" object
 ## 3. What is autoboxing and unboxing?
 
 * **Autoboxing** is the automatic conversion of a **primitive type** into its corresponding **wrapper class**.
-
   ```java
   int num = 10;
   Integer numObj = num;  // Autoboxing: int → Integer
   ```
 
 * **Unboxing** is the automatic conversion of a **wrapper class** back to its **primitive type**.
-
   ```java
   Integer numObj = 20;
   int num = numObj;  // Unboxing: Integer → int
@@ -311,12 +294,10 @@ String name = "John"; // reference - stores address to "John" object
 ## 4. What is the difference between == and equals() method?
 
 * **`==`**
-
   * Compares **memory references** for objects (whether two references point to the same object).
   * Compares **actual values** for primitives.
 
 * **`equals()`**
-
   * Compares the **content or state** of objects.
   * Often **overridden** in classes like `String`, `Integer` to compare values.
 
@@ -387,8 +368,6 @@ System.out.println(a == b);  // true - same reference
 System.out.println(a == c);  // false - different references
 ```
 
-This reduces memory usage and improves performance for string literals.
-
 ## 8. What is the difference between final, finally, and finalize?
 
 - **final:** Keyword for constants, preventing inheritance/override
@@ -419,7 +398,8 @@ protected void finalize() {
 
 ## 9. What is coercion in Java?
 
-Coercion is automatic type conversion that Java performs when you assign a smaller data type to a larger one. For example, when you put an int into a double variable, Java automatically converts it. This only works for widening conversions - for narrowing like double to int, you need explicit casting to prevent data loss.
+**Coercion in Java** is the process of converting a value from one data type to another, either automatically by the compiler or manually by the programmer, to make data types compatible in expressions or assignments.
+
 
 ```java
 int num = 10;
@@ -1136,7 +1116,9 @@ Map<String, Integer> map = new HashMap<>();
 
 ## 2. What is the difference between ArrayList and LinkedList?
 
-ArrayList uses dynamic arrays for storage, while LinkedList uses doubly-linked nodes. This affects their performance characteristics for different operations.
+**ArrayList** is a List implementation that uses a dynamic array to store elements, providing fast random access but slower insertions and deletions in the middle.
+
+**LinkedList** is a List implementation that uses a doubly linked list to store elements, providing slower access but faster insertions and deletions.
 
 **ArrayList:**
 - Random access O(1)
@@ -1157,7 +1139,10 @@ List<String> linkedList = new LinkedList<>(); // Fast insertion/deletion
 
 ## 3. What is the difference between HashMap and TreeMap?
 
-HashMap provides O(1) average access time with no ordering, while TreeMap maintains sorted order with O(log n) access time.
+**HashMap** stores key-value pairs using a hash table and does not maintain any ordering of keys. It provides fast performance for basic operations like put and get.
+
+**TreeMap** stores key-value pairs using a Red-Black Tree and maintains keys in sorted (natural or custom) order. It is slower than HashMap but allows ordered traversal.
+
 
 **HashMap:**
 - Hash table implementation
@@ -1178,7 +1163,9 @@ Map<String, Integer> treeMap = new TreeMap<>(); // Slower, sorted
 
 ## 4. What is the difference between HashMap and Hashtable?
 
-HashMap is not synchronized and allows null values, while Hashtable is synchronized and doesn't allow nulls. HashMap is preferred for single-threaded applications.
+**HashMap** is a Map implementation that is **not synchronized** and allows **one null key and multiple null values**, making it faster but not thread-safe.
+
+**Hashtable** is a Map implementation that is **synchronized** and does **not allow any null key or null value**, making it thread-safe but slower.
 
 **HashMap:**
 - Not synchronized (not thread-safe)
@@ -1198,6 +1185,7 @@ Map<String, Integer> hashtable = new Hashtable<>(); // Legacy, thread-safe
 ```
 
 ## 5. How does HashMap work internally?
+A **HashMap** stores data in the form of **key-value pairs** using an array of buckets.
 
 HashMap uses an array of buckets where each bucket can hold multiple key-value pairs. It uses hashing to determine which bucket to use for storing entries.
 
@@ -1358,6 +1346,10 @@ t.start();
 
 ## 3. What is the difference between extending Thread and implementing Runnable?
 
+**Extending `Thread`** means creating a new class that inherits from the `Thread` class to define the task in its `run()` method.
+
+**Implementing `Runnable`** means creating a class that implements the `Runnable` interface and defines the task in its `run()` method, which can then be executed by a `Thread` object.
+
 **Extending Thread:**
 - Direct inheritance from Thread class
 - Cannot extend other classes (single inheritance)
@@ -1470,6 +1462,11 @@ class SharedData {
 ```
 
 ## 8. What is the difference between synchronized and volatile?
+
+**`synchronized`** is a keyword used to control **access to a block or method** by multiple threads, ensuring **mutual exclusion** and **thread safety**.
+
+**`volatile`** is a keyword used with variables to ensure that **changes made by one thread are visible to all other threads immediately**, but it **does not provide mutual exclusion**.
+
 
 **Synchronized:**
 - Provides both visibility and atomicity
@@ -1815,8 +1812,7 @@ public void method() {
 
 ## 3. What is the difference between PermGen and Metaspace?
 
-**PermGen:** 
-PermGen is a memory area in **Java 7 and earlier** that stores **class metadata, method definitions, and interned strings**.
+**PermGen** (Permanent Generation) is a fixed memory area in Java (up to Java 7) used to store class metadata, method information, and interned strings.
 
 **Characteristics:**
 
@@ -1824,8 +1820,7 @@ PermGen is a memory area in **Java 7 and earlier** that stores **class metadata,
 * Part of JVM memory
 * Can cause `OutOfMemoryError: PermGen space` if full
 
-**Metaspace:** 
-Metaspace is a memory area in **Java 8 and later** that stores **class metadata only**.
+**Metaspace** (Java 8 onwards) replaces PermGen, storing class metadata in native memory with dynamic sizing, improving memory management.
 
 **Characteristics:**
 
@@ -2047,6 +2042,10 @@ List<String> lines = Files.readAllLines(Paths.get("file.txt"));
 
 ## 2. What is the difference between InputStream and Reader?
 
+**InputStream** is a byte-oriented class used to read raw **binary data** (like images, audio, or files) from a source.
+
+**Reader** is a character-oriented class used to read **text data** (characters, strings) from a source, handling character encoding automatically.
+
 **InputStream:**
 - Handles raw bytes (binary data)
 - Abstract class for byte streams
@@ -2073,7 +2072,10 @@ int charData = reader.read(); // Returns character as int
 
 ## 3. What is BufferedReader and BufferedWriter?
 
-BufferedReader and BufferedWriter are wrapper classes that add buffering capability to improve I/O performance by reducing the number of system calls.
+**BufferedReader** is a Java class used to read text from an input stream efficiently by **buffering characters**, reducing the number of I/O operations.
+
+**BufferedWriter** is a Java class used to write text to an output stream efficiently by **buffering characters**, reducing the number of I/O operations.
+
 
 **BufferedReader:**
 - Buffers input for efficient reading
@@ -2592,7 +2594,7 @@ Object value = privateField.get(obj); // Access private field
 
 ## 10. How do you handle exceptions in reflection?
 
-Reflection operations throw various checked exceptions that must be handled properly to ensure robust code.
+When using **Java Reflection**, several checked exceptions can occur. You must handle them using **try-catch blocks**. Common exceptions include:
 
 **Common Reflection Exceptions:**
 - **ClassNotFoundException:** Class not found
@@ -2868,6 +2870,10 @@ Supplier<List<String>> listSupplier = ArrayList::new;
 ```
 
 ## 4. What is the difference between lambda and anonymous class?
+
+**Lambda Expression** is a concise way to represent an **implementation of a functional interface** using an expression, allowing cleaner and shorter code.
+
+**Anonymous Class** is a **class without a name** defined and instantiated in a single statement, used to provide an implementation of an interface or subclass.
 
 **Lambda Expression:**
 - Only for functional interfaces
@@ -3800,15 +3806,18 @@ It's the standard annotation for Spring Boot main classes and enables all essent
 
 These are stereotype annotations that mark classes as Spring beans, but they serve different purposes and provide semantic meaning.
 
+**@Component** is a generic Spring annotation used to mark a class as a **Spring-managed bean**.
 **@Component:**
 - Generic stereotype for any Spring-managed component
 - Base annotation for other stereotypes
 
+**@Service** is a specialization of `@Component` used to mark a class as a **service layer component**, indicating business logic.
 **@Service:**
 - Marks service layer classes
 - Contains business logic
 - Semantic specialization of @Component
 
+**@Repository** is a specialization of `@Component` used to mark a class as a **data access object (DAO)**, enabling **exception translation** for database operations.
 **@Repository:**
 - Marks data access layer classes
 - Provides exception translation
@@ -3827,7 +3836,7 @@ public class UserRepository { } // Data access
 
 ## 10. What is @Autowired annotation?
 
-@Autowired enables automatic dependency injection by type. Spring automatically injects the required dependencies into the annotated fields, constructors, or methods.
+**@Autowired** enables automatic dependency injection by type. Spring automatically injects the required dependencies into the annotated fields, constructors, or methods.
 
 - Automatic dependency injection
 - Injection by type
@@ -3852,7 +3861,7 @@ public class OrderService {
 
 ## 11. What is @Qualifier annotation?
 
-@Qualifier is used with @Autowired to specify which bean to inject when multiple beans of the same type exist. It resolves ambiguity in dependency injection.
+**@Qualifier** is used with @Autowired to specify which bean to inject when multiple beans of the same type exist. It resolves ambiguity in dependency injection.
 
 ```java
 @Service
@@ -4034,7 +4043,6 @@ To secure a **Spring Boot application**, you can use **Spring Security** to hand
 * **HTTPS/SSL** to secure data in transit
 * **Input validation and CSRF protection** to prevent attacks
 
-
 ```java
 @Configuration
 @EnableWebSecurity
@@ -4106,7 +4114,7 @@ If a table has many fields but you only need a few, fetching all columns can **s
 
 ## 1. What is CORS, and how does it work?
 
-CORS stands for Cross-Origin Resource Sharing. It's a browser security feature that blocks requests from one domain to another by default. CORS allows servers to specify which domains can access their resources by sending special HTTP headers. This is common when your frontend runs on localhost:3000 and backend on localhost:8080.
+**CORS** stands for Cross-Origin Resource Sharing. It's a browser security feature that blocks requests from one domain to another by default. CORS allows servers to specify which domains can access their resources by sending special HTTP headers. This is common when your frontend runs on localhost:3000 and backend on localhost:8080.
 
 ```java
 @RestController
@@ -4133,7 +4141,7 @@ public class CorsConfig {
 
 ## 1. What are RESTful web services?
 
-RESTful web services are web services that follow REST architectural principles. They use HTTP methods to perform operations on resources identified by URLs, providing a stateless and scalable approach to web communication.
+**RESTful** web services are web services that follow REST architectural principles. They use HTTP methods to perform operations on resources identified by URLs, providing a stateless and scalable approach to web communication.
 
 - Based on REST architectural style
 - Use HTTP methods for operations
@@ -4160,7 +4168,7 @@ These principles ensure scalability, reliability, and maintainability of web ser
 
 ## 3. What are HTTP methods and their usage?
 
-HTTP methods define the type of operation to be performed on a resource. Each method has a specific purpose and semantic meaning in RESTful services.
+**HTTP** methods define the type of operation to be performed on a resource. Each method has a specific purpose and semantic meaning in RESTful services.
 
 **Common HTTP Methods:**
 - **GET:** Retrieve data (read-only)
