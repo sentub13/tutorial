@@ -2,24 +2,23 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.FileNotFoundException;
-import java.io.Scanner;
+import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
-		// CreateFile obj1 = new CreateFile();
-		// obj1.CreateFile();
+		CreateFile obj1 = new CreateFile();
+		obj1.CreateFile();
 		
 		WriteFile obj2 = new WriteFile();
 		obj2.WriteFile();
 		
 		ReadFile obj3 = new ReadFile();
-		// obj3.ReadFile();	
+		obj3.ReadFile();	
 		
 		DeleteFile obj4 = new DeleteFile();
-		// obj4.DeleteFile();
+		obj4.DeleteFile();
     }
 }
-
 
 class CreateFile {
 	public void CreateFile() {
@@ -55,33 +54,30 @@ class WriteFile {
 
 class ReadFile {
 	void ReadFile () {
-		File file = new File("text.text");
-		try () {
-			Scanner obj = new Scanner(file);
-			if(obj.hasNextLIne()){
-				String data = new hasNextLIne();
+		
+		try {
+			File obj = new File("text.text");	
+			Scanner scnObj = new Scanner(obj);
+			while(scnObj.hasNextLine()) {
+				String data = scnObj.nextLine();
 				System.out.println(data);
 			}
-			file.readFile("Hello World");
-			file.close();
-			System.out.println("Successfully wrote to the file");
-		} catch (IOException e) {
+			scnObj.close();			
+		} catch (Exception e) {
 			System.out.println(e);
 		} finally {
-			System.out.println("Completed
+			System.out.println("Hello");
+		}
 	}
 }
 
 class DeleteFile {
 	void DeleteFile () {
-		try {
-			FileWriter file = new FileWriter("text.text");
-			file.write("Hello World");
-			file.close();
-			System.out.println("Successfully wrote to the file");
-		} catch (IOException e) {
-			System.out.println(e);
-		} finally {
-			System.out.println("Completed
+		File obj = new File("test.txt");
+		if(obj.delete()){
+			System.out.println("File Deleted");
+		} else {
+			System.out.println("Not Deleted");
+		}	
 	}
 }

@@ -17,10 +17,96 @@
 >
 > As part of a microservices-based system, I handle service-to-service communication, implement security using Spring Security and JWT, and support CI/CD pipelines using tools like Git, Docker, and Jenkins. I collaborate daily with frontend developers, QA, and product teams in Agile/Scrum ceremonies to ensure timely delivery of features.
 
+===Person shared interview ====================================
+linkedin.com/in/swati-yadav-1570a0351/
+
 = Only PDF link from Linkedin ============
 https://media.licdn.com/dms/document/media/v2/D561FAQEHIgActiVytg/feedshare-document-url-metadata-scrapper-pdf/B56ZwcKwfPK4A4-/0/1769999109633?e=1770703200&v=beta&t=mAZtxJoUa28DQcH7b6sbtWqo7LXHdz-xICcode6hIMU
+
+https://media.licdn.com/dms/image/v2/D4D22AQEy9sZ03VffjA/feedshare-shrink_1280/B4DZwhuqc7HEAg-/0/1770092406881?e=1771459200&v=beta&t=gVzIChelBPHp0tnE5VggIR3Lse4KO8yEGTcT_uTBJoc
+
 =============
 
+--------------
+1. Core Java – Immutability & Concurrency
+What is immutability?
+Explain generics in Java.
+What new features were introduced in Java 17?
+Explain String immutability with an example.
+Why is String immutable in Java?
+What is ConcurrentModificationException?
+What is an Iterator?
+If there are 1000 threads, will you create 1000 object copies?
+Is creating multiple copies cost-effective?
+Discussion on immutability vs thread safety.
+Why are immutable objects thread-safe?
+2. Collections & Concurrency
+Difference between HashMap and ConcurrentHashMap.
+How does ConcurrentHashMap work internally?
+Why are immutable objects preferred in concurrent environments?
+3. Algorithms / Coding
+What is a subsequence?
+What is the Longest Common Subsequence (LCS)?
+Coding Problem:
+Input:
+ String1 = ABC
+ String2 = ACD
+Output:
+ AC
+ Length: 2
+4. Spring Core
+Difference between @Component and @Service annotation.
+5. Spring MVC / REST
+Difference between @Controller and @RestController.
+Difference between Request Parameter and Path Parameter.
+6. Microservices Architecture
+Why do we use microservices architecture?
+If multiple microservices are communicating and one service goes down, how will you handle it?
+Hashtags
+--------------
+Interview Experience – Java Developer (2 - 5 Years)
+
+🔹 Java 8 & Project-Based Questions
+	1.	What are the new features introduced in Java 8?
+	2.	What is a Method Reference?
+	3.	What are Default Methods in interfaces?
+	4.	Explain Intermediate Operations in Streams.
+	5.	What is HTTP Status Code 204?
+	6.	Explain the concept of Microservices in your project.
+	7.	Difference between HashMap and Hashtable.
+	8.	Explain the Authentication Layer in your project.
+	9.	How does JWT (JSON Web Token) work?
+	10.	What is Garbage Collector and how does it work?
+	11.	How do you integrate 3rd-party APIs/data in your project?
+
+
+🔹 Core Java
+	1.	What is Method Hiding?
+	2.	Output of:
+System.out.println(Double.MIN_VALUE > 0.0d);
+	3.	If you add a null value to an empty Set, what will be the size?
+	4.	What is Garbage Collection?
+	5.	Can you override a static method in interface?
+	6.	Internal working of HashMap and how get() works.
+	7.	Explain SOLID Principles.
+
+
+🔹 Spring Boot
+	1.	What is @Lazy?
+	2.	What is @Component?
+	3.	What is Component Scanning?
+	4.	How do you handle Exceptions in Spring Boot?
+	5.	What is JPA?
+	6.	Explain Bean Scopes.
+	7.	@RequestParam vs @RequestBody
+	8.	What is @PathVariable?
+	9.	What is @GeneratedValue?
+
+
+🔹 SQL
+	1.	You have a user table with 50 records.
+→ Write a query to fetch 20 records starting from 5th row (first & last name only).
+	2.	Write an INNER JOIN query between two tables (any example).
 -------------
 1. Your Java service is slow but CPU usage is low — what do you investigate first?
 2. A thread pool is configured correctly, yet tasks are getting delayed. Why?
