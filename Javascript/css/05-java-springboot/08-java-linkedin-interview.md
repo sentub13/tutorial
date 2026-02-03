@@ -17,6 +17,10 @@
 >
 > As part of a microservices-based system, I handle service-to-service communication, implement security using Spring Security and JWT, and support CI/CD pipelines using tools like Git, Docker, and Jenkins. I collaborate daily with frontend developers, QA, and product teams in Agile/Scrum ceremonies to ensure timely delivery of features.
 
+= Only PDF link from Linkedin ============
+https://media.licdn.com/dms/document/media/v2/D561FAQEHIgActiVytg/feedshare-document-url-metadata-scrapper-pdf/B56ZwcKwfPK4A4-/0/1769999109633?e=1770703200&v=beta&t=mAZtxJoUa28DQcH7b6sbtWqo7LXHdz-xICcode6hIMU
+=============
+
 -------------
 1. Your Java service is slow but CPU usage is low — what do you investigate first?
 2. A thread pool is configured correctly, yet tasks are getting delayed. Why?
