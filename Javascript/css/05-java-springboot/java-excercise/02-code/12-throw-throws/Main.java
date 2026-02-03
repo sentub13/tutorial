@@ -1,14 +1,27 @@
+import java.io.File;
+import java.io.IOException;
+
 public class Main {
     public static void main(String[] args) {
-        // System.out.println("Hello from 12-throw-throws");
-		System.out.println(Division(10, 2));
+        CreateFile obj1 = new CreateFile();
+        obj1.CreateFile();
     }
-	
-	public static int Division(int a, int b) throws ArithmeticException {
-		if(b == 0){
-			throw new ArithmeticException("b cannot be zero zcddsdf");
-		}
-		return a / b;
-	}
 }
 
+class CreateFile {
+    public void CreateFile() {
+        try {
+            File file = new File("test.txt");
+
+            if (file.createNewFile()) {
+                System.out.println("File created: " + file.getName());
+            } else {
+                System.out.println("File already exists.");
+            }
+        } catch (IOException e) {
+            System.out.println(e);
+        } finally {
+            System.out.println("Completed");
+        }
+    }
+}

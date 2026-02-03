@@ -17,8 +17,66 @@
 >
 > As part of a microservices-based system, I handle service-to-service communication, implement security using Spring Security and JWT, and support CI/CD pipelines using tools like Git, Docker, and Jenkins. I collaborate daily with frontend developers, QA, and product teams in Agile/Scrum ceremonies to ensure timely delivery of features.
 
+-------------
+1. Your Java service is slow but CPU usage is low — what do you investigate first?
+2. A thread pool is configured correctly, yet tasks are getting delayed. Why?
+3. Your app throws OutOfMemoryError even though heap looks sufficient. How?
+4. Production logs show no errors, but users face random failures. What could be wrong?
+5. Multiple threads update shared data and results are inconsistent — how do you fix it?
+6. A Java app works fine for hours, then suddenly slows down. What’s your approach?
+7. GC pauses are high after a new release. What changes might have caused this?
+8. One API call blocks others even though threads are available. Why?
+9. Your JVM doesn’t exit even after main() completes. What’s holding it?
+10. High CPU usage with very low traffic — where do you look?
+11. A deadlock happens rarely and can’t be reproduced locally. How do you debug it?
+12. HashMap size increases but lookups become slower. What went wrong?
+13. A background job impacts API response time. How do you isolate it?
+14. ThreadLocal fixed one bug but created another. What’s the risk?
+15. After scaling instances, performance gets worse. Why?
+16. A task submitted to ExecutorService fails silently. What happened?
+17. You see frequent Full GCs after a config change. Why?
+18. Memory usage keeps growing but no references are obvious. What do you suspect?
+19. An API is fast sometimes and slow at other times. What could cause this?
+20. Application behaves differently between Java 8 and Java 17. Why?
+21. Logging was increased for debugging and prod went down. How?
+22. A fix works locally but fails under concurrency. What was missed?
+23. Threads are waiting but no deadlock is detected. What’s happening?
+24. A cache improves performance initially, then degrades it. Why?
+25. After enabling parallel streams, response time increased. Why?
+26. JVM tuning helped latency but hurt throughput. Explain the trade-off.
+27. A small code change caused massive GC pressure. How?
+28. A retry mechanism caused system overload. What design mistake?
+29. App crashes only during peak hours. What patterns do you look for?
+30. What Java decision you made once caused a real production issue?
+-------------
 
+1. How to implement payment gateway?
+2. How to store customer sensitive data like account information in database ?
+3. what is @ComponentScan what is the use of it.
+4. We have a list of integers. Find out all the numbers starting with 1 using stream function
+a. 11, 18, 20, 24, 85, 66, 13
+5. We have a list of employees, in which we have id, name, age, gender and salary.
+a. How many male and female employees are there in the organization.
+b. Take out average salary based on employee gender.
+6. Write a java program to find sum of even numbers and sum of odd numbers in a given list using java 8 streams.
+7. How to find duplicate elements in a given integers list in java using Streams function.
+8. I need to compare if two arrays are same, but the order does not matter, just compare the elements in arr1 to elements in arr2
+a. arr1 = [3, 2, 5, 7]
+b. arr2 = [2, 3, 5, 7]
+9. I will provide a string, remove all the occurrences of a given character from that string?
+10. Finding special character in the String, special characters are those characters which are not alphabets or not numbers.
+11. Write a program to check if given strings are rotations of each other or not
+12. Write a program to Find the missing number from the array
+13. Write a program to convert first half of the String in lower case and second half in upper case
+14. Java 8 Program to get Highest paid Employee in Each department using stream api?
+15. Write a java 8 program to find the words starting with vowels
+16.Write a java 8 program to print employees count working in each department 
+17.Write a java 8 program to print active and inactive employees in the given collection
+18.Write a java 8 program to print employee details working in each department
+19.Write a java 8 program to print max salary of employee in each department max/min employee salary in given collection
+21.Write a Java 8 method to find the sum of all elements in a List of integers.
 
+// ============== Done
 🔹 Core Java
  Write a Lambda expression for a functional interface.
  Can you make this reference generic?
