@@ -1,30 +1,32 @@
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.IOException;
 
 public class Main {
 	public static void main(String[] args) {
 		// System.out.println("Hello World");
-		FileInputStream obj1 = new FileInputStream();
+		FileInputStreamApi obj1 = new FileInputStreamApi();
 		obj1.ReadFile();
 		obj1.CopyFile();
 		
-		FileOutputStream obj2 = new FileOutputStream();
+		FileOutputStreamApi obj2 = new FileOutputStreamApi();
 		obj2.WriteFile();
 		obj2.CopyFile();
 		obj2.AppendFile();
 		
-		BufferedReader obj3 = new BufferedReader();		
+		BufferedReaderApi obj3 = new BufferedReaderApi();		
 		obj3.ReadFile();
 		
-		BufferedWriter obj4 = new BufferedWriter();
+		BufferedWriterApi obj4 = new BufferedWriterApi();
 		obj4.WriteFile();
 		obj4.AppendFile();
 	}
 }
 
-class FileInputStream {
+class FileInputStreamApi {
 	void ReadFile() {
 		System.out.println("Read input");
+		
 	}
 	
 	void CopyFile() {
@@ -32,7 +34,7 @@ class FileInputStream {
 	}
 }
 // ==================================
-class FileOutputStream {
+class FileOutputStreamApi {
 	void WriteFile() {
 		System.out.println("Write output");
 	}
@@ -47,13 +49,13 @@ class FileOutputStream {
 }
 // ==================================
 
-class BufferedReader {
+class BufferedReaderApi {
 	void ReadFile () {
 		System.out.println("Read Buffer");
 	}
 }
 // ==================================
-class BufferedWriter {
+class BufferedWriterApi {
 	void WriteFile () {
 		System.out.println("Write Buffer");
 	}
