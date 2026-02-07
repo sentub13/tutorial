@@ -28,3 +28,15 @@ Organize them category-wise
 Remove duplicate or similar questions
 Deliver the final output as a clean, well-structured .md (Markdown) file
 ======================
+
+
+
+https://ust-global.udemy.com/certificate/UC-51e39b26-b80b-4248-9c01-4d15775cf430/
+https://ust-global.udemy.com/certificate/UC-b7a5b4db-5f84-4fde-896e-670d879b275c/
+
+https://ust-global.udemy.com/certificate/UC-c54208cc-e5fa-4eec-955c-2bcc1701d82b/
+https://ust-global.udemy.com/certificate/UC-fb0a8157-2765-4d2e-ae94-26b2efa078f9/
+https://ust-global.udemy.com/certificate/UC-eb8de867-5ab3-41a0-9952-f1bf9a30fa71/
+
+AWS: 
+https://ust-global.udemy.com/certificate/UC-2289d5fd-ef23-4f47-882d-fb9e6da68d12/

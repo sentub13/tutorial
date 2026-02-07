@@ -15,10 +15,10 @@ public class Main {
 		FileOutputStreamApi obj2 = new FileOutputStreamApi();
 		// obj2.WriteFile();
 		// obj2.CopyFile();
-		obj2.AppendFile();
+		// obj2.AppendFile();
 		
 		BufferedReaderApi obj3 = new BufferedReaderApi();		
-		// obj3.ReadFile();
+		obj3.ReadFile();
 		
 		BufferedWriterApi obj4 = new BufferedWriterApi();
 		// obj4.WriteFile();
@@ -95,12 +95,10 @@ class FileOutputStreamApi {
 	
 	public static void AppendFile() {
 		System.out.println("Append output");
-		String str = "fffff";
+		String str = " dasdad  ";
 		try (FileOutputStream output = new FileOutputStream("hello.txt", true)){
 			output.write(str.getBytes());
-			
-			System.out.println("Text appended S
-			output.wucccesfully");
+			System.out.println("Text appended Succcesfully");
 		} catch (IOException e) {
 			System.out.println("Error "+e);
 		}
@@ -111,6 +109,17 @@ class FileOutputStreamApi {
 class BufferedReaderApi {
 	void ReadFile () {
 		System.out.println("Read Buffer");
+		try (BufferedReader buffer = new BufferedReader(
+				new FileReader("hello.txt")
+			)) {
+			String line;
+			while((line = buffer.readLine()) != null) {
+				System.out.println(line);
+			}
+			System.out.println("File wrote successfully. ");
+		} catch (IOException e) {
+			System.out.println("Hello ");
+		}
 	}
 }
 // ==================================
