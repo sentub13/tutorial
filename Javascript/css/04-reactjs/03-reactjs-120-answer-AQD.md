@@ -3212,9 +3212,6 @@ export default App;
 
 ### 10. Why do inline functions cause re-renders?
 
-**Inline functions create new function references on every render, breaking memoization and causing child re-renders.**
-
-
 **Inline functions** cause re-renders because a new function is created every time the component renders.
 Since functions are compared by reference, React sees this as a changed prop when the function is passed to a child component, which can trigger unnecessary re-renders.
 
@@ -3273,7 +3270,8 @@ function Parent() {
 
 ### 11. What is render thrashing?
 
-**Render thrashing occurs when components re-render excessively due to rapid state changes or poor optimization.**
+**Render thrashing** is when a component re-renders repeatedly in a short time due to frequent state or layout updates.
+This causes performance issues because the browser or React keeps recalculating and repainting the UI unnecessarily instead of batching or optimizing the updates.
 
 * **Excessive re-renders**: Components render more than necessary
 * **Performance degradation**: UI becomes slow and unresponsive
