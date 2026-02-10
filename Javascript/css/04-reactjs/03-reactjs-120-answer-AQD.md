@@ -283,7 +283,7 @@ const items = users.map((user, index) =>
 
 ### 13. What are controlled components?
 
-Controlled components have their form data handled by React state.
+**Controlled components** are components in which form data is **fully controlled by the component’s state**, and any change to the input value is handled through event handlers (like `onChange`).
 
 * **React controls value** - Input value comes from state
 * **onChange handler** - Updates state when user types
@@ -307,7 +307,7 @@ function LoginForm() {
 
 ### 14. What are uncontrolled components?
 
-Uncontrolled components manage their own state internally, like traditional HTML forms.
+**Uncontrolled components** are components where form data is handled by the **DOM itself**, not by React state, and values are accessed using **refs** instead of `onChange` and state updates.
 
 * **DOM controls value** - Input manages its own state
 * **Refs for access** - Use refs to get current value when needed
@@ -335,7 +335,7 @@ function LoginForm() {
 
 ### 15. What are React Fragments?
 
-Fragments let you group multiple elements without adding extra DOM nodes.
+**React Fragments** let you group multiple elements together **without adding an extra node to the DOM**, helping keep the markup clean and lightweight.
 
 * **No wrapper div** - Avoid unnecessary DOM elements
 * **Two syntaxes** - React.Fragment or shorthand <></>
@@ -367,7 +367,7 @@ function App() {
 
 ### 16. What are synthetic events?
 
-Synthetic events are React's wrapper around native DOM events for cross-browser compatibility.
+**Synthetic events** are React’s wrapper around native browser events that provide a **consistent, cross-browser event system**, so events behave the same way across different browsers.
 
 * **Cross-browser** - Same API across all browsers
 * **Event pooling** - Reuses event objects for performance (React 16 and below)
@@ -389,7 +389,7 @@ function Button() {
 
 ### 17. What is `React.StrictMode` and why is it used?
 
-StrictMode is a development tool that highlights potential problems in your application.
+**`React.StrictMode`** is a development-only tool that helps identify potential problems in a React app by **highlighting unsafe lifecycles, side effects, and deprecated practices**, making the code more robust and future-ready.
 
 * **Development only** - No impact on production builds
 * **Double rendering** - Helps find side effects in render methods
@@ -423,7 +423,8 @@ root.render(
 
 ### 1. What are React Hooks and why were they introduced?
 
-**Hooks are functions that let you use state and lifecycle features in functional components.**
+**React Hooks** are functions that let you use state and other React features inside functional components, and they were introduced to **simplify logic reuse, reduce complexity, and avoid class-based components**.
+
 
 * **Functional components**: No more class components needed
 * **Reusable logic**: Share stateful logic between components
@@ -516,7 +517,7 @@ function GoodComponent({ condition }) {
 
 ### 3. What is `useState` and how does it work?
 
-**useState adds state to functional components and returns current state and setter function.**
+**`useState`** is a React Hook that lets a functional component **store and update state**, and when the state changes, React automatically **re-renders the component with the new value**.
 
 * **State management**: Manages component's local state
 * **Returns array**: [currentState, setterFunction]
@@ -579,7 +580,8 @@ function computeExpensiveValue() {
 
 ### 4. What is `useEffect` and how does it work?
 
-**useEffect handles side effects in functional components like API calls, subscriptions, and DOM manipulation.**
+**`useEffect`** is a React Hook used to **run side effects** (like data fetching, subscriptions, or DOM updates) after a component renders, and it works by executing the effect based on **dependency changes**.
+
 
 * **Side effects**: Data fetching, subscriptions, manual DOM changes
 * **Lifecycle replacement**: Combines componentDidMount, componentDidUpdate, componentWillUnmount
@@ -856,7 +858,8 @@ function compareDependencies(prevDeps, nextDeps) {
 
 ### 9. What is stale closure in hooks?
 
-**Stale closure occurs when a function captures old values from previous renders.**
+A **stale closure in Hooks** happens when a Hook (like `useEffect` or an event handler) **captures an old value of state or props**, so it keeps using outdated data instead of the latest one.
+
 
 * **Closure problem**: Function remembers old values
 * **Common with**: useEffect, event handlers, timers
@@ -1005,7 +1008,7 @@ function useStableCallback(callback) {
 
 ### 11. When would you use `useRef` instead of `useState`?
 
-**Use useRef for mutable values that don't need to trigger re-renders.**
+You will use **`useRef` instead of `useState`** when you need to **store a value that persists across renders but doesn’t trigger a re-render when it changes**, such as accessing DOM elements, keeping mutable variables, or storing previous values.
 
 * **No re-renders**: Changing ref.current doesn't cause re-render
 * **DOM access**: Direct access to DOM elements
@@ -1096,9 +1099,46 @@ function UsageGuide() {
 
 ---
 
+### 11. What is React.Memo and when should you use it?
+
+**`React.memo`** is a higher-order component that **prevents unnecessary re-renders of a functional component** by memoizing its output, and you should use it **for pure components that render the same result when props haven’t changed**.
+Here’s a **simple example of `React.memo`** 👇
+
+```jsx
+import React, { useState } from "react";
+
+const Child = React.memo(({ count }) => {
+  console.log("Child rendered");
+  return <h2>Count: {count}</h2>;
+});
+
+function App() {
+  const [count, setCount] = useState(0);
+  const [text, setText] = useState("");
+
+  return (
+    <div>
+      <input
+        value={text}
+        onChange={(e) => setText(e.target.value)}
+        placeholder="Type here"
+      />
+      <Child count={count} />
+      <button onClick={() => setCount(count + 1)}>Increment</button>
+    </div>
+  );
+}
+
+export default App;
+```
+
+
+---
+
 ### 12. What is `useMemo` and when should you use it?
 
-**useMemo memoizes expensive calculations and prevents unnecessary re-computations.**
+**`useMemo`** is a React Hook that **memoizes the result of a calculation** so it’s only recomputed when its dependencies change, and you should use it **to optimize performance for expensive computations** and avoid unnecessary recalculations.
+
 
 * **Performance optimization**: Avoid expensive calculations on every render
 * **Referential equality**: Keep same object reference between renders
@@ -1106,108 +1146,40 @@ function UsageGuide() {
 * **Don't overuse**: Only for expensive operations or referential equality
 
 ```jsx
-import { useState, useMemo, useCallback } from 'react';
+import React, { useState, useMemo } from "react";
 
-function MemoExample({ items, filter }) {
+function App() {
   const [count, setCount] = useState(0);
-  
-  // ✅ GOOD - Expensive calculation
-  const expensiveValue = useMemo(() => {
-    console.log('Computing expensive value...');
-    return items
-      .filter(item => item.category === filter)
-      .reduce((sum, item) => sum + item.price * item.quantity, 0);
-  }, [items, filter]); // Only recalculate when these change
-  
-  // ✅ GOOD - Referential equality for child components
-  const sortedItems = useMemo(() => {
-    return [...items].sort((a, b) => a.name.localeCompare(b.name));
-  }, [items]);
-  
-  // ❌ BAD - Don't memo simple calculations
-  const badExample = useMemo(() => {
-    return count * 2; // Too simple, not worth memoizing
+  const [text, setText] = useState("");
+
+  const doubleCount = useMemo(() => {
+    console.log("Calculating...");
+    return count * 2;
   }, [count]);
-  
-  // ✅ GOOD - Complex object that child components depend on
-  const config = useMemo(() => ({
-    theme: 'dark',
-    settings: { showDetails: true },
-    handlers: {
-      onEdit: (id) => console.log('Edit:', id),
-      onDelete: (id) => console.log('Delete:', id)
-    }
-  }), []); // Stable reference
-  
+
   return (
     <div>
-      <p>Count: {count}</p>
-      <p>Total: ${expensiveValue}</p>
+      <h2>Double Count: {doubleCount}</h2>
+
       <button onClick={() => setCount(count + 1)}>Increment</button>
-      
-      <ItemList items={sortedItems} config={config} />
+
+      <input
+        value={text}
+        onChange={(e) => setText(e.target.value)}
+        placeholder="Type here"
+      />
     </div>
   );
 }
 
-// Child component that benefits from memoization
-const ItemList = React.memo(({ items, config }) => {
-  console.log('ItemList rendered'); // Only when props actually change
-  
-  return (
-    <ul>
-      {items.map(item => (
-        <li key={item.id}>
-          {item.name} - ${item.price}
-          <button onClick={() => config.handlers.onEdit(item.id)}>Edit</button>
-        </li>
-      ))}
-    </ul>
-  );
-});
-
-// When to use useMemo:
-function UseMemoGuide() {
-  const [search, setSearch] = useState('');
-  const [data, setData] = useState([]);
-  
-  // ✅ USE - Expensive filtering/sorting
-  const filteredData = useMemo(() => {
-    return data
-      .filter(item => item.name.toLowerCase().includes(search.toLowerCase()))
-      .sort((a, b) => a.score - b.score);
-  }, [data, search]);
-  
-  // ✅ USE - Complex object for child props
-  const chartConfig = useMemo(() => ({
-    type: 'bar',
-    data: filteredData,
-    options: { responsive: true }
-  }), [filteredData]);
-  
-  // ❌ DON'T USE - Simple operations
-  const simpleCalc = search.length > 0 ? 'searching' : 'idle'; // Just calculate directly
-  
-  return (
-    <div>
-      <input value={search} onChange={(e) => setSearch(e.target.value)} />
-      <p>Status: {simpleCalc}</p>
-      <Chart config={chartConfig} />
-    </div>
-  );
-}
-
-const Chart = React.memo(({ config }) => {
-  // This won't re-render unless config reference changes
-  return <div>Chart with {config.data.length} items</div>;
-});
+export default App;
 ```
 
 ---
 
 ### 13. What is `useCallback` and when should you use it?
 
-**useCallback memoizes functions to prevent unnecessary re-creations and child re-renders.**
+**`useCallback`** is a React Hook that **memoizes a function reference** so it doesn’t get recreated on every render, and you should use it **when passing callbacks to child components or dependencies to Hooks to prevent unnecessary re-renders**.
 
 * **Function memoization**: Returns same function reference between renders
 * **Child optimization**: Prevents unnecessary re-renders of child components
@@ -1215,67 +1187,29 @@ const Chart = React.memo(({ config }) => {
 * **Event handlers**: Especially useful for event handlers passed to children
 
 ```jsx
-import { useState, useCallback, memo } from 'react';
+import React, { useState, useCallback } from "react";
 
-function CallbackExample() {
+const Child = React.memo(({ onClick }) => {
+  console.log("Child rendered");
+  return <button onClick={onClick}>Click Child</button>;
+});
+
+function App() {
   const [count, setCount] = useState(0);
-  const [name, setName] = useState('John');
-  
-  // ❌ BAD - New function every render
-  const badHandler = () => {
-    console.log('Clicked with count:', count);
-  };
-  
-  // ✅ GOOD - Memoized function
-  const goodHandler = useCallback(() => {
-    console.log('Clicked with count:', count);
-  }, [count]); // Only recreate when count changes
-  
-  // ✅ GOOD - Stable function (no dependencies)
-  const incrementCount = useCallback(() => {
-    setCount(prev => prev + 1);
-  }, []); // Never recreates
-  
-  const updateName = useCallback((newName) => {
-    setName(newName);
+
+  const handleClick = useCallback(() => {
+    setCount((prev) => prev + 1);
   }, []);
-  
+
   return (
     <div>
-      <p>Count: {count}, Name: {name}</p>
-      
-      {/* Child will re-render every time with badHandler */}
-      <ExpensiveChild onClick={badHandler} label="Bad" />
-      
-      {/* Child only re-renders when goodHandler changes */}
-      <ExpensiveChild onClick={goodHandler} label="Good" />
-      
-      {/* Child never re-renders (stable function) */}
-      <Button onClick={incrementCount}>Increment</Button>
-      <NameInput onUpdate={updateName} />
+      <h2>Count: {count}</h2>
+      <Child onClick={handleClick} />
     </div>
   );
 }
 
-// Memoized child component
-const ExpensiveChild = memo(({ onClick, label }) => {
-  console.log(`${label} child rendered`);
-  return <button onClick={onClick}>{label} Button</button>;
-});
-
-const Button = memo(({ onClick, children }) => {
-  console.log('Button rendered');
-  return <button onClick={onClick}>{children}</button>;
-});
-
-const NameInput = memo(({ onUpdate }) => {
-  return (
-    <input 
-      onChange={(e) => onUpdate(e.target.value)}
-      placeholder="Enter name"
-    />
-  );
-});
+export default App;
 ```
 
 ---
@@ -2372,7 +2306,8 @@ class LifecycleMethods extends React.Component {
 
 ### 5. What is React reconciliation?
 
-**Reconciliation is React's algorithm for comparing virtual DOM trees and updating only what changed.**
+**React reconciliation** is the process by which React **compares the previous virtual DOM with the new one** to determine the **minimum set of changes needed to update the real DOM efficiently**.
+
 
 * **Diffing algorithm**: Compares old and new virtual DOM trees
 * **Minimal updates**: Only updates changed elements in real DOM
@@ -2423,7 +2358,7 @@ function ReconciliationExample() {
 
 ### 6. What is React Fiber?
 
-**React Fiber is the new reconciliation algorithm that enables incremental rendering and better performance.**
+**React Fiber** is React’s **reconciliation engine** that enables **incremental rendering**, allowing React to pause, prioritize, and resume work to improve performance and responsiveness.
 
 * **Incremental rendering**: Break work into chunks, pause and resume
 * **Priority-based**: High priority updates interrupt low priority ones
@@ -5426,6 +5361,9 @@ function CreatePost() {
 
 ### 5. Difference Between Client-Side Caching and Server State
 
+* **Client-side caching** stores data in the browser (like memory, localStorage, or cache) to **avoid repeated requests and improve performance**.
+* **Server state** represents data that lives on the server (like database data) and must be **fetched, synchronized, and kept up to date** between client and server.
+
 **Client-side caching:**
 - Stores data in browser memory/localStorage
 - Controlled by your application
@@ -5750,6 +5688,9 @@ function App() {
 ```
 
 ### 3. Smart vs Dumb Components
+
+* **Smart components (Container components)** handle **business logic, state, and data fetching**.
+* **Dumb components (Presentational components)** focus only on **UI rendering** and receive data via props.
 
 **Smart components (Container):**
 - Manage state and business logic
