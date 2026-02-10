@@ -3063,7 +3063,7 @@ function App() {
 export default App;
 ```
 
-### `Dashboard.js`
+**`Dashboard.js`**
 
 ```jsx
 export default function Dashboard() {
@@ -3148,12 +3148,19 @@ export default App;
 
 ### 9. How do you prevent unnecessary re-renders?
 
-**Use React.memo, useMemo, useCallback, and proper state structure to prevent unnecessary re-renders.**
+Unnecessary re-renders can be prevented by optimizing component rendering, stabilizing references, and designing state efficiently.
 
-* **React.memo**: Memoize components to skip re-renders when props unchanged
-* **useMemo**: Memoize expensive calculations
-* **useCallback**: Memoize functions to maintain reference equality
-* **State structure**: Keep state minimal and avoid derived state
+* **React.memo**
+  Memoizes functional components so they only re-render when their props change, which is especially useful for presentational or pure components.
+
+* **useMemo**
+  Memoizes the result of expensive computations, ensuring they are recalculated only when their dependencies change.
+
+* **useCallback**
+  Memoizes function references to prevent unnecessary re-renders of child components that rely on referential equality.
+
+* **Proper state structure**
+  Keep state minimal and normalized, avoid storing derived state, and prevent state updates when values haven’t actually changed.
 
 ```jsx
 import React, { useState, memo, useMemo, useCallback } from "react";
@@ -3207,119 +3214,59 @@ export default App;
 
 **Inline functions create new function references on every render, breaking memoization and causing child re-renders.**
 
+
+**Inline functions** cause re-renders because a new function is created every time the component renders.
+Since functions are compared by reference, React sees this as a changed prop when the function is passed to a child component, which can trigger unnecessary re-renders.
+
 * **New reference**: Inline functions create new references each render
 * **Breaks memoization**: React.memo sees different function props
 * **Performance impact**: Causes unnecessary child re-renders
 * **Solution**: Use useCallback or define functions outside render
 
 ```jsx
-import { useState, memo, useCallback } from 'react';
+const Child = React.memo(({ onClick }) => {
+  console.log("Child rendered");
+  return <button onClick={onClick}>Click</button>;
+});
 
-function InlineFunctionExample() {
-  const [count, setCount] = useState(0);
-  const [name, setName] = useState('John');
-  
-  console.log('Parent rendered');
-  
-  // ✅ GOOD - Memoized callback
-  const handleGoodClick = useCallback((id) => {
-    console.log('Good click:', id);
-  }, []);
-  
-  // ✅ GOOD - Stable function reference
-  const handleStableClick = (id) => {
-    console.log('Stable click:', id);
+function Parent() {
+  const [count, setCount] = React.useState(0);
+
+  // Inline function (new reference every render)
+  const handleClick = () => {
+    console.log("Clicked");
   };
-  
-  return (
-    <div>
-      <h2>Inline Functions and Re-renders</h2>
-      
-      <p>Count: {count}</p>
-      <p>Name: {name}</p>
-      
-      <button onClick={() => setCount(count + 1)}>Increment</button>
-      <input value={name} onChange={(e) => setName(e.target.value)} />
-      
-      {/* ❌ BAD - Inline function causes re-render */}
-      <MemoChild 
-        name="Bad Child"
-        onClick={() => console.log('inline function')} // New function every render
-      />
-      
-      {/* ✅ GOOD - Memoized callback */}
-      <MemoChild 
-        name="Good Child"
-        onClick={handleGoodClick}
-      />
-      
-      {/* ✅ GOOD - Stable reference (if function doesn't use state) */}
-      <MemoChild 
-        name="Stable Child"
-        onClick={handleStableClick}
-      />
-    </div>
-  );
-}
 
-const MemoChild = memo(({ name, onClick }) => {
-  console.log(`${name} rendered`);
-  
   return (
-    <div style={{ border: '1px solid #ccc', margin: '5px', padding: '10px' }}>
-      <h4>{name}</h4>
-      <button onClick={() => onClick('test')}>Click Me</button>
-    </div>
-  );
-});
-
-
-// Solution with useCallback
-function SolutionWithCallback() {
-  const [parentState, setParentState] = useState(0);
-  const [childRenders, setChildRenders] = useState(0);
-  
-  // ✅ Memoized callbacks
-  const handleRender = useCallback(() => {
-    setChildRenders(prev => prev + 1);
-  }, []);
-  
-  const handleClick = useCallback(() => {
-    console.log('Memoized function - no unnecessary re-renders');
-  }, []);
-  
-  return (
-    <div>
-      <h3>Solution with useCallback</h3>
-      
-      <p>Parent State: {parentState}</p>
-      <p>Child Renders: {childRenders}</p>
-      
-      <button onClick={() => setParentState(parentState + 1)}>
-        Update Parent (Child won't re-render)
+    <>
+      <button onClick={() => setCount(count + 1)}>
+        Increase
       </button>
-      
-      {/* This child will only re-render when actually needed */}
-      <OptimizedChild 
-        onRender={handleRender}
-        onClick={handleClick}
-      />
-    </div>
+      <Child onClick={handleClick} />
+    </>
   );
 }
+```
 
-const OptimizedChild = memo(({ onRender, onClick }) => {
-  React.useEffect(() => {
-    onRender();
-  });
-  
+**`useCallback`**
+
+```jsx
+function Parent() {
+  const [count, setCount] = React.useState(0);
+
+  const handleClick = React.useCallback(() => {
+    console.log("Clicked");
+  }, []);
+
   return (
-    <div style={{ background: '#e6ffe6', padding: '10px' }}>
-      <p>I only re-render when props actually change!</p>
-      <button onClick={onClick}>Click</button>
-    </div>
+    <>
+      <button onClick={() => setCount(count + 1)}>
+        Increase
+      </button>
+      <Child onClick={handleClick} />
+    </>
   );
-});
+}
 ```
 
 ---
