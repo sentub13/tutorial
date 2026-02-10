@@ -4495,34 +4495,50 @@ function Header() {
 
 ### 3. Difference Between State and Context
 
-**State** is component data that can change over time. **Context** is a delivery mechanism for sharing state across components.
+**State:**
+State is data that **belongs to a specific component** and **determines how that component renders**. Each component can have its own state.
 
-**Key differences:**
-- State holds the actual data, Context delivers it
-- State triggers re-renders when changed, Context passes state to consumers
-- State is local by default, Context makes it globally accessible
+```javascript
+function Counter() {
+  const [count, setCount] = React.useState(0);
 
-```jsx
-// State - holds the data
-function App() {
-  const [user, setUser] = useState({ name: 'John', role: 'admin' });
-  
-  // Context - delivers the state
   return (
-    <UserContext.Provider value={{ user, setUser }}>
-      <Dashboard />
-    </UserContext.Provider>
+    <div>
+      <p>Count: {count}</p>
+      <button onClick={() => setCount(count + 1)}>Increment</button>
+    </div>
+  );
+}
+```
+
+**Context:**
+Context is a way to **share data across multiple components** without having to pass props manually at every level. It’s often used for global data like **theme, language, or user info**.
+
+```javascript
+const ThemeContext = React.createContext();
+
+function App() {
+  const [theme, setTheme] = React.useState("light");
+
+  return (
+    <ThemeContext.Provider value={{ theme, setTheme }}>
+      <Navbar />
+      <Content />
+    </ThemeContext.Provider>
   );
 }
 
-// Context consumer gets the state
-function Dashboard() {
-  const { user } = useContext(UserContext); // Receiving state via context
-  return <h1>Welcome {user.name}</h1>;
+function Navbar() {
+  const { theme } = React.useContext(ThemeContext);
+  return <div className={theme}>Navbar</div>;
 }
 ```
 
 ### 4. Context vs Redux – How Do You Decide?
+
+**I use Context** when I just need to *share data* across components—things like theme, auth info, or locale. The state is simple, updates are infrequent, and I mainly want to avoid prop drilling.
+
+**I use Redux** when the state is *core to the app*—lots of components read and update it, there’s async logic, caching, or complex business rules. Redux gives me predictable state updates, better debugging, and scalability.
 
 **Use Context when:**
 - Small to medium apps
@@ -4568,7 +4584,10 @@ const cartSlice = createSlice({
 
 ### 5. What is Redux and Why is it Used?
 
-**Redux** is a predictable state container for JavaScript apps. It centralizes application state in a single store with strict rules for updates.
+**Redux is a state management library for JavaScript applications**, commonly used with React.
+It provides a **single, centralized store** where the entire application state lives.
+
+Redux is used because it makes **state predictable and easier to manage**, especially as apps grow.
 
 **Why use Redux:**
 - Predictable state updates through pure functions
@@ -4731,6 +4750,16 @@ const fetchData = () => (dispatch) => {
 ```
 
 ### 9. Difference Between Redux-Thunk and Redux-Saga
+
+Here’s a **short, spoken-style definition**:
+
+**Redux-Thunk** lets action creators return a **function** instead of an action.
+That function can perform async work, like API calls, and then dispatch actions.
+It’s simple and easy to use.
+
+**Redux-Saga** uses **generator functions** to manage async operations.
+It separates side effects from components and allows better control over complex async flows like cancellation, retries, and parallel tasks.
+
 
 **Redux-Thunk:**
 - Simple, lightweight
@@ -5101,6 +5130,8 @@ function TestApp() {
 # 🟠 7. Data Fetching & Side Effects
 
 ### 1. How Do You Handle API Calls in React?
+
+For simple cases, I use **`useEffect` with `fetch` or Axios** to call an API when a component mounts and store the result in local state.
 
 **Three main approaches:**
 1. **useEffect + fetch/axios** - Traditional approach
