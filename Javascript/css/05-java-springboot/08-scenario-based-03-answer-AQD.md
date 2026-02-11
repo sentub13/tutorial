@@ -253,264 +253,6 @@ String result = sb.toString();
 List<String> items = Arrays.asList("a", "b", "c");
 String result = String.join(",", items);
 ```
-# Java & Spring Boot Interview Questions - Answers (Questions 1-10)
-
-## Core Java Fundamentals
-
-### 1. You have a multi-threaded application where multiple threads access shared data. How do you ensure thread safety?
-
-Use synchronized blocks or methods to lock critical sections. For simple cases, use atomic classes like AtomicInteger. For collections, use ConcurrentHashMap or Collections.synchronizedList(). Better approach is using locks from java.util.concurrent like ReentrantLock for more control. Or avoid shared state altogether - make objects immutable or use ThreadLocal for thread-specific data.
-
-```java
-// Synchronized method
-public synchronized void updateCounter() {
-    counter++;
-}
-
-// Using AtomicInteger
-private AtomicInteger counter = new AtomicInteger(0);
-counter.incrementAndGet();
-
-// Using ReentrantLock
-private final ReentrantLock lock = new ReentrantLock();
-lock.lock();
-try {
-    // critical section
-} finally {
-    lock.unlock();
-}
-```
-
-### 2. Your application is experiencing memory leaks. How do you identify and fix them?
-
-Use profiling tools like VisualVM or JProfiler to monitor heap usage. Look for objects that keep growing and never get garbage collected. Common causes: static collections holding references, unclosed resources like streams or connections, listeners not removed, ThreadLocal not cleaned up. Fix by removing references when done, using try-with-resources for auto-closing, clearing collections, and calling remove() on ThreadLocal.
-
-```java
-// Bad - memory leak
-static List<Object> cache = new ArrayList<>();
-
-// Good - use WeakHashMap or clear when done
-Map<Key, Value> cache = new WeakHashMap<>();
-
-// Always close resources
-try (FileInputStream fis = new FileInputStream(file)) {
-    // use stream
-}
-```
-
-### 3. You need to process a large file (10GB+) without loading it entirely into memory. How do you approach this?
-
-Read the file line by line or in chunks using BufferedReader or FileChannel. Process each line immediately and discard it. For structured data, use streaming parsers like Jackson's streaming API for JSON. Never use Files.readAllLines() for large files.
-
-```java
-try (BufferedReader reader = new BufferedReader(new FileReader("large.txt"))) {
-    String line;
-    while ((line = reader.readLine()) != null) {
-        processLine(line);
-    }
-}
-
-// For binary files, read in chunks
-try (FileInputStream fis = new FileInputStream("large.bin")) {
-    byte[] buffer = new byte[8192];
-    int bytesRead;
-    while ((bytesRead = fis.read(buffer)) != -1) {
-        processChunk(buffer, bytesRead);
-    }
-}
-```
-
-### 4. How would you implement a custom exception hierarchy for your application?
-
-Create a base exception class extending RuntimeException for unchecked exceptions or Exception for checked. Then create specific exceptions for different scenarios - validation errors, business logic errors, external service failures. Include error codes and meaningful messages.
-
-```java
-public class ApplicationException extends RuntimeException {
-    private final String errorCode;
-    
-    public ApplicationException(String errorCode, String message) {
-        super(message);
-        this.errorCode = errorCode;
-    }
-}
-
-public class ValidationException extends ApplicationException {
-    public ValidationException(String message) {
-        super("VALIDATION_ERROR", message);
-    }
-}
-
-public class ResourceNotFoundException extends ApplicationException {
-    public ResourceNotFoundException(String resource) {
-        super("NOT_FOUND", resource + " not found");
-    }
-}
-```
-
-### 5. You need to compare two objects for equality. When would you override equals() and hashCode()?
-
-Override both when you need to compare objects by their content, not reference. Always override both together - if two objects are equal, they must have same hashCode. Needed when using objects as HashMap keys or in HashSet. Use all significant fields in equals comparison and hashCode calculation.
-
-```java
-public class Person {
-    private String name;
-    private int age;
-    
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Person person = (Person) o;
-        return age == person.age && Objects.equals(name, person.name);
-    }
-    
-    @Override
-    public int hashCode() {
-        return Objects.hash(name, age);
-    }
-}
-```
-
-### 6. Your application needs to handle millions of objects. How do you optimize memory usage?
-
-Use primitive types instead of wrapper classes where possible. Use lazy initialization - create objects only when needed. Use object pooling for frequently created objects. Consider using flyweight pattern for shared data. Use weak references for caches. Process data in batches instead of loading everything. Use efficient data structures - ArrayList over LinkedList for most cases.
-
-```java
-// Bad - uses more memory
-List<Integer> numbers = new ArrayList<>();
-
-// Better - use primitive array if possible
-int[] numbers = new int[size];
-
-// Lazy initialization
-private ExpensiveObject obj;
-public ExpensiveObject getObj() {
-    if (obj == null) {
-        obj = new ExpensiveObject();
-    }
-    return obj;
-}
-
-// Use WeakHashMap for caches
-Map<Key, Value> cache = new WeakHashMap<>();
-```
-
-### 7. You need to implement a caching mechanism without using external libraries. How do you do it?
-
-Use a ConcurrentHashMap to store cached data with keys. Add expiration by storing timestamp with each entry and checking on retrieval. Implement LRU eviction using LinkedHashMap with access order. For thread safety, use ConcurrentHashMap or synchronize access.
-
-```java
-public class SimpleCache<K, V> {
-    private final Map<K, CacheEntry<V>> cache = new ConcurrentHashMap<>();
-    private final long ttlMillis;
-    
-    public SimpleCache(long ttlMillis) {
-        this.ttlMillis = ttlMillis;
-    }
-    
-    public void put(K key, V value) {
-        cache.put(key, new CacheEntry<>(value, System.currentTimeMillis()));
-    }
-    
-    public V get(K key) {
-        CacheEntry<V> entry = cache.get(key);
-        if (entry == null) return null;
-        
-        if (System.currentTimeMillis() - entry.timestamp > ttlMillis) {
-            cache.remove(key);
-            return null;
-        }
-        return entry.value;
-    }
-    
-    private static class CacheEntry<V> {
-        final V value;
-        final long timestamp;
-        
-        CacheEntry(V value, long timestamp) {
-            this.value = value;
-            this.timestamp = timestamp;
-        }
-    }
-}
-```
-
-### 8. How would you handle circular references in object serialization?
-
-Use transient keyword to exclude circular reference fields from serialization. Or implement custom serialization with writeObject/readObject methods. Use object identity tracking to detect cycles. Better approach is to redesign to avoid circular references - use IDs instead of direct references.
-
-```java
-public class Employee implements Serializable {
-    private String name;
-    private transient Department department; // Avoid circular reference
-    private Long departmentId; // Use ID instead
-}
-
-// Custom serialization
-private void writeObject(ObjectOutputStream out) throws IOException {
-    out.defaultWriteObject();
-    // Custom logic to handle circular references
-}
-
-// Or use JSON libraries with cycle detection
-ObjectMapper mapper = new ObjectMapper();
-mapper.disable(SerializationFeature.FAIL_ON_SELF_REFERENCES);
-```
-
-### 9. You need to execute tasks asynchronously and get results. How do you implement this?
-
-Use CompletableFuture for async execution with results. Or use ExecutorService with Callable and Future. CompletableFuture is better as it supports chaining, combining multiple futures, and exception handling.
-
-```java
-// Using CompletableFuture
-CompletableFuture<String> future = CompletableFuture.supplyAsync(() -> {
-    return performLongTask();
-});
-
-future.thenAccept(result -> System.out.println(result));
-
-// Get result with timeout
-String result = future.get(5, TimeUnit.SECONDS);
-
-// Using ExecutorService
-ExecutorService executor = Executors.newFixedThreadPool(10);
-Future<String> future = executor.submit(() -> {
-    return performLongTask();
-});
-String result = future.get();
-executor.shutdown();
-
-// Combine multiple futures
-CompletableFuture<String> f1 = CompletableFuture.supplyAsync(() -> "Task1");
-CompletableFuture<String> f2 = CompletableFuture.supplyAsync(() -> "Task2");
-CompletableFuture<Void> combined = CompletableFuture.allOf(f1, f2);
-```
-
-### 10. Your application has performance issues with String concatenation in loops. How do you fix it?
-
-Use StringBuilder instead of String concatenation with + operator. String is immutable, so each concatenation creates a new object. StringBuilder is mutable and efficient for building strings in loops.
-
-```java
-// Bad - creates many String objects
-String result = "";
-for (int i = 0; i < 1000; i++) {
-    result += i + ",";
-}
-
-// Good - uses StringBuilder
-StringBuilder sb = new StringBuilder();
-for (int i = 0; i < 1000; i++) {
-    sb.append(i).append(",");
-}
-String result = sb.toString();
-
-// For simple cases, String.join() is cleaner
-List<String> items = Arrays.asList("a", "b", "c");
-String result = String.join(",", items);
-```
-# Java & Spring Boot Interview Questions - Answers (Questions 11-15)
-
-## Core Java Fundamentals (Continued)
 
 ### 11. How would you implement a thread-safe singleton? What approaches would you use?
 
@@ -772,7 +514,6 @@ if (deadlockedThreads != null) {
     // Log or handle deadlock
 }
 ```
-# Java & Spring Boot Interview Questions - Answers (Questions 16-27)
 
 ## Collections & Data Structures
 
@@ -1137,7 +878,6 @@ scheduler.scheduleAtFixedRate(() -> performTask(), 0, 1, TimeUnit.MINUTES);
 // Single thread executor
 ExecutorService singleExecutor = Executors.newSingleThreadExecutor();
 ```
-# Java & Spring Boot Interview Questions - Answers (Questions 28-35)
 
 ## Streams & Functional Programming
 
@@ -1495,7 +1235,6 @@ List<String> words = sentences.stream()
     .flatMap(sentence -> Arrays.stream(sentence.split(" ")))
     .collect(Collectors.toList());
 ```
-# Java & Spring Boot Interview Questions - Answers (Questions 36-47)
 
 ## Spring Boot REST APIs
 
@@ -2097,8 +1836,6 @@ webClient.get()
     .timeout(Duration.ofSeconds(5))
     .onErrorResume(e -> Mono.just("Fallback response"));
 ```
-
-# Java & Spring Boot Interview Questions - Answers (Questions 48-57)
 
 ## Spring Boot Data & JPA
 
@@ -2706,8 +2443,6 @@ public class MultiDataSourceConfig {
     }
 }
 ```
-
-# Java & Spring Boot Interview Questions - Answers (Questions 58-65)
 
 ## Exception Handling & Validation
 
@@ -3346,8 +3081,6 @@ public class GlobalExceptionHandler {
     }
 }
 ```
-
-# Java & Spring Boot Interview Questions - Answers (Questions 66-73)
 
 ## Security & Authentication
 
@@ -4135,7 +3868,6 @@ public class ApiKeyController {
     }
 }
 ```
-# Java & Spring Boot Interview Questions - Answers (Questions 74-81)
 
 ## Performance Optimization
 
@@ -4850,8 +4582,6 @@ public class JobController {
 }
 ```
 
-# Java & Spring Boot Interview Questions - Answers (Questions 82-87)
-
 ## Testing
 
 ### 82. You need to write unit tests for a service with multiple dependencies. How do you structure your tests?
@@ -5550,8 +5280,6 @@ public class ScheduledTaskService {
 }
 ```
 
-# Java & Spring Boot Interview Questions - Answers (Questions 88-93)
-
 ## Microservices Architecture
 
 ### 88. You need to implement service-to-service communication. What are your options?
@@ -6235,8 +5963,6 @@ public class DeadLetterQueueHandler {
 }
 ```
 
-# Java & Spring Boot Interview Questions - Answers (Questions 94-100)
-
 ## Spring Boot Configuration & Design Patterns
 
 ### 94. You need to manage different configurations for different environments. How do you structure this?
@@ -6595,6 +6321,8 @@ public class ServiceE {
     private int doubleTimeout;
 }
 ```
+
+## Design Patterns (3 questions)
 
 ### 98. You need to create objects with complex initialization. Which pattern would you use?
 
