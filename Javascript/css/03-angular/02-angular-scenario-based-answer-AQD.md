@@ -3,7 +3,7 @@
 
 ---
 
-## 1. Load data from API and display with error handling
+## 1. You need to load data from an API and display it in a component. How do you handle the asynchronous call and errors?
 
 **Approach:**
 - Use HttpClient in a service
@@ -65,7 +65,7 @@ export class DataComponent implements OnInit {
 
 ---
 
-## 2. Subscribe to multiple Observables
+## 2. Your component needs to subscribe to multiple Observables and perform actions when all emit data. How do you manage it?
 
 **Approach:**
 - Use `forkJoin` for parallel execution (all must complete)
@@ -112,7 +112,7 @@ export class MultiDataComponent implements OnInit {
 
 ---
 
-## 3. Global error handling for HTTP requests
+## 3. You need to handle **global error handling** for HTTP requests in your Angular app. How do you do it?
 
 **Approach:**
 - Create HTTP Interceptor
@@ -158,7 +158,7 @@ export class AppModule {}
 
 ---
 
-## 4. Retry logic for failed HTTP requests
+## 4. How would you implement retry logic for failed HTTP requests?
 
 **Approach:**
 - Use `retry` operator for simple retries
@@ -199,7 +199,7 @@ export class DataService {
 
 ---
 
-## 5. Cancel pending HTTP requests on navigation
+## 5. You need to cancel pending HTTP requests when user navigates away. How do you implement this?
 
 **Approach:**
 - Use `takeUntil` with Subject in ngOnDestroy
@@ -248,7 +248,7 @@ export class DataAsyncComponent {
 
 ---
 
-## 6. Request/response interceptors for auth tokens
+## 6. You need to implement request/response interceptors for adding auth tokens. How do you structure this?
 
 **Approach:**
 - Create interceptor
@@ -300,7 +300,7 @@ export class AppModule {}
 
 ---
 
-## 7. Implement caching for HTTP requests
+## 7. How would you implement caching for HTTP requests to reduce API calls?
 
 **Approach:**
 - Create cache service or interceptor
@@ -366,7 +366,7 @@ export class CacheService {
 
 ---
 
-## 8. Handle parallel API calls and wait for all
+## 8. How do you handle parallel API calls and wait for all to complete before proceeding?
 
 **Approach:**
 - Use `forkJoin` operator
@@ -434,7 +434,7 @@ ngOnInit() {
 
 ---
 
-## 9. Optimize performance for large list rendering
+## 9. How would you optimize performance for a component that renders a **large list of items**?
 
 **Approach:**
 - Use trackBy with ngFor
@@ -467,7 +467,7 @@ export class ListComponent {
 
 ---
 
-## 10. Optimize frequent change detection cycles
+## 10. Your Angular app is slow due to frequent change detection cycles. How do you optimize it?
 
 **Approach:**
 - Use OnPush change detection
@@ -511,7 +511,7 @@ export class OptimizedComponent {
 
 ---
 
-## 11. Optimize change detection for frequently updated UI elements
+## 11. Your app has several frequently updated UI elements. How do you **optimize change detection** to avoid unnecessary re-renders?
 
 **Approach:**
 - Use OnPush strategy
@@ -548,7 +548,7 @@ export class FrequentUpdatesComponent {
 
 ---
 
-## 12. Implement virtual scrolling for thousands of items
+## 12. How would you implement virtual scrolling for a list with thousands of items?
 
 **Approach:**
 - Use Angular CDK ScrollingModule
@@ -589,7 +589,7 @@ export class VirtualScrollComponent {
 
 ---
 
-## 13. Optimize expensive computations in templates
+## 13. You have a component with expensive computations in the template. How do you optimize it?
 
 **Approach:**
 - Move computations to component class
@@ -640,7 +640,7 @@ export class ComputedComponent implements OnInit {
 
 ---
 
-## 14. Implement OnPush change detection effectively
+## 14. How do you implement OnPush change detection strategy effectively?
 
 **Approach:**
 - Use OnPush strategy
@@ -706,7 +706,7 @@ export class ParentComponent {
 
 ---
 
-## 15. Optimize slow initial load time
+## 15. Your app has a slow initial load time. What strategies would you implement?
 
 **Approach:**
 - Lazy loading modules
@@ -774,7 +774,7 @@ const routes: Routes = [
 
 ---
 
-## 16. Optimize bundle size
+## 16. How would you optimize bundle size in an Angular application?
 
 **Approach:**
 - Lazy loading
@@ -846,7 +846,7 @@ import { format } from 'date-fns';
 
 ---
 
-## 17. Manage form state across multiple steps
+## 17. You have a form with multiple steps and validations. How do you manage the form state across steps?
 
 **Approach:**
 - Use service to store form data
@@ -913,7 +913,7 @@ export class Step1Component {
 
 ---
 
-## 18. Reactive Forms vs Template-Driven Forms
+## 18. How do you decide when to use **Reactive Forms vs Template-Driven Forms** in Angular?
 
 **When to use Reactive Forms:**
 - Complex validation logic
@@ -974,7 +974,7 @@ export class TemplateComponent {
 
 ---
 
-## 19. Implement dynamic forms based on user input
+## 19. How do you implement **dynamic forms** where fields change based on previous user input?
 
 **Approach:**
 - Subscribe to valueChanges
@@ -1044,7 +1044,7 @@ export class DynamicFormComponent implements OnInit {
 
 ---
 
-## 20. Custom async validators with API calls
+## 20. You need to create custom validators that make async API calls. How do you implement this?
 
 **Approach:**
 - Create AsyncValidatorFn
@@ -1116,7 +1116,7 @@ export class UserService {
 
 ---
 
-## 21. Cross-field validation (password confirmation)
+## 21. How would you implement cross-field validation (e.g., password confirmation)?
 
 **Approach:**
 - Create validator at FormGroup level
@@ -1173,7 +1173,7 @@ export class PasswordFormComponent {
 
 ---
 
-## 22. Manage form with 50+ fields efficiently
+## 22. You have a form with 50+ fields. How do you manage it efficiently?
 
 **Approach:**
 - Break into logical FormGroups
@@ -1288,7 +1288,7 @@ export class PersonalInfoComponent {
 
 ---
 
-## 23. Handle nested form groups and form arrays
+## 23. You need to handle nested form groups and form arrays. How do you structure this?
 
 **Approach:**
 - Use FormBuilder for nested structures
@@ -1380,7 +1380,7 @@ export class NestedFormComponent {
 
 ---
 
-## 24. Child to deeply nested parent communication
+## 24. A child component needs to communicate with a deeply nested parent component. How do you handle this in Angular?
 
 **Approach:**
 - Use shared service with Subject/BehaviorSubject
@@ -1443,7 +1443,7 @@ export class ParentComponent implements OnInit, OnDestroy {
 
 ---
 
-## 25. Manage state across unrelated components
+## 25. How do you manage **state across multiple unrelated components** in Angular?
 
 **Approach:**
 - Shared service with BehaviorSubject
@@ -1514,7 +1514,7 @@ export class ComponentBComponent {
 
 ---
 
-## 26. Ensure shared service data stays updated
+## 26. You have a service that provides shared data across multiple components. How do you ensure it stays updated correctly?
 
 **Approach:**
 - Use BehaviorSubject for current + future values
@@ -1577,7 +1577,7 @@ export class DataDisplayComponent {
 
 ---
 
-## 27. Implement notification system
+## 27. How would you implement a notification system that can be triggered from anywhere in the app?
 
 **Approach:**
 - Notification service with Subject
@@ -1669,7 +1669,7 @@ export class AnyComponent {
 
 ---
 
-## 28. Pass data between sibling components
+## 28. You need to pass data between sibling components. What are your options?
 
 **Approach:**
 - Shared service (recommended)
@@ -1730,7 +1730,7 @@ export class ParentComponent {
 
 ---
 
-## 29. Implement modal service
+## 29. How do you implement a modal service that can be opened from any component?
 
 **Approach:**
 - Service to dynamically create components
@@ -1846,7 +1846,7 @@ export class AnyComponent {
 
 ---
 
-## 30. Implement content projection
+## 30. How would you implement content projection for flexible component composition?
 
 **Approach:**
 - Use ng-content in child component
@@ -1922,7 +1922,7 @@ export class TabsComponent {
 
 ---
 
-## 31. Handle lazy loading of modules
+## 31. How would you handle **lazy loading** of modules to improve app startup time?
 
 **Approach:**
 - Use loadChildren with dynamic import
@@ -1976,7 +1976,7 @@ export class AdminRoutingModule {}
 
 ---
 
-## 32. Implement role-based access control
+## 32. How would you implement **role-based access control** in Angular routes and components?
 
 **Approach:**
 - Create CanActivate guard
@@ -2046,7 +2046,7 @@ export class AuthService {
 
 ---
 
-## 33. Prevent navigation with unsaved changes
+## 33. You need to prevent navigation if form has unsaved changes. How do you implement this?
 
 **Approach:**
 - Implement CanDeactivate guard
@@ -2115,7 +2115,7 @@ const routes: Routes = [
 
 ---
 
-## 34. Route guards with async API calls
+## 34. How do you implement route guards that make async API calls?
 
 **Approach:**
 - Return Observable or Promise from guard
@@ -2181,7 +2181,7 @@ const routes: Routes = [
 
 ---
 
-## 35. Preload lazy-loaded modules
+## 35. You need to preload certain lazy-loaded modules. How do you configure this?
 
 **Approach:**
 - Use PreloadAllModules strategy
@@ -2253,7 +2253,7 @@ export class NetworkAwarePreloadingStrategy implements PreloadingStrategy {
 
 ---
 
-## 36. Handle 404 pages and redirects
+## 36. How do you handle 404 pages and route redirects?
 
 **Approach:**
 - Wildcard route for 404
@@ -2334,7 +2334,7 @@ export class UserComponent implements OnInit {
 
 ---
 
-## 37. Nested routing with shared layouts
+## 37. You need to implement nested routing with shared layouts. How do you structure this?
 
 **Approach:**
 - Parent route with router-outlet
@@ -2436,7 +2436,7 @@ const routes: Routes = [
 
 ---
 
-## 38. Prevent memory leaks with Observables
+## 38. How do you prevent memory leaks when subscribing to Observables in components?
 
 **Approach:**
 - Use takeUntil with Subject in ngOnDestroy
@@ -2511,7 +2511,7 @@ export class DataManualComponent implements OnInit, OnDestroy {
 
 ---
 
-## 39. Debouncing or throttling user input
+## 39. How would you handle **debouncing or throttling** user input (e.g., search box) to avoid excessive API calls?
 
 **Approach:**
 - Use debounceTime to wait for pause in typing
@@ -2574,7 +2574,7 @@ export class ScrollComponent implements OnInit {
 
 ---
 
-## 40. Combine data from multiple Observables
+## 40. You need to combine data from multiple Observables. What operators would you use?
 
 **Approach:**
 - forkJoin: Wait for all to complete (parallel)
@@ -2644,7 +2644,7 @@ export class CombineComponent implements OnInit {
 
 ---
 
-## 41. Handle errors without breaking the stream
+## 41. How do you handle errors in Observable streams without breaking the stream?
 
 **Approach:**
 - Use catchError to handle errors
@@ -2721,7 +2721,7 @@ export class DataService {
 
 ---
 
-## 42. Implement search with autocomplete
+## 42. You need to implement a search with autocomplete using Observables. How do you structure this?
 
 **Approach:**
 - FormControl for input
@@ -2827,7 +2827,7 @@ export class SearchService {
 
 ---
 
-## 43. Chain multiple dependent API calls
+## 43. You need to chain multiple dependent API calls. How do you implement this with RxJS?
 
 **Approach:**
 - Use switchMap for dependent calls
@@ -2909,7 +2909,7 @@ export class ApiService {
 
 ---
 
-## 44. Share Observable subscriptions
+## 44. How do you share Observable subscriptions across multiple subscribers?
 
 **Approach:**
 - Use share operator for multicasting
@@ -3025,7 +3025,7 @@ export class WithShareComponent implements OnInit {
 
 ---
 
-## 45. Implement authentication with JWT
+## 45. How do you implement authentication with JWT in an Angular application?
 
 **Approach:**
 - Store JWT in localStorage/sessionStorage
@@ -3161,7 +3161,7 @@ export class LoginComponent {
 
 ---
 
-## 46. Protect routes from unauthenticated users
+## 46. You need to protect routes from unauthenticated users. How do you implement this?
 
 **Approach:**
 - Create CanActivate guard
@@ -3240,7 +3240,7 @@ onSubmit() {
 
 ---
 
-## 47. Handle token refresh when expired
+## 47. How do you handle token refresh when it expires during user session?
 
 **Approach:**
 - Interceptor catches 401 errors
@@ -3345,7 +3345,7 @@ export class TokenRefreshInterceptor implements HttpInterceptor {
 
 ---
 
-## 48. Redirect users based on role after login
+## 48. You need to redirect users based on their role after login. How do you structure this?
 
 **Approach:**
 - Get user role from token/API
@@ -3462,7 +3462,7 @@ const routes: Routes = [
 
 ---
 
-## 49. Handle unauthorized responses (401/403) globally
+## 49. How do you handle unauthorized responses (401/403) globally?
 
 **Approach:**
 - HTTP interceptor catches errors
@@ -3538,7 +3538,7 @@ export class AccessDeniedComponent {
 
 ---
 
-## 50. Show/hide UI elements based on permissions
+## 50. You need to show/hide UI elements based on user permissions. How do you implement this?
 
 **Approach:**
 - Create directive for permission check
@@ -3676,7 +3676,7 @@ export class ExampleComponent {}
 
 ---
 
-## 51. NgRx vs Services for state management
+## 51. You need to implement global state management. When would you use NgRx vs Services?
 
 **When to use Services:**
 - Simple to medium complexity
@@ -3763,7 +3763,7 @@ export class UsersComponent {
 
 ---
 
-## 52. Persist state across page refreshes
+## 52. You need to persist state across page refreshes. How do you implement this?
 
 **Approach:**
 - Store state in localStorage
@@ -3823,7 +3823,7 @@ export const metaReducers: MetaReducer<any>[] = [localStorageSyncReducer];
 
 ---
 
-## 53. Handle optimistic updates
+## 53. How do you handle optimistic updates when posting data to API?
 
 **Approach:**
 - Update UI immediately
@@ -3898,7 +3898,7 @@ export class TodoService {
 
 ---
 
-## 54. Sync state between localStorage and application
+## 54. You need to sync state between localStorage and application state. How do you implement this?
 
 **Approach:**
 - Listen to storage events
@@ -3963,7 +3963,7 @@ export class SyncDemoComponent {
 
 ---
 
-## 55. Implement shopping cart with persistence
+## 55. How would you implement a shopping cart that persists across sessions?
 
 **Approach:**
 - Cart service with BehaviorSubject
@@ -4075,7 +4075,7 @@ export class CartComponent {
 
 ---
 
-## 56. Test component with HTTP calls
+## 56. How would you test a component that makes HTTP calls?
 
 **Approach:**
 - Use HttpClientTestingModule
@@ -4147,7 +4147,7 @@ describe('UserComponent', () => {
 
 ---
 
-## 57. Test service with dependencies
+## 57. You need to test a service that depends on other services. How do you set this up?
 
 **Approach:**
 - Mock dependencies with spies
@@ -4222,7 +4222,7 @@ describe('UserService', () => {
 
 ---
 
-## 58. Test components with async operations
+## 58. How do you test components with async operations?
 
 **Approach:**
 - Use fakeAsync and tick
@@ -4297,7 +4297,7 @@ describe('AsyncComponent', () => {
 
 ---
 
-## 59. Test route guards
+## 59. You need to test route guards. How do you structure your tests?
 
 **Approach:**
 - Mock dependencies
@@ -4362,7 +4362,7 @@ describe('AuthGuard', () => {
 
 ---
 
-## 60. Test custom validators
+## 60. How would you test custom validators?
 
 **Approach:**
 - Create FormControl with validator
@@ -4442,7 +4442,7 @@ describe('Validators', () => {
 
 ---
 
-## 61. Conditional rendering for loading, error, success states
+## 61. How do you implement **conditional rendering** for loading, error, and success states in Angular templates?
 
 **Approach:**
 - Use boolean flags for states
@@ -4545,7 +4545,7 @@ export class DataSwitchComponent implements OnInit {
 
 ---
 
-## 62. Run code after view is fully initialized
+## 62. You need to run code after view is fully initialized. Which lifecycle hook do you use?
 
 **Approach:**
 - Use ngAfterViewInit lifecycle hook
@@ -4600,7 +4600,7 @@ export class WrapperComponent implements AfterContentInit {
 
 ---
 
-## 63. Detect changes in Input properties
+## 63. How do you detect changes in @Input properties?
 
 **Approach:**
 - Use ngOnChanges lifecycle hook
@@ -4673,7 +4673,7 @@ export class UserSetterComponent {
 
 ---
 
-## 64. Perform cleanup when component is destroyed
+## 64. You need to perform cleanup when component is destroyed. How do you implement this?
 
 **Approach:**
 - Use ngOnDestroy lifecycle hook
@@ -4755,7 +4755,7 @@ export class ManualCleanupComponent implements OnInit, OnDestroy {
 
 ---
 
-## 65. Trigger change detection manually
+## 65. How would you trigger change detection manually when needed?
 
 **Approach:**
 - Inject ChangeDetectorRef
@@ -4827,7 +4827,7 @@ export class GlobalCDComponent {
 
 ---
 
-## 66. Run code only once when component initializes
+## 66. You need to run code only once when component initializes. What's the best approach?
 
 **Approach:**
 - Use ngOnInit for initialization
@@ -4908,7 +4908,7 @@ export class WrongComponent implements OnChanges {
 
 ---
 
-## 67. Integrate third-party library that manipulates DOM
+## 67. A third-party library directly manipulates the DOM. How do you safely integrate it with Angular?
 
 **Approach:**
 - Use ngAfterViewInit
@@ -4970,7 +4970,7 @@ export class ChartComponent implements AfterViewInit, OnDestroy {
 
 ---
 
-## 68. Create directive that adds behavior to elements
+## 68. You need to create a directive that adds behavior to multiple elements. How do you implement this?
 
 **Approach:**
 - Create attribute directive
@@ -5060,7 +5060,7 @@ export class DropdownComponent {
 
 ---
 
-## 69. Create structural directive similar to ngIf
+## 69. How would you create a structural directive similar to *ngIf?
 
 **Approach:**
 - Inject TemplateRef and ViewContainerRef
@@ -5139,7 +5139,7 @@ export class RepeatComponent {}
 
 ---
 
-## 70. Create custom pipe with async operations
+## 70. You need to create a custom pipe that makes async operations. How do you handle this?
 
 **Approach:**
 - Pipes should be pure and synchronous
@@ -5224,7 +5224,7 @@ export class AsyncTransformPipe implements PipeTransform, OnDestroy {
 
 ---
 
-## 71. Implement global error handling
+## 71. How do you implement global error handling in Angular?
 
 **Approach:**
 - Create custom ErrorHandler
@@ -5290,7 +5290,7 @@ export class NotificationService {
 
 ---
 
-## 72. Log errors to external service
+## 72. You need to log errors to an external service. How do you implement this?
 
 **Approach:**
 - Extend ErrorHandler to send errors to logging service
@@ -5380,7 +5380,7 @@ export class AppModule {}
 
 ---
 
-## 73. Identify and fix memory leaks
+## 73. You have a memory leak in your Angular app. How do you identify and fix it?
 
 **Approach:**
 - Use Chrome DevTools Memory profiler
@@ -5556,7 +5556,7 @@ export class CDFixedComponent implements OnInit, OnDestroy {
 
 ---
 
-## 74. Migrate AngularJS to Angular
+## 74. How would you **migrate a large AngularJS application to Angular** while minimizing downtime and errors?
 
 **Approach:**
 - Use ngUpgrade for hybrid approach
@@ -5723,7 +5723,7 @@ export class AppModule {}
 
 ---
 
-## 75. Implement server-side rendering with Angular Universal
+## 75. You need to implement server-side rendering (SSR) with Angular Universal. What are the considerations?
 
 **Approach:**
 - Add Angular Universal
