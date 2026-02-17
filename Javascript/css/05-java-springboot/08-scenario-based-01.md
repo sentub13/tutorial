@@ -1,6 +1,6 @@
 # Personal Questions
 
-## ✅ **Tell me about yourself (Java Developer)**
+##  *Q0. **Tell me about yourself (Java Developer)**
 
 > I am a Full Stack Java Developer with over 3.5 years of experience in designing, developing, and maintaining enterprise-level web applications. My primary expertise is in Java, Spring Boot, and microservices architecture, along with hands-on experience in RESTful APIs, database design, and frontend technologies like React and Angular.
 >
@@ -10,7 +10,7 @@
 
 ---
 
-## ✅ **Current role & day-to-day responsibilities (Java Developer)**
+## *Q0. **Current role & day-to-day responsibilities (Java Developer)**
 
 > In my current role, my day-to-day responsibilities include designing and developing REST APIs using Java and Spring Boot, implementing business logic, and ensuring code quality through unit testing with JUnit and Mockito.
 >
@@ -25,11 +25,20 @@
 **Spoken Answer:**
 
 > In one of my projects, our service became slow during peak traffic.
-> First, I identified the bottleneck using **application metrics and logs**. We used **Spring Boot Actuator**, **Prometheus**, and **Grafana** to monitor response time, CPU, memory, and thread usage.
+> First, I identified the bottleneck using **application metrics and logs**. We used **Spring Boot Actuator**, **Prometheus**, and **Grafana** to monitor response time, CPU, memory, and thread usage. I used **JProfiler** and **VisualVM** to identify bottlenecks.
 >
-> I noticed that response time increased when database calls spiked. After analyzing SQL logs and APM traces, I found an **N+1 query problem** and a blocking I/O call.
+> I noticed that response time increased when database calls spiked. After analyzing SQL logs and APM traces, I found an **N+1 query problem** and a blocking I/O call.  We fixed it by adding pagination, using proper indexes, caching frequent responses, and optimizing JPA queries.”
 >
 > To fix it, I optimized queries, added proper indexing, introduced **caching using Redis**, and moved heavy tasks to **async processing**. After that, latency dropped by more than 60%.
+
+**Fixes Applied:**
+
+* JProfiler / VisualVM
+* JVM thread dumps
+* Pagination
+* Query optimization
+* Redis caching
+* Lazy loading fixes
 
 **Short Example Code (Caching):**
 
@@ -39,88 +48,6 @@ public User getUserById(Long id) {
     return userRepository.findById(id).orElseThrow();
 }
 ```
-
----
-
-## **Q2. How did you handle concurrency issues in a real project?**
-
-**Spoken Answer:**
-
-> Yes, I faced concurrency issues while updating shared resources like account balances.
-> Multiple threads were updating the same data, causing race conditions.
->
-> I solved this by using **synchronization** and **database-level locking**. In some cases, I used **Optimistic Locking with @Version**, and for in-memory operations, I used **Atomic classes** and synchronized blocks.
-
-**Short Example Code (Optimistic Locking):**
-
-```java
-@Entity
-public class Account {
-    @Id
-    private Long id;
-
-    @Version
-    private int version; // Used by JPA for optimistic locking
-
-    private BigDecimal balance;
-}
-```
-
-**Atomic Example:**
-
-```java
-AtomicInteger counter = new AtomicInteger(0);
-counter.incrementAndGet();
-```
-
----
-
-## **Q3. How did you handle global exception handling in your application?**
-
-**Spoken Answer:**
-
-> I handled global exception handling using **@ControllerAdvice** in Spring Boot.
-> This helped me centralize error handling and return consistent error responses across all APIs.
->
-> I created custom exceptions for business logic errors and mapped them to proper HTTP status codes.
-
-**Short Example Code:**
-
-```java
-@RestControllerAdvice
-public class GlobalExceptionHandler {
-
-    @ExceptionHandler(ResourceNotFoundException.class)
-    public ResponseEntity<String> handleNotFound(ResourceNotFoundException ex) {
-        return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                             .body(ex.getMessage());
-    }
-}
-```
-
----
-
-## **Q4. How did you secure your APIs?**
-
-**Spoken Answer:**
-
-> I secured APIs using **Spring Security with JWT authentication**.
-> First, the user authenticates and receives a JWT token. Then, every request must include that token in the Authorization header.
->
-> I also implemented **role-based access control**, **HTTPS**, and **input validation** to prevent security vulnerabilities.
-
-**Short Example Code (JWT Security Config):**
-
-```java
-http.csrf().disable()
-    .authorizeHttpRequests()
-    .requestMatchers("/admin/**").hasRole("ADMIN")
-    .anyRequest().authenticated()
-    .and()
-    .oauth2ResourceServer().jwt();
-```
-
----
 
 ## **Q5. One microservice is down. How did you prevent system failure?**
 
@@ -291,27 +218,6 @@ management:
 
 # **Java – Practical / Real-World Scenarios**
 
-## **Q11. Your service is slow under high load. How did you identify and fix the performance issue?**
-
-**Spoken Answer:**
-
-> When the service slowed down under peak load, I first looked at **metrics and thread dumps** using Spring Boot Actuator and Grafana.
->
-> I noticed high response time but low CPU, which indicated **thread blocking**. Further analysis showed long-running database queries and lack of caching.
->
-> I fixed it by optimizing queries, adding proper indexes, enabling **connection pooling**, and introducing **Redis caching** for frequently accessed data.
-
-**Example Code (DB + Cache):**
-
-```java
-@Cacheable("products")
-public Product getProduct(Long id) {
-    return productRepository.findById(id).orElseThrow();
-}
-```
-
----
-
 ## **Q12. Your Java service started consuming high CPU in production. How did you identify the root cause and fix it?**
 
 **Spoken Answer:**
@@ -359,23 +265,58 @@ Map<String, User> cache = new WeakHashMap<>();
 
 ## **Q14. How did you handle concurrency issues in a multi-threaded Java application you worked on? Give a real example.**
 
-**Spoken Answer:**
+**Way One**
+“In one of my projects, we had a **payment processing service** where multiple threads were updating the same user wallet balance at the same time. This caused **race conditions**, leading to incorrect balances.
 
-> We had multiple threads updating the same inventory count, causing inconsistent data.
->
-> I fixed it using **synchronized blocks** and later optimized it using **AtomicInteger** to reduce lock contention.
+To handle this, I first identified the shared critical section where the balance was being read and updated. I used **synchronization and concurrent utilities** to make the operation thread-safe.
 
-**Example Code:**
+For example, instead of doing a simple read-modify-write, I used a **`ReentrantLock`** to ensure only one thread could update a user’s balance at a time. In some cases where performance mattered, I used **`AtomicInteger` / `AtomicLong`** for counters and **`ConcurrentHashMap`** for shared in-memory data.
+
+Here’s a simplified example from that scenario:”
 
 ```java
-AtomicInteger stock = new AtomicInteger(100);
+class WalletService {
+    private final ReentrantLock lock = new ReentrantLock();
+    private int balance = 1000;
 
-public void reduceStock() {
-    stock.decrementAndGet();
+    public void deductAmount(int amount) {
+        lock.lock();
+        try {
+            if (balance >= amount) {
+                balance -= amount;
+            }
+        } finally {
+            lock.unlock();
+        }
+    }
+}
+```
+“Additionally, we avoided long synchronized blocks, reduced lock scope, and used **thread pools** (`ExecutorService`) instead of creating threads manually. This ensured data consistency while keeping the system performant under high load.”
+
+**Way two**
+> I solved this by using **synchronization** and **database-level locking**. In some cases, I used **Optimistic Locking with @Version**, and for in-memory operations, I used **Atomic classes** and synchronized blocks.
+
+**Short Example Code (Optimistic Locking):**
+
+```java
+@Entity
+public class Account {
+    @Id
+    private Long id;
+
+    @Version
+    private int version; // Used by JPA for optimistic locking
+
+    private BigDecimal balance;
 }
 ```
 
----
+**Atomic Example:**
+
+```java
+AtomicInteger counter = new AtomicInteger(0);
+counter.incrementAndGet();
+```
 
 ## **Q15. You had to process a large file (millions of records). How did you design the Java code to avoid OutOfMemory errors?**
 
@@ -417,62 +358,6 @@ public interface PaymentStrategy {
     void pay();
 }
 ```
-
----
-
-## **Q17. Tell me about a time you faced concurrency issues such as race conditions or deadlocks. How did you debug and fix them?**
-
-**Spoken Answer:**
-
-> We faced a deadlock where two threads were waiting on each other while acquiring locks in different order.
->
-> I analyzed thread dumps and noticed circular lock dependency.
->
-> I fixed it by enforcing a **consistent lock ordering** and reducing synchronized blocks.
-
-**Example Code (Deadlock Fix):**
-
-```java
-synchronized(lock1) {
-    synchronized(lock2) {
-        process();
-    }
-}
-```
-
-## **Q18. How did you optimize slow-performing Java code in a production system?**
-
-**Spoken Answer (Real-Time Style):**
-“In one production system, users complained about slow API responses. First, I didn’t guess — I measured. I used **JProfiler** and **VisualVM** to identify bottlenecks. The profiler showed excessive time spent in database calls and repeated object creation. I optimized SQL queries, added caching, and removed unnecessary loops. After changes, response time dropped by almost 60%.”
-
-**Tools & Techniques Used:**
-
-* JProfiler / VisualVM
-* JVM thread dumps
-* SQL query optimization
-* Caching (Redis / in-memory)
-
-**Example Code (Before & After):**
-
-❌ **Before (Repeated DB calls):**
-
-```java
-for (User user : users) {
-    user.setOrders(orderRepository.getOrders(user.getId()));
-}
-```
-
-✅ **After (Optimized):**
-
-```java
-Map<Long, List<Order>> ordersMap = orderRepository.getOrdersForUsers(userIds);
-
-for (User user : users) {
-    user.setOrders(ordersMap.get(user.getId()));
-}
-```
-
----
 
 ## **Q19. Describe a scenario where improper object creation impacted performance.**
 
@@ -537,43 +422,6 @@ executor.shutdown();
 orders.parallelStream()
       .forEach(order -> process(order));
 ```
-
----
-
-## **Q21. Refactoring legacy Java code**
-
-**Spoken Answer:**
-“I worked on a legacy system with a single 2000-line class. It was hard to debug and slow. I refactored it using SOLID principles — separated responsibilities, introduced interfaces, and removed duplicated code. This improved readability, testability, and performance.”
-
-**Before (Legacy):**
-
-```java
-public class OrderManager {
-    public void process() {
-        // validation
-        // db logic
-        // email logic
-    }
-}
-```
-
-**After (Refactored):**
-
-```java
-public class OrderService {
-    private Validator validator;
-    private OrderRepository repository;
-    private NotificationService notifier;
-}
-```
-
-**Results:**
-
-* Easier maintenance
-* Faster debugging
-* Better unit testing
-
----
 
 ## **Q22. Exception handling and logging in large applications**
 
@@ -643,72 +491,6 @@ public class GlobalExceptionHandler {
 
 # **Spring Boot – Hands-On Implementation Questions**
 
-## **Q24. How did you secure your APIs in Spring Boot?**
-
-**Spoken Answer:**
-“In our Spring Boot application, APIs were exposed to web and mobile clients, so security was critical. We secured them using **Spring Security with JWT-based authentication**. Public APIs like login and signup were open, while all business APIs required authentication. We also enabled CORS, CSRF protection for non-REST endpoints, and role-based access control.”
-
-**Key Security Measures:**
-
-* Spring Security
-* JWT tokens
-* Role-based authorization
-* HTTPS
-* CORS configuration
-
-**Security Configuration Example:**
-
-```java
-@Bean
-public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-    http.csrf().disable()
-        .authorizeHttpRequests()
-        .requestMatchers("/auth/**").permitAll()
-        .anyRequest().authenticated()
-        .and()
-        .oauth2ResourceServer()
-        .jwt();
-
-    return http.build();
-}
-```
-
----
-
-## **Q25. Global exception handling in Spring Boot — why and how?**
-
-**Spoken Answer:**
-“As the application grew, handling exceptions inside every controller became messy and inconsistent. We implemented **global exception handling** using `@RestControllerAdvice` to ensure consistent error responses and better logging.”
-
-**Why Needed:**
-
-* Clean controllers
-* Consistent error responses
-* Centralized logging
-* Better production debugging
-
-**Example:**
-
-```java
-@RestControllerAdvice
-public class GlobalExceptionHandler {
-
-    @ExceptionHandler(ResourceNotFoundException.class)
-    public ResponseEntity<ErrorResponse> handleNotFound(ResourceNotFoundException ex) {
-        return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                .body(new ErrorResponse(ex.getMessage()));
-    }
-
-    @ExceptionHandler(Exception.class)
-    public ResponseEntity<ErrorResponse> handleGeneric(Exception ex) {
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                .body(new ErrorResponse("Internal server error"));
-    }
-}
-```
-
----
-
 ## **Q26. Real scenario: Securing REST APIs using Spring Security**
 
 **Spoken Answer:**
@@ -777,30 +559,6 @@ spring:
 private String dbUrl;
 ```
 
----
-
-## **Q28. Performance issue in a Spring Boot application**
-
-**Spoken Answer:**
-“One REST API was slow when handling large data sets. The root cause was fetching unnecessary data and N+1 queries. We fixed it by adding pagination, using proper indexes, caching frequent responses, and optimizing JPA queries.”
-
-**Fixes Applied:**
-
-* Pagination
-* Query optimization
-* Redis caching
-* Lazy loading fixes
-
-**Caching Example:**
-
-```java
-@Cacheable("products")
-public List<Product> getProducts() {
-    return productRepository.findAll();
-}
-```
-
----
 
 ## **Q29. Pagination, sorting, and filtering in Spring Boot**
 
