@@ -60,7 +60,7 @@ public class Account {
     private Long id;
 
     @Version
-    private int version;
+    private int version; // Used by JPA for optimistic locking
 
     private BigDecimal balance;
 }
@@ -131,17 +131,52 @@ http.csrf().disable()
 > I implemented **Circuit Breaker**, **Retry**, and **Fallback mechanisms** using **Resilience4j**.
 > If a dependent service goes down, the circuit breaker opens and returns a fallback response instead of failing the entire system.
 
+**What We Used:**
+
+* Circuit breaker
+* Fallback responses
+* Timeouts
+* Cached data
+
 **Short Example Code (Circuit Breaker):**
-
 ```java
-@CircuitBreaker(name = "orderService", fallbackMethod = "fallback")
-public String getOrder() {
-    return restTemplate.getForObject("/orders", String.class);
-}
+@Service
+public class OrderService {
 
-public String fallback(Exception ex) {
-    return "Order service is temporarily unavailable";
+    private final InventoryClient inventoryClient;
+
+    public OrderService(InventoryClient inventoryClient) {
+        this.inventoryClient = inventoryClient;
+    }
+
+    @CircuitBreaker(name = "inventoryService", fallbackMethod = "fallback")
+    @Retry(name = "inventoryService")
+    public InventoryResponse checkInventory(String productId) {
+        return inventoryClient.getInventory(productId);
+    }
+
+    public InventoryResponse fallback(String productId, Exception ex) {
+        return new InventoryResponse(productId, 0, "Service unavailable");
+    }
 }
+```
+
+**application.yml Configuration**
+```java
+resilience4j:
+  circuitbreaker:
+    instances:
+      inventoryService:
+        slidingWindowSize: 10
+        failureRateThreshold: 50
+        waitDurationInOpenState: 10s
+        permittedNumberOfCallsInHalfOpenState: 3
+  retry:
+    instances:
+      inventoryService:
+        maxAttempts: 3
+        waitDuration: 2s
+
 ```
 
 ## **Q6. How did microservices communicate with each other?**
@@ -798,35 +833,6 @@ public List<Product> search(@RequestParam String category) {
 ---
 
 # **Microservices – Production Scenarios**
-
-## **Q30. One microservice is down. How did you prevent system failure?**
-
-**Spoken Answer (Real-Time):**
-“In microservices, failure is expected, so we designed the system to be fault-tolerant. When one service went down, we prevented system failure using **graceful degradation**, **fallback mechanisms**, and **timeouts**. Instead of failing the entire request, the system returned partial data or a default response.”
-
-**What We Used:**
-
-* Circuit breaker
-* Fallback responses
-* Timeouts
-* Cached data
-
-**Example (Resilience4j Fallback):**
-
-```java
-@CircuitBreaker(name = "inventoryService", fallbackMethod = "fallbackInventory")
-public Inventory getInventory(String productId) {
-    return inventoryClient.getInventory(productId);
-}
-
-public Inventory fallbackInventory(String productId, Exception ex) {
-    return new Inventory(productId, 0); // default response
-}
-```
-
-👉 Result: The system stayed up even when one service was down.
-
----
 
 ## **Q31. One microservice was frequently failing and impacting others. How did you isolate it?**
 

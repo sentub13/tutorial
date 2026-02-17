@@ -4315,6 +4315,27 @@ If we don’t want to manually write **getters and setters** in Java, we can use
 
 Alternatively, `@Data` generates **getters, setters, `toString()`, `equals()`, and `hashCode()`** all at once.
 
+```java
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
+public class Person {
+    private String name;
+    private int age;
+}
+```
+
+```java
+import lombok.Data;
+
+@Data
+public class Person {
+    private String name;
+    private int age;
+}
+```
 
 ## 17. Why do we use Long in JpaRepository<Employee, Long>?
 In **`JpaRepository<Employee, Long>`**, the **first type (`Employee`)** is the **entity class** the repository manages, and the **second type (`Long`)** is the **type of the entity’s primary key (`@Id`)**.
