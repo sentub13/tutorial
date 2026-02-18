@@ -1,4 +1,4 @@
-# 1. Java Basic Concepts 
+# ✅ 1. Java Basic Concepts 
 
 ## 1. What is Java and what are its key features?
 
@@ -224,7 +224,7 @@ public class Helper {
 }
 ```
 
-# 2. Data Types and Variables
+# ✅ 2. Data Types and Variables
 
 ## 1. What are data types in Java?
 
@@ -412,7 +412,7 @@ int i = (int) d; // Explicit casting required - double to int
 ```
 
 
-# 3. Classes and Objects
+# ✅ 3. Classes and Objects
 
 ## 1. What is a constructor in Java?
 
@@ -584,7 +584,7 @@ animal2.sound(); // Calls Cat's sound() method
 // depends on object type (Dog or Cat)
 ```
 
-# 4. Java Inheritance 
+# ✅ 4. Java Inheritance 
 
 ## 1. Why doesn't Java support multiple inheritance?
 
@@ -706,7 +706,7 @@ class Car {
 }
 ```
 
-# 5. Java Interface & Abstract Class 
+# ✅ 5. Java Interface & Abstract Class 
 
 ## 1. What is an interface in Java?
 
@@ -917,7 +917,7 @@ class Eagle implements Bird {
 }
 ```
 
-# 6. Java Exception Handling 
+# ✅ 6. Java Exception Handling 
 
 ## 1. What is an exception in Java?
 
@@ -1097,7 +1097,7 @@ re.initCause(originalException);
 throw re;
 ```
 
-# 7. Java Collections Framework
+# ✅ 7. Java Collections Framework
 
 ## 1. What is Java Collections Framework?
 
@@ -1330,7 +1330,7 @@ Map<String, Integer> linkedMap = new LinkedHashMap<>(); // Ordered
 Queue<Integer> priorityQueue = new PriorityQueue<>(); // Heap-based
 ```
 
-# 8. Java Multithreading & Synchronization 
+# ✅ 8. Java Multithreading & Synchronization 
 
 ## 1. What is multithreading?
 
@@ -1552,7 +1552,7 @@ public void increment() {
 }
 ```
 
-# 9. Java Advanced Concurrency 
+# ✅ 9. Java Advanced Concurrency 
 
 ## 0. What is **Concurrency in Java**?
 
@@ -1786,7 +1786,11 @@ public synchronized void method() {
 ```
 7. **What is immutability in Java?**
 
-# 10. Java JVM & Memory Management 
+# ✅ 10. Java JVM & Memory Management 
+
+## 0. What is Java Memory Model (JMM)?
+
+**Java Memory Model** defines how threads interact with shared memory in a multithreaded environment. It guarantees visibility, atomicity, and ordering of shared variables. It provides rules like the happens-before relationship and uses mechanisms such as volatile and synchronized to ensure data consistency between threads.
 
 ## 1. What are the different memory areas in JVM?
 
@@ -1796,16 +1800,17 @@ JVM divides memory into several distinct areas, each serving specific purposes f
    **Heap memory** is used for dynamic memory allocation.
     It stores **objects and instance variables** created using `new`.
     Memory in the heap is managed by the **Garbage Collector** in Java.
-    It is **larger in size**, but slightly slower than stack.
+    It is **larger in size**, but slightly slower than stack. Example: `new Student()` object is stored in Heap.
 
-2. **Method Area (Metaspace)**
-   Stores class-level data such as class metadata, method bytecode, static variables, and the runtime constant pool. It is shared among all threads.
-
-3. **Stack**
+2. **Stack**
    **Stack memory** is used for temporary memory allocation.
     It stores **local variables, method calls, and function execution data**.
     Memory in the stack is managed automatically — when a method finishes, its memory is removed immediately.
-    It is **faster**, but size is limited.
+    Method variables like `int x = 10` are stored in Stack.
+
+3. **Method Area (Metaspace)**
+   Stores class-level data such as class metadata, method bytecode, static variables, and the runtime constant pool. It is shared among all threads.
+
 
 4. **Program Counter (PC) Register**
    Stores the address of the currently executing instruction for each thread.
@@ -1817,15 +1822,15 @@ Each area has different characteristics for garbage collection and memory alloca
 
 ## 2. What is the difference between heap and stack?
 
-**Stack memory** is used for temporary memory allocation.
-It stores **local variables, method calls, and function execution data**.
-Memory in the stack is managed automatically — when a method finishes, its memory is removed immediately.
-It is **faster**, but size is limited.
-
 **Heap memory** is used for dynamic memory allocation.
 It stores **objects and instance variables** created using `new`.
 Memory in the heap is managed by the **Garbage Collector** in Java.
-It is **larger in size**, but slightly slower than stack.
+It is **larger in size**, but slightly slower than stack. Example: `new Student()` object is stored in Heap.
+
+**Stack memory** is used for temporary memory allocation.
+It stores **local variables, method calls, and function execution data**.
+Memory in the stack is managed automatically — when a method finishes, its memory is removed immediately.
+Method variables like `int x = 10` are stored in Stack.
 
 **Heap:**
 - Stores objects and instance variables
@@ -1859,6 +1864,7 @@ public void method() {
 * Can cause `OutOfMemoryError: PermGen space` if full
 
 **Metaspace** (Java 8 onwards) replaces PermGen, storing class metadata in native memory with dynamic sizing, improving memory management.
+* Fixed size (`-XX:PermSize`, `-XX:MaxMetaspaceSize`)
 
 **Characteristics:**
 
@@ -1961,7 +1967,7 @@ In Java, **Garbage Collectors (GC)** are responsible for **automatically reclaim
 
 ## 6. What is generational garbage collection?
 
-Generational garbage collection is based on the observation that most objects die young. It divides heap into generations and applies different collection strategies.
+**Generational Garbage Collection** is a memory management strategy in JVM where the heap is divided into multiple generations based on the assumption that **most objects die young**.
 
 **Young Generation:**
 - Eden space (new objects)
@@ -2054,7 +2060,7 @@ public class Example {
 }
 ```
 
-# 11. Java Input/Output (I/O) 
+# ✅ 11. Java Input/Output (I/O) 
 
 ## 1. What are the different ways to read a file in Java?
 
@@ -2250,7 +2256,7 @@ Use NIO when you need better performance and scalability, especially for server 
 - Systems with limited threads but many connections
 
 
-# 12. Java Generics 
+# ✅ 12. Java Generics 
 
 ## 1. What are generics in Java?
 
@@ -2416,7 +2422,7 @@ public class GenericClass<T> {
 }
 ```
 
-# 13. Java Annotations & Reflection 
+# ✅ 13. Java Annotations & Reflection 
 
 ## 1. What are annotations in Java?
 
@@ -2677,7 +2683,7 @@ public void testGetUser() {
 }
 ```
 
-# 14. Java Web Development - Servlets and JSP
+# 14. ✅ Java Web Development - Servlets and JSP
 
 ## 1. What is servlet in Java?
 
@@ -2832,7 +2838,7 @@ public class UserService {
 }
 ```
 
-# 15. Java Lambda Expressions & Streams API 
+# ✅ 15. Java Lambda Expressions & Streams API 
 
 ## 1. What are lambda expressions?
 
@@ -3080,7 +3086,7 @@ optional.filter(s -> s.length() > 3)
         .ifPresent(System.out::println);
 ```
 
-# 16. Java JDBC 
+# ✅ 16. Java JDBC 
 
 ## 1. What is JDBC?
 
@@ -3476,7 +3482,7 @@ public class HelloServlet extends HttpServlet {
 </html>
 ```
 
-# 16. Java Design Patterns 
+# ✅ 16. Java Design Patterns 
 
 ## 1. What are design patterns?
 
@@ -3800,7 +3806,7 @@ coffee = new SugarDecorator(coffee);
 // Result: "Simple coffee, milk, sugar" - $2.7
 ```
 
-# 18. Java Spring Framework 
+# ✅ 18. Java Spring Framework 
 
 ## 1. What is Spring Framework?
 
@@ -4315,27 +4321,6 @@ If we don’t want to manually write **getters and setters** in Java, we can use
 
 Alternatively, `@Data` generates **getters, setters, `toString()`, `equals()`, and `hashCode()`** all at once.
 
-```java
-import lombok.Getter;
-import lombok.Setter;
-
-@Getter
-@Setter
-public class Person {
-    private String name;
-    private int age;
-}
-```
-
-```java
-import lombok.Data;
-
-@Data
-public class Person {
-    private String name;
-    private int age;
-}
-```
 
 ## 17. Why do we use Long in JpaRepository<Employee, Long>?
 In **`JpaRepository<Employee, Long>`**, the **first type (`Employee`)** is the **entity class** the repository manages, and the **second type (`Long`)** is the **type of the entity’s primary key (`@Id`)**.
@@ -4666,7 +4651,7 @@ public class Course {
 }
 ```
 
-# 19. RESTful Services 
+# ✅ 19. RESTful Services 
 
 ## 1. What is CORS, and how does it work?
 
@@ -4695,8 +4680,7 @@ public class CorsConfig {
 }
 ```
 
-
-# 🔹 What is an API and what are different type of API?
+## 2. What is an API and what are different type of API?
 
 An **API (Application Programming Interface)** is a set of rules that allows different software applications to communicate with each other.
 
@@ -4887,7 +4871,7 @@ public class UserController {
 }
 ```
 
-# 20. Java Microservices 
+# ✅ 20. Java Microservices 
 
 ## 1. What is CORS, and how does it work?
 
@@ -5255,7 +5239,7 @@ public class OrderController {
 }
 ```
 
-# 21. Java Performance Tuning 
+# ✅ 21. Java Performance Tuning 
 
 ## 1. How do you identify performance bottlenecks?
 
@@ -5448,7 +5432,7 @@ java -XX:+PrintCompilation \      # Print compilation events
      JITExample
 ```
 
-# 22. Modern Java Features 
+# ✅ 22. Modern Java Features 
 
 ## 1. What are the new features in Java 8?
 
@@ -5604,7 +5588,7 @@ Java moved to a 6-month release cycle in 2017, providing regular updates with ne
 - **Experimentation:** Try latest feature releases for new capabilities
 - **Migration strategy:** Plan upgrades around LTS releases
 
-# 23. Cloud and Containerization 
+# ✅ 23. Cloud and Containerization 
 
 ## 1. What is containerization?
 
@@ -5778,7 +5762,7 @@ server {
 }
 ```
 
-# 24. Miscellaneous
+# ✅ 24. Miscellaneous
 
 ## 2. What are the main features of an eCommerce application?
 
@@ -5842,114 +5826,159 @@ Release branches prepare for deployment, and hotfix branches handle urgent produ
 
 A CRUD service handles Create, Read, Update, Delete operations with proper validation and error handling. I'll use JPA repository for database operations and add business logic for validation.
 
+✅ Main Application
 
-**Enable Cache (Main Class)**
 ```java
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cache.annotation.EnableCaching;
+
 @SpringBootApplication
 @EnableCaching
-public class DemoApplication {
+public class Main {
+
     public static void main(String[] args) {
-        SpringApplication.run(DemoApplication.class, args);
+        SpringApplication.run(Main.class, args); // fixed args
+        System.out.println("Hello World");
     }
 }
 ```
 
-**Entity**
+✅ User Entity
 
 ```java
+import jakarta.persistence.*;
+
+@Entity
+@Table(name = "users")
 public class User {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String name;
 
-    // Default Constructor
-    public User() { }
+    @Column(name = "username", length = 12, nullable = false)
+    private String username;
 
-    // Parameterized Constructor
-    public User(Long id, String name) {
-        this.id = id;
-        this.name = name;
+    @Column(name = "email", length = 300)
+    private String email;
+
+    @ManyToOne
+    @JoinColumn(name = "role_id")
+    private Roles role;
+
+    public User() {}
+
+    public User(String username, String email) {
+        this.username = username;
+        this.email = email;
     }
 
-    // Getter for id
     public Long getId() { return id; }
-
-    // Setter for id
     public void setId(Long id) { this.id = id; }
 
-    // Getter for name
-    public String getName() { return name; }
+    public String getUsername() { return username; }
+    public void setUsername(String username) { this.username = username; }
 
-    // Setter for name
-    public void setName(String name) { this.name = name; }
+    public String getEmail() { return email; }
+    public void setEmail(String email) { this.email = email; }
 
-    // toString Method
-    @Override
-    public String toString() {
-        return "User{id=" + id + ", name='" + name + "'}";
-    }
+    public Roles getRole() { return role; }
+    public void setRole(Roles role) { this.role = role; }
 }
 ```
 
-**User Repository**
+✅ Roles Entity
+
+```java
+import jakarta.persistence.*;
+
+@Entity
+@Table(name = "roles")
+public class Roles {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Column(name = "role", nullable = false)
+    private String role;
+
+    public Roles() {}
+    public Roles(String role) {
+        this.role = role;
+    }
+
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
+    public String getRole() { return role; }
+    public void setRole(String role) { this.role = role; }
+}
+```
+
+✅ Repository
+
 ```java
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
+
 }
 ```
 
-**Service (CRUD + Cache + Circuit Breaker)**
+✅ Service
+
 ```java
-import org.springframework.cache.annotation.Cacheable;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 
 @Service
 public class UserService {
 
-    // CREATE
-    public User createUser(User user) {
-        return user; // normally save to DB
-    }
+    @Autowired
+    private UserRepository userRepository;
 
-    // READ with Cache + Circuit Breaker
-    @Cacheable(value = "users", key = "#id")
-    @CircuitBreaker(name = "userService", fallbackMethod = "fallbackUser")
-    public User getUser(Long id) {
-        // simulate DB call
-        return new User(id, "John");
+    public User createUser(String username, String email) {
+        User user = new User(username, email);
+        return userRepository.save(user);
     }
 }
 ```
 
-**Controller**
+✅ Controller
+
 ```java
 import org.springframework.web.bind.annotation.*;
+import org.springframework.beans.factory.annotation.Autowired;
+import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
+import io.github.resilience4j.retry.annotation.Retry;
 
 @RestController
-@RequestMapping("/users")
+@RequestMapping("/user")
 public class UserController {
 
-    private final UserService userService;
-
-    public UserController(UserService userService) {
-        this.userService = userService;
-    }
+    @Autowired
+    private UserService userService;
 
     @PostMapping
-    public User create(@RequestBody User user) {
-        return userService.createUser(user);
+    @CircuitBreaker(name = "user-service", fallbackMethod = "fallbackUser")
+    @Retry(name = "user-service")
+    public User createUser(@RequestBody User user) {
+        return userService.createUser(user.getUsername(), user.getEmail());
     }
 
-    @GetMapping("/{id}")
-    public User get(@PathVariable Long id) {
-        return userService.getUser(id);
+    // ✅ Fallback Method
+    public User fallbackUser(User user, Exception ex) {
+        User fallback = new User();
+        fallback.setUsername("fallback-user");
+        fallback.setEmail("fallback@email.com");
+        return fallback;
     }
 }
 ```
+
 
 ## 8. How do you migrate a Java application from a lower version to a higher version?
 
