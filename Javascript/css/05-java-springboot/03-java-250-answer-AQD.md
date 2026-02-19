@@ -1788,9 +1788,47 @@ public synchronized void method() {
 
 # ✅ 10. Java JVM & Memory Management 
 
-## 0. What is Java Memory Model (JMM)?
+## 0. Explain how Java Memory Model (JMM) works.
 
-**Java Memory Model** defines how threads interact with shared memory in a multithreaded environment. It guarantees visibility, atomicity, and ordering of shared variables. It provides rules like the happens-before relationship and uses mechanisms such as volatile and synchronized to ensure data consistency between threads.
+The **Java Memory Model (JMM)** defines how threads interact with memory in Java. It explains **how variables are stored in memory and how multiple threads see those variables**.
+
+In Java, each thread has its own **stack memory**, and all threads share a common **heap memory**.
+
+* **Heap Memory** → Stores objects and instance variables. Shared among all threads.
+* **Stack Memory** → Stores local variables and method calls. Each thread has its own stack.
+
+Now, the main problem in multithreading is **visibility and ordering**.
+
+For example, if Thread A updates a shared variable in heap memory, Thread B may not immediately see that updated value. This happens because threads can keep copies of variables in their **CPU cache or registers**.
+
+To solve this, JMM defines rules:
+
+### 1. Visibility
+
+If one thread changes a variable, how does another thread see it?
+Using the `volatile` keyword ensures that changes are immediately visible to other threads.
+
+### 2. Happens-Before Relationship
+
+JMM defines a rule called **happens-before**.
+If one action happens-before another, then the first action’s result is visible to the second.
+
+Example:
+
+* Unlocking a synchronized block happens-before locking it again.
+* Writing to a volatile variable happens-before reading it.
+
+### 3. Atomicity
+
+Some operations are atomic by default, like reading and writing `int`.
+But operations like `count++` are not atomic because they involve multiple steps (read, increment, write).
+
+We use:
+
+* `synchronized`
+* `volatile`
+* `Atomic` classes (like `AtomicInteger`)
+  to maintain thread safety.
 
 ## 1. What are the different memory areas in JVM?
 
