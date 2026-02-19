@@ -4957,23 +4957,62 @@ Organizations need proper tooling, processes, and expertise to handle these chal
 
 ## 3. How did microservices communicate with each other?**
 
-**Spoken Answer:**
-
 > In our system, microservices mainly communicated using **REST APIs over HTTP**.
 > For synchronous communication, we used **Feign Client** with service discovery through **Eureka**.
 >
 > For asynchronous communication, especially for event-based workflows, we used **Kafka**. This helped us reduce tight coupling and improve scalability.
 
-**Example Code (Feign Client):**
+**Real-time Example**
+
+* `Order-Service` calls `User-Service`
+* `User-Service` exposes:
+  `GET /users/{id}`
+
+**Step 1: Add Dependency**
+
+```xml
+<dependency>
+    <groupId>org.springframework.cloud</groupId>
+    <artifactId>spring-cloud-starter-openfeign</artifactId>
+</dependency>
+```
+
+**Step 2: Enable Feign**
 
 ```java
-@FeignClient(name = "payment-service")
-public interface PaymentClient {
-
-    @GetMapping("/payments/{orderId}")
-    PaymentResponse getPayment(@PathVariable Long orderId);
+@SpringBootApplication
+@EnableFeignClients
+public class OrderServiceApplication {
 }
 ```
+
+**Step 3: Create Feign Interface**
+```java
+@FeignClient(name = "user-service")
+public interface UserClient {
+
+    @GetMapping("/users/{id}")
+    UserDto getUserById(@PathVariable("id") Long id);
+}
+```
+
+```java
+@Autowired
+private UserClient userClient;
+
+public Order getOrder(Long userId) {
+    UserDto user = userClient.getUserById(userId);
+}
+```
+**What Happens Internally?**
+
+1. Feign creates a dynamic proxy implementation
+2. It uses:
+
+   * Service discovery (Eureka, etc.)
+   * Load balancer
+3. Makes REST call
+4. Converts JSON → Java Object using Jackson
 
 ## 4. How do you Handle Failures in Microservices?
 
