@@ -76,7 +76,11 @@ long population = 1000000L;
 ## 1. Explain `==` vs `equals()` vs `hashCode()` contract.
 
 **Answer:**
-`==` compares memory references for objects and values for primitives. `equals()` compares the actual content or logical equality of objects. The `hashCode()` contract states that if two objects are equal according to `equals()`, they must have the same hash code, but objects with the same hash code aren't necessarily equal.
+`==` compares memory references for objects and values for primitives.
+
+`equals()` compares the actual content or logical equality of objects. 
+
+`hashCode()` contract states that if two objects are equal according to `equals()`, they must have the same hash code, but objects with the same hash code aren't necessarily equal.
 
 ```java
 String s1 = new String("hello");
