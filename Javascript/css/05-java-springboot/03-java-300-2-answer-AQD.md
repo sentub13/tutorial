@@ -76,11 +76,9 @@ long population = 1000000L;
 ## 1. Explain `==` vs `equals()` vs `hashCode()` contract.
 
 **Answer:**
-- `==` compares memory references for objects and values for primitives.
-
-- `equals()` compares the actual content or logical equality of objects. 
-
-- `hashCode()` contract states that if two objects are equal according to `equals()`, they must have the same hash code, but objects with the same hash code aren't necessarily equal.
+* `==` compares **memory references** for objects and **actual values** for primitive types.
+* `equals()` compares the **logical or content equality** of objects.
+* The `hashCode()` contract states that if two objects are equal according to `equals()`, they **must have the same hash code**. However, two objects having the same hash code **are not necessarily equal**.
 
 ```java
 String s1 = new String("hello");
@@ -96,7 +94,14 @@ System.out.println(s1.hashCode() == s2.hashCode()); // true
 ## 2. Why is String immutable? What are the benefits?
 
 **Answer:**
-Strings are immutable because their internal char array is final and private with no setters. Benefits include thread safety without synchronization, string pool optimization for memory efficiency, security for sensitive data like passwords and connection URLs, and safe use as HashMap keys since hash code won't change.
+* Because its internal character array is **private and final**, and it has **no setters** to modify the value.
+
+### Benefits:
+* **Thread-safe** (no synchronization needed).
+* Uses **String Pool** → saves memory.
+* More **secure** (safe for passwords, URLs, etc.).
+* Safe to use as **HashMap key** (hash code does not change).
+
 
 ```java
 String str = "Java";
@@ -110,7 +115,14 @@ System.out.println(modified); // Prints "Java Programming"
 ## 3. How does HashMap work internally in Java 8+?
 
 **Answer:**
-HashMap uses an array of buckets where each bucket can hold a linked list or tree structure. It calculates the hash code of the key, applies a hash function to determine the bucket index, and stores the key-value pair. In Java 8+, when a bucket has more than 8 entries, it converts from linked list to a balanced tree (red-black tree) for better performance, reducing lookup time from O(n) to O(log n).
+`HashMap` in Java stores data as key-value pairs using an **array of buckets**.
+
+It uses the key’s **hash code** to decide where to store the value.
+
+If multiple keys go to the same bucket, they are stored in a **linked list**.
+
+In **Java 8+**, if a bucket has more than **8 entries**, it changes into a **balanced tree (Red-Black Tree)** to make searching faster (**O(log n)** instead of **O(n)**).
+
 
 ```java
 HashMap<String, Integer> map = new HashMap<>();
@@ -125,7 +137,7 @@ map.put("John", 25);  // hash("John") -> bucket index -> store entry
 ## 4. What happens if two objects have the same hashCode?
 
 **Answer:**
-This is called a hash collision. HashMap handles it by storing multiple entries in the same bucket using a linked list or tree structure. When retrieving, it uses `equals()` to find the exact match among entries with the same hash code.
+This is called a hash collision. **HashMap** handles it by storing multiple entries in the same bucket using a linked list or tree structure. When retrieving, it uses `equals()` to find the exact match among entries with the same hash code.
 
 ```java
 class Person {
