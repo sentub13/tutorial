@@ -1529,7 +1529,7 @@ class Tool implements Usable { // This is the purpose of interfaces
 }
 ```
 
-### 68. What is a marker interface?
+### 68. What is a marker interface? - asked
 A **marker interface** is an interface that has **no methods or fields**.
 
 It is used to **mark or tag a class** to indicate special behavior, and the **JVM or frameworks treat such classes differently** based on that marker.
@@ -2556,7 +2556,7 @@ List<String> vector = new Vector<>();
 List<String> syncList = Collections.synchronizedList(new ArrayList<>());
 ```
 
-### 110. What is the difference between HashMap and Hashtable? (30 seconds)
+### 110. What is the difference between HashMap and Hashtable?  - asked
 **HashMap** is **not synchronized**, allows **one null key and multiple null values**, and is generally **faster**.
 
 **Hashtable** is **synchronized**, does **not allow null keys or values**, and is considered **legacy**.
@@ -3044,7 +3044,7 @@ public void increment() {
 }
 ```
 
-### 128. What is volatile keyword?
+### 128. What is volatile keyword? - asked
 
 The **`volatile` keyword** in Java ensures that **changes to a variable are immediately visible to all threads** and prevents the compiler from caching its value.
 
@@ -3118,7 +3118,7 @@ latch.await(); // Waits until count reaches zero
 
 # 🔹 2. Advanced Concurrency
 
-### 131. What is **Concurrency in Java**?
+### 131. What is **Concurrency in Java**? - aksed
 
 **Concurrency in Java** is the ability of a program to **execute multiple tasks at the same time** by using **multiple threads**. These tasks can run **in parallel on multiple CPU cores** or be **interleaved on a single core** to improve performance and responsiveness.
 
@@ -3467,6 +3467,39 @@ public class MemoryExample {
 }
 ```
 
+## 14. How does JVM Garbage Collection work? - asked
+
+**Answer:**
+
+JVM **Garbage Collection (GC)** automatically frees memory by removing objects that are no longer referenced.
+
+The heap is divided into **Young Generation** (new objects) and **Old Generation** (long-lived objects), and GC runs as **Minor GC** (young) and **Major/Full GC** (entire heap).
+
+Common GC algorithms include **Serial, Parallel, CMS, and G1GC**.
+
+
+**Example:**
+```java
+public class GCDemo {
+    public static void main(String[] args) {
+        // Object created in Young Generation
+        String str = new String("Hello");
+        
+        // Object becomes eligible for GC when no references exist
+        str = null;
+        
+        // Suggest GC (not guaranteed to run immediately)
+        System.gc();
+        
+        // Objects surviving multiple minor GCs move to Old Generation
+        List<String> longLived = new ArrayList<>();
+        for (int i = 0; i < 1000; i++) {
+            longLived.add("Item " + i);
+        }
+    }
+}
+```
+
 ### 144. What is heap memory in Java?
 
 **Heap memory in Java** is the **runtime memory area** where all objects and instance variables are stored.
@@ -3616,7 +3649,7 @@ public class PreventMemoryLeak {
 }
 ```
 
-### 150. What is the difference between shallow copy and deep copy?
+### 150. What is the difference between shallow copy and deep copy? - asked
 
 **Shallow copy** copies only the **object references**, so the original and copy **share the same mutable objects**.
 
@@ -5284,7 +5317,7 @@ public class Java8Features {
 }
 ```
 
-## 204. What are lambda expressions in Java 8?
+## 204. What are lambda expressions in Java 8? - asked
 
 **Lambda expressions** in Java 8 are **anonymous functions** that let you write **concise, functional-style code**.
 
@@ -5295,6 +5328,14 @@ They use the syntax `(parameters) -> expression` or `(parameters) -> { statement
 * **Concise syntax** - Reduces boilerplate code for simple operations
 * **Syntax** - (parameters) -> expression or (parameters) -> { statements }
 * **Functional interfaces** - Can only be used with interfaces having single abstract method
+
+### ✅ Simple Interview Answer
+
+**Lambda Expression vs Anonymous Inner Class**
+
+* **Lambda expressions** were introduced in Java 8 and are used to implement **functional interfaces (single abstract method)** in a short and concise way.
+* **Anonymous inner classes** are older (Java 1.1) and can implement **any interface or abstract class**, but the syntax is more verbose.
+
 
 ```java
 import java.util.function.*;
@@ -5319,7 +5360,7 @@ public class LambdaExpressions {
 }
 ```
 
-## 205. What are functional interfaces in Java 8?
+## 205. What are functional interfaces in Java 8? - asked
 
 **Functional interfaces** in Java 8 are **interfaces with a single abstract method (SAM)**.
 
@@ -6609,7 +6650,7 @@ cstmt2.registerOutParameter(2, Types.INTEGER);
 
 ---
 
-### 241: What is connection pooling?
+### 241: What is connection pooling? - asked
 
 
 **Connection pooling** reuses **pre-created database connections** to improve performance, reduce overhead, and manage resources efficiently.
@@ -6630,6 +6671,14 @@ HikariDataSource dataSource = new HikariDataSource(config);
 
 Connection conn = dataSource.getConnection();
 ```
+
+**How does JDBC connection pooling work?**
+
+**JDBC connection pooling** maintains a pool of reusable database connections.
+
+When the application needs a connection, it **borrows** one from the pool and **returns** it after use instead of creating a new one each time.
+
+This improves performance by reducing connection creation overhead. Popular implementations include **HikariCP**, **Apache DBCP**, and **C3P0**.
 
 ---
 
@@ -6698,7 +6747,7 @@ rs.absolute(5); // Jump to 5th row
 
 ---
 
-### 245: What is transaction management in JDBC?
+### 245: What is transaction management in JDBC? - asked
 
 
 **Transaction management** in JDBC treats multiple SQL operations as a **single unit**.
@@ -7129,7 +7178,7 @@ class MilkDecorator implements Coffee {
 # 🔵 17. Java Web Development 
 ---
 # 🔹 Servlets and JSP
-### 262: What is servlet in Java?
+### 262: What is servlet in Java? - asked
 
 A **Servlet** is a **server-side Java program** that handles **HTTP requests and responses**.
 
@@ -7173,7 +7222,7 @@ public class MyServlet extends HttpServlet {
 
 ---
 
-### 264: What is JSP (JavaServer Pages)?
+### 264: What is JSP (JavaServer Pages)? - asked
 
 **JSP (JavaServer Pages)** is a **server-side technology** to create **dynamic web pages**.
 
@@ -11803,7 +11852,7 @@ public class SystemHealthIndicator implements HealthIndicator {
 
 ---
 
-### 389: What is event-driven architecture?
+### 389: What is event-driven architecture? -asked
 
 **Event-driven architecture** is a design where components **communicate via events instead of direct calls**, enabling **loose coupling, asynchronous processing, scalability, and resilience**.
 

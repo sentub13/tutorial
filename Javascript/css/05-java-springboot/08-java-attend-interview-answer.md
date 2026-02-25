@@ -218,7 +218,7 @@ public class PayPalProcessor implements PaymentProcessor {
 }
 ```
 
-## 10. What are functional interfaces in Java 8?
+## 10. What are functional interfaces in Java 8? - asked
 
 **Answer:**
 
@@ -320,7 +320,7 @@ List<Integer> flat = nested.stream()
 
 ---
 
-## 13. What is the volatile keyword in multithreading?
+## 13. What is the volatile keyword in multithreading? - asked
 
 **Answer:**
 
@@ -351,7 +351,7 @@ public class VolatileExample {
 
 ---
 
-## 14. How does JVM Garbage Collection work?
+## 14. How does JVM Garbage Collection work? - asked
 
 **Answer:**
 
@@ -458,7 +458,7 @@ System.out.println("StringBuilder: " + (System.currentTimeMillis() - start) + "m
 
 ---
 
-## 17. What is the difference between HashMap and HashSet?
+## 17. What is the difference between HashMap and HashSet? - asked
 
 **Answer:**
 
@@ -531,7 +531,7 @@ Integer value = map.get("Apple");
 ```
 
 
-## 19. What is the difference between shallow cloning and deep cloning?
+## 19. What is the difference between shallow cloning and deep cloning? - asked
 
 **Answer:**
 
@@ -583,7 +583,7 @@ System.out.println(p1.address.city); // "LA" - not affected
 
 ---
 
-## 20. What is a Marker Interface?
+## 20. What is a Marker Interface? - asked
 
 **Answer:**
 
@@ -712,7 +712,7 @@ executor.shutdown();
 
 ---
 
-## 23. What is concurrency in Java?
+## 23. What is concurrency in Java? - asked
 
 **Answer:**
 
@@ -804,7 +804,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
 ---
 
-## 25. How does JDBC connection pooling work?
+## 25. How does JDBC connection pooling work? - asked
 
 **Answer:**
 **JDBC connection pooling** maintains a pool of reusable database connections.
@@ -850,7 +850,7 @@ public void query() throws SQLException {
 
 ---
 
-## 26. What is transaction management in Spring Boot?
+## 26. What is transaction management in Spring Boot? - asked
 
 **Answer:**
 **Transaction management** ensures that multiple database operations either **all succeed or all fail together**, maintaining data consistency.
@@ -1247,7 +1247,7 @@ public class OrderSagaService {
 
 ---
 
-## 32. What is Event-Driven Architecture in Java?
+## 32. What is Event-Driven Architecture in Java? - asked
 
 **Answer:**
 
@@ -1429,7 +1429,7 @@ public class NotificationService {
 
 ---
 
-## 35. What is Circuit Breaker pattern?
+## 35. What is Circuit Breaker pattern? - aksed
 
 **Answer:**
 
