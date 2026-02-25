@@ -1788,47 +1788,9 @@ public synchronized void method() {
 
 # ✅ 10. Java JVM & Memory Management 
 
-## 0. Explain how Java Memory Model (JMM) works.
+## 0. What is Java Memory Model (JMM)?
 
-The **Java Memory Model (JMM)** defines how threads interact with memory in Java. It explains **how variables are stored in memory and how multiple threads see those variables**.
-
-In Java, each thread has its own **stack memory**, and all threads share a common **heap memory**.
-
-* **Heap Memory** → Stores objects and instance variables. Shared among all threads.
-* **Stack Memory** → Stores local variables and method calls. Each thread has its own stack.
-
-Now, the main problem in multithreading is **visibility and ordering**.
-
-For example, if Thread A updates a shared variable in heap memory, Thread B may not immediately see that updated value. This happens because threads can keep copies of variables in their **CPU cache or registers**.
-
-To solve this, JMM defines rules:
-
-### 1. Visibility
-
-If one thread changes a variable, how does another thread see it?
-Using the `volatile` keyword ensures that changes are immediately visible to other threads.
-
-### 2. Happens-Before Relationship
-
-JMM defines a rule called **happens-before**.
-If one action happens-before another, then the first action’s result is visible to the second.
-
-Example:
-
-* Unlocking a synchronized block happens-before locking it again.
-* Writing to a volatile variable happens-before reading it.
-
-### 3. Atomicity
-
-Some operations are atomic by default, like reading and writing `int`.
-But operations like `count++` are not atomic because they involve multiple steps (read, increment, write).
-
-We use:
-
-* `synchronized`
-* `volatile`
-* `Atomic` classes (like `AtomicInteger`)
-  to maintain thread safety.
+**Java Memory Model** defines how threads interact with shared memory in a multithreaded environment. It guarantees visibility, atomicity, and ordering of shared variables. It provides rules like the happens-before relationship and uses mechanisms such as volatile and synchronized to ensure data consistency between threads.
 
 ## 1. What are the different memory areas in JVM?
 
@@ -3483,42 +3445,68 @@ CompletableFuture.runAsync(() ->
 Map<String, WeakReference<Data>> cache = new ConcurrentHashMap<>();
 ```
 
-## 8. What is the difference between Direct Servlet and JSP?
+## 8. What is Spring WebFlux?
 
-**Spoken Answer (30 seconds):**
-* Servlets are Java classes that handle HTTP requests programmatically
-* JSP (JavaServer Pages) mixes HTML with Java code for dynamic web pages
-* Servlets are better for business logic, JSP for presentation layer
-* JSP gets compiled to servlets behind the scenes
-* Modern apps use REST APIs instead of JSP for frontend separation
+**Spring WebFlux** is a reactive web framework in Spring that supports non-blocking, asynchronous programming using Project Reactor (Mono and Flux) to handle large numbers of concurrent requests efficiently.
 
-**Example:**
+**When to Use WebFlux?**
+
+- High traffic systems
+- Microservices
+- Streaming APIs
+- Real-time applications
+- When using reactive databases (MongoDB reactive, R2DBC)
+
+| Spring MVC                | Spring WebFlux                 |
+| ------------------------- | ------------------------------ |
+| Blocking                  | Non-blocking                   |
+| Thread per request        | Event-loop model               |
+| Uses Servlet API          | Does NOT depend on Servlet API |
+| Good for traditional apps | Good for high-concurrency apps |
+
+
+## 9. What is Cursor?
+
+A **cursor** fetches records **one by one (or in small chunks)** instead of loading the entire result into memory.
+
+**Why use it?**
+
+* Prevents **OutOfMemoryError**
+* Good for very large datasets
+* Reduces heap usage
+
+
 ```java
-// Direct Servlet
-@WebServlet("/hello")
-public class HelloServlet extends HttpServlet {
-    
-    @Override
-    protected void doGet(HttpServletRequest request, 
-                        HttpServletResponse response) throws IOException {
-        response.setContentType("text/html");
-        PrintWriter out = response.getWriter();
-        out.println("<h1>Hello from Servlet!</h1>");
-        out.println("<p>User: " + request.getParameter("name") + "</p>");
+@Query("SELECT p FROM Product p")
+Stream<Product> findAllByStream();
+```
+
+```java
+@Transactional
+public void processProducts() {
+    try (Stream<Product> stream = repo.findAllByStream()) {
+        stream.forEach(product -> {
+            // process record
+        });
     }
 }
-
-// JSP (hello.jsp)
-<%@ page contentType="text/html;charset=UTF-8" %>
-<html>
-<head><title>Hello JSP</title></head>
-<body>
-    <h1>Hello from JSP!</h1>
-    <p>User: <%= request.getParameter("name") %></p>
-    <p>Current time: <%= new java.util.Date() %></p>
-</body>
-</html>
 ```
+
+## 10. What is Batch Processing?
+
+Processing records in **small fixed-size chunks** (like 1000 records per batch)
+
+**Why use it?**
+
+* Handles large data safely
+* Supports retry & restart
+* Good for ETL jobs
+* Production-ready
+
+```java
+.chunk(1000)
+```
+
 
 # ✅ 16. Java Design Patterns 
 
@@ -4366,246 +4354,7 @@ In **`JpaRepository<Employee, Long>`**, the **first type (`Employee`)** is the *
 Using `Long` tells Spring Data JPA what type of value to expect when performing operations like `findById()`, `deleteById()`, or `save()`.
 
 
-## 18. If a table has 100+ fields and performance is slow, how do you fetch only required 3–4 fields?
-
-If a table has many fields but you only need a few, fetching all columns can **slow down performance**. To optimize, you can:
-
-1. **Use JPQL or native queries** to select only the required fields:
-
-   ```java
-   @Query("SELECT e.name, e.salary FROM Employee e WHERE e.id = :id")
-   Object[] findNameAndSalary(@Param("id") Long id);
-   ```
-
-2. **Use projections** with interfaces or DTOs:
-
-   ```java
-   public interface EmployeeView {
-       String getName();
-       Double getSalary();
-   }
-
-   List<EmployeeView> findByDepartment(String dept);
-   ```
-
-3. **Avoid `findAll()`** and fetch only what you need using `select` or DTO mapping.
-
-## 19.  Interview Question
-
-We have a table **`bollywood_movies`** with 10,00,000 records.
-
-### Columns:
-
-* id (NOT NULL)
-* movie_name
-* lead_actor_name
-* budget
-* movie_collections
-* imdb_rating
-
-### Constraints:
-
-* imdb_rating should be ≥ 8
-* Movie should be profitable (collections > budget)
-* Only id is NOT NULL
-* Data comes from vendor API
-
-### Requirement:
-
-Find **Top 10 most profitable lead actors** (based on total profit)
-and fetch the **details of the movies they have done**
-Use **cursor and temporary table** approach.
-
-**Database Level Optimization (Very Important for 10L records)**
-
-Since data is large (10,00,000+ records), we must:
-
-### ✔ Add Indexes
-
-```sql
-CREATE INDEX idx_imdb_rating ON bollywood_movies(imdb_rating);
-CREATE INDEX idx_lead_actor ON bollywood_movies(lead_actor_name);
-CREATE INDEX idx_profit ON bollywood_movies(movie_collections, budget);
-```
-
----
-
-**Profit Calculation Logic**
-
-Profit =
-
-```
-movie_collections - budget
-```
-
-Only consider:
-
-```sql
-WHERE imdb_rating >= 8
-AND movie_collections > budget
-```
-
----
-
-**Optimized SQL Query (Best Practice – DB Level Aggregation)**
-
-We should NOT fetch 10 lakh records into Java memory.
-
-**Step 1: Get Top 10 Profitable Actors**
-
-```sql
-SELECT lead_actor_name,
-       SUM(movie_collections - budget) AS total_profit
-FROM bollywood_movies
-WHERE imdb_rating >= 8
-AND movie_collections > budget
-AND lead_actor_name IS NOT NULL
-GROUP BY lead_actor_name
-ORDER BY total_profit DESC
-LIMIT 10;
-```
-
----
-
-**Step 2: Fetch Movie Details of These Actors**
-
-```sql
-SELECT *
-FROM bollywood_movies
-WHERE lead_actor_name IN (top 10 actors)
-AND imdb_rating >= 8
-AND movie_collections > budget;
-```
-
----
-
-**Java Implementation (Spring Boot Style – Interview Level)**
-
-### Entity Class
-
-```java
-@Entity
-@Table(name = "bollywood_movies")
-public class Movie {
-
-    @Id
-    private Long id;
-
-    private String movieName;
-    private String leadActorName;
-    private Double budget;
-    private Double movieCollections;
-    private Double imdbRating;
-}
-```
-
----
-
-### Repository (Using Native Query for Performance)
-
-```java
-@Repository
-public interface MovieRepository extends JpaRepository<Movie, Long> {
-
-    @Query(value = """
-        SELECT lead_actor_name
-        FROM bollywood_movies
-        WHERE imdb_rating >= 8
-        AND movie_collections > budget
-        GROUP BY lead_actor_name
-        ORDER BY SUM(movie_collections - budget) DESC
-        LIMIT 10
-        """, nativeQuery = true)
-    List<String> findTop10ProfitableActors();
-
-    List<Movie> findByLeadActorNameInAndImdbRatingGreaterThanEqualAndMovieCollectionsGreaterThan(
-            List<String> actors, Double rating, Double collections);
-}
-```
-
----
-
-### Service Layer
-
-```java
-@Service
-public class MovieService {
-
-    @Autowired
-    private MovieRepository movieRepository;
-
-    public Map<String, List<Movie>> getTopActorsWithMovies() {
-
-        List<String> topActors = movieRepository.findTop10ProfitableActors();
-
-        List<Movie> movies = movieRepository
-                .findByLeadActorNameInAndImdbRatingGreaterThanEqualAndMovieCollectionsGreaterThan(
-                        topActors, 8.0, 0.0);
-
-        return movies.stream()
-                .collect(Collectors.groupingBy(Movie::getLeadActorName));
-    }
-}
-```
-
----
-
-**If Data Comes From Vendor API**
-
-### Approach:
-
-1. Fetch data in **pagination** (never load 10L at once)
-2. Save into DB in batch
-3. Process via DB query
-
-```java
-for(int page = 0; page < totalPages; page++) {
-    List<MovieDTO> movies = vendorApi.fetchMovies(page);
-    movieRepository.saveAll(movies);
-}
-```
-
-Use:
-
-```properties
-spring.jpa.properties.hibernate.jdbc.batch_size=1000
-```
-
----
-
-**Performance & Scalability Points (Important for Interview)**
-
-✔ Filtering & aggregation in DB (not Java memory)
-✔ Use Indexes
-✔ Use Pagination for Vendor API
-✔ Use Batch Insert
-✔ Use Native Query for heavy aggregation
-✔ Use Projection DTO instead of full entity
-✔ Use Read-only transaction
-
----
-
-**Optional Advanced Optimization (Senior Level Answer)**
-
-If query runs frequently:
-
-* Create **Materialized View**
-* Or maintain **precomputed profit table**
-* Use Redis Cache for Top 10 actors
-
----
-
-**Final Interview Summary Answer (Short Version)**
-
-> Since we have 10 lakh records, I will push filtering and aggregation logic to the database using indexed columns.
-> I will calculate profit as collections - budget and filter imdb >= 8 and profitable movies.
-> Then group by lead actor and get top 10 by total profit.
-> After that, fetch movie details for those actors.
-> Data from vendor API will be inserted using batch processing and pagination.
-> I will avoid loading large data into memory and ensure performance using indexing and native queries.
-
-
-## 20. How to implement many to many, many to one and one to many in java interiew questions, give answer
+## 18. How to implement many to many, many to one and one to many in java interiew questions, give answer
 ✅ 1️⃣ One-To-Many
 One **Order** → Many **Items**
 
@@ -4995,62 +4744,23 @@ Organizations need proper tooling, processes, and expertise to handle these chal
 
 ## 3. How did microservices communicate with each other?**
 
+**Spoken Answer:**
+
 > In our system, microservices mainly communicated using **REST APIs over HTTP**.
 > For synchronous communication, we used **Feign Client** with service discovery through **Eureka**.
 >
 > For asynchronous communication, especially for event-based workflows, we used **Kafka**. This helped us reduce tight coupling and improve scalability.
 
-**Real-time Example**
-
-* `Order-Service` calls `User-Service`
-* `User-Service` exposes:
-  `GET /users/{id}`
-
-**Step 1: Add Dependency**
-
-```xml
-<dependency>
-    <groupId>org.springframework.cloud</groupId>
-    <artifactId>spring-cloud-starter-openfeign</artifactId>
-</dependency>
-```
-
-**Step 2: Enable Feign**
+**Example Code (Feign Client):**
 
 ```java
-@SpringBootApplication
-@EnableFeignClients
-public class OrderServiceApplication {
+@FeignClient(name = "payment-service")
+public interface PaymentClient {
+
+    @GetMapping("/payments/{orderId}")
+    PaymentResponse getPayment(@PathVariable Long orderId);
 }
 ```
-
-**Step 3: Create Feign Interface**
-```java
-@FeignClient(name = "user-service")
-public interface UserClient {
-
-    @GetMapping("/users/{id}")
-    UserDto getUserById(@PathVariable("id") Long id);
-}
-```
-
-```java
-@Autowired
-private UserClient userClient;
-
-public Order getOrder(Long userId) {
-    UserDto user = userClient.getUserById(userId);
-}
-```
-**What Happens Internally?**
-
-1. Feign creates a dynamic proxy implementation
-2. It uses:
-
-   * Service discovery (Eureka, etc.)
-   * Load balancer
-3. Makes REST call
-4. Converts JSON → Java Object using Jackson
 
 ## 4. How do you Handle Failures in Microservices?
 
@@ -5840,246 +5550,3 @@ server {
 ```
 
 # ✅ 24. Miscellaneous
-
-## 2. What are the main features of an eCommerce application?
-
-An eCommerce application needs core features like product catalog for browsing items, shopping cart for collecting purchases, user management for accounts and authentication, order processing for checkout and payment, and inventory management for stock tracking.
-
-Additional features include:
-- Search and filtering capabilities
-- Reviews and ratings system
-- Admin panel for management
-- Payment gateway integration
-- Order tracking and notifications
-
-## 3. Explain the flowchart of an eCommerce application (frontend and backend).
-
-The flow starts with users browsing products on the frontend, adding items to cart, then proceeding to checkout. The frontend sends requests to an API gateway which routes them to appropriate backend services. These services handle business logic, interact with databases, process payments, and send responses back to the frontend.
-
-```
-User → Frontend → API Gateway → Backend Services → Database
-                                ├── Product Service
-                                ├── Cart Service  
-                                ├── Order Service
-                                └── Payment Service
-```
-
-## 4. What are the components and tools used in the backend of an eCommerce application?
-
-Backend components include Spring Boot for REST APIs, PostgreSQL or MySQL for transactional data, Redis for caching, message queues like RabbitMQ for async processing, and Elasticsearch for product search.
-
-Infrastructure tools:
-- Docker for containerization
-- Kubernetes for orchestration
-- AWS S3 for file storage
-- Monitoring tools like Prometheus
-
-```java
-@RestController
-public class ProductController {
-    @GetMapping("/api/products")
-    public Page<Product> getProducts(@RequestParam String category) {
-        return productService.getProducts(category);
-    }
-}
-```
-
-## 5. Explain the Git workflow used in an eCommerce application.
-
-We use GitFlow with main branch for production, develop branch for integration, and feature branches for new functionality. Developers create feature branches from develop, work on features, then create pull requests for code review before merging back to develop.
-
-```bash
-git checkout develop
-git checkout -b feature/shopping-cart
-# Make changes
-git commit -m "Add shopping cart"
-git push origin feature/shopping-cart
-# Create pull request
-```
-
-Release branches prepare for deployment, and hotfix branches handle urgent production fixes.
-
-## 7. Can you write the business logic for a CRUD service in Java?
-
-A CRUD service handles Create, Read, Update, Delete operations with proper validation and error handling. I'll use JPA repository for database operations and add business logic for validation.
-
-✅ Main Application
-
-```java
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.cache.annotation.EnableCaching;
-
-@EnableCaching
-@SpringBootApplication(
-        exclude = DataSourceAutoConfiguration.class
-)
-public class Main {
-
-    public static void main(String[] args) {
-        SpringApplication.run(Main.class, args); // fixed args
-        System.out.println("Hello World");
-    }
-}
-```
-
-✅ User Entity
-
-```java
-import jakarta.persistence.*;
-
-@Entity
-@Table(name = "users")
-public class User {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
-    @Column(name = "username", length = 12, nullable = false)
-    private String username;
-
-    @Column(name = "email", length = 300)
-    private String email;
-
-    @ManyToOne
-    @JoinColumn(name = "role_id")
-    private Roles role;
-
-    public User() {}
-
-    public User(String username, String email) {
-        this.username = username;
-        this.email = email;
-    }
-
-    public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
-
-    public String getUsername() { return username; }
-    public void setUsername(String username) { this.username = username; }
-
-    public String getEmail() { return email; }
-    public void setEmail(String email) { this.email = email; }
-
-    public Roles getRole() { return role; }
-    public void setRole(Roles role) { this.role = role; }
-}
-```
-
-✅ Roles Entity
-
-```java
-import jakarta.persistence.*;
-
-@Entity
-@Table(name = "roles")
-public class Roles {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
-    @Column(name = "role", nullable = false)
-    private String role;
-
-    public Roles() {}
-    public Roles(String role) {
-        this.role = role;
-    }
-
-    public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
-    public String getRole() { return role; }
-    public void setRole(String role) { this.role = role; }
-}
-```
-
-✅ Repository
-
-```java
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
-
-@Repository
-public interface UserRepository extends JpaRepository<User, Long> {
-
-}
-```
-
-✅ Service
-
-```java
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
-@Service
-public class UserService {
-
-    @Autowired
-    private UserRepository userRepository;
-
-    public User createUser(String username, String email) {
-        User user = new User(username, email);
-        return userRepository.save(user);
-    }
-}
-```
-
-✅ Controller
-
-```java
-import org.springframework.web.bind.annotation.*;
-import org.springframework.beans.factory.annotation.Autowired;
-import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
-import io.github.resilience4j.retry.annotation.Retry;
-
-@RestController
-@RequestMapping("/user")
-public class UserController {
-
-    @Autowired
-    private UserService userService;
-
-    @PostMapping
-    @CircuitBreaker(name = "user-service", fallbackMethod = "fallbackUser")
-    @Retry(name = "user-service")
-    public User createUser(@RequestBody User user) {
-        return userService.createUser(user.getUsername(), user.getEmail());
-    }
-
-    // ✅ Fallback Method
-    public User fallbackUser(User user, Exception ex) {
-        User fallback = new User();
-        fallback.setUsername("fallback-user");
-        fallback.setEmail("fallback@email.com");
-        return fallback;
-    }
-}
-```
-
-
-## 8. How do you migrate a Java application from a lower version to a higher version?
-
-Migration involves analyzing current code for compatibility issues, updating build configuration like Maven or Gradle, replacing deprecated APIs with newer alternatives, updating third-party dependencies, and thorough testing before production deployment.
-
-Key steps:
-- Update Java runtime and build tools
-- Replace deprecated APIs
-- Update dependency versions
-- Fix compilation errors
-- Test thoroughly in staging environment
-
-```java
-// Before (Java 8)
-List<String> names = Arrays.asList("John", "Jane");
-List<String> result = names.stream()
-    .map(String::toUpperCase)
-    .collect(Collectors.toList());
-
-// After (Java 17)
-var names = List.of("John", "Jane");
-var result = names.stream()
-    .map(String::toUpperCase)
-    .toList();
-```
