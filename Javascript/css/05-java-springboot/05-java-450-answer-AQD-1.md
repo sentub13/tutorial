@@ -2109,7 +2109,7 @@ for (int i = 0; i < 1000; i++) {
 ---
 # 🔹 1. Exception Concepts
 
-### 92. What is exception handling in Java?
+### 92. What is exception handling in Java? - asked
 
 **Exception handling in Java** is a mechanism used to **handle runtime errors gracefully** so that the program does not crash unexpectedly.
 
@@ -3118,6 +3118,53 @@ latch.await(); // Waits until count reaches zero
 
 # 🔹 2. Advanced Concurrency
 
+### 131. What is **Concurrency in Java**?
+
+**Concurrency in Java** is the ability of a program to **execute multiple tasks at the same time** by using **multiple threads**. These tasks can run **in parallel on multiple CPU cores** or be **interleaved on a single core** to improve performance and responsiveness.
+
+* **Simple example**
+
+1. **Thread-based**
+* Java provides the **`Thread` class** and **`Runnable` interface** to create and manage concurrent tasks.
+
+```java
+class MyTask extends Thread {
+    public void run() {
+        System.out.println("Task running in thread: " + Thread.currentThread().getName());
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        MyTask t1 = new MyTask();
+        t1.start(); // Runs concurrently
+    }
+}
+```
+
+This creates a new thread that runs concurrently with the main thread.
+
+---
+
+* **How concurrency is achieved in Java**
+
+* **Thread & Runnable**
+* **ExecutorService**
+* **Synchronization**
+* **Locks (`ReentrantLock`)**
+* **Atomic variables**
+* **Concurrent collections**
+* **CompletableFuture (Java 8+)**
+
+---
+
+* **Concurrency vs Parallelism**
+
+| Concurrency                | Parallelism                             |
+| -------------------------- | --------------------------------------- |
+| Multiple tasks in progress | Multiple tasks executing simultaneously |
+| May run on one CPU         | Requires multiple cores                 |
+
 ### 131. What is ExecutorService?
 
 **ExecutorService** is a high-level interface in Java for **managing and controlling thread execution**.
@@ -3219,7 +3266,7 @@ barrier.await(); // Waits for other threads
 // Continues after all 3 threads reach barrier
 ```
 
-### 136. What is Semaphore?
+### 136. What is Semaphore? - asked
 
 **Semaphore** is a concurrency utility that **controls access to a shared resource** by limiting the number of threads that can access it simultaneously.
 
@@ -3344,7 +3391,7 @@ class SumTask extends RecursiveTask<Long> {
 }
 ```
 
-### 141. What is parallel streams?
+### 141. What is parallel streams? - asked 
 
 **Parallel streams** in Java are a **Stream API feature** that automatically executes operations **in parallel across multiple threads**.
 
@@ -6800,21 +6847,40 @@ stmt.setString(1, userName);
 # 🔵 16. Design Patterns
 ---
 # 🔹 Common Design Patterns
-### 252: What are design patterns?
 
-Design patterns are **reusable solutions** to common software problems. They provide templates for **maintainable, flexible code**, are classified as **Creational, Structural, or Behavioral**, and help **communicate design intent** clearly.
+### 252. What are design patterns? - asked
 
-* Reusable solutions to common software design problems
-* Best practices proven over time by experienced developers
-* Provide template for writing maintainable, flexible code
-* Three categories: Creational, Structural, and Behavioral patterns
-* Help communicate design intent clearly among developers
+Design patterns are proven reusable solutions to common software design problems, categorized into Creational, Structural, and Behavioral patterns.
 
-```java
-// Example: Factory pattern creates objects without specifying exact class
-Animal animal = AnimalFactory.createAnimal("dog");
-// Instead of: Animal animal = new Dog();
-```
+1️⃣ **Creational Design Patterns**
+* **Singleton** – Only one instance of a class is created.
+* **Factory Method** – Creates objects without exposing creation logic.
+* **Abstract Factory** – Creates families of related objects.
+* **Builder** – Builds complex objects step by step.
+* **Prototype** – Creates object by cloning existing object.
+
+2️⃣ **Structural Design Patterns**
+* **Adapter** – Converts one interface into another.
+* **Bridge** – Separates abstraction from implementation.
+* **Decorator** – Adds behavior dynamically.
+* **Facade** – Provides simplified interface to complex system.
+* **Proxy** – Controls access to an object.
+
+3️⃣ **Behavioral Design Patterns**
+* **Observer** – One-to-many dependency (used in event systems).
+* **Strategy** – Select algorithm at runtime.
+* **Command** – Encapsulates a request as an object.
+* **State** – Changes behavior when state changes.
+* **Template Method** – Defines skeleton of algorithm.
+* **Iterator** – Sequential access to collection.
+
+**Most Commonly Asked in Interviews**
+* **Singleton** – Ensures that a class has only one instance and provides a global access point to it.
+* **Factory** – Creates objects without exposing the object creation logic to the client.
+* **Builder** – Constructs complex objects step by step, allowing flexible object creation.
+* **Observer** – Defines a one-to-many relationship where multiple objects are notified automatically when one object changes state.
+* **Strategy** – Allows selecting an algorithm’s behavior at runtime by encapsulating different algorithms in separate classes.
+* **Decorator** – Adds new functionality to an object dynamically without modifying its existing code.
 
 ---
 
@@ -7574,7 +7640,7 @@ public class AppConfig {
 
 ---
 
-### 283: What is dependency injection?
+### 283: What is dependency injection? - aksed
 
 **Dependency Injection (DI)** is a design pattern where **objects receive their dependencies from an external source** instead of creating them.
 
@@ -7598,7 +7664,34 @@ public class OrderService {
 }
 ```
 
----
+## 2. How do you resolve Dependency Injection ambiguity in Spring Boot? - asked
+
+**Answer:**
+
+When multiple beans of the same type exist, DI ambiguity is resolved using:
+
+* **@Primary** – marks the default bean
+* **@Qualifier** – specifies which bean to inject
+* **Bean name** – explicitly refer to the desired bean
+
+
+**Example:**
+```java
+@Service
+@Qualifier("emailService")
+public class EmailNotificationService implements NotificationService { }
+
+@Service
+@Qualifier("smsService")
+public class SmsNotificationService implements NotificationService { }
+
+@Component
+public class NotificationManager {
+    @Autowired
+    @Qualifier("emailService")
+    private NotificationService notificationService;
+}
+```
 
 ### 284: What is inversion of control (IoC)?
 
@@ -7713,7 +7806,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
 ---
 
-### 288: What is Spring Cloud?
+### 288: What is Spring Cloud? - asked
 
 **Spring Cloud** is a framework for **building distributed systems and microservices**.
 
@@ -8067,7 +8160,7 @@ public List<ServiceInstance> getOrderServiceInstances() {
 
 ---
 
-### 300: What is API gateway?
+### 300: What is API gateway? - asked
 
 **API Gateway** is a **single entry point** for client requests in microservices.
 
@@ -8098,7 +8191,7 @@ public class GatewayConfig {
 
 ---
 
-### 301: What is circuit breaker pattern?
+### 301: What is circuit breaker pattern? - asked
 
 **Circuit Breaker Pattern** is a design pattern that **prevents cascading failures** in distributed systems.
 
@@ -8123,6 +8216,77 @@ public class UserService {
         return new User(id, "Default User", "default@email.com");
     }
 }
+```
+
+## 36. What is Resilience4j and why is it used? - asked
+
+**Answer:**
+
+**Resilience4j** is a lightweight fault-tolerance library for Java and Spring Boot applications.
+
+It provides features like **Circuit Breaker, Retry, Rate Limiter, Bulkhead, and Time Limiter**.
+
+It is used to make microservices more **resilient** by handling failures gracefully and preventing cascading failures.
+
+
+**Example:**
+```java
+// Circuit Breaker
+@Service
+public class UserService {
+    @CircuitBreaker(name = "userService", fallbackMethod = "getUserFallback")
+    public User getUser(Long id) {
+        return userClient.getUser(id);
+    }
+    
+    public User getUserFallback(Long id, Exception e) {
+        return new User(id, "Guest User");
+    }
+}
+
+// Rate Limiter - Limit requests per second
+@Service
+public class ApiService {
+    @RateLimiter(name = "apiService")
+    public Response callExternalApi() {
+        return externalApiClient.call();
+    }
+}
+
+// Retry - Retry failed operations
+@Service
+public class OrderService {
+    @Retry(name = "orderService", fallbackMethod = "createOrderFallback")
+    public Order createOrder(OrderRequest request) {
+        return orderClient.create(request);
+    }
+    
+    public Order createOrderFallback(OrderRequest request, Exception e) {
+        return new Order("PENDING");
+    }
+}
+
+// Bulkhead - Limit concurrent calls
+@Service
+public class PaymentService {
+    @Bulkhead(name = "paymentService", type = Bulkhead.Type.SEMAPHORE)
+    public Payment process(PaymentRequest request) {
+        return paymentProcessor.process(request);
+    }
+}
+
+// application.yml
+// resilience4j:
+//   ratelimiter:
+//     instances:
+//       apiService:
+//         limit-for-period: 10
+//         limit-refresh-period: 1s
+//   retry:
+//     instances:
+//       orderService:
+//         max-attempts: 3
+//         wait-duration: 1000
 ```
 
 ---
@@ -9957,7 +10121,7 @@ class UserServiceTest {
 
 ---
 
-### 352: What is Mockito?
+### 352: What is Mockito? - asked
 
 
 * Most popular mocking framework for Java unit testing
