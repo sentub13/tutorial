@@ -712,8 +712,6 @@ class Car {
 
 An **interface** in Java is a blueprint of a class that defines a contract of abstract methods which implementing classes must provide, used to achieve abstraction and multiple inheritance.
 
-### Example:
-
 ```java
 interface Animal {
     void sound();   // abstract method
@@ -726,7 +724,7 @@ class Dog implements Animal {
 }
 ```
 
-## 2.What are the interface 
+## 2.What are the interface available in Java?
 
 In Java, interfaces are mainly of four types:
 
