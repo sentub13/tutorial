@@ -729,8 +729,7 @@ class Dog implements Animal {
 In Java, interfaces are mainly of four types:
 
 **Normal Interface**
-
-**Definition:** A normal interface defines a contract with multiple abstract methods that a class must implement.
+A normal interface defines a contract with multiple abstract methods that a class must implement.
 
 ```java
 interface Payment {
@@ -739,8 +738,7 @@ interface Payment {
 ```
 
 **Functional Interface**
-
-**Definition:** A functional interface contains exactly one abstract method and is used for lambda expressions.
+A functional interface contains exactly one abstract method and is used for lambda expressions.
 
 ```java
 @FunctionalInterface
@@ -750,8 +748,7 @@ interface Calculator {
 ```
 
 **Marker Interface**
-
-**Definition:** A marker interface is an empty interface used to tag a class for special behavior.
+A marker interface is an empty interface used to tag a class for special behavior.
 
 ```java
 interface SerializableMarker {
@@ -759,8 +756,7 @@ interface SerializableMarker {
 ```
 
 **Nested Interface**
-
-**Definition:** A nested interface is declared inside a class or another interface for logical grouping.
+A nested interface is declared inside a class or another interface for logical grouping.
 
 ```java
 class Bank {
@@ -769,7 +765,6 @@ class Bank {
     }
 }
 ```
-
 
 ## 2. What is an abstract class?
 
