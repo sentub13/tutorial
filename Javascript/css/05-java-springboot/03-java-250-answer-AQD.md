@@ -1307,59 +1307,19 @@ Collections.sort(students, ageComparator);
 
 ## 9. What is WeakHashMap, IdentityHashMap, LinkedHashMap, PriorityQueue?
 
-**WeakHashMap** is a `Map` implementation where the **keys are stored as weak references**.
-If a key has no strong references elsewhere, it becomes eligible for garbage collection, and the entry is automatically removed.
+A `WeakHashMap` stores keys as **weak references**, so entries are automatically removed when the key is no longer referenced elsewhere (used for caching).
 
-- Used for: **caching**, memory-sensitive mappings.
-- Class: `java.util.WeakHashMap`
+An `IdentityHashMap` compares keys using **== (reference equality)** instead of `equals()` method.
 
+A `LinkedHashMap` maintains **insertion order** (or access order) while storing key-value pairs.
 
-**IdentityHashMap** is a `Map` implementation that compares keys using `==` (reference equality) instead of `.equals()`.
-
-- Normal `HashMap` uses `.equals()` for key comparison.
-- `IdentityHashMap` checks whether two keys refer to the **same object in memory**.
-
-- Class: `java.util.IdentityHashMap`
-- Mostly used in **framework-level or special identity-based logic**.
-
-**LinkedHashMap** is a `HashMap` that maintains a **linked list of entries**, preserving insertion order (or access order if configured).
-
-- Maintains predictable iteration order.
-- Used in **LRU cache implementations** (when access-order mode is enabled).
-- Class: `java.util.LinkedHashMap`
-
-**PriorityQueue** is a queue implementation that orders elements based on their **natural ordering (Comparable)** or a **Comparator**.
-
-- Elements are processed based on priority, not insertion order.
-- Internally implemented using a **binary heap**.
-- The head element is always the **smallest (by default)**.
-- Class: `java.util.PriorityQueue`
-
-**WeakHashMap:**
-- Keys are weak references
-- Entries removed when key is garbage collected
-- Useful for caches and memory-sensitive applications
-
-**IdentityHashMap:**
-- Uses == instead of equals() for key comparison
-- Allows duplicate "equal" keys
-- Useful when object identity matters
-
-**LinkedHashMap:**
-- Maintains insertion or access order
-- Combines HashMap performance with predictable iteration
-- Useful for LRU caches
-
-**PriorityQueue:**
-- Heap-based priority queue
-- Elements ordered by natural ordering or Comparator
-- Useful for scheduling and algorithms
+A `PriorityQueue` stores elements in **priority order** (natural order or custom comparator), not in insertion order.
 
 ```java
-Map<String, Integer> weakMap = new WeakHashMap<>(); // GC-friendly
-Map<String, Integer> identityMap = new IdentityHashMap<>(); // Identity-based
-Map<String, Integer> linkedMap = new LinkedHashMap<>(); // Ordered
-Queue<Integer> priorityQueue = new PriorityQueue<>(); // Heap-based
+Map<String, Integer> weakMap = new WeakHashMap<>(); // GC-friendly, Used for: caching
+Map<String, Integer> identityMap = new IdentityHashMap<>(); // for key comparison
+Map<String, Integer> linkedMap = new LinkedHashMap<>(); // Ordered, LRU cache implementations
+Queue<Integer> priorityQueue = new PriorityQueue<>(); // Heap-based, processed based on priority
 ```
 
 # ✅ 8. Java Multithreading & Synchronization 
