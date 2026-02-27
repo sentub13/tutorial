@@ -1014,22 +1014,19 @@ int value = arr[5]; // ArrayIndexOutOfBoundsException
 
 ## 4. What is the difference between throw and throws?
 
-**throw** is used to explicitly throw an exception, while **throws** is used to declare that a method might throw exceptions.
-
-**throw:**
-- Throws actual exception object
-- Used inside method body
-- Followed by exception instance
-
-**throws:**
-- Declares possible exceptions
-- Used in method signature
-- Followed by exception class names
+In Java, **throw** and **throws** are both used for exception handling, but they serve different purposes: one actually **triggers** an error, while the other **warns** that an error might happen.
 
 ```java
 public void validateAge(int age) throws IllegalArgumentException {
     if (age < 0) {
         throw new IllegalArgumentException("Age cannot be negative");
+    }
+}
+// 'throws' warns the caller that this method might fail with an IOException
+public void readFile() throws IOException { 
+    if (fileNotFound) {
+        // 'throw' actually triggers the error right now
+        throw new IOException("File is missing!"); 
     }
 }
 ```
