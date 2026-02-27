@@ -726,9 +726,9 @@ class Dog implements Animal {
 }
 ```
 
-## 2.What are the interface
+## 2.What are the interface 
 
-**In Java, interfaces are mainly of four types:**
+In Java, interfaces are mainly of four types:
 
 **Normal Interface**
 
