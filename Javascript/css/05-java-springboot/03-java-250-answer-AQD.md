@@ -2971,6 +2971,24 @@ List<String> result = names.stream()
     .collect(Collectors.toList());      // Terminal
 ```
 
+## 141. What is parallel streams? - asked 
+
+**Parallel streams** in Java are a **Stream API feature** that automatically executes operations **in parallel across multiple threads**.
+
+They use the **ForkJoinPool.commonPool()** by default and are ideal for **CPU-intensive operations on large datasets**, making it easy to leverage **multi-core processors**.
+
+```java
+List<Integer> numbers = Arrays.asList(1, 2, 3, 4, 5);
+
+// Sequential
+int sum = numbers.stream().mapToInt(i -> i * i).sum();
+
+// Parallel - automatically uses multiple threads
+int parallelSum = numbers.parallelStream()
+    .mapToInt(i -> i * i)
+    .sum();
+```
+
 ## 6. What is the difference between Collection and Stream?
 
 A **Collection** is a **data structure** that stores elements in memory, like `List`, `Set`, or `Map`. It holds data and allows operations such as add, remove, or iterate, and it can be traversed multiple times.
@@ -3200,7 +3218,7 @@ Connection conn = dataSource.getConnection(); // From pool
 ```
 
 
-## 4. What is caching and how it works inernally(Implementation)?
+## 5. What is caching and how it works inernally(Implementation)?
 
 **Caching in Java is a technique of storing frequently used data in memory so that we don’t have to fetch it again from a slow source like a database or external API.**
 
@@ -3309,7 +3327,7 @@ public class UserService {
 }
 ```
 
-## 5. What is SQL injection and how to prevent it?
+## 6. What is SQL injection and how to prevent it?
 
 SQL injection is a security vulnerability where malicious SQL code is inserted into application queries, potentially allowing unauthorized database access or data manipulation.
 
@@ -3337,7 +3355,7 @@ pstmt.setString(1, userId); // Safe parameter binding
 ResultSet rs = pstmt.executeQuery();
 ```
 
-## 6. What is transaction management in JDBC?
+## 7. What is transaction management in JDBC?
 
 Transaction management ensures that a group of database operations either all succeed or all fail together, maintaining data consistency and integrity.
 
@@ -3384,7 +3402,7 @@ try {
 }
 ```
 
-## 7. How do you Handle Large Data Processing?
+## 8. How do you Handle Large Data Processing?
 
 **Streaming (Low Memory)**
 I process large files or datasets **line by line** using Java Streams.
@@ -3444,26 +3462,6 @@ CompletableFuture.runAsync(() ->
 ```java
 Map<String, WeakReference<Data>> cache = new ConcurrentHashMap<>();
 ```
-
-## 8. What is Spring WebFlux?
-
-**Spring WebFlux** is a reactive web framework in Spring that supports non-blocking, asynchronous programming using Project Reactor (Mono and Flux) to handle large numbers of concurrent requests efficiently.
-
-**When to Use WebFlux?**
-
-- High traffic systems
-- Microservices
-- Streaming APIs
-- Real-time applications
-- When using reactive databases (MongoDB reactive, R2DBC)
-
-| Spring MVC                | Spring WebFlux                 |
-| ------------------------- | ------------------------------ |
-| Blocking                  | Non-blocking                   |
-| Thread per request        | Event-loop model               |
-| Uses Servlet API          | Does NOT depend on Servlet API |
-| Good for traditional apps | Good for high-concurrency apps |
-
 
 ## 9. What is Cursor?
 
@@ -3836,7 +3834,9 @@ coffee = new SugarDecorator(coffee);
 
 ## 1. What is Spring Framework?
 
-Spring Framework is a lightweight Java framework that simplifies enterprise application development using dependency injection and modular architecture.
+**Spring Framework** is a **comprehensive Java framework** for building enterprise applications.
+
+It provides **infrastructure support**, uses **IoC and Dependency Injection**, has **modular architecture** (Core, MVC, Data, Security), and **simplifies Java EE development** with POJOs.
 
 - Lightweight and modular framework
 - Provides dependency injection and IoC container
@@ -3845,6 +3845,25 @@ Spring Framework is a lightweight Java framework that simplifies enterprise appl
 - Reduces boilerplate code and complexity
 
 Spring makes Java development easier by handling common tasks and promoting best practices like loose coupling and testability.
+
+## 282: What are the core features of Spring?
+
+* **IoC Container**: Manages object lifecycle and dependencies
+* **Dependency Injection**: Automatic wiring of dependencies
+* **AOP Support**: Cross-cutting concerns like logging, security
+* **MVC Framework**: Web application development
+* **Transaction Management**: Declarative transaction support
+* **Integration**: Easy integration with other frameworks and technologies
+
+```java
+@Configuration
+public class AppConfig {
+    @Bean
+    public UserService userService() {
+        return new UserService(userRepository());
+    }
+}
+```
 
 ## 2. What is Inversion of Control (IoC)?
 
@@ -3884,45 +3903,125 @@ class OrderService {
     }
 }
 ```
+## 287: What is Spring Data JPA?
 
-## 3. What are the best ways to implement Dependency Injection in Java?
+**Spring Data JPA** is a Spring module that **simplifies JPA-based data access**.
 
-The best way to implement **Dependency Injection in Java** is by **constructor injection**, where dependencies are provided through the class constructor. It makes the code easier to test, ensures required dependencies are available, and supports immutability.
+It provides **repository abstraction**, **auto-implements methods from names**, supports **query methods, JPQL, and native SQL**, and **reduces boilerplate code**.
 
-Another common approach is **setter injection**, where dependencies are injected using setter methods. It’s useful for optional dependencies but less safe because objects can be used without full initialization.
+* Spring module that simplifies JPA-based data access
+* Provides repository abstraction over JPA
+* **Auto-implementation**: Creates implementation from method names
+* **Query Methods**: Derive queries from method names
+* **Custom Queries**: Support for JPQL and native SQL
+* Reduces boilerplate code significantly
 
-In real-world applications, **framework-based DI** like **Spring** is the most popular. Spring supports **constructor, setter, and field injection**, with constructor injection being the recommended best practice.
-
-
-
-**Spoken Answer (35 seconds):**
-* Three main types: Constructor injection, Setter injection, and Field injection
-* Constructor injection is preferred - it ensures required dependencies are provided
-* Use frameworks like Spring, Guice, or CDI for automatic injection
-* Annotations like @Autowired, @Inject make it simple
-
-**Example:**
 ```java
-@Service
-public class UserService {
-    private final UserRepository userRepository;
+public interface UserRepository extends JpaRepository<User, Long> {
+    List<User> findByLastName(String lastName);
+    List<User> findByAgeGreaterThan(int age);
     
-    // Constructor injection - best practice
-    public UserService(UserRepository userRepository) {
-        this.userRepository = userRepository;
+    @Query("SELECT u FROM User u WHERE u.email = ?1")
+    User findByEmail(String email);
+}
+```
+
+---
+
+## 288: What is Spring Cloud? - asked
+
+**Spring Cloud** is a framework for **building distributed systems and microservices**.
+
+It provides tools for **service discovery (Eureka/Consul)**, **circuit breakers (Hystrix)**, **API gateways (Zuul/Gateway)**, **centralized configuration**, and **client-side load balancing**.
+
+* Framework for building distributed systems and microservices
+* Provides tools for common patterns in distributed systems
+* **Service Discovery**: Eureka, Consul integration
+* **Circuit Breaker**: Hystrix for fault tolerance
+* **API Gateway**: Zuul, Spring Cloud Gateway
+* **Configuration Management**: Centralized configuration
+* **Load Balancing**: Client-side load balancing
+
+```java
+@EnableEurekaClient
+@SpringBootApplication
+public class UserServiceApplication {
+    @LoadBalanced
+    @Bean
+    public RestTemplate restTemplate() {
+        return new RestTemplate();
+    }
+}
+```
+
+---
+
+## 289: What is Spring Security?
+
+**Spring Security** is a **Java security framework** that handles **authentication** (user identity) and **authorization** (access control).
+
+It provides **protection** against CSRF, session fixation, clickjacking, integrates with multiple authentication providers, and supports **annotation- and configuration-based security**.
+
+* Comprehensive security framework for Java applications
+* Handles authentication and authorization
+* **Authentication**: Verify user identity (login)
+* **Authorization**: Control access to resources
+* **Protection**: CSRF, session fixation, clickjacking protection
+* Integrates with various authentication providers
+* Annotation-based and configuration-based security
+
+```java
+@Configuration
+@EnableWebSecurity
+public class SecurityConfig {
+    @Bean
+    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+        return http
+            .authorizeRequests(auth -> auth
+                .requestMatchers("/public/**").permitAll()
+                .anyRequest().authenticated())
+            .formLogin().and()
+            .build();
+    }
+}
+```
+
+---
+
+## 290: What is Spring WebFlux?
+
+**Spring WebFlux** is a **reactive, non-blocking web framework** for building high-performance applications.
+
+It’s an alternative to Spring MVC, uses **Reactive Streams** (Project Reactor), supports **functional routing**, and handles **more concurrent requests with fewer threads**.
+
+* Reactive web framework for building non-blocking applications
+* Alternative to Spring MVC for reactive programming
+* **Non-blocking**: Handles more concurrent requests with fewer threads
+* **Reactive Streams**: Built on Project Reactor
+* **Functional Programming**: Supports functional routing
+* Better performance for I/O intensive applications
+
+```java
+@RestController
+public class UserController {
+    @GetMapping("/users")
+    public Flux<User> getUsers() {
+        return userService.findAll(); // Returns Flux<User>
     }
     
-    // Setter injection
-    @Autowired
-    public void setEmailService(EmailService emailService) {
-        this.emailService = emailService;
+    @GetMapping("/users/{id}")
+    public Mono<User> getUser(@PathVariable String id) {
+        return userService.findById(id); // Returns Mono<User>
     }
 }
 ```
 
 ## 4. What is BeanFactory?
 
-BeanFactory is Spring's basic IoC container that manages object creation and dependency injection. It uses lazy initialization, meaning beans are created only when you request them. It's the foundation of Spring's dependency injection but ApplicationContext is more commonly used because it has additional features.
+**BeanFactory** is the **basic IoC container in Spring** that creates and manages beans and performs **dependency injection**.
+It uses **lazy initialization**, so beans are created **only when requested**.
+It is lightweight, but **ApplicationContext** is preferred because it provides more features like event handling and annotation support.
+
 
 ```java
 BeanFactory factory = new XmlBeanFactory(new FileSystemResource("beans.xml"));
@@ -3964,6 +4063,8 @@ public class UserService { // This becomes a Spring bean
 <bean id="userService" class="com.example.UserService"/>
 ```
 
+# ✅ 18. Java Spring Boot 
+
 ## 6. What is annotations in Java?
 **An annotation is a special type of metadata in Java that provides additional information about classes, methods, or variables to the compiler or framework.**
 
@@ -3985,7 +4086,7 @@ public class UserService { // This becomes a Spring bean
 
 Spring Boot eliminates most boilerplate configuration and allows developers to focus on business logic rather than setup.
 
-## 7. What is auto-configuration in Spring Boot and to disable?
+## 8. What is auto-configuration in Spring Boot and to disable?
 
 Auto-configuration automatically configures Spring applications based on the dependencies present in the classpath. It reduces manual configuration by making intelligent assumptions.
 
@@ -4003,7 +4104,7 @@ Auto-configuration automatically configures Spring applications based on the dep
 // No manual configuration needed
 ```
 
-✅ **Disable for Entire Application (Most Common)**
+**Disable for Entire Application (Most Common)**
 
 ```java
 @SpringBootApplication(
@@ -4013,7 +4114,7 @@ public class Application {
 }
 ```
 
-✅ **Disable for a Specific Configuration Class**
+**Disable for a Specific Configuration Class**
 
 If you are not using `@SpringBootApplication` in that class:
 
@@ -4024,7 +4125,7 @@ public class CustomConfig {
 }
 ```
 
-✅ **How to Disable Specific Auto-Configuration Class**
+**How to Disable Specific Auto-Configuration Class**
 
 
 ```java
@@ -4037,7 +4138,7 @@ public class Application {
 }
 ```
 
-✅ **How to Disable Multiple Auto Configurations**
+**How to Disable Multiple Auto Configurations**
 
 ```java
 @SpringBootApplication(
@@ -4050,7 +4151,7 @@ public class Application {
 
 
 
-## 8. What is @SpringBootApplication annotation?
+## 9. What is @SpringBootApplication annotation?
 
 @SpringBootApplication is a convenience annotation that combines three commonly used annotations: @Configuration, @EnableAutoConfiguration, and @ComponentScan.
 
@@ -4071,7 +4172,7 @@ public class MyApplication { }
 
 It's the standard annotation for Spring Boot main classes and enables all essential Spring Boot features.
 
-## 9. What is the difference between @Component, @Service, and @Repository?
+## 10. What is the difference between @Component, @Service, and @Repository?
 
 These are stereotype annotations that mark classes as Spring beans, but they serve different purposes and provide semantic meaning.
 
@@ -4103,7 +4204,7 @@ public class UserService { } // Business logic
 public class UserRepository { } // Data access
 ```
 
-## 10. What is @Autowired annotation?
+## 11. What is @Autowired annotation?
 
 `@Autowired` is an annotation in **Spring Framework** that enables **automatic dependency injection (DI)**.
 It tells the Spring container to automatically inject a required bean into a class.
@@ -4129,7 +4230,7 @@ public class OrderService {
 }
 ```
 
-## 11. What is @Qualifier annotation?
+## 12. What is @Qualifier annotation?
 
 `@Qualifier` is a Spring annotation used **along with `@Autowired`** to resolve ambiguity when **multiple beans of the same type** exist in the Spring container.
 
@@ -4151,7 +4252,7 @@ public class SmsSender implements MessageSender { }
 
 Without @Qualifier, Spring would throw an exception due to multiple beans of type MessageSender.
 
-## 12. What is ApplicationContext?
+## 13. What is ApplicationContext?
 
 `ApplicationContext` is a **Spring container** that manages the lifecycle of Spring beans. It loads configuration, creates objects, injects dependencies, and provides advanced features like **event handling, internationalization, and AOP**. It’s an enhanced version of `BeanFactory` and is commonly used in Spring applications.
 
@@ -4178,7 +4279,7 @@ public class MyService {
 }
 ```
 
-### 13. What is @Primary, @Qualifier, @Component, @Configuration, @PatchMapping annotation?
+## 14. What is @Primary, @Qualifier, @Component, @Configuration, @PatchMapping annotation?
 
 Great question — this is a **very common Spring interview topic**.
 I’ll answer it in a **real-time spoken style**, explaining *why and when* we use each annotation, with **short, clear code examples**.
@@ -4274,7 +4375,7 @@ public ResponseEntity<User> updateEmail(
 }
 ```
 
-## 14. How do you integrate a Java application with a cloud environment?
+## 15. How do you integrate a Java application with a cloud environment?
 
 Integrate by containerizing your application with Docker, using cloud databases and services instead of local ones, implementing health checks for monitoring, and configuring environment variables for different cloud environments. Use cloud-specific features like auto-scaling and load balancing.
 
@@ -4303,7 +4404,7 @@ Additional steps:
 - Use cloud storage services
 - Set up monitoring and alerting
 
-## 15. How do you secure a Java Spring Boot application?
+## 16. How do you secure a Java Spring Boot application?
 
 To secure a **Spring Boot application**, you can use **Spring Security** to handle authentication and authorization. Common practices include:
 
@@ -4341,20 +4442,20 @@ public class SecureController {
     }
 }
 ```
-## 16. If we don’t write getters & setters, which annotation can we use?
+## 17. If we don’t write getters & setters, which annotation can we use?
 
 If we don’t want to manually write **getters and setters** in Java, we can use **Lombok’s `@Getter` and `@Setter` annotations** on the class or fields.
 
 Alternatively, `@Data` generates **getters, setters, `toString()`, `equals()`, and `hashCode()`** all at once.
 
 
-## 17. Why do we use Long in JpaRepository<Employee, Long>?
+## 18. Why do we use Long in JpaRepository<Employee, Long>?
 In **`JpaRepository<Employee, Long>`**, the **first type (`Employee`)** is the **entity class** the repository manages, and the **second type (`Long`)** is the **type of the entity’s primary key (`@Id`)**.
 
 Using `Long` tells Spring Data JPA what type of value to expect when performing operations like `findById()`, `deleteById()`, or `save()`.
 
 
-## 18. How to implement many to many, many to one and one to many in java interiew questions, give answer
+## 19. How to implement many to many, many to one and one to many in java interiew questions, give answer
 ✅ 1️⃣ One-To-Many
 One **Order** → Many **Items**
 
@@ -4386,7 +4487,7 @@ public class Item {
 }
 ```
 
-✅ 2️⃣ Many-To-One
+**Many-To-One**
 Many **Employees** → One **Department**
 
 ```java
@@ -4404,7 +4505,7 @@ public class Employee {
 ```
 
 
-✅ 3️⃣ Many-To-Many
+**Many-To-Many**
 Many **Students** ↔ Many **Courses**
 
 ```java
@@ -4514,6 +4615,27 @@ REST (Representational State Transfer) is based on six key architectural princip
 - **Code on Demand:** Optional - server can send executable code
 
 These principles ensure scalability, reliability, and maintainability of web services.
+
+
+## 275: What is XML how to return XML in response?
+
+**XML (eXtensible Markup Language)** is a **markup language** for representing data using **tags**.
+
+It is **verbose**, supports **attributes and namespaces**, is **self-documenting with schema validation**, and is used in **enterprise apps and SOAP services**.
+
+```xml
+<dependency>
+    <groupId>com.fasterxml.jackson.dataformat</groupId>
+    <artifactId>jackson-dataformat-xml</artifactId>
+</dependency>
+```
+
+```java
+@GetMapping(value = "/user", produces = MediaType.APPLICATION_XML_VALUE)
+public User getUser() {
+    return new User(1, "John");
+}
+```
 
 ## 3. What are HTTP methods and their usage?
 
@@ -4699,6 +4821,75 @@ Microservices is an architectural approach where applications are built as a col
 - Owned by small teams
 
 Microservices break down monolithic applications into smaller, manageable pieces that can be developed, deployed, and scaled independently.
+
+
+## 7. What design patterns used in Microservices architecture?
+
+**Answer:**
+
+Common design patterns in Microservices are:
+
+* **API Gateway** – A single entry point that routes client requests to appropriate microservices.
+* **Service Discovery** – A mechanism that automatically detects and locates available service instances.
+* **Circuit Breaker** – A pattern that stops calls to a failing service to prevent system-wide failure.
+* **Saga Pattern** – A way to manage distributed transactions using a sequence of local transactions.
+* **CQRS (Command Query Responsibility Segregation)** – A pattern that separates read operations from write operations.
+* **Database per Service** – Each microservice has its own dedicated database for data isolation.
+* **Bulkhead Pattern** – A pattern that isolates resources to prevent one service failure from affecting others.
+
+
+
+**Example:**
+```java
+// 1. API Gateway Pattern
+@RestController
+public class ApiGatewayController {
+    @Autowired
+    private UserClient userClient;
+    
+    @Autowired
+    private OrderClient orderClient;
+    
+    @GetMapping("/api/user-orders/{userId}")
+    public UserOrdersResponse getUserWithOrders(@PathVariable Long userId) {
+        User user = userClient.getUser(userId);
+        List<Order> orders = orderClient.getOrdersByUser(userId);
+        return new UserOrdersResponse(user, orders);
+    }
+}
+
+// 2. Circuit Breaker Pattern (with Resilience4j)
+@Service
+public class OrderService {
+    @CircuitBreaker(name = "paymentService", fallbackMethod = "paymentFallback")
+    public Payment processPayment(PaymentRequest request) {
+        return paymentClient.process(request);
+    }
+    
+    public Payment paymentFallback(PaymentRequest request, Exception e) {
+        return new Payment("PENDING", "Payment service unavailable");
+    }
+}
+
+// 3. Saga Pattern (Choreography)
+@Service
+public class OrderSagaService {
+    @Autowired
+    private KafkaTemplate<String, OrderEvent> kafkaTemplate;
+    
+    public void createOrder(Order order) {
+        orderRepository.save(order);
+        kafkaTemplate.send("order-created", new OrderEvent(order.getId()));
+    }
+    
+    @KafkaListener(topics = "payment-failed")
+    public void handlePaymentFailed(PaymentEvent event) {
+        Order order = orderRepository.findById(event.getOrderId()).get();
+        order.setStatus("CANCELLED");
+        orderRepository.save(order);
+    }
+}
+```
 
 ## 2. Monolithic vs Microservices Architecture
 
@@ -5026,163 +5217,884 @@ public class OrderController {
 }
 ```
 
-# ✅ 21. Java Performance Tuning 
+# 🔵 21. Java and Application Security
 
-## 1. How do you identify performance bottlenecks?
+## 1: What is Java security model?
 
-To identify **performance bottlenecks**, I start by **monitoring application metrics** like response time, CPU, memory, and thread usage using tools such as **Spring Boot Actuator, logs, and APM tools**.
+**Java Security Model** is a **built-in security framework** in the Java platform that protects applications from unauthorized access and malicious code execution.
 
-Then I **profile the application** to find slow methods, analyze **database queries** for delays, and check for issues like **high GC time, thread blocking, or connection pool exhaustion**. Based on the data, I focus on the component causing the maximum delay and optimize it.
-
-In short, I rely on **metrics, profiling, and logs** to pinpoint bottlenecks accurately.
-
-
-**Identification Methods:**
-- **Application Performance Monitoring (APM):** Tools like New Relic, AppDynamics
-- **Profiling tools:** JProfiler, VisualVM, YourKit
-- **JVM monitoring:** JConsole, JVisualVM
-- **Database monitoring:** Query execution times
-- **Log analysis:** Response times and error patterns
-- **Load testing:** Identify limits under stress
-
-Start with high-level metrics, then drill down to specific components causing delays.
-
-## 2. What are common performance issues in Java applications?
-
-Java applications face several typical performance problems that can significantly impact user experience and system efficiency.
-
-**Common Issues:**
-- **Memory leaks:** Objects not garbage collected
-- **Inefficient database queries:** N+1 queries, missing indexes
-- **Poor caching strategy:** Repeated expensive operations
-- **Blocking I/O operations:** Synchronous file/network calls
-- **Inefficient algorithms:** O(n²) instead of O(n log n)
-- **Excessive object creation:** Unnecessary garbage collection pressure
-- **Thread contention:** Synchronized blocks causing bottlenecks
+* Comprehensive security framework built into Java platform
+* **Bytecode Verification**: Ensures code follows Java language rules
+* **Class Loading**: Secure loading and verification of classes
+* **Security Manager**: Controls access to system resources
+* **Access Control**: Permission-based security for operations
+* **Cryptography**: Built-in encryption and digital signature support
+* **Sandbox**: Restricted execution environment for untrusted code
 
 ```java
-// Performance anti-patterns
-// 1. String concatenation in loops
-String result = "";
-for (int i = 0; i < 1000; i++) {
-    result += "text"; // Creates new String objects
+// Security Manager example
+public class MySecurityManager extends SecurityManager {
+    @Override
+    public void checkRead(String file) {
+        if (file.startsWith("/etc/")) {
+            throw new SecurityException("Access denied to system files");
+        }
+        super.checkRead(file);
+    }
 }
 
-// Better approach
-StringBuilder sb = new StringBuilder();
-for (int i = 0; i < 1000; i++) {
-    sb.append("text");
+// Enable security manager
+System.setSecurityManager(new MySecurityManager());
+```
+
+## 2: What is sandbox in Java?
+
+**Sandbox in Java** is a **restricted environment** for running untrusted code.
+
+It **limits file, network, and system access**, uses **security policies**, provides **isolation** to protect the host, and was commonly used for **applets**.
+
+```java
+// Applet sandbox restrictions
+public class MyApplet extends Applet {
+    public void init() {
+        // Cannot read local files
+        // Cannot make network connections to other hosts
+        // Cannot execute system commands
+        // Limited to browser security policies
+    }
 }
 ```
 
-## 5. What are important JVM parameters?
+---
 
-JVM parameters control memory allocation, garbage collection, and runtime behavior. Proper tuning can significantly improve application performance.
+## 3: What is bytecode verification?
 
-**Memory Parameters:**
-- **-Xms:** Initial heap size
-- **-Xmx:** Maximum heap size
-- **-XX:NewRatio:** Ratio of old/young generation
-- **-XX:MaxMetaspaceSize:** Metaspace limit
+**Bytecode Verification** is the process where the **JVM checks Java bytecode** for safety before execution.
 
-**Garbage Collection:**
-- **-XX:+UseG1GC:** Use G1 garbage collector
-- **-XX:MaxGCPauseMillis:** Target pause time
-- **-XX:+PrintGCDetails:** GC logging
+It ensures **type safety, correct control flow, and stack usage**, preventing **illegal memory access or security issues**.
 
-**Performance:**
-- **-server:** Server mode JIT compilation
-- **-XX:+TieredCompilation:** Multi-level compilation
+```java
+// Bytecode verification checks:
+// 1. Stack overflow/underflow prevention
+// 2. Type consistency
+// 3. Proper exception handling
+// 4. Valid bytecode instructions
+
+// Example: This would fail verification
+// Attempting to call method on wrong type
+// String s = new Integer(5);
+// s.charAt(0); // Type mismatch caught by verifier
+```
+
+
+## 4: What is the security manager?
+
+**Security Manager** is a Java component that **enforces security policies at runtime**.
+
+It performs **permission checks** for file, network, and system access using **policy files**. It is **deprecated and removed in Java 17**, replaced by modern security mechanisms like the module system.
+
+
+```java
+// Security Manager usage (deprecated)
+SecurityManager sm = System.getSecurityManager();
+if (sm != null) {
+    sm.checkRead("/etc/passwd"); // Throws SecurityException if not allowed
+}
+
+// Policy file example
+grant {
+    permission java.io.FilePermission "/tmp/*", "read,write";
+    permission java.net.SocketPermission "localhost:8080", "connect";
+};
+```
+
+---
+
+## 5: What are digital signatures in Java?
+
+**Digital Signatures in Java** are a **cryptographic mechanism** to verify **code authenticity and integrity**.
+
+JAR files are **signed with a private key** and verified using a **public key certificate**, ensuring the code **has not been tampered with** and establishing **trust in the publisher**.
+
+```java
+// Creating digital signature
+Signature signature = Signature.getInstance("SHA256withRSA");
+signature.initSign(privateKey);
+signature.update(data);
+byte[] digitalSignature = signature.sign();
+
+// Verifying signature
+signature.initVerify(publicKey);
+signature.update(data);
+boolean isValid = signature.verify(digitalSignature);
+```
+
+---
+
+## 6: What is encryption and decryption in Java?
+
+**Encryption and Decryption in Java** is the process of converting data to and from a **secure unreadable format**.
+
+It supports **symmetric (AES)** and **asymmetric (RSA)** encryption using **JCA APIs**, ensuring **secure data transmission, password protection, and file security**.
+
+```java
+// AES encryption example
+Cipher cipher = Cipher.getInstance("AES");
+KeyGenerator keyGen = KeyGenerator.getInstance("AES");
+SecretKey secretKey = keyGen.generateKey();
+
+// Encrypt
+cipher.init(Cipher.ENCRYPT_MODE, secretKey);
+byte[] encrypted = cipher.doFinal("Hello World".getBytes());
+
+// Decrypt
+cipher.init(Cipher.DECRYPT_MODE, secretKey);
+byte[] decrypted = cipher.doFinal(encrypted);
+```
+
+---
+
+## 7: What is SSL/TLS in Java?
+
+**SSL/TLS in Java** are **secure communication protocols** for encrypted data transmission (e.g., **HTTPS**).
+
+They use a **handshake process** and **certificates** to establish trust, supported by **JSSE**, with **KeyStore and TrustStore** for managing keys and certificates.
+
+```java
+// SSL/TLS client example
+SSLContext sslContext = SSLContext.getInstance("TLS");
+sslContext.init(null, null, null);
+
+SSLSocketFactory factory = sslContext.getSocketFactory();
+SSLSocket socket = (SSLSocket) factory.createSocket("example.com", 443);
+
+// HTTPS with RestTemplate
+RestTemplate restTemplate = new RestTemplate();
+ResponseEntity<String> response = restTemplate.getForEntity(
+    "https://api.example.com/data", String.class);
+```
+
+🔹 **Application Security**
+
+## 8: What is authentication vs authorization?
+
+
+* **Authentication**: Verifies "who you are" - identity verification
+* **Authorization**: Determines "what you can do" - access control
+* **Authentication First**: Must authenticate before authorization
+* **Examples**: Login (authentication), accessing admin panel (authorization)
+* **Mechanisms**: Passwords, tokens, certificates for auth; roles, permissions for authz
+* Both essential for complete security
+
+```java
+// Authentication - verify identity
+@PostMapping("/login")
+public ResponseEntity<String> authenticate(@RequestBody LoginRequest request) {
+    if (userService.validateCredentials(request.getUsername(), request.getPassword())) {
+        String token = jwtService.generateToken(request.getUsername());
+        return ResponseEntity.ok(token);
+    }
+    return ResponseEntity.status(401).body("Invalid credentials");
+}
+
+// Authorization - check permissions
+@PreAuthorize("hasRole('ADMIN')")
+@GetMapping("/admin/users")
+public List<User> getUsers() { return userService.getAllUsers(); }
+```
+
+---
+
+## 9: What is OAuth?
+
+**OAuth** is an **open standard for authorization** that allows third-party apps to access user resources **without sharing passwords**.
+
+It uses **access tokens**, involves **Resource Owner, Client, Authorization Server, and Resource Server**, and supports flows like **authorization code and client credentials**.
+
+```java
+// OAuth 2.0 Spring Security configuration
+@Configuration
+@EnableOAuth2Client
+public class OAuth2Config {
+    @Bean
+    public OAuth2RestTemplate oauth2RestTemplate() {
+        return new OAuth2RestTemplate(clientCredentialsResourceDetails());
+    }
+    
+    @Bean
+    public ClientCredentialsResourceDetails clientCredentialsResourceDetails() {
+        ClientCredentialsResourceDetails details = new ClientCredentialsResourceDetails();
+        details.setClientId("my-client-id");
+        details.setClientSecret("my-client-secret");
+        details.setAccessTokenUri("https://auth-server.com/oauth/token");
+        return details;
+    }
+}
+```
+
+---
+
+## 10: What is JWT (JSON Web Token)?
+
+**JWT (JSON Web Token)** is a **compact, URL-safe token** used for secure data transmission.
+
+It has three parts: **Header.Payload.Signature**, is **stateless and self-contained**, and is commonly used for **authentication and API authorization**, being **signed (optionally encrypted)** for security.
+
+```java
+// JWT creation and validation
+@Service
+public class JwtService {
+    private String secretKey = "mySecretKey";
+    
+    public String generateToken(String username) {
+        return Jwts.builder()
+            .setSubject(username)
+            .setIssuedAt(new Date())
+            .setExpiration(new Date(System.currentTimeMillis() + 86400000)) // 24 hours
+            .signWith(SignatureAlgorithm.HS256, secretKey)
+            .compact();
+    }
+    
+    public String extractUsername(String token) {
+        return Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token)
+            .getBody().getSubject();
+    }
+}
+```
+
+---
+
+## 11: What is CSRF protection?
+
+**CSRF protection** prevents **unauthorized actions** caused by malicious websites.
+
+It uses a **CSRF token** validated by the server, supports **SameSite cookies** and **double submit tokens**, and is **automatically handled in Spring Security**.
+
+
+## 12: What is XSS protection?
+
+**XSS protection** prevents **malicious script injection** in web applications.
+
+It defends against **Reflected, Stored, and DOM XSS** using **input validation, output encoding, sanitization, and Content Security Policy (CSP)**.
+
+
+---
+
+## 13: What is input validation?
+
+**Input validation** is the process of **checking user input for correctness and security**.
+
+It should be done on the **server side** (never trust client), use a **whitelist approach**, apply **sanitization**, and can use **Bean Validation annotations** like `@Valid`, `@NotNull`, and `@Pattern`.
+
+
+```java
+// Input validation with Bean Validation
+public class UserRegistration {
+    @NotBlank(message = "Username is required")
+    @Pattern(regexp = "^[a-zA-Z0-9_]{3,20}$", message = "Invalid username format")
+    private String username;
+    
+    @Email(message = "Invalid email format")
+    private String email;
+    
+    @Size(min = 8, message = "Password must be at least 8 characters")
+    private String password;
+}
+
+@PostMapping("/register")
+public ResponseEntity<String> register(@Valid @RequestBody UserRegistration user) {
+    // Validation automatically applied
+    return ResponseEntity.ok("User registered successfully");
+}
+```
+
+## 14: What is OAuth 2.0?
+
+**OAuth 2.0** is an **authorization framework** that allows secure access to resources using **access tokens**.
+
+It supports flows like **Authorization Code (most secure), Client Credentials, PKCE**, and uses **scopes** to define permissions, avoiding password sharing.
+
+```java
+// OAuth 2.0 Authorization Server configuration
+@Configuration
+@EnableAuthorizationServer
+public class AuthServerConfig extends AuthorizationServerConfigurerAdapter {
+    
+    @Override
+    public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
+        clients.inMemory()
+            .withClient("my-client")
+            .secret(passwordEncoder.encode("my-secret"))
+            .authorizedGrantTypes("authorization_code", "refresh_token")
+            .scopes("read", "write")
+            .redirectUris("http://localhost:8080/callback");
+    }
+}
+
+// Resource server protection
+@EnableResourceServer
+@RestController
+public class ApiController {
+    @GetMapping("/api/data")
+    @PreAuthorize("#oauth2.hasScope('read')")
+    public String getData() { return "Protected data"; }
+}
+```
+
+---
+
+## 15: What is SAML?
+
+**SAML (Security Assertion Markup Language)** is an **XML-based standard** for exchanging authentication data.
+
+It enables **Single Sign-On (SSO)** between an **Identity Provider (IdP)** and a **Service Provider (SP)** using **security assertions**, and is widely used in **enterprise environments**.
+
+```java
+// SAML configuration with Spring Security
+@Configuration
+@EnableWebSecurity
+public class SamlConfig {
+    
+    @Bean
+    public SAMLAuthenticationProvider samlAuthenticationProvider() {
+        SAMLAuthenticationProvider provider = new SAMLAuthenticationProvider();
+        provider.setUserDetails(samlUserDetailsService());
+        return provider;
+    }
+    
+    @Bean
+    public MetadataManager metadata() throws Exception {
+        List<MetadataProvider> providers = new ArrayList<>();
+        providers.add(idpMetadata());
+        return new CachingMetadataManager(providers);
+    }
+    
+    @Bean
+    public ExtendedMetadata extendedMetadata() {
+        ExtendedMetadata metadata = new ExtendedMetadata();
+        metadata.setIdpDiscoveryEnabled(true);
+        metadata.setSignMetadata(false);
+        return metadata;
+    }
+}
+
+// SAML assertion processing
+@Component
+public class SamlUserDetailsService implements SAMLUserDetailsService {
+    public Object loadUserBySAML(SAMLCredential credential) {
+        String username = credential.getNameID().getValue();
+        List<String> roles = credential.getAttributeAsStringArray("Role");
+        return new SamlUser(username, roles);
+    }
+}
+```
+
+# ✅ 21. Java Performance and Optimization
+
+
+## 1: How do you measure Java application performance?
+
+* **Response Time**: Time to complete requests
+* **Throughput**: Requests processed per second
+* **Resource Utilization**: CPU, memory, disk, network usage
+* **JVM Metrics**: Heap usage, GC frequency, thread count
+* **Tools**: JProfiler, VisualVM, JConsole, Micrometer
+* **APM Solutions**: New Relic, AppDynamics, Dynatrace
+
+```java
+// Micrometer metrics example
+@RestController
+public class UserController {
+    private final MeterRegistry meterRegistry;
+    private final Timer requestTimer;
+    
+    public UserController(MeterRegistry meterRegistry) {
+        this.meterRegistry = meterRegistry;
+        this.requestTimer = Timer.builder("user.requests")
+            .description("User API request duration")
+            .register(meterRegistry);
+    }
+    
+    @GetMapping("/users/{id}")
+    public User getUser(@PathVariable Long id) {
+        return requestTimer.recordCallable(() -> userService.findById(id));
+    }
+}
+```
+
+---
+
+## 2: What are the common performance bottlenecks in Java?
+
+* **Memory Issues**: Memory leaks, excessive GC, heap exhaustion
+* **CPU Intensive**: Inefficient algorithms, excessive loops
+* **I/O Bottlenecks**: Database queries, file operations, network calls
+* **Threading Issues**: Synchronization overhead, thread contention
+* **JVM Configuration**: Inappropriate heap size, GC settings
+* **Database**: Slow queries, missing indexes, connection pooling
+* **Caching**: Lack of caching or cache misses
+
+```java
+// Common bottleneck examples
+public class PerformanceBottlenecks {
+    
+    // Memory leak - static collection grows indefinitely
+    private static List<String> cache = new ArrayList<>();
+}
+```
+
+---
+
+## 3: How do you optimize Java code for performance?
+
+* **Algorithm Optimization**: Use efficient data structures and algorithms
+* **Memory Management**: Avoid object creation in loops, use object pools
+* **Caching**: Cache expensive computations and database results
+* **Lazy Loading**: Load data only when needed
+* **Batch Operations**: Process data in batches instead of one-by-one
+* **Asynchronous Processing**: Use CompletableFuture for non-blocking operations
+* **Database Optimization**: Use proper indexes, optimize queries
+
+```java
+// Performance optimization examples
+@Service
+public class OptimizedUserService {
+    
+    // Cache expensive operations
+    @Cacheable("users")
+    public User findById(Long id) {
+        return userRepository.findById(id);
+    }
+    
+    // Batch processing instead of individual operations
+    public void updateUsers(List<User> users) {
+        userRepository.saveAll(users); // Batch instead of individual saves
+    }
+    
+    // Asynchronous processing
+    @Async
+    public CompletableFuture<String> processAsync(String data) {
+        // Long-running operation
+        return CompletableFuture.completedFuture(processData(data));
+    }
+    
+    // Efficient string concatenation
+    public String buildMessage(List<String> parts) {
+        return String.join(", ", parts); // Instead of += in loop
+    }
+}
+```
+
+---
+
+## 4: What is profiling in Java?
+
+**Profiling in Java** is the process of **analyzing application performance** to find bottlenecks.
+
+It includes **CPU, memory, and thread profiling**, using tools like **JProfiler, YourKit, VisualVM, and Java Flight Recorder**, with approaches like **sampling and instrumentation**.
+
+* Process of analyzing application performance to identify bottlenecks
+* **CPU Profiling**: Identifies methods consuming most CPU time
+* **Memory Profiling**: Tracks memory allocation and garbage collection
+* **Thread Profiling**: Analyzes thread behavior and synchronization
+* **Tools**: JProfiler, YourKit, VisualVM, Java Flight Recorder
+* **Sampling vs Instrumentation**: Different profiling approaches
+
+```java
+// Java Flight Recorder (JFR) profiling
+// JVM flags for profiling
+// -XX:+FlightRecorder
+// -XX:StartFlightRecording=duration=60s,filename=profile.jfr
+
+@Component
+public class ProfiledService {
+    
+    // Custom JFR event
+    @JfrEvent(name = "UserOperation")
+    public void processUser(User user) {
+        // Method will be tracked in JFR
+        expensiveOperation(user);
+    }
+    
+    // Method that might need profiling
+    public List<String> processLargeDataset(List<String> data) {
+        return data.stream()
+            .filter(this::isValid)
+            .map(this::transform)
+            .collect(Collectors.toList());
+    }
+}
+```
+
+---
+
+## 5: What is JVM tuning?
+
+**JVM tuning** is the process of **optimizing JVM settings** for better performance.
+
+It includes configuring **heap size (-Xms, -Xmx)**, selecting the right **GC algorithm**, adjusting **thread stack and metaspace**, tuning **GC parameters**, and using **monitoring tools and GC logs**.
+
+* Process of optimizing JVM parameters for better performance
+* **Heap Size**: -Xms (initial) and -Xmx (maximum) heap size
+* **Garbage Collection**: Choose appropriate GC algorithm
+* **Thread Stack**: -Xss for thread stack size
+* **Metaspace**: -XX:MetaspaceSize for class metadata
+* **GC Tuning**: -XX:NewRatio, -XX:SurvivorRatio for generation sizes
+* **Monitoring**: Enable GC logging and JFR
 
 ```bash
-# Example JVM parameters for production
+# Common JVM tuning parameters
 java -Xms2g -Xmx4g \
      -XX:+UseG1GC \
      -XX:MaxGCPauseMillis=200 \
+     -XX:+PrintGC \
      -XX:+PrintGCDetails \
      -XX:+PrintGCTimeStamps \
-     -jar myapp.jar
-```
-
-## 6. How do you tune heap size?
-
-Heap size tuning involves setting appropriate initial and maximum heap sizes based on application memory requirements and available system resources.
-
-**Tuning Guidelines:**
-- **Start conservative:** Begin with smaller heap, monitor usage
-- **Monitor GC frequency:** Too small = frequent GC, too large = long pauses
-- **Leave system memory:** Don't allocate all available RAM
-- **Consider GC overhead:** Aim for <5% time in GC
-- **Use monitoring tools:** Track heap utilization patterns
-
-**Best Practices:**
-- Set -Xms and -Xmx to same value in production
-- Allocate 25-50% of system memory to heap
-- Monitor actual usage before increasing
-
-```bash
-# Heap size examples
-# Small application
-java -Xms512m -Xmx1g MyApp
-
-# Large application  
-java -Xms4g -Xmx8g MyApp
-
-# Monitor heap usage
-jstat -gc <pid> 5s  # GC stats every 5 seconds
-```
-
-## 7. What is the difference between -Xms and -Xmx?
-
-**-Xms (Initial Heap Size):**
-- Sets starting heap size when JVM starts
-- Minimum heap allocation
-- JVM allocates this memory immediately
-
-**-Xmx (Maximum Heap Size):**
-- Sets maximum heap size JVM can use
-- Upper limit for heap growth
-- JVM can expand heap up to this limit
-
-```bash
-# Different initial and max heap
-java -Xms1g -Xmx4g MyApp  # Start with 1GB, can grow to 4GB
-
-# Same initial and max heap (recommended for production)
-java -Xms2g -Xmx2g MyApp   # Fixed 2GB heap, no expansion overhead
-```
-
-Setting them equal in production eliminates heap expansion overhead and provides predictable memory usage.
-
-## 8. How do you analyze heap dumps?
-
-Heap dumps are snapshots of JVM memory that help identify memory leaks, analyze object usage, and understand memory allocation patterns.
-
-**Analysis Tools:**
-- **Eclipse MAT (Memory Analyzer Tool):** Most popular
-- **VisualVM:** Built-in heap dump analyzer
-- **JProfiler:** Commercial profiler
-- **jhat:** Command-line heap analyzer (deprecated)
-
-**Analysis Steps:**
-1. **Generate heap dump:** jcmd, jmap, or automatic on OutOfMemoryError
-2. **Load in analyzer:** Open dump file in MAT or VisualVM
-3. **Find memory leaks:** Look for objects with unexpected retention
-4. **Analyze object references:** Trace why objects aren't garbage collected
-
-```bash
-# Generate heap dump
-jcmd <pid> GC.run_finalization
-jcmd <pid> VM.gc
-jmap -dump:format=b,file=heapdump.hprof <pid>
-
-# Automatic heap dump on OOM
-java -XX:+HeapDumpOnOutOfMemoryError \
+     -XX:+HeapDumpOnOutOfMemoryError \
      -XX:HeapDumpPath=/tmp/heapdump.hprof \
-     MyApp
+     -jar myapp.jar
+
+# G1GC tuning for low latency
+-XX:+UseG1GC
+-XX:MaxGCPauseMillis=100
+-XX:G1HeapRegionSize=16m
 ```
 
-## 9. What is JIT compilation?
+---
+
+## 6: What are the JVM parameters for performance tuning?
+
+* **Memory**: -Xms, -Xmx for heap; -XX:NewRatio for young/old generation
+* **Garbage Collection**: -XX:+UseG1GC, -XX:+UseZGC, -XX:+UseConcMarkSweepGC
+* **GC Tuning**: -XX:MaxGCPauseMillis, -XX:GCTimeRatio
+* **Compilation**: -XX:+TieredCompilation, -XX:CompileThreshold
+* **Monitoring**: -XX:+PrintGC, -XX:+FlightRecorder
+* **Debug**: -XX:+HeapDumpOnOutOfMemoryError
+
+```bash
+# Performance-focused JVM parameters
+# For high-throughput applications
+-Xms8g -Xmx8g
+-XX:+UseParallelGC
+-XX:ParallelGCThreads=8
+-XX:+UseCompressedOops
+
+# For low-latency applications
+-Xms4g -Xmx4g
+-XX:+UseZGC
+-XX:+UnlockExperimentalVMOptions
+
+# For microservices
+-Xms512m -Xmx1g
+-XX:+UseG1GC
+-XX:MaxGCPauseMillis=50
+-XX:+UseStringDeduplication
+```
+
+---
+
+## 7: What is memory profiling?
+
+**Memory profiling** is the analysis of an application's **memory usage and allocation patterns**.
+
+It helps identify **heap usage, object retention, memory leaks**, and uses tools like **Eclipse MAT, JProfiler, VisualVM**, along with **heap dumps** for detailed analysis.
+
+* Analysis of application memory usage patterns and allocation
+* **Heap Analysis**: Object allocation, retention, and garbage collection
+* **Memory Leaks**: Identify objects that aren't being garbage collected
+* **Allocation Patterns**: Track where and how objects are created
+* **Tools**: Eclipse MAT, JProfiler, VisualVM, JConsole
+* **Heap Dumps**: Snapshots of memory for offline analysis
+
+---
+
+## 8: What is CPU profiling?
+
+**CPU profiling** is the analysis of **CPU usage** to find performance hotspots.
+
+It tracks **time spent in methods, call hierarchy**, uses **sampling or instrumentation**, and tools like **JProfiler, async-profiler, and Java Flight Recorder** to identify bottlenecks.
+
+* Analysis of CPU usage to identify performance hotspots
+* **Method Profiling**: Time spent in each method
+* **Call Tree**: Method call hierarchy and execution paths
+* **Sampling**: Periodic snapshots of thread stacks
+* **Instrumentation**: Detailed method entry/exit tracking
+* **Flame Graphs**: Visual representation of CPU usage
+* **Tools**: JProfiler, async-profiler, Java Flight Recorder
+
+
+---
+
+## 9: What is application performance monitoring (APM)?
+
+**Application Performance Monitoring (APM)** is the **real-time monitoring of application performance in production**.
+
+It tracks **metrics, errors, distributed tracing, user experience, and infrastructure performance**, using tools like **New Relic, AppDynamics, Dynatrace, and Elastic APM**.
+
+
+```java
+// APM integration with Micrometer
+@Configuration
+public class ApmConfig {
+    
+    @Bean
+    public MeterRegistry meterRegistry() {
+        return new PrometheusMeterRegistry(PrometheusConfig.DEFAULT);
+    }
+    
+    @Bean
+    public TimedAspect timedAspect(MeterRegistry registry) {
+        return new TimedAspect(registry);
+    }
+}
+
+@RestController
+public class MonitoredController {
+    
+    @Timed(name = "api.requests", description = "API request duration")
+    @Counted(name = "api.calls", description = "API call count")
+    @GetMapping("/api/data")
+    public ResponseEntity<String> getData() {
+        return ResponseEntity.ok("data");
+    }
+}
+```
+
+---
+
+## 10: What is code profiling?
+
+**Code profiling** is the process of analyzing how your code runs to find performance issues.
+
+It measures **execution time, memory usage, and method hotspots**, using static or runtime (dynamic) analysis tools to identify slow or inefficient parts of the code.
+
+
+```java
+// Code profiling with annotations
+@Component
+public class ProfiledCodeService {
+    
+    // Profile specific methods
+    @Profile("development")
+    @EventListener
+    public void onMethodExecution(MethodExecutionEvent event) {
+        if (event.getDuration() > 100) {
+            logger.info("Slow method: {} took {}ms", 
+                event.getMethodName(), event.getDuration());
+        }
+    }
+    
+    // Benchmark critical code sections
+    @Benchmark
+    public String optimizedStringOperation(List<String> items) {
+        StringBuilder sb = new StringBuilder();
+        for (String item : items) {
+            sb.append(item).append(",");
+        }
+        return sb.toString();
+    }
+}
+```
+
+---
+
+## 11: What is database optimization?
+
+**Database optimization** is the process of improving database performance and query speed.
+
+It involves **proper indexing, writing efficient SQL queries, using connection pooling, caching, and good database design** to reduce load and improve response time.
+
+
+```java
+// Database optimization techniques
+@Repository
+public class OptimizedUserRepository {
+    
+    // Use indexes effectively
+    @Query("SELECT u FROM User u WHERE u.email = :email") // Index on email
+    User findByEmail(@Param("email") String email);
+    
+    // Batch operations
+    @Modifying
+    @Query("UPDATE User u SET u.lastLogin = :now WHERE u.id IN :ids")
+    void updateLastLogin(@Param("ids") List<Long> ids, @Param("now") LocalDateTime now);
+    
+    // Pagination for large datasets
+    @Query("SELECT u FROM User u ORDER BY u.createdAt DESC")
+    Page<User> findAllUsers(Pageable pageable);
+    
+    // Fetch joins to avoid N+1 queries
+    @Query("SELECT u FROM User u LEFT JOIN FETCH u.orders WHERE u.id = :id")
+    User findUserWithOrders(@Param("id") Long id);
+}
+```
+
+---
+
+## 12: What is query optimization?
+
+**Query optimization** is the process of improving the performance and execution time of SQL queries.
+
+It involves **using proper indexes, writing efficient joins and WHERE clauses, avoiding unnecessary data fetch (like SELECT *), and analyzing execution plans** to ensure faster query execution.
+
+
+```java
+// Query optimization examples
+@Repository
+public class OptimizedQueryRepository {
+    
+    // Bad: N+1 query problem
+    // List<Order> orders = orderRepository.findAll();
+    // orders.forEach(order -> order.getCustomer().getName()); // N queries
+    
+    // Good: Single query with join
+    @Query("SELECT o FROM Order o JOIN FETCH o.customer")
+    List<Order> findAllOrdersWithCustomers();
+    
+    // Use specific columns instead of SELECT *
+    @Query("SELECT new com.example.UserDto(u.id, u.name, u.email) FROM User u")
+    List<UserDto> findUserSummaries();
+    
+    // Optimize with proper WHERE conditions
+    @Query("SELECT u FROM User u WHERE u.active = true AND u.createdAt > :date")
+    List<User> findActiveUsersAfter(@Param("date") LocalDateTime date);
+    
+    // Use native query for complex optimizations
+    @Query(value = "SELECT * FROM users u WHERE u.score > (SELECT AVG(score) FROM users)", 
+           nativeQuery = true)
+    List<User> findAboveAverageUsers();
+}
+```
+
+---
+
+## 13: What is lazy loading?
+
+**Lazy loading** is a design pattern where data is loaded **only when it is actually needed**, instead of loading everything at once.
+
+It improves performance and reduces memory usage, but if not handled properly, it can cause issues like the **N+1 query problem**.
+
+* **Proxy Objects**: Hibernate creates proxies for lazy-loaded entities
+
+```java
+// Lazy loading examples
+@Entity
+public class User {
+    @Id
+    private Long id;
+    private String name;
+    
+    // Lazy loading - orders loaded only when accessed
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+    private List<Order> orders;
+    
+    // Eager loading - always loaded with user
+    @ManyToOne(fetch = FetchType.EAGER)
+    private Department department;
+}
+
+@Service
+public class UserService {
+    
+    // Lazy loading in action
+    public void processUser(Long userId) {
+        User user = userRepository.findById(userId);
+        // Orders not loaded yet
+        
+        if (needsOrders(user)) {
+            user.getOrders().size(); // Now orders are loaded
+        }
+    }
+    
+    // Avoid N+1 with explicit fetch
+    public List<User> getUsersWithOrders() {
+        return userRepository.findAllWithOrders(); // Single query with JOIN FETCH
+    }
+}
+```
+
+---
+
+## 14: What is eager loading?
+
+**Eager loading** is a strategy where related data is **loaded immediately along with the main entity**.
+
+It reduces additional database queries later, but increases **initial load time and memory usage**, so it should be used only when the related data is definitely needed.
+
+```java
+// Eager loading examples
+@Entity
+public class Order {
+    @Id
+    private Long id;
+    
+    // Eager loading - customer always loaded with order
+    @ManyToOne(fetch = FetchType.EAGER)
+    private Customer customer;
+    
+    // Lazy loading - items loaded on demand
+    @OneToMany(mappedBy = "order", fetch = FetchType.LAZY)
+    private List<OrderItem> items;
+}
+
+@Repository
+public class OrderRepository extends JpaRepository<Order, Long> {
+    
+    // Explicit eager loading with fetch join
+    @Query("SELECT o FROM Order o JOIN FETCH o.customer JOIN FETCH o.items")
+    List<Order> findAllOrdersWithDetails();
+    
+    // Conditional eager loading
+    @EntityGraph(attributePaths = {"customer", "items"})
+    @Query("SELECT o FROM Order o WHERE o.status = :status")
+    List<Order> findByStatusWithDetails(@Param("status") OrderStatus status);
+}
+```
+
+---
+
+## 15: What is pagination?
+
+**Pagination** is a technique used to split large datasets into **smaller chunks (pages)** instead of loading all data at once.
+
+It improves **performance, memory usage, and user experience**, and is usually implemented using **LIMIT/OFFSET or cursor-based pagination**.
+
+```java
+// Pagination implementation
+@RestController
+public class UserController {
+    
+    // Basic pagination
+    @GetMapping("/users")
+    public Page<User> getUsers(
+        @RequestParam(defaultValue = "0") int page,
+        @RequestParam(defaultValue = "20") int size,
+        @RequestParam(defaultValue = "id") String sortBy) {
+        
+        Pageable pageable = PageRequest.of(page, size, Sort.by(sortBy));
+        return userService.findAll(pageable);
+    }
+    
+    // Cursor-based pagination for better performance
+    @GetMapping("/users/cursor")
+    public List<User> getUsersCursor(
+        @RequestParam(required = false) Long lastId,
+        @RequestParam(defaultValue = "20") int limit) {
+        
+        return userService.findUsersAfter(lastId, limit);
+    }
+}
+
+@Repository
+public class UserRepository extends JpaRepository<User, Long> {
+    
+    // Cursor pagination query
+    @Query("SELECT u FROM User u WHERE (:lastId IS NULL OR u.id > :lastId) ORDER BY u.id")
+    List<User> findUsersAfter(@Param("lastId") Long lastId, Pageable pageable);
+}
+```
+
+## 16. What is JIT compilation?
 
 JIT (Just-In-Time) compilation is a runtime optimization where the JVM compiles frequently executed bytecode into native machine code for better performance.
 
@@ -5375,53 +6287,414 @@ Java moved to a 6-month release cycle in 2017, providing regular updates with ne
 - **Experimentation:** Try latest feature releases for new capabilities
 - **Migration strategy:** Plan upgrades around LTS releases
 
-# ✅ 23. Cloud and Containerization 
+# 🔹 CI/CD and DevOp
 
-## 1. What is containerization?
+## 1: What is continuous integration?
 
-**Containerization** is a technique where an application and all its dependencies—like libraries and configuration—are packaged together into a **lightweight container**. This ensures the application runs **consistently across different environments**, such as development, testing, and production.
+**Continuous Integration (CI)** is a development practice where developers **frequently merge code into a shared repository**, and each commit triggers an **automated build and test process**.
 
-Containers are fast to start, use fewer resources than virtual machines, and make applications easier to **deploy, scale, and manage**.
+It helps detect bugs early, ensures code quality, and provides fast feedback using tools like **Jenkins, GitLab CI, or GitHub Actions**.
 
+* Development practice of frequently integrating code changes into shared repository
+* **Automated Builds**: Every commit triggers automated build and test
+* **Early Detection**: Catch integration issues and bugs early
+* **Fast Feedback**: Developers get quick feedback on code changes
+* **Quality Gates**: Automated tests must pass before integration
+* **Tools**: Jenkins, GitLab CI, GitHub Actions, Azure DevOps
 
-- **Lightweight virtualization:** Shares OS kernel, unlike VMs
-- **Application packaging:** Bundles code, runtime, libraries, dependencies
-- **Environment consistency:** Same behavior across dev, test, production
-- **Resource efficiency:** Lower overhead than virtual machines
-- **Portability:** Run anywhere containers are supported
+```yaml
+# GitHub Actions CI example
+name: CI Pipeline
+on: [push, pull_request]
 
-Containers solve the "it works on my machine" problem by ensuring consistent runtime environments.
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up JDK 17
+      uses: actions/setup-java@v2
+      with:
+        java-version: '17'
+    - name: Run tests
+      run: ./mvnw test
+    - name: Build application
+      run: ./mvnw package
+```
 
-## 2. What is Docker?
+---
 
-**Docker** is a **containerization platform** that allows developers to package an application along with its dependencies into a **container**. This container can run the same way across different environments like development, testing, and production.
+## 2: What is continuous deployment?
 
-Docker makes applications **lightweight, portable, fast to deploy**, and easier to scale compared to traditional virtual machines.
+**Continuous Deployment (CD)** is a practice where code changes are **automatically deployed to production** after passing all tests.
 
+It enables **fast and frequent releases**, reduces risk with small deployments, and requires strong automation, testing, monitoring, and rollback mechanisms.
 
-- **Container platform:** Create, deploy, and manage containers
-- **Docker images:** Read-only templates for creating containers
-- **Docker containers:** Running instances of images
-- **Dockerfile:** Text file with instructions to build images
-- **Docker Hub:** Cloud-based registry for sharing images
+* Automated deployment of code changes to production after passing all tests
+* **Fully Automated**: No manual intervention in deployment process
+* **Fast Delivery**: Features reach users quickly
+* **Risk Mitigation**: Small, frequent deployments reduce risk
+* **Rollback**: Quick rollback capabilities for issues
+* **Prerequisites**: Requires robust testing, monitoring, and automation
+
+```yaml
+# CD Pipeline example
+deploy:
+  stage: deploy
+  script:
+    - docker build -t myapp:$CI_COMMIT_SHA .
+    - docker push registry.com/myapp:$CI_COMMIT_SHA
+    - kubectl set image deployment/myapp myapp=registry.com/myapp:$CI_COMMIT_SHA
+  only:
+    - main
+  when: manual  # or 'on_success' for full automation
+```
+
+---
+
+## 3: What is Jenkins?
+
+**Jenkins** is an **open-source automation server** used to implement **CI/CD pipelines**.
+
+It automates **build, test, and deployment processes**, supports pipeline as code using a *Jenkinsfile*, and integrates with tools like Git, Maven, Docker, and Kubernetes through plugins.
+
+* Open-source automation server for CI/CD pipelines
+* **Pipeline as Code**: Jenkinsfile defines build pipeline
+* **Plugins**: Extensive plugin ecosystem for integrations
+* **Distributed Builds**: Master-slave architecture for scalability
+* **Web Interface**: User-friendly web-based configuration
+* **Integration**: Integrates with Git, Maven, Docker, Kubernetes
+
+```groovy
+// Jenkinsfile example
+pipeline {
+    agent any
+    
+    stages {
+        stage('Build') {
+            steps {
+                sh './mvnw clean compile'
+            }
+        }
+        stage('Test') {
+            steps {
+                sh './mvnw test'
+            }
+        }
+        stage('Package') {
+            steps {
+                sh './mvnw package'
+                archiveArtifacts artifacts: 'target/*.jar'
+            }
+        }
+        stage('Deploy') {
+            when { branch 'main' }
+            steps {
+                sh 'docker build -t myapp .'
+                sh 'kubectl apply -f k8s/'
+            }
+        }
+    }
+}
+```
+
+---
+
+## 4: What is Git?
+
+**Git** is a **distributed version control system** used to track and manage code changes.
+
+It allows developers to **create branches, merge code, collaborate through remote repositories**, and maintains complete project history with high performance and data integrity.
+
+* Distributed version control system for tracking code changes
+* **Distributed**: Every developer has complete project history
+* **Branching**: Lightweight branching and merging capabilities
+* **Performance**: Fast operations for most commands
+* **Integrity**: Cryptographic hashing ensures data integrity
+* **Collaboration**: Enables team collaboration through remote repositories
+
+```bash
+# Basic Git commands
+git init                          # Initialize repository
+git add .                         # Stage changes
+git commit -m "Add new feature"   # Commit changes
+git branch feature-branch         # Create branch
+git checkout feature-branch       # Switch branch
+git merge feature-branch          # Merge branch
+git push origin main              # Push to remote
+git pull origin main              # Pull from remote
+```
+
+---
+
+## 5: What is version control?
+
+**Version control** is a system used to **track and manage changes to code or files over time**.
+
+It allows multiple developers to collaborate, maintain version history, create branches, and revert to previous versions. It can be **centralized (like SVN) or distributed (like Git)**.
+
+* System for tracking and managing changes to files over time
+* **History**: Complete history of all changes and versions
+* **Collaboration**: Multiple developers can work on same project
+* **Branching**: Parallel development streams
+* **Backup**: Distributed copies serve as backups
+* **Rollback**: Ability to revert to previous versions
+* **Types**: Centralized (SVN) vs Distributed (Git)
+
+```bash
+# Version control workflow
+git status                    # Check current state
+git log --oneline            # View commit history
+git diff HEAD~1              # Compare with previous version
+git checkout HEAD~2 -- file.java  # Restore file from 2 commits ago
+git tag v1.0.0               # Tag release version
+git revert abc123            # Revert specific commit
+```
+
+---
+
+## 6: What is infrastructure as code?
+
+**Infrastructure as Code (IaC)** is the practice of **managing and provisioning infrastructure using code instead of manual setup**.
+
+It allows infrastructure to be **version-controlled, automated, and reproducible** across environments using tools like Terraform or CloudFormation.
+
+* Managing and provisioning infrastructure through code rather than manual processes
+* **Declarative**: Define desired state, tools ensure it's achieved
+* **Version Control**: Infrastructure changes tracked like application code
+* **Reproducible**: Consistent environments across dev, test, production
+* **Automation**: Automated provisioning and configuration
+* **Tools**: Terraform, CloudFormation, Ansible, Kubernetes manifests
+
+```yaml
+# Kubernetes deployment (IaC)
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: java-app
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: java-app
+  template:
+    spec:
+      containers:
+      - name: app
+        image: myapp:1.0.0
+        ports:
+        - containerPort: 8080
+        env:
+        - name: DATABASE_URL
+          value: "jdbc:postgresql://db:5432/mydb"
+```
+
+```java
+# Terraform example
+resource "aws_instance" "web" {
+  ami           = "ami-0c55b159cbfafe1d0"
+  instance_type = "t2.micro"
+  
+  tags = {
+    Name = "JavaApp"
+  }
+}
+```
+
+---
+
+## 7: What is deployment strategies?
+
+**Deployment strategies** are different approaches used to release applications to production safely and efficiently.
+
+Common strategies include **Rolling, Blue-Green, Canary, Recreate, and Shadow deployments**, which help minimize downtime, reduce risk, and ensure smooth releases.
+
+* Different approaches for releasing applications to production
+* **Rolling Deployment**: Gradually replace old instances with new ones
+* **Blue-Green**: Switch between two identical environments
+* **Canary**: Deploy to small subset of users first
+* **A/B Testing**: Compare different versions with user groups
+* **Recreate**: Stop old version, start new version (downtime)
+* **Shadow**: Route copy of traffic to new version for testing
+
+```yaml
+# Rolling deployment strategy
+apiVersion: apps/v1
+kind: Deployment
+spec:
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 1
+      maxSurge: 1
+  replicas: 5
+  template:
+    spec:
+      containers:
+      - name: app
+        image: myapp:v2.0.0
+```
+
+---
+
+## 8: What is blue-green deployment?
+
+**Blue-Green deployment** is a strategy where two identical production environments are maintained — one live (**Blue**) and one with the new version (**Green**).
+
+After testing, traffic is switched to Green, ensuring **zero downtime and quick rollback**, but it requires double infrastructure resources.
+
+* Deployment strategy using two identical production environments
+* **Blue**: Current live environment serving users
+* **Green**: New environment with updated application
+* **Switch**: Instant switch from blue to green after validation
+* **Zero Downtime**: No service interruption during deployment
+* **Quick Rollback**: Instant rollback by switching back to blue
+* **Resource Cost**: Requires double the infrastructure resources
+
+```yaml
+# Blue-Green deployment with Kubernetes
+# Blue environment (current)
+apiVersion: v1
+kind: Service
+metadata:
+  name: app-service
+spec:
+  selector:
+    app: myapp
+    version: blue  # Currently pointing to blue
+  ports:
+  - port: 80
+    targetPort: 8080
+
+---
+# Green deployment (new version)
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: myapp-green
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: myapp
+      version: green
+  template:
+    metadata:
+      labels:
+        app: myapp
+        version: green
+    spec:
+      containers:
+      - name: app
+        image: myapp:v2.0.0
+```
+
+---
+
+## 9: What is canary deployment?
+
+**Canary deployment** is a strategy where a new version of an application is released to a **small percentage of users first**, and then gradually rolled out to everyone.
+
+It helps **reduce risk, monitor performance, and quickly roll back** if issues are detected.
+
+* Deployment strategy that releases new version to small subset of users first
+* **Gradual Rollout**: Start with 5-10% of traffic, gradually increase
+* **Risk Mitigation**: Limit blast radius of potential issues
+* **Monitoring**: Monitor metrics and user feedback during rollout
+* **Automated Rollback**: Automatic rollback if metrics degrade
+* **A/B Testing**: Can be combined with A/B testing for feature validation
+* **Traffic Splitting**: Use load balancers or service mesh for traffic control
+
+```yaml
+# Canary deployment with Istio
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: myapp
+spec:
+  http:
+  - match:
+    - headers:
+        canary:
+          exact: "true"
+    route:
+    - destination:
+        host: myapp
+        subset: v2
+  - route:
+    - destination:
+        host: myapp
+        subset: v1
+      weight: 90  # 90% to stable version
+    - destination:
+        host: myapp
+        subset: v2
+      weight: 10  # 10% to canary version
+```
+
+```java
+// Feature flag for canary deployment
+@RestController
+public class UserController {
+    
+    @Autowired
+    private FeatureToggleService featureToggle;
+    
+    @GetMapping("/users")
+    public List<User> getUsers() {
+        if (featureToggle.isEnabled("new-user-api", getCurrentUser())) {
+            return newUserService.getUsers(); // Canary version
+        }
+        return userService.getUsers(); // Stable version
+    }
+}
+```
+
+## 10: What is containerization?
+
+**Containerization** is a technology that **packages applications with their dependencies** into isolated, portable containers.
+
+Containers are **lightweight**, **consistent across environments**, **easy to scale**, and use platforms like **Docker, Podman, or containerd**.
+
+* Technology that packages applications with their dependencies into containers
+* **Isolation**: Applications run in isolated environments
+* **Portability**: Containers run consistently across different environments
+* **Lightweight**: Share OS kernel, more efficient than virtual machines
+* **Scalability**: Easy to scale up/down container instances
+* Popular platforms: Docker, Podman, containerd
 
 ```dockerfile
-# Dockerfile example
+# Dockerfile for Java application
 FROM openjdk:17-jre-slim
 COPY target/myapp.jar app.jar
 EXPOSE 8080
 ENTRYPOINT ["java", "-jar", "/app.jar"]
 ```
 
+---
+
+## 11: What is Docker?
+
+**Docker** is a **containerization platform** that allows developers to package an application along with its dependencies into a **container**. This container can run the same way across different environments like development, testing, and production.
+
+Docker makes applications **lightweight, portable, fast to deploy**, and easier to scale compared to traditional virtual machines.
+
 ```bash
-# Docker commands
-docker build -t myapp .              # Build image
-docker run -p 8080:8080 myapp        # Run container
-docker ps                            # List running containers
-docker images                        # List images
+# Build and run Java application
+docker build -t myapp:latest .
+docker run -p 8080:8080 myapp:latest
+
+# Docker Compose for multi-service setup
+version: '3'
+services:
+  app:
+    build: .
+    ports: ["8080:8080"]
+  db:
+    image: mysql:8.0
 ```
 
-## 3. What is Kubernetes?
+## 12. What is Kubernetes?
 
 **Kubernetes** is a **container orchestration platform** used to manage containerized applications at scale. It automates **deployment, scaling, load balancing, and self-healing** of containers across a cluster of machines.
 
@@ -5464,7 +6737,7 @@ spec:
         - containerPort: 8080
 ```
 
-## 4. What is cloud computing?
+## 13. What is cloud computing?
 
 **Cloud computing** is the delivery of computing resources like **servers, storage, databases, networking, and software** over the internet on a **pay-as-you-go** basis. Instead of owning physical infrastructure, you use resources provided by cloud platforms.
 
@@ -5487,7 +6760,7 @@ It allows easy **scaling, high availability, cost efficiency**, and faster appli
 - **Accessibility:** Access from anywhere
 - **Reliability:** High availability and disaster recovery
 
-## 5. What is distributed system?
+## 14. What is distributed system?
 
 A **distributed system** is a system where multiple **independent computers or services work together** over a network and appear as a **single system** to the user.
 
@@ -5513,7 +6786,7 @@ These systems improve **scalability, fault tolerance, and availability**, since 
 - Content delivery networks (CDNs)
 - Web applications with load balancers
 
-## 6. What is load balancing?
+## 15. What is load balancing?
 
 **Load balancing** is the process of **distributing incoming requests** across multiple servers so that no single server becomes overloaded.
 
@@ -5546,6 +6819,399 @@ server {
     location / {
         proxy_pass http://backend;
     }
+}
+```
+
+# 🔵 25. Monitoring and Logging
+
+## 1: What is application monitoring?
+
+**Application monitoring** is the continuous tracking of an application's **performance, health, and behavior in production**.
+
+It includes monitoring metrics like response time, errors, CPU, and memory, along with logs and traces, using tools like **Prometheus**, **Grafana**, **New Relic**, **Datadog**, and **AppDynamics** to detect and resolve issues proactively.
+
+```java
+// Application monitoring with Micrometer
+@RestController
+public class UserController {
+    
+    private final MeterRegistry meterRegistry;
+    private final Counter userCreationCounter;
+    private final Timer responseTimer;
+    
+    public UserController(MeterRegistry meterRegistry) {
+        this.meterRegistry = meterRegistry;
+        this.userCreationCounter = Counter.builder("users.created")
+            .description("Number of users created")
+            .register(meterRegistry);
+        this.responseTimer = Timer.builder("api.response.time")
+            .register(meterRegistry);
+    }
+    
+    @PostMapping("/users")
+    public User createUser(@RequestBody User user) {
+        return responseTimer.recordCallable(() -> {
+            User created = userService.create(user);
+            userCreationCounter.increment();
+            return created;
+        });
+    }
+}
+```
+
+---
+
+## 2: What is logging framework?
+
+A **logging framework** is a library that provides a structured way to record application events and errors.
+
+It supports different **log levels (DEBUG, INFO, WARN, ERROR)**, configurable output destinations (console, file, etc.), and flexible formatting. Popular frameworks include **SLF4J**, **Apache Log4j**, **Logback**, and **java.util.logging**.
+
+```java
+// Logging framework usage
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+@Service
+public class UserService {
+    
+    private static final Logger logger = LoggerFactory.getLogger(UserService.class);
+    
+    public User createUser(User user) {
+        logger.info("Creating user with email: {}", user.getEmail());
+        
+        try {
+            User created = userRepository.save(user);
+            logger.info("User created successfully with ID: {}", created.getId());
+            return created;
+        } catch (Exception e) {
+            logger.error("Failed to create user: {}", user.getEmail(), e);
+            throw new UserCreationException("User creation failed", e);
+        }
+    }
+}
+```
+
+---
+
+## 3: What is Log4j?
+
+**Apache Log4j** is a popular Java logging framework developed by the Apache Software Foundation.
+
+It provides hierarchical loggers, multiple appenders (console, file, etc.), flexible configuration, and supports asynchronous logging for high-performance applications.
+
+```xml
+<!-- log4j2.xml configuration -->
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="WARN">
+    <Appenders>
+        <Console name="Console" target="SYSTEM_OUT">
+            <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"/>
+        </Console>
+        <File name="FileAppender" fileName="logs/application.log">
+            <PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss} %-5p %c{1}:%L - %m%n"/>
+        </File>
+    </Appenders>
+    
+    <Loggers>
+        <Logger name="com.example" level="DEBUG"/>
+        <Root level="INFO">
+            <AppenderRef ref="Console"/>
+            <AppenderRef ref="FileAppender"/>
+        </Root>
+    </Loggers>
+</Configuration>
+```
+
+---
+
+## 4: What is SLF4J?
+
+**SLF4J** (Simple Logging Facade for Java) is a logging abstraction layer that provides a common API for different logging frameworks.
+
+It allows you to switch the underlying implementation (like Log4j or Logback) without changing code and supports efficient, parameterized logging.
+
+```java
+// SLF4J usage
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.slf4j.MDC;
+
+@Service
+public class OrderService {
+    
+    private static final Logger logger = LoggerFactory.getLogger(OrderService.class);
+    
+    public Order processOrder(Order order) {
+        // Add context to all log messages in this thread
+        MDC.put("orderId", order.getId().toString());
+        MDC.put("userId", order.getUserId().toString());
+        
+        try {
+            logger.info("Processing order for user: {}", order.getUserId());
+            
+            // Parameterized logging - efficient
+            logger.debug("Order details: amount={}, items={}", 
+                order.getAmount(), order.getItems().size());
+            
+            Order processed = processOrderInternal(order);
+            logger.info("Order processed successfully");
+            return processed;
+            
+        } finally {
+            MDC.clear(); // Clean up context
+        }
+    }
+}
+```
+
+---
+
+## 5: What is Logback?
+
+**Logback** is a logging framework and the native implementation of the SLF4J API, designed as the successor to Log4j 1.x.
+
+It offers better performance, flexible configuration, automatic reload support, and is the default logging framework in Spring Boot.
+
+```xml
+<!-- logback-spring.xml configuration -->
+<configuration>
+    <springProfile name="dev">
+        <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+            <encoder>
+                <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+            </encoder>
+        </appender>
+        <root level="DEBUG">
+            <appender-ref ref="CONSOLE"/>
+        </root>
+    </springProfile>
+    
+    <springProfile name="prod">
+        <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+            <file>logs/application.log</file>
+            <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+                <fileNamePattern>logs/application.%d{yyyy-MM-dd}.%i.gz</fileNamePattern>
+                <maxFileSize>100MB</maxFileSize>
+                <maxHistory>30</maxHistory>
+            </rollingPolicy>
+            <encoder>
+                <pattern>%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n</pattern>
+            </encoder>
+        </appender>
+        <root level="INFO">
+            <appender-ref ref="FILE"/>
+        </root>
+    </springProfile>
+</configuration>
+```
+
+---
+
+## 6: What is structured logging?
+
+**Structured logging** is a logging approach where logs are written in a **machine-readable format** (like JSON) using **key-value pairs** instead of plain text.
+
+It improves searchability, filtering, and tracing in monitoring tools like the **Elastic** (ELK Stack) and **Splunk**, and helps include contextual data like correlation IDs for better debugging.
+
+```java
+// Structured logging with Logstash encoder
+import net.logstash.logback.argument.StructuredArguments;
+
+@Service
+public class PaymentService {
+    
+    private static final Logger logger = LoggerFactory.getLogger(PaymentService.class);
+    
+    public PaymentResult processPayment(Payment payment) {
+        // Structured logging with key-value pairs
+        logger.info("Processing payment",
+            StructuredArguments.kv("paymentId", payment.getId()),
+            StructuredArguments.kv("amount", payment.getAmount()),
+            StructuredArguments.kv("currency", payment.getCurrency()),
+            StructuredArguments.kv("userId", payment.getUserId()));
+        
+        try {
+            PaymentResult result = paymentGateway.process(payment);
+            
+            logger.info("Payment processed",
+                StructuredArguments.kv("paymentId", payment.getId()),
+                StructuredArguments.kv("status", result.getStatus()),
+                StructuredArguments.kv("transactionId", result.getTransactionId()));
+            
+            return result;
+        } catch (PaymentException e) {
+            logger.error("Payment failed",
+                StructuredArguments.kv("paymentId", payment.getId()),
+                StructuredArguments.kv("errorCode", e.getErrorCode()),
+                StructuredArguments.kv("errorMessage", e.getMessage()));
+            throw e;
+        }
+    }
+}
+```
+
+---
+
+## 7: What is centralized logging?
+
+**Centralized logging** is the practice of collecting logs from multiple applications and servers into a **single central system**.
+
+It helps with unified search, request tracing across services, log retention, and better monitoring using tools like the **Elastic** (ELK Stack), **Fluentd**, and **Splunk**.
+
+```yaml
+# Docker Compose with centralized logging
+version: '3'
+services:
+  app1:
+    image: myapp:latest
+    logging:
+      driver: "fluentd"
+      options:
+        fluentd-address: localhost:24224
+        tag: app1
+        
+  app2:
+    image: myapp2:latest
+    logging:
+      driver: "fluentd"
+      options:
+        fluentd-address: localhost:24224
+        tag: app2
+        
+  fluentd:
+    image: fluent/fluentd:latest
+    ports:
+      - "24224:24224"
+    volumes:
+      - ./fluentd.conf:/fluentd/etc/fluent.conf
+      
+  elasticsearch:
+    image: elasticsearch:7.9.0
+    
+  kibana:
+    image: kibana:7.9.0
+    ports:
+      - "5601:5601"
+```
+
+```java
+// Application configuration for centralized logging
+@Configuration
+public class LoggingConfig {
+    
+    @Bean
+    public Logger structuredLogger() {
+        LoggerContext context = (LoggerContext) LoggerFactory.getILoggerFactory();
+        
+        // Add correlation ID to all logs
+        context.putProperty("service.name", "user-service");
+        context.putProperty("service.version", "1.0.0");
+        
+        return context.getLogger("STRUCTURED");
+    }
+}
+```
+
+## 8: What is metrics collection?
+
+**Metrics collection** is the process of gathering **quantitative data about system and application performance** over time.
+
+It includes system metrics (CPU, memory), application metrics (response time, error rate), and business metrics, and is commonly done using tools like **Micrometer**, **Prometheus**, **InfluxDB**, and **Amazon CloudWatch**.
+
+```java
+// Metrics collection with Micrometer
+@Component
+public class MetricsCollector {
+    
+    private final MeterRegistry meterRegistry;
+    private final Counter orderCounter;
+    private final Timer orderProcessingTimer;
+    private final Gauge activeUsers;
+    
+    public MetricsCollector(MeterRegistry meterRegistry) {
+        this.meterRegistry = meterRegistry;
+        
+        // Counter for total orders
+        this.orderCounter = Counter.builder("orders.total")
+            .description("Total number of orders")
+            .tag("status", "created")
+            .register(meterRegistry);
+            
+        // Timer for processing duration
+        this.orderProcessingTimer = Timer.builder("orders.processing.time")
+            .description("Order processing time")
+            .register(meterRegistry);
+            
+        // Gauge for active users
+        this.activeUsers = Gauge.builder("users.active")
+            .description("Number of active users")
+            .register(meterRegistry, this, MetricsCollector::getActiveUserCount);
+    }
+    
+    public void recordOrderCreated() {
+        orderCounter.increment();
+    }
+    
+    public void recordOrderProcessingTime(Duration duration) {
+        orderProcessingTimer.record(duration);
+    }
+    
+    private double getActiveUserCount() {
+        return userService.getActiveUserCount();
+    }
+}
+```
+
+---
+
+## 9: What is JMX monitoring?
+
+**JMX (Java Management Extensions) monitoring** is a standard way to **monitor and manage Java applications**.
+
+It uses **MBeans** to expose metrics and operations, and tools like **JConsole** allow local or remote monitoring and management of running JVM applications.
+
+```java
+// Custom MBean for monitoring
+@Component
+public class ApplicationMonitorMBean implements ApplicationMonitorMXBean {
+    
+    private final UserService userService;
+    private final OrderService orderService;
+    
+    @Override
+    public long getTotalUsers() {
+        return userService.getTotalUserCount();
+    }
+    
+    @Override
+    public long getActiveOrders() {
+        return orderService.getActiveOrderCount();
+    }
+    
+    @Override
+    public double getAverageResponseTime() {
+        return performanceService.getAverageResponseTime();
+    }
+    
+    @Override
+    public void clearCache() {
+        cacheService.clearAll();
+    }
+    
+    @Override
+    public String getApplicationStatus() {
+        return healthService.getOverallStatus();
+    }
+}
+
+// MBean interface
+public interface ApplicationMonitorMXBean {
+    long getTotalUsers();
+    long getActiveOrders();
+    double getAverageResponseTime();
+    void clearCache();
+    String getApplicationStatus();
 }
 ```
 
