@@ -1025,7 +1025,9 @@ int value = arr[5]; // ArrayIndexOutOfBoundsException
 
 ## 4. What is the difference between throw and throws?
 
-In Java, **throw** and **throws** are both used for exception handling, but they serve different purposes: one actually **triggers** an error, while the other **warns** that an error might happen.
+The **`throw`** keyword is used to **actually throw an exception object** inside the method body.
+
+The **`throws`** keyword is used in the **method signature** to declare that the method may throw certain exceptions.
 
 ```java
 public void validateAge(int age) throws IllegalArgumentException {
@@ -1064,7 +1066,7 @@ Multiple catch blocks can handle different exception types, and finally runs eve
 
 ## 6. What is try-with-resources?
 
-Try-with-resources automatically closes resources that implement AutoCloseable interface. It ensures proper resource management without explicit finally blocks.
+**Try-with-resources** is a feature in Java that automatically closes resources (like files or database connections) after use.
 
 - Automatically closes resources
 - Resources must implement AutoCloseable
