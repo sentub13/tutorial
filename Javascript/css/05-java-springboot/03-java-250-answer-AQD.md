@@ -2416,6 +2416,9 @@ public class GenericClass<T> {
 
 # ✅ 13. Java Annotations & Reflection 
 
+## 1. What is bean?
+A **Java Bean** is a simple class with private variables, public getters and setters, and a no-argument constructor, used to encapsulate data.
+
 ## 1. What are annotations in Java?
 
 Annotations are metadata that provide information about code without affecting its execution. They're used by compilers, development tools, and frameworks to process code automatically.
