@@ -537,51 +537,62 @@ class Dog extends Animal {
 }
 ```
 
-## 6. What is the difference between overloading and overriding?
+## 6. Is it allowed to overload main() method in Java?
 
-**Method Overloading:**
-- Same class, same method name, different parameters
-- Compile-time decision (static binding)
-- No inheritance required
-- Can have different return types
+**Yes, the `main()` method can be overloaded** in Java.
 
-**Method Overriding:**
-- Parent-child classes, same method signature
-- Runtime decision (dynamic binding)
-- Requires inheritance
-- Must have same return type
+The JVM only calls **`public static void main(String[] args)`**, while other overloaded versions behave as **regular methods**.
+
+* **Yes, you can overload main() method**
+* JVM only calls `public static void main(String[] args)`
+* Other overloaded versions are regular methods
 
 ```java
-// Overloading - same class
-class Math {
-    int multiply(int a, int b) { return a * b; }
-    double multiply(double a, double b) { return a * b; }
-}
-
-// Overriding - inheritance
-class Shape { void draw() { } }
-class Circle extends Shape { 
-    @Override void draw() { } // Same signature
+public class Test {
+    public static void main(String[] args) { } // JVM entry point
+    public static void main(int x) { }         // Overloaded
+    public static void main() { }              // Overloaded
 }
 ```
 
-## 7. What is dynamic method dispatch?
+## 7. Are we allowed to override a static method in Java?
 
-Dynamic method dispatch is Java's mechanism for runtime polymorphism where the actual method called is determined at runtime based on the object type, not reference type.
+**Static methods cannot be overridden** in Java.
 
-- JVM decides which overridden method to call
-- Based on actual object type at runtime
-- Enables true polymorphism in inheritance
+They can be **hidden** in a subclass, and calls are resolved based on the **reference type**, not the object type.
+
+* **No, static methods cannot be overridden**
+* Static methods can be **hidden** (method hiding)
+* Called based on reference type, not object type
 
 ```java
-Animal animal1 = new Dog();
-Animal animal2 = new Cat();
+class Parent {
+    static void show() { System.out.println("Parent"); }
+}
+class Child extends Parent {
+    static void show() { System.out.println("Child"); } // Hiding, not overriding
+}
+```
 
-animal1.sound(); // Calls Dog's sound() method
-animal2.sound(); // Calls Cat's sound() method
+## 8. Is it possible to execute a program without defining a main() method?
 
-// Reference type is Animal, but actual method called
-// depends on object type (Dog or Cat)
+It is **technically possible** to run code in a **static block** without a `main()` method, but **modern Java requires `main()`** as the entry point.
+
+Using static blocks alone is **not recommended** and violates standard practices.
+
+* **Yes, using static blocks** (before Java 7)
+* **Modern Java requires main()** method for execution
+* **Static blocks execute** but program exits with error
+* **Not recommended** - violates standard practices
+
+```java
+class NoMain {
+    static {
+        System.out.println("Executing without main");
+        System.exit(0); // Required to prevent error
+    }
+}
+// Works in older Java versions, not recommended
 ```
 
 # ✅ 4. Java Inheritance 
@@ -724,7 +735,7 @@ class Dog implements Animal {
 }
 ```
 
-## 2.What are the interface available in Java?
+## 2. What are the interface available in Java?
 
 In Java, interfaces are mainly of four types:
 
