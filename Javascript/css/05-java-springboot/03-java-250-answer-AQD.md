@@ -710,29 +710,68 @@ class Car {
 
 ## 1. What is an interface in Java?
 
-An **interface** in Java is a **reference type** that defines a **contract of methods** that a class must implement. It contains **abstract methods**, and since Java 8, it can also have **default and static methods**.
+An **interface** in Java is a blueprint of a class that defines a contract of abstract methods which implementing classes must provide, used to achieve abstraction and multiple inheritance.
 
-Interfaces are used to achieve **abstraction and multiple inheritance of behavior**. A class can implement **multiple interfaces**, allowing loose coupling and flexible design.
-
-In short: an interface **defines “what to do” without specifying “how to do it”**.
-
-
-- Contains abstract methods by default
-- All methods are public by default
-- Variables are public, static, and final
-- Supports multiple inheritance
-- Implemented using 'implements' keyword
+### Example:
 
 ```java
-interface Drawable {
-    void draw(); // abstract method
-    int MAX_SIZE = 100; // public static final
+interface Animal {
+    void sound();   // abstract method
 }
 
-class Circle implements Drawable {
-    public void draw() { System.out.println("Drawing circle"); }
+class Dog implements Animal {
+    public void sound() {
+        System.out.println("Bark");
+    }
 }
 ```
+
+## 2.What are the interface
+
+**In Java, interfaces are mainly of four types:**
+
+**Normal Interface**
+
+**Definition:** A normal interface defines a contract with multiple abstract methods that a class must implement.
+
+```java
+interface Payment {
+    void pay();
+}
+```
+
+**Functional Interface**
+
+**Definition:** A functional interface contains exactly one abstract method and is used for lambda expressions.
+
+```java
+@FunctionalInterface
+interface Calculator {
+    int add(int a, int b);
+}
+```
+
+**Marker Interface**
+
+**Definition:** A marker interface is an empty interface used to tag a class for special behavior.
+
+```java
+interface SerializableMarker {
+}
+```
+
+**Nested Interface**
+
+**Definition:** A nested interface is declared inside a class or another interface for logical grouping.
+
+```java
+class Bank {
+    interface RBI {
+        void rule();
+    }
+}
+```
+
 
 ## 2. What is an abstract class?
 
