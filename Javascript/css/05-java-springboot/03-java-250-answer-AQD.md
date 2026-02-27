@@ -4080,7 +4080,7 @@ public class UserService { // This becomes a Spring bean
 # ✅ 18. Java Spring Boot 
 
 ## 6. What is annotations in Java?
-**An annotation is a special type of metadata in Java that provides additional information about classes, methods, or variables to the compiler or framework.**
+**An annotation** is a special type of metadata in Java that provides additional information about classes, methods, or variables to the compiler or framework.
 
 **Example Annotations:**
 * `@Override`
@@ -4162,8 +4162,6 @@ public class Application {
     }
 )
 ```
-
-
 
 ## 9. What is @SpringBootApplication annotation?
 
@@ -4300,7 +4298,6 @@ I’ll answer it in a **real-time spoken style**, explaining *why and when* we u
 
 **@Component**
 
-**Spoken Answer:**
 “`@Component` is used to tell Spring that this class is a bean and should be managed by the Spring container. Spring automatically detects it during component scanning.”
 
 **When to use:**
@@ -4321,7 +4318,6 @@ public class EmailService {
 
 **@Configuration**
 
-**Spoken Answer:**
 “`@Configuration` is used when we want to define beans explicitly using `@Bean` methods. It’s mainly used for Java-based configuration instead of XML.”
 
 **When to use:**
@@ -4344,7 +4340,6 @@ public class AppConfig {
 
 **@Primary**
 
-**Spoken Answer:**
 “When multiple beans of the same type exist and Spring gets confused, `@Primary` tells Spring which bean should be chosen by default.”
 
 **Example Scenario:**
@@ -4365,7 +4360,6 @@ public class UpiPayment implements PaymentService {
 
 **@Qualifier**
 
-**Spoken Answer:**
 “`@Qualifier` is used when we want to explicitly specify which bean to inject when multiple beans of the same type are present.”
 
 **Example:**
@@ -4470,9 +4464,8 @@ Using `Long` tells Spring Data JPA what type of value to expect when performing 
 
 
 ## 19. How to implement many to many, many to one and one to many in java interiew questions, give answer
-✅ 1️⃣ One-To-Many
-One **Order** → Many **Items**
 
+**One-To-Many**
 
 ```java
 @Entity
@@ -4517,7 +4510,6 @@ public class Employee {
     private Department department;
 }
 ```
-
 
 **Many-To-Many**
 Many **Students** ↔ Many **Courses**
