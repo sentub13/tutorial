@@ -4383,34 +4383,39 @@ public ResponseEntity<User> updateEmail(
 }
 ```
 
-## 15. How do you integrate a Java application with a cloud environment?
+## 15. Explain Spring Boot Actuator endpoints.
 
-Integrate by containerizing your application with Docker, using cloud databases and services instead of local ones, implementing health checks for monitoring, and configuring environment variables for different cloud environments. Use cloud-specific features like auto-scaling and load balancing.
+**Answer:**
+Actuator provides production-ready features like health checks, metrics, and monitoring endpoints. Common endpoints: `/health`, `/metrics`, `/info`, `/env`.
+
+**Example:**
+```xml
+<dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-actuator</artifactId>
+</dependency>
+```
+
+```properties
+# application.properties
+management.endpoints.web.exposure.include=health,metrics,info
+management.endpoint.health.show-details=always
+```
 
 ```java
-@RestController
-public class HealthController {
-    @GetMapping("/health")
-    public Map<String, String> health() {
-        return Map.of("status", "UP");
+// Custom health indicator
+@Component
+public class CustomHealthIndicator implements HealthIndicator {
+    @Override
+    public Health health() {
+        boolean isHealthy = checkService();
+        if (isHealthy) {
+            return Health.up().withDetail("service", "available").build();
+        }
+        return Health.down().withDetail("service", "unavailable").build();
     }
 }
 ```
-
-```dockerfile
-FROM openjdk:17-jre-slim
-COPY target/myapp.jar app.jar
-EXPOSE 8080
-HEALTHCHECK CMD curl -f http://localhost:8080/health || exit 1
-ENTRYPOINT ["java", "-jar", "/app.jar"]
-```
-
-Additional steps:
-- Use cloud databases (RDS, Cloud SQL)
-- Configure environment-specific properties
-- Implement distributed logging
-- Use cloud storage services
-- Set up monitoring and alerting
 
 ## 16. How do you secure a Java Spring Boot application?
 
@@ -4450,12 +4455,46 @@ public class SecureController {
     }
 }
 ```
-## 17. If we don’t write getters & setters, which annotation can we use?
+## 17. What is Lombok in Java and and whe can we use?
+
+**Lombok** is a Java library that reduces boilerplate code by automatically generating getters, setters, constructors, and other methods using annotations.
 
 If we don’t want to manually write **getters and setters** in Java, we can use **Lombok’s `@Getter` and `@Setter` annotations** on the class or fields.
 
 Alternatively, `@Data` generates **getters, setters, `toString()`, `equals()`, and `hashCode()`** all at once.
 
+## 17.How do you create custom auto-configuration?
+
+**Answer:**
+
+Create a configuration class with `@Configuration` and `@Conditional` annotations, then register it in `META-INF/spring.factories`.
+
+**Example:**
+```java
+@Configuration
+@ConditionalOnClass(MyService.class)
+@EnableConfigurationProperties(MyProperties.class)
+public class MyAutoConfiguration {
+    
+    @Bean
+    @ConditionalOnMissingBean
+    public MyService myService(MyProperties props) {
+        return new MyService(props.getName());
+    }
+}
+
+@ConfigurationProperties(prefix = "my.service")
+public class MyProperties {
+    private String name;
+    // getters/setters
+}
+```
+
+```properties
+# META-INF/spring.factories
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+com.example.MyAutoConfiguration
+```
 
 ## 18. Why do we use Long in JpaRepository<Employee, Long>?
 In **`JpaRepository<Employee, Long>`**, the **first type (`Employee`)** is the **entity class** the repository manages, and the **second type (`Long`)** is the **type of the entity’s primary key (`@Id`)**.
@@ -4463,7 +4502,7 @@ In **`JpaRepository<Employee, Long>`**, the **first type (`Employee`)** is the *
 Using `Long` tells Spring Data JPA what type of value to expect when performing operations like `findById()`, `deleteById()`, or `save()`.
 
 
-## 19. How to implement many to many, many to one and one to many in java interiew questions, give answer
+## 19. How to implement many to many, many to one and one to many in java?
 
 **One-To-Many**
 
