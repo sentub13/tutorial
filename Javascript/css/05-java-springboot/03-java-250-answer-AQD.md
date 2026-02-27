@@ -1550,8 +1550,6 @@ public void increment() {
 
 **Concurrency in Java** is the ability of a program to **execute multiple tasks at the same time** by using **multiple threads**. These tasks can run **in parallel on multiple CPU cores** or be **interleaved on a single core** to improve performance and responsiveness.
 
-* **Simple example**
-
 1. **Thread-based**
 * Java provides the **`Thread` class** and **`Runnable` interface** to create and manage concurrent tasks.
 
@@ -1569,10 +1567,6 @@ public class Main {
     }
 }
 ```
-
-This creates a new thread that runs concurrently with the main thread.
-
----
 
 * **How concurrency is achieved in Java**
 
@@ -1596,7 +1590,7 @@ This creates a new thread that runs concurrently with the main thread.
 
 ## 1. What is ExecutorService?
 
-ExecutorService is a high-level framework for managing and controlling thread execution. It provides a way to submit tasks and manage their lifecycle without directly creating threads.
+ExecutorService is a high-level framework for managing and controlling thread execution asynchronously. It provides a way to submit tasks and manage their lifecycle without directly creating threads.
 
 - Manages thread pools automatically
 - Provides methods to submit tasks (submit, execute)
@@ -1621,7 +1615,6 @@ Java provides several predefined thread pool types through Executors class, each
 1. **Fixed Thread Pool**
    * Has a **fixed number of threads**.
    * Tasks wait in a queue if all threads are busy.
-
    ```java
    ExecutorService fixedPool = Executors.newFixedThreadPool(3);
    ```
@@ -1629,21 +1622,18 @@ Java provides several predefined thread pool types through Executors class, each
 2. **Cached Thread Pool**
    * **Creates new threads as needed** and reuses idle threads.
    * Suitable for **short-lived tasks**.
-
    ```java
    ExecutorService cachedPool = Executors.newCachedThreadPool();
    ```
 
 3. **Single Thread Pool**
    * **Only one thread**, executes tasks **sequentially**.
-
    ```java
    ExecutorService singlePool = Executors.newSingleThreadExecutor();
    ```
 
 4. **Scheduled Thread Pool**
    * Runs tasks **after a delay or periodically**.
-
    ```java
    ScheduledExecutorService scheduledPool = Executors.newScheduledThreadPool(2);
    ```
