@@ -48,10 +48,6 @@ Object-Oriented Programming is based on four fundamental principles that promote
 
 Polymorphism means "many forms" - the ability of objects to take multiple forms. The same method call can behave differently depending on the object type.
 
-**Types of Polymorphism:**
-- **Runtime Polymorphism:** Method overriding (dynamic binding)
-- **Compile-time Polymorphism:** Method overloading (static binding)
-
 ```java
 // Runtime polymorphism - method overriding
 class Animal {
@@ -85,11 +81,6 @@ animal2.makeSound(); // "Cat meows"
 
 Encapsulation is the bundling of data and methods that operate on that data within a single unit, while hiding the internal implementation details from outside access.
 
-**Implementation in Java:**
-- **Private fields:** Hide data from direct access
-- **Public methods:** Provide controlled access (getters/setters)
-- **Access modifiers:** Control visibility (private, protected, public)
-
 ```java
 public class BankAccount {
     private double balance; // Private field - encapsulated
@@ -120,13 +111,6 @@ public class BankAccount {
 
 Inheritance is a mechanism where a new class acquires properties and behaviors of an existing class. It promotes code reusability and establishes an "is-a" relationship.
 
-**Types of Inheritance:**
-- **Single Inheritance:** One class extends another class
-- **Multilevel Inheritance:** Chain of inheritance (A→B→C)
-- **Hierarchical Inheritance:** Multiple classes inherit from one parent
-- **Multiple Inheritance:** Not supported in Java (use interfaces)
-- **Hybrid Inheritance:** Combination of above types
-
 ```java
 // Single inheritance
 class Vehicle {
@@ -156,13 +140,6 @@ class SportsCar extends Car {
 ## 7. What is an abstract class?
 
 An abstract class is a class that cannot be instantiated and may contain both abstract methods (without implementation) and concrete methods (with implementation). It's used to provide a common base for related classes.
-
-**Characteristics:**
-- Cannot create objects directly
-- Can have constructors and instance variables
-- May contain abstract and concrete methods
-- Extended using 'extends' keyword
-- Supports single inheritance only
 
 ```java
 abstract class Shape {
@@ -205,15 +182,6 @@ double area = circle.calculateArea();
 ## 8. What is a package in Java? 
 In Java, a **package** is a **namespace that groups related classes, interfaces, and sub-packages together**. It helps organize code, avoid naming conflicts, and control access to classes.
 
-**Key points:**
-
-* Declared at the top of a Java file using `package` keyword.
-* Allows you to import and use classes from other packages.
-* Java has built-in packages like `java.lang`, `java.util`, `java.io`.
-* You can create custom packages to organize your project logically.
-
-**Example:**
-
 ```java
 package com.example.utils;
 
@@ -223,6 +191,87 @@ public class Helper {
     }
 }
 ```
+
+## 9. How many ways we can declra in variable(Local, Instance, and Static (class).)?
+Here are the **3 ways to declare variables in Java** with simple examples:
+
+**Local Variable :** Declared inside a method.
+```java
+class Test {
+    void display() {
+        int x = 10;   // Local variable
+        System.out.println(x);
+    }
+}
+```
+
+**Instance Variable :** Declared inside a class but outside methods.
+```java
+class Student {
+    int age = 20;   // Instance variable
+}
+```
+Each object will have its own copy of `age`.
+
+
+**Static Variable :** Declared using `static` keyword.
+```java
+class Student {
+    static String schoolName = "ABC School";   // Static variable
+}
+```
+
+## 10. What is Instance, Static, Abstract, and Final Methods?
+
+**Instance Method:** A method that belongs to an object and is called using an instance of the class.
+```java
+class Student {
+    void study() {   // Instance method
+        System.out.println("Studying...");
+    }
+}
+
+Student s = new Student();
+s.study();   // Called using object
+```
+
+**Static Method:** A method that belongs to the class and is called using the class name.
+```java
+class Student {
+    static void schoolName() {   // Static method
+        System.out.println("ABC School");
+    }
+}
+
+Student.schoolName();   // Called using class name
+```
+
+**Abstract Method:** A method declared without a body that must be implemented by a subclass.
+```java
+abstract class Animal {
+    abstract void sound();   // Abstract method
+}
+
+class Dog extends Animal {
+    void sound() {
+        System.out.println("Bark");
+    }
+}
+```
+
+**Final Method:** A method that cannot be overridden by a subclass.
+```java
+class Animal {
+    final void breathe() {   // Final method
+        System.out.println("Breathing...");
+    }
+}
+
+class Dog extends Animal {
+    // void breathe() {}  ❌ Not allowed (Compile-time error)
+}
+```
+
 
 # ✅ 2. Data Types and Variables
 
@@ -462,17 +511,8 @@ public class Student {
 
 ## 3. What is the difference between this and super keywords?
 
-**this** refers to the current object instance, while **super** refers to the immediate parent class.
-
-**this keyword:**
-- References current object
-- Calls current class constructor/methods
-- Resolves naming conflicts
-
-**super keyword:**
-- References parent class
-- Calls parent constructor/methods
-- Accesses overridden methods
+**this** refers to the current object instance,  
+**super** refers to the immediate parent class object.
 
 ```java
 class Parent {
@@ -491,11 +531,7 @@ class Child extends Parent {
 
 ## 4. What is method overloading?
 
-Method overloading means having multiple methods with the same name but different parameters in the same class. Java decides which method to call based on arguments.
-
-- Same method name, different parameters
-- Compile-time polymorphism
-- Parameters can differ by number, type, or order
+Method overloading is a feature in Java where multiple methods have the **same name** but **different parameter lists** (different number, type, or order of parameters) in the same class.
 
 ```java
 public class Calculator {
@@ -515,12 +551,8 @@ public class Calculator {
 
 ## 5. What is method overriding?
 
-Method overriding is redefining a parent class method in the child class with the same signature. The child class version gets called instead of the parent's.
+**Method overriding** is redefining a parent class method in the child class with the same signature. The child class version gets called instead of the parent's.
 
-- Same method signature as parent
-- Runtime polymorphism
-- Use @Override annotation for safety
-- Child method must be equally or more accessible
 
 ```java
 class Animal {
@@ -543,10 +575,6 @@ class Dog extends Animal {
 
 The JVM only calls **`public static void main(String[] args)`**, while other overloaded versions behave as **regular methods**.
 
-* **Yes, you can overload main() method**
-* JVM only calls `public static void main(String[] args)`
-* Other overloaded versions are regular methods
-
 ```java
 public class Test {
     public static void main(String[] args) { } // JVM entry point
@@ -554,6 +582,18 @@ public class Test {
     public static void main() { }              // Overloaded
 }
 ```
+
+## 6. Is it allowed to override main() method in Java?
+
+❌ **No, we cannot override the `main()` method in Java** because it is **static**, and static methods cannot be overridden (they are hidden).
+
+* The `main()` method is:
+
+  ```java
+  public static void main(String[] args)
+  ```
+* Since it is **static**, it belongs to the class, not the object.
+* Static methods are resolved at **compile time**, so they cannot participate in runtime polymorphism.
 
 ## 7. Are we allowed to override a static method in Java?
 
@@ -1158,21 +1198,12 @@ Map<String, Integer> map = new HashMap<>();
 
 ## 2. What is the difference between ArrayList and LinkedList?
 
-**ArrayList** is a List implementation that uses a dynamic array to store elements, providing fast random access but slower insertions and deletions in the middle.
+**ArrayList** uses a **dynamic array**, so it gives **fast random access (O(1))**, but **slow insertions/deletions in the middle** due to shifting.
 
-**LinkedList** is a List implementation that uses a doubly linked list to store elements, providing slower access but faster insertions and deletions.
+**LinkedList** uses a **doubly linked list**, so it has **slower access (O(n))**, but **faster insertions/deletions** since no shifting is required.
 
-**ArrayList:**
-- Random access O(1)
-- Insertion/deletion at middle O(n)
-- Better for frequent access
-- Contiguous memory storage
+**In simple words:** Use **ArrayList for reading/searching**, and **LinkedList for frequent insert/delete operations.** 🚀
 
-**LinkedList:**
-- Sequential access O(n)
-- Insertion/deletion O(1) if node known
-- Better for frequent modifications
-- Non-contiguous memory storage
 
 ```java
 List<String> arrayList = new ArrayList<>(); // Fast access
@@ -1181,22 +1212,12 @@ List<String> linkedList = new LinkedList<>(); // Fast insertion/deletion
 
 ## 3. What is the difference between HashMap and TreeMap?
 
-**HashMap** stores key-value pairs using a hash table and does not maintain any ordering of keys. It provides fast performance for basic operations like put and get.
+**HashMap** uses a **hash table**, provides **O(1) average performance**, and **does not maintain order** of keys. It allows **one null key**.
 
-**TreeMap** stores key-value pairs using a Red-Black Tree and maintains keys in sorted (natural or custom) order. It is slower than HashMap but allows ordered traversal.
+**TreeMap** uses a **Red-Black Tree**, provides **O(log n) performance**, and **maintains keys in sorted order**. It **does not allow null keys**.
 
+**In simple words:** Use **HashMap for faster performance**, and **TreeMap when you need sorted data.** 
 
-**HashMap:**
-- Hash table implementation
-- O(1) average time complexity
-- No ordering of keys
-- Allows one null key
-
-**TreeMap:**
-- Red-black tree implementation
-- O(log n) time complexity
-- Sorted order of keys
-- No null keys allowed
 
 ```java
 Map<String, Integer> hashMap = new HashMap<>(); // Fast, unordered
@@ -1209,17 +1230,7 @@ Map<String, Integer> treeMap = new TreeMap<>(); // Slower, sorted
 
 **Hashtable** is a Map implementation that is **synchronized** and does **not allow any null key or null value**, making it thread-safe but slower.
 
-**HashMap:**
-- Not synchronized (not thread-safe)
-- Allows one null key and multiple null values
-- Introduced in Java 1.2
-- Better performance
-
-**Hashtable:**
-- Synchronized (thread-safe)
-- No null keys or values allowed
-- Legacy class from Java 1.0
-- Slower due to synchronization
+**In simple words:** Use **HashMap in single-threaded applications**, and **Hashtable in multi-threaded scenarios** (though nowadays we prefer ConcurrentHashMap).
 
 ```java
 Map<String, Integer> hashMap = new HashMap<>(); // Modern, faster
@@ -1227,14 +1238,15 @@ Map<String, Integer> hashtable = new Hashtable<>(); // Legacy, thread-safe
 ```
 
 ## 5. How does HashMap work internally?
-A **HashMap** stores data in the form of **key-value pairs** using an array of buckets.
 
-HashMap uses an array of buckets where each bucket can hold multiple key-value pairs. It uses hashing to determine which bucket to use for storing entries.
+**HashMap** works using an **array of buckets (Node array)**.
+When you insert a key-value pair, it calculates the **hash value** of the key to find the bucket index.
 
-- Uses array of Node objects (buckets)
-- Hash function determines bucket index
-- Handles collisions with chaining (linked list/tree)
-- Rehashing occurs when load factor exceeds threshold
+If multiple keys map to the same bucket (**collision**), it stores them using a **linked list or tree (after Java 8)**.
+
+When the number of entries exceeds the **load factor limit**, it performs **rehashing** to increase capacity.
+
+**In simple words:** HashMap uses hashing to store and retrieve data efficiently. 🚀
 
 ```java
 // Simplified internal process:
@@ -1248,12 +1260,14 @@ map.put("key", 100); // hash("key") -> bucket index -> store
 
 ## 6. What is hash collision and how is it handled?
 
-Hash collision occurs when two different keys produce the same hash code, mapping to the same bucket. HashMap handles this using chaining and tree conversion.
+**Hash collision** occurs when **two different keys produce the same hash code**, mapping to the same bucket. HashMap handles this using chaining and tree conversion.
 
 - **Chaining:** Multiple entries in same bucket form linked list
 - **Tree conversion:** When chain length > 8, converts to balanced tree
 - **Load factor:** Rehashing when buckets become too full
 - **Open addressing:** Alternative approach (not used in HashMap)
+
+**In simple words:** Collision means two keys go to the same bucket, and HashMap handles it using linked list or tree structure.
 
 ```java
 // Collision example:
@@ -1264,19 +1278,14 @@ map.put("BB", 2); // Collision - stored in same bucket as linked list
 
 ## 7. What is the difference between fail-fast and fail-safe iterators?
 
-Fail-fast iterators throw ConcurrentModificationException when collection is modified during iteration, while fail-safe iterators work on a copy and don't throw exceptions.
+**Fail-fast iterator** detects changes in the collection during iteration and throws a **ConcurrentModificationException**. It works on the **original collection**.
+(Examples: ArrayList, HashMap)
 
-**Fail-fast:**
-- Detects concurrent modifications
-- Throws ConcurrentModificationException
-- Examples: ArrayList, HashMap iterators
-- Works on original collection
+**Fail-safe iterator** allows modifications during iteration because it works on a **separate copy** of the collection. It does not throw an exception.
+(Examples: ConcurrentHashMap, CopyOnWriteArrayList)
 
-**Fail-safe:**
-- Allows concurrent modifications
-- Works on cloned copy
-- Examples: ConcurrentHashMap, CopyOnWriteArrayList
-- May not reflect latest changes
+**In simple words:** Fail-fast throws exception on modification, fail-safe allows it safely.
+
 
 ```java
 List<String> list = new ArrayList<>();
@@ -1288,19 +1297,12 @@ Iterator<String> failSafe = map.keySet().iterator(); // Safe for modifications
 
 ## 8. What is the difference between Comparable and Comparator?
 
-Comparable provides natural ordering by implementing compareTo() method in the class itself, while Comparator provides custom ordering through external comparison logic.
+**Comparable** is used for **natural sorting** and defines the `compareTo()` method inside the same class. It allows **only one sorting logic**.
 
-**Comparable:**
-- Single sorting sequence
-- compareTo() method in class
-- Natural ordering
-- Part of java.lang package
+**Comparator** is used for **custom sorting** and defines the `compare()` method in a separate class. It allows **multiple sorting logics**.
 
-**Comparator:**
-- Multiple sorting sequences
-- External compare() method
-- Custom ordering
-- Part of java.util package
+**In simple words:** Comparable = default sorting, Comparator = custom sorting.x
+
 
 ```java
 // Comparable - natural ordering
@@ -1336,19 +1338,13 @@ Queue<Integer> priorityQueue = new PriorityQueue<>(); // Heap-based, processed b
 
 ## 1. What is multithreading?
 
-Multithreading is the ability to execute multiple threads concurrently within a single program. It allows better resource utilization and improved performance by running tasks simultaneously.
+**Multithreading** allows a program to run **multiple threads concurrently** within the same memory space, improving **CPU utilization, performance, and responsiveness**. Threads can **share data** and the **JVM handles scheduling**.
 
-- Multiple threads share same memory space
-- Enables concurrent execution of tasks
-- Improves CPU utilization and responsiveness
-- Threads can communicate through shared memory
-- JVM manages thread scheduling
-
-Benefits include faster execution, better resource usage, and responsive user interfaces.
+**In simple words:** It lets a program do **many tasks at the same time** efficiently.
 
 ## 2. How do you create threads in Java?
 
-There are two main ways to create threads in Java: extending Thread class or implementing Runnable interface.
+There are two main ways to create **threads** in Java: **extending Thread** class or implementing **Runnable interfac**e.
 
 **Method 1: Extending Thread**
 ```java
@@ -1378,17 +1374,8 @@ t.start();
 
 **Implementing `Runnable`** means creating a class that implements the `Runnable` interface and defines the task in its `run()` method, which can then be executed by a `Thread` object.
 
-**Extending Thread:**
-- Direct inheritance from Thread class
-- Cannot extend other classes (single inheritance)
-- Tightly coupled with Thread class
-- Less flexible approach
+**In simple words:** Use **Runnable** for better design; **Thread** for quick/simple cases.
 
-**Implementing Runnable:**
-- Can extend other classes
-- Better separation of concerns
-- More flexible and reusable
-- Preferred approach for thread creation
 
 ```java
 // Runnable allows extending other classes
@@ -1404,7 +1391,7 @@ class MyThread extends Thread { // Cannot extend anything else
 
 ## 4. What are the states of a thread?
 
-A thread goes through various states during its lifecycle: NEW, RUNNABLE, BLOCKED, WAITING, TIMED_WAITING, and TERMINATED.
+A thread goes through various states during its lifecycle: **NEW, RUNNABLE, BLOCKED, WAITING, TIMED_WAITING, and TERMINATED**.
 
 - **NEW:** Thread created but not started
 - **RUNNABLE:** Thread executing or ready to execute
@@ -1422,13 +1409,13 @@ t.start(); // RUNNABLE state
 
 ## 5. What is synchronization in Java?
 
-Synchronization is a mechanism that ensures only one thread can access a shared resource at a time. It prevents data corruption and maintains thread safety.
+**Synchronization** in Java ensures that **only one thread at a time** can access a shared resource, preventing **race conditions**.
 
-- Controls access to shared resources
-- Prevents race conditions
-- Uses synchronized keyword or locks
-- Can synchronize methods or code blocks
-- Ensures thread safety but may reduce performance
+* Achieved using **`synchronized`** keyword or **locks**
+* Can synchronize **methods** or **blocks**
+* Ensures **thread safety** but may reduce performance
+
+**In simple words:** It makes multithreaded access to shared data **safe and consistent**.
 
 ```java
 // Synchronized method
@@ -1446,7 +1433,7 @@ public void decrement() {
 
 ## 6. What is deadlock and how do you prevent it?
 
-Deadlock occurs when two or more threads are blocked forever, each waiting for the other to release a resource. It's a circular dependency situation.
+**Deadlock** happens when **two or more threads wait forever** for resources held by each other, causing the program to **freeze**.
 
 **Prevention strategies:**
 - Avoid nested locks
@@ -1467,7 +1454,7 @@ Thread2: lock(A) -> lock(B)
 
 ## 7. What is volatile keyword?
 
-Volatile keyword ensures that a variable's value is always read from and written to main memory, not from thread's local cache. It provides visibility guarantee across threads.
+**Volatile** keyword ensures that a variable's value is **always read from and written to main memory**, not from thread's local cache. It provides visibility guarantee across threads.
 
 - Ensures visibility of changes across threads
 - Prevents compiler optimizations
@@ -1580,13 +1567,14 @@ public class Main {
 
 * **How concurrency is achieved in Java**
 
-* **Thread & Runnable**
-* **ExecutorService**
-* **Synchronization**
-* **Locks (`ReentrantLock`)**
-* **Atomic variables**
-* **Concurrent collections**
-* **CompletableFuture (Java 8+)**
+* **Thread & Runnable** – basic units of execution.
+* **ExecutorService** – manages thread pools and asynchronous tasks.
+* **Synchronization** – ensures **thread-safe access** to shared resources.
+* **Locks (ReentrantLock)** – flexible locking with reentrant and fairness options.
+* **Atomic variables** – **lock-free thread-safe operations** on single variables.
+* **Concurrent collections** – thread-safe collections like `ConcurrentHashMap`.
+* **CompletableFuture (Java 8+)** – **asynchronous computation** with callbacks and chaining.
+
 
 ---
 
@@ -1600,13 +1588,7 @@ public class Main {
 
 ## 1. What is ExecutorService?
 
-ExecutorService is a high-level framework for managing and controlling thread execution asynchronously. It provides a way to submit tasks and manage their lifecycle without directly creating threads.
-
-- Manages thread pools automatically
-- Provides methods to submit tasks (submit, execute)
-- Handles thread creation, reuse, and termination
-- Returns Future objects for tracking task progress
-- Better alternative to manual thread management
+**ExecutorService** is a **Java API to manage thread pools and execute tasks asynchronously**, handling **thread creation, reuse, and termination**, and allowing **task tracking with Future**.
 
 ```java
 ExecutorService executor = Executors.newFixedThreadPool(5);
@@ -1622,31 +1604,27 @@ executor.shutdown(); // Graceful shutdown
 
 Java provides several predefined thread pool types through Executors class, each optimized for different use cases.
 
-1. **Fixed Thread Pool**
-   * Has a **fixed number of threads**.
-   * Tasks wait in a queue if all threads are busy.
-   ```java
+**Types of thread pools in Java** (via `Executors`) are:
+
+* **Fixed Thread Pool** – a **fixed number of threads** for executing tasks.
+ ```java
    ExecutorService fixedPool = Executors.newFixedThreadPool(3);
-   ```
+```
 
-2. **Cached Thread Pool**
-   * **Creates new threads as needed** and reuses idle threads.
-   * Suitable for **short-lived tasks**.
-   ```java
+* **Cached Thread Pool** – **creates threads as needed** and **reuses idle threads**.
+```java
    ExecutorService cachedPool = Executors.newCachedThreadPool();
-   ```
+```
 
-3. **Single Thread Pool**
-   * **Only one thread**, executes tasks **sequentially**.
-   ```java
+* **Single Thread Pool** – **only one thread** executes tasks sequentially.
+```java
    ExecutorService singlePool = Executors.newSingleThreadExecutor();
-   ```
+```
 
-4. **Scheduled Thread Pool**
-   * Runs tasks **after a delay or periodically**.
-   ```java
+* **Scheduled Thread Pool** – **executes tasks after a delay or periodically**.
+```java
    ScheduledExecutorService scheduledPool = Executors.newScheduledThreadPool(2);
-   ```
+```
 
 ## 3. What is Future and CompletableFuture?
 
@@ -1678,13 +1656,7 @@ CompletableFuture<String> cf = CompletableFuture
 
 ## 4. What is CountDownLatch?
 
-CountDownLatch is a synchronization utility that allows one or more threads to wait until a set of operations being performed by other threads completes.
-
-- Initialized with a count
-- Threads wait until count reaches zero
-- countDown() decreases the count
-- await() blocks until count is zero
-- One-time use only (cannot be reset)
+**CountDownLatch** is a **synchronization utility** that **blocks threads until a set count reaches zero**, using **countDown() to decrement** and **await() to wait**, and is **one-time use**.
 
 ```java
 CountDownLatch latch = new CountDownLatch(3);
@@ -1704,13 +1676,15 @@ System.out.println("All tasks finished");
 
 ## 5. What is ReentrantLock?
 
-ReentrantLock is an explicit lock implementation that provides more flexibility than synchronized blocks. It allows the same thread to acquire the lock multiple times.
+**ReentrantLock** is a class in Java (`java.util.concurrent.locks`) that provides an explicit and more flexible locking mechanism than `synchronized`.
 
-- Explicit lock/unlock operations
-- Supports fairness policy
-- Interruptible lock acquisition
-- Try-lock with timeout
-- Same thread can acquire multiple times (reentrant)
+It allows:
+
+* Manual `lock()` and `unlock()` control
+* Fair or non-fair locking policy
+* Interruptible lock acquisition
+* `tryLock()` with timeout
+* Reentrancy (same thread can acquire the lock multiple times)
 
 ```java
 ReentrantLock lock = new ReentrantLock();
@@ -1782,35 +1756,23 @@ public synchronized void method() {
 
 ## 0. What is Java Memory Model (JMM)?
 
-**Java Memory Model** defines how threads interact with shared memory in a multithreaded environment. It guarantees visibility, atomicity, and ordering of shared variables. It provides rules like the happens-before relationship and uses mechanisms such as volatile and synchronized to ensure data consistency between threads.
+**Java Memory Model** defines how threads interact with shared memory in a multithreaded environment. It ensures visibility, atomicity, and ordering using mechanisms like volatile and synchronized.
+
+* **Visibility** – Changes made by one thread are visible to others.
+* **Atomicity** – Certain operations are executed completely or not at all.
+* **Ordering** – Code execution follows defined rules (happens-before relationship).
 
 ## 1. What are the different memory areas in JVM?
 
 JVM divides memory into several distinct areas, each serving specific purposes for program execution and memory management.
 
-1. **Heap**
-   **Heap memory** is used for dynamic memory allocation.
-    It stores **objects and instance variables** created using `new`.
-    Memory in the heap is managed by the **Garbage Collector** in Java.
-    It is **larger in size**, but slightly slower than stack. Example: `new Student()` object is stored in Heap.
+**JVM Memory Areas** manage program execution and memory:
 
-2. **Stack**
-   **Stack memory** is used for temporary memory allocation.
-    It stores **local variables, method calls, and function execution data**.
-    Memory in the stack is managed automatically — when a method finishes, its memory is removed immediately.
-    Method variables like `int x = 10` are stored in Stack.
-
-3. **Method Area (Metaspace)**
-   Stores class-level data such as class metadata, method bytecode, static variables, and the runtime constant pool. It is shared among all threads.
-
-
-4. **Program Counter (PC) Register**
-   Stores the address of the currently executing instruction for each thread.
-
-5. **Native Method Stack**
-   Stores information related to native (non-Java) method execution.
-
-Each area has different characteristics for garbage collection and memory allocation strategies.
+* **Heap** – stores **objects and instance variables**, GC-managed.
+* **Stack** – stores **local variables and method calls**, auto-managed.
+* **Method Area (Metaspace)** – stores **class metadata, static variables, and bytecode**.
+* **Program Counter (PC) Register** – tracks **current instruction per thread**.
+* **Native Method Stack** – holds **native method execution info**.
 
 ## 2. What is the difference between heap and stack?
 
@@ -1824,24 +1786,11 @@ It stores **local variables, method calls, and function execution data**.
 Memory in the stack is managed automatically — when a method finishes, its memory is removed immediately.
 Method variables like `int x = 10` are stored in Stack.
 
-**Heap:**
-- Stores objects and instance variables
-- Shared among all threads
-- Garbage collected
-- Slower access
-- Dynamic memory allocation
-
-**Stack:**
-- Stores method calls and local variables
-- Thread-specific (each thread has own stack)
-- Automatic cleanup when method exits
-- Faster access (LIFO structure)
-- Fixed size per thread
 
 ```java
 public void method() {
-    int x = 10;        // Stack - local variable
     String obj = new String("Hello"); // obj reference on stack, object on heap
+     int x = 10;        // Stack - local variable
 }
 ```
 
@@ -2004,42 +1953,9 @@ List<String> longLived = new ArrayList<>(); // Eventually moves to Old Gen
 String temp = "temporary"; // Likely collected in minor GC
 ```
 
-## 8. What is metaspace?
-
-Metaspace is the native memory area where JVM stores class metadata, replacing PermGen from Java 8 onwards. It's allocated in native memory outside the heap.
-
-**Characteristics:**
-- Native memory allocation
-- Dynamic size expansion
-- No fixed size limit (limited by available system memory)
-- Garbage collected when classes are unloaded
-- Better memory utilization than PermGen
-
-**Contents:**
-- Class definitions and metadata
-- Method bytecode
-- Constant pool information
-- Runtime constant pool
-
-Metaspace eliminates PermGen OutOfMemoryError issues and provides more flexible memory management.
-
-## 9. What are GC roots?
+## 8. What are GC roots?
 
 GC roots are objects that are always reachable and serve as starting points for garbage collection reachability analysis. Objects reachable from GC roots are considered live.
-
-**Types of GC Roots:**
-- Local variables in stack frames
-- Static variables in classes
-- JNI global references
-- Objects in native method stacks
-- Thread objects
-- System class loader references
-
-**Reachability Analysis:**
-- GC starts from roots
-- Marks all reachable objects
-- Unreachable objects are garbage collected
-- Ensures no live objects are accidentally collected
 
 ```java
 public class Example {
@@ -2170,13 +2086,9 @@ try (BufferedReader br = Files.newBufferedReader(Paths.get("largefile.txt"))) {
 
 ## 5. What is NIO in Java?
 
-NIO (New I/O) is a collection of APIs introduced in Java 1.4 that provides non-blocking I/O operations and better performance for handling multiple connections.
+**NIO (New I/O)** in Java is a **high-performance I/O API** introduced in Java 1.4 that provides **non-blocking, buffer-based, and scalable input/output operations**.
 
-**Key Components:**
-- **Channels:** Bidirectional data connections
-- **Buffers:** Containers for data
-- **Selectors:** Multiplexing for non-blocking I/O
-- **Non-blocking operations:** Don't wait for I/O completion
+It uses **channels, buffers, and selectors** for efficient **file and network communication**.
 
 **Benefits:**
 - Better scalability for server applications
@@ -2198,20 +2110,6 @@ try (FileChannel channel = FileChannel.open(Paths.get("file.txt"))) {
 
 **NIO (java.nio)** is **non-blocking and buffer-based**. It uses **channels, buffers, and selectors**, allowing one thread to handle multiple connections. This makes it more scalable and better suited for high-performance applications.
 
-**Traditional I/O:**
-- Stream-oriented (one byte/character at a time)
-- Blocking operations
-- Simpler API
-- Good for fewer connections
-- Thread per connection model
-
-**NIO:**
-- Buffer-oriented (chunks of data)
-- Non-blocking operations
-- More complex API
-- Better for many connections
-- Single thread can handle multiple connections
-
 ```java
 // Traditional I/O - blocking
 InputStream is = new FileInputStream("file.txt");
@@ -2225,7 +2123,7 @@ channel.read(buffer); // Can be non-blocking with proper setup
 
 ## 7. When would you use NIO over traditional I/O?
 
-Use NIO when you need better performance and scalability, especially for server applications handling many concurrent connections.
+Use **NIO** when you need **better performance and scalability**, especially for server applications handling many concurrent connections.
 
 **Use NIO when:**
 - Building high-performance servers
@@ -2241,24 +2139,11 @@ Use NIO when you need better performance and scalability, especially for server 
 - Rapid development needed
 - Working with small to medium files
 
-**NIO is ideal for:**
-- Network servers (web servers, chat servers)
-- File servers handling multiple clients
-- Applications requiring high throughput
-- Systems with limited threads but many connections
-
-
 # ✅ 12. Java Generics 
 
 ## 1. What are generics in Java?
 
-Generics allow you to write type-safe code by parameterizing types. They enable classes, interfaces, and methods to work with different types while providing compile-time type checking.
-
-- Parameterized types using angle brackets <>
-- Provide compile-time type safety
-- Eliminate need for explicit casting
-- Enable writing reusable code
-- Introduced in Java 5
+**Generics in Java** let you **write reusable, type-safe code** using **parameterized types (<>)**, ensuring **compile-time type checking** and **no need for explicit casting**.
 
 ```java
 // Without generics - requires casting
@@ -2420,8 +2305,6 @@ public class GenericClass<T> {
 
 `@Bean` is a Spring annotation used to declare and manage an object inside the Spring container.
 
----
-
 ```java
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -2558,7 +2441,7 @@ class Child extends Parent {
 
 ## 6. What is reflection in Java?
 
-Reflection is the ability to inspect and manipulate classes, methods, fields, and other code elements at runtime. It allows programs to examine their own structure dynamically.
+**Reflection in Java** is a feature that allows a program to **inspect and manipulate classes, methods, fields, and constructors at runtime**, even if they are **private**, enabling **dynamic behavior** and **runtime flexibility**.
 
 - Examine class structure at runtime
 - Create objects dynamically
@@ -2856,13 +2739,9 @@ public class UserService {
 
 ## 1. What are lambda expressions?
 
-Lambda expressions are anonymous functions that provide a concise way to represent functional interfaces. They enable functional programming in Java and make code more readable and expressive.
+**Lambda expressions** in Java are a short and clear way to represent **anonymous functions** (functions without a name).
 
-- Anonymous functions without name
-- Concise syntax for functional interfaces
-- Enable functional programming style
-- Reduce boilerplate code
-- Introduced in Java 8
+They were introduced in **Java 8** to support **functional programming** and make code more readable and concise.
 
 ```java
 // Before lambda - anonymous class
@@ -2933,20 +2812,6 @@ Supplier<List<String>> listSupplier = ArrayList::new;
 
 **Anonymous Class** is a **class without a name** defined and instantiated in a single statement, used to provide an implementation of an interface or subclass.
 
-**Lambda Expression:**
-- Only for functional interfaces
-- More concise syntax
-- No new class file generated
-- Better performance (invokedynamic)
-- 'this' refers to enclosing class
-
-**Anonymous Class:**
-- Can implement any interface or extend class
-- More verbose syntax
-- Creates new class file
-- Slower performance
-- 'this' refers to anonymous class instance
-
 ```java
 // Anonymous class - verbose
 Runnable r1 = new Runnable() {
@@ -2963,16 +2828,9 @@ Runnable r2 = () -> {
 
 ## 5. What is Stream API?
 
-The **Stream API**, introduced in **Java 8**, is used to **process collections of data in a functional way**. It allows operations like filtering, mapping, and sorting without modifying the original data source.
+The **Stream API**, introduced in **Java 8**, is used to **process collections of data in a functional way**. It allows operations like **filtering, mapping, and sorting** without modifying the original data source.
 
 Streams work in a **pipeline** using **intermediate operations** such as `filter()` and `map()`, and a **terminal operation** like `collect()` or `forEach()` to produce a result. This makes code cleaner, more readable, and supports easy parallel processing.
-
-
-- Functional-style operations on collections
-- Lazy evaluation for better performance
-- Supports parallel processing
-- Immutable - doesn't modify original data
-- Pipeline of operations: source → intermediate → terminal
 
 ```java
 List<String> names = Arrays.asList("John", "Jane", "Bob", "Alice");
@@ -2985,7 +2843,7 @@ List<String> result = names.stream()
     .collect(Collectors.toList());      // Terminal
 ```
 
-## 141. What is parallel streams? - asked 
+## 6. What is parallel streams? - asked 
 
 **Parallel streams** in Java are a **Stream API feature** that automatically executes operations **in parallel across multiple threads**.
 
@@ -3003,25 +2861,11 @@ int parallelSum = numbers.parallelStream()
     .sum();
 ```
 
-## 6. What is the difference between Collection and Stream?
+## 7. What is the difference between Collection and Stream?
 
 A **Collection** is a **data structure** that stores elements in memory, like `List`, `Set`, or `Map`. It holds data and allows operations such as add, remove, or iterate, and it can be traversed multiple times.
 
 A **Stream** is **not a data structure**; it’s a **data-processing abstraction**. It doesn’t store data but processes elements from a collection or other sources. Streams are **one-time use**, support **functional operations** like `filter` and `map`, and enable easy **parallel processing**.
-
-**Collection:**
-- Data structure that stores elements
-- Eagerly computed (all elements present)
-- Can be modified (add/remove elements)
-- External iteration (for loops)
-- Reusable multiple times
-
-**Stream:**
-- Abstraction for processing data
-- Lazily computed (computed on demand)
-- Immutable (doesn't modify source)
-- Internal iteration (handled by Stream API)
-- Single-use only
 
 ```java
 List<String> collection = Arrays.asList("a", "b", "c");
@@ -3032,23 +2876,11 @@ stream.filter(s -> s.length() > 1); // Doesn't modify collection
 // stream.filter(...); // Error - stream already used
 ```
 
-## 7. What are intermediate and terminal operations?
+## 8. What are intermediate and terminal operations?
 
 In the **Stream API**, **intermediate operations** are operations like `filter()`, `map()`, and `sorted()` that **transform a stream**. They are **lazy**, meaning they don’t execute immediately and return another stream, allowing operations to be chained.
 
 **Terminal operations** are operations like `forEach()`, `collect()`, `reduce()`, and `count()` that **trigger the execution** of the stream pipeline and produce a final result or side effect.
-
-**Intermediate Operations:**
-- Transform stream into another stream
-- Lazy evaluation (not executed until terminal operation)
-- Can be chained together
-- Examples: filter(), map(), sorted(), distinct()
-
-**Terminal Operations:**
-- Produce final result or side effect
-- Trigger execution of entire pipeline
-- Cannot be chained
-- Examples: collect(), forEach(), reduce(), count()
 
 ```java
 List<Integer> numbers = Arrays.asList(1, 2, 3, 4, 5);
@@ -3060,22 +2892,11 @@ numbers.stream()
     .forEach(System.out::println); // Terminal - triggers execution
 ```
 
-## 8. What is the difference between map() and flatMap()?
+## 9. What is the difference between map() and flatMap()?
 
 `map()` is used to **transform each element** in a stream into another form. It returns **one output for each input**, so the structure of the stream stays the same.
 
 `flatMap()` is used when each element produces **another stream or collection**. It **flattens** those nested streams into a **single stream**, so you don’t end up with a stream of streams.
-
-
-**map():**
-- One-to-one transformation
-- Transforms each element to another element
-- Stream<T> → Stream<R>
-
-**flatMap():**
-- One-to-many transformation
-- Flattens nested structures
-- Stream<T> → Stream<R> (where T contains multiple R)
 
 ```java
 List<String> words = Arrays.asList("Hello", "World");
@@ -3091,15 +2912,9 @@ List<String> letters = words.stream()
     .collect(Collectors.toList()); // [H, e, l, l, o, W, o, r, l, d]
 ```
 
-## 9. What is Optional class?
+## 10. What is Optional class?
 
-Optional is a container class that may or may not contain a value. It helps avoid NullPointerException and makes null handling more explicit and safer.
-
-- Container for potentially null values
-- Prevents NullPointerException
-- Encourages explicit null handling
-- Provides functional-style methods
-- Should not be used for fields or parameters
+**Optional class** is a container class that may or may not contain a value. It helps avoid **NullPointerException** and makes null handling more explicit and safer.
 
 ```java
 // Creating Optional
@@ -3167,18 +2982,6 @@ A **Statement** is used to execute **static SQL queries**. The SQL query is sent
 
 A **PreparedStatement** is used for **parameterized queries**. The SQL is **precompiled and cached** by the database, which improves performance for repeated execution and **prevents SQL injection** by safely handling input values.
 
-**Statement:**
-- Executes static SQL queries
-- SQL compiled every time
-- Vulnerable to SQL injection
-- Less efficient for repeated queries
-
-**PreparedStatement:**
-- Executes parameterized SQL queries
-- Pre-compiled SQL (better performance)
-- Prevents SQL injection
-- Efficient for repeated queries with different parameters
-
 ```java
 // Statement - vulnerable to SQL injection
 Statement stmt = conn.createStatement();
@@ -3236,6 +3039,12 @@ Connection conn = dataSource.getConnection(); // From pool
 
 **Caching in Java is a technique of storing frequently used data in memory so that we don’t have to fetch it again from a slow source like a database or external API.**
 
+**Types of cache in Java** are generally categorized as:
+
+1. **In-Memory Cache** – stores data in **RAM** for fast access (e.g., `HashMap`, `ConcurrentHashMap`, **Guava Cache**).
+2. **Distributed Cache** – stores data across **multiple nodes** for scalability (e.g., **Redis**, **Hazelcast**, **Ehcache Cluster**).
+3. **Persistent Cache** – stores data on **disk** to survive restarts (e.g., **Ehcache with disk store**, **Caffeine with persistence**).
+
 **Caching Levels:**
 - **Application level:** In-memory caches (Caffeine, Guava)
 - **Database level:** Query result caching
@@ -3243,29 +3052,19 @@ Connection conn = dataSource.getConnection(); // From pool
 - **HTTP level:** Browser and CDN caching
 
 **How cache works internally (Steps)**
-
 * Application receives a request.
 * It checks the cache for the requested data.
 
 * **If cache hit:**
-
   * Data is found in cache.
   * Return data directly from cache.
   * No database call is made.
 
 * **If cache miss:**
-
   * Data is fetched from the database.
   * Data is stored in cache as a **key-value pair**.
   * Return the response to the user.
 
-* On future requests, data is served from cache.
-
-* Cache automatically manages:
-
-  * Expiration (TTL)
-  * Eviction policy (LRU/LFU)
-  * Removing stale data
 
 **Using HashMap (Manual Cache)**
 ```java
@@ -3275,6 +3074,7 @@ import java.util.Map;
 class UserService {
 
     private Map<Integer, String> cache = new HashMap<>();
+    // private final ConcurrentHashMap<String, String> cache = new ConcurrentHashMap<>();
 
     public String getUser(int userId) {
         // Check cache first
@@ -3343,18 +3143,10 @@ public class UserService {
 
 ## 6. What is SQL injection and how to prevent it?
 
-SQL injection is a security vulnerability where malicious SQL code is inserted into application queries, potentially allowing unauthorized database access or data manipulation.
+**SQL Injection** is a **security vulnerability** where an attacker injects malicious SQL code into application queries, to **manipulate or access the database illegally**.
 
-**How it happens:**
-- User input directly concatenated into SQL
-- Malicious input modifies query logic
-- Can lead to data theft, deletion, or unauthorized access
+It can be prevented by using **Prepared Statements (Parameterized Queries)**, **input validation**, **ORM frameworks (like JPA/Hibernate)**, **stored procedures**, and **proper access control**.
 
-**Prevention methods:**
-- Use PreparedStatement with parameters
-- Input validation and sanitization
-- Stored procedures
-- Least privilege database access
 
 ```java
 // Vulnerable code - SQL injection possible
@@ -3371,7 +3163,7 @@ ResultSet rs = pstmt.executeQuery();
 
 ## 7. What is transaction management in JDBC?
 
-Transaction management ensures that a group of database operations either all succeed or all fail together, maintaining data consistency and integrity.
+**Transaction management** ensures that a group of database operations either all succeed or all fail together, maintaining data consistency and integrity.
 
 **ACID Properties:**
 - **Atomicity:** All or nothing execution
@@ -3520,7 +3312,7 @@ Processing records in **small fixed-size chunks** (like 1000 records per batch)
 ```
 
 
-# ✅ 16. Java Design Patterns 
+# ✅ 17. Java Design Patterns 
 
 ## 1. What are design patterns?
 
@@ -3699,11 +3491,6 @@ class NewsChannel implements Observer {
 
 Strategy pattern defines a family of algorithms, encapsulates each one, and makes them interchangeable. It lets the algorithm vary independently from clients that use it.
 
-- Encapsulates algorithms in separate classes
-- Makes algorithms interchangeable at runtime
-- Eliminates conditional statements
-- Follows Open/Closed principle
-
 ```java
 // Strategy interface
 interface PaymentStrategy {
@@ -3740,11 +3527,6 @@ class ShoppingCart {
 ## 7. What is Adapter pattern?
 
 Adapter pattern allows incompatible interfaces to work together. It acts as a bridge between two incompatible interfaces by wrapping an existing class with a new interface.
-
-- Converts interface of a class into another interface
-- Allows incompatible classes to work together
-- Wraps existing functionality
-- Used for integrating third-party libraries
 
 ```java
 // Target interface (what client expects)
@@ -3784,11 +3566,6 @@ class MediaAdapter implements MediaPlayer {
 ## 8. What is Decorator pattern?
 
 Decorator pattern allows behavior to be added to objects dynamically without altering their structure. It provides a flexible alternative to subclassing for extending functionality.
-
-- Adds new functionality to objects dynamically
-- Alternative to inheritance for extending behavior
-- Maintains same interface as original object
-- Can stack multiple decorators
 
 ```java
 // Component interface
@@ -3852,12 +3629,6 @@ coffee = new SugarDecorator(coffee);
 
 It provides **infrastructure support**, uses **IoC and Dependency Injection**, has **modular architecture** (Core, MVC, Data, Security), and **simplifies Java EE development** with POJOs.
 
-- Lightweight and modular framework
-- Provides dependency injection and IoC container
-- Supports aspect-oriented programming (AOP)
-- Integrates with various technologies
-- Reduces boilerplate code and complexity
-
 Spring makes Java development easier by handling common tasks and promoting best practices like loose coupling and testability.
 
 ## 282: What are the core features of Spring?
@@ -3881,15 +3652,11 @@ public class AppConfig {
 
 ## 2. What is Inversion of Control (IoC)?
 
-Inversion of Control is a design principle where the control of object creation and dependency management is transferred from the application code to an external container or framework.
+**Inversion of Control (IoC)** is a design principle where the control of object creation and dependency management is transferred from the program to a container or framework.
 
-- Container manages object lifecycle
-- Objects don't create their dependencies
-- Dependencies are provided by external source
-- Promotes loose coupling
-- Makes code more testable and maintainable
+Instead of a class creating its own dependencies, they are injected from outside.
 
-Instead of objects creating their dependencies, the IoC container creates and injects them, inverting the traditional control flow.
+In simple terms: **IoC means the framework controls the flow and object creation, not your code.**
 
 ## 3. What is Dependency Injection?
 
@@ -4077,7 +3844,7 @@ public class UserService { // This becomes a Spring bean
 <bean id="userService" class="com.example.UserService"/>
 ```
 
-# ✅ 18. Java Spring Boot 
+# ✅ 19. Java Spring Boot 
 
 ## 6. What is annotations in Java?
 **An annotation** is a special type of metadata in Java that provides additional information about classes, methods, or variables to the compiler or framework.
@@ -4091,6 +3858,12 @@ public class UserService { // This becomes a Spring bean
 ## 6. What is Spring Boot?
 
 **Spring Boot** is a framework built on top of Spring that simplifies application development. It provides **auto-configuration**, **embedded servers**, and **starter dependencies**, allowing developers to build production-ready applications quickly with minimal configuration.
+
+**Design patterns:**
+Spring Boot mainly uses **MVC, Dependency Injection, Singleton, Factory, and DAO** design patterns.
+
+**Design Principle:**
+Spring Boot follows principles like Convention over **Configuration, Dependency Injection, Auto-Configuration, and Standalone** Applications.
 
 - Rapid application development
 - Auto-configuration based on classpath
@@ -4584,11 +4357,14 @@ public class Course {
 }
 ```
 
-# ✅ 19. RESTful Services 
+# ✅ 20. RESTful Services 
 
 ## 1. What is CORS, and how does it work?
 
-**CORS** stands for Cross-Origin Resource Sharing. It's a browser security feature that blocks requests from one domain to another by default. CORS allows servers to specify which domains can access their resources by sending special HTTP headers. This is common when your frontend runs on localhost:3000 and backend on localhost:8080.
+**CORS (Cross-Origin Resource Sharing)** is a **browser security mechanism** that restricts cross-domain requests by default.
+
+It works by allowing the **server to send special HTTP headers** (like `Access-Control-Allow-Origin`) to specify which domains are permitted to access its resources.
+
 
 ```java
 @RestController
@@ -4615,37 +4391,23 @@ public class CorsConfig {
 
 ## 2. What is an API and what are different type of API?
 
-An **API (Application Programming Interface)** is a set of rules that allows different software applications to communicate with each other.
+**API (Application Programming Interface)** is a **set of rules that allows different software applications to communicate with each other**.
 
-**REST (Representational State Transfer)** is an architectural style for building web services using HTTP methods like GET, POST, PUT, DELETE.
-It is lightweight, stateless, and commonly uses JSON format.
-Widely implemented using **Spring Framework**.
+**Types of APIs:**
 
-**SOAP (Simple Object Access Protocol)** is a protocol for exchanging structured information using XML.
-It follows strict standards and supports built-in security (WS-Security).
-Mostly used in enterprise and banking systems.
+* **REST API** – Uses HTTP methods (GET, POST, PUT, DELETE). Commonly uses JSON format.
+* **SOAP API** – is a Protocol-based, uses XML messaging. used in enterprise and banking systems
+* **GraphQL API** – It is query-based API technology, Allows clients to request specific data.
+* **gRPC API** – It is High-performance API framework, it uses Protocol Buffers for fast communication.
+* **WebSocket API** – Enables real-time, two-way communication.
 
-**GraphQL** is a query-based API technology where the client requests only the required data from a single endpoint.
-Developed by **Facebook**.
-
-**gRPC (Google Remote Procedure Call)** is a high-performance API framework that uses Protocol Buffers (binary format) for fast communication.
-Developed by **Google**.
-
-A **WebSocket API** enables real-time, two-way (full-duplex) communication between client and server over a single connection.
-Used in chat apps and live trading systems.
 
 ## 1. What are RESTful web services?
 
-**RESTful** web services are web services that follow REST architectural principles. They use HTTP methods to perform operations on resources identified by URLs, providing a stateless and scalable approach to web communication.
+**RESTful web services** are **web services based on REST architecture** they use **HTTP methods (GET, POST, PUT, DELETE)** to operate on **resources identified by URLs**.
 
-- Based on REST architectural style
-- Use HTTP methods for operations
-- Resources identified by URLs
-- Stateless communication
-- Platform and language independent
-- JSON/XML data exchange
+They are **stateless, platform-independent**, and typically exchange data in **JSON or XML** format.
 
-RESTful services provide a simple, standardized way for different systems to communicate over the web using standard HTTP protocols.
 
 ## 2. What are the principles of REST?
 
@@ -4676,11 +4438,28 @@ It is **verbose**, supports **attributes and namespaces**, is **self-documenting
 ```
 
 ```java
-@GetMapping(value = "/user", produces = MediaType.APPLICATION_XML_VALUE)
-public User getUser() {
-    return new User(1, "John");
+import org.springframework.web.bind.annotation.*;
+
+@RestController
+@RequestMapping("/api")
+public class StudentController {
+
+    @GetMapping(value = "/student", produces = "application/xml")
+    public Student getStudent() {
+        Student s = new Student();
+        s.setId(1);
+        s.setName("John");
+        return s;
+    }
 }
+
+// Result
+// <student>
+//     <id>1</id>
+//     <name>John</name>
+// </student>
 ```
+
 
 ## 3. What are HTTP methods and their usage?
 
@@ -4825,52 +4604,48 @@ public class UserController {
 }
 ```
 
-# ✅ 20. Java Microservices 
+# ✅ 21. Java Microservices 
 
-## 1. What is CORS, and how does it work?
+## 1. What are SOLID principles?
 
-CORS stands for Cross-Origin Resource Sharing. It's a browser security feature that blocks requests from one domain to another by default. CORS allows servers to specify which domains can access their resources by sending special HTTP headers. This is common when your frontend runs on localhost:3000 and backend on localhost:8080.
+**Answer:**
 
+SOLID is an acronym for five design principles that make software more maintainable and scalable:
+
+- **S**ingle Responsibility: A class should have one reason to change
+- **O**pen/Closed: Open for extension, closed for modification
+- **L**iskov Substitution: Subtypes must be substitutable for their base types
+- **I**nterface Segregation: Many specific interfaces are better than one general interface
+- **D**ependency Inversion: Depend on abstractions, not concrete implementations
+
+**Example:**
 ```java
-@RestController
-@CrossOrigin(origins = "http://localhost:3000")
-public class ApiController {
-    @GetMapping("/api/data")
-    public ResponseEntity<Data> getData() {
-        return ResponseEntity.ok(data);
-    }
+// Single Responsibility Principle
+public class UserService {
+    public void createUser(User user) { /* only user logic */ }
 }
 
-// Global CORS configuration
-@Configuration
-public class CorsConfig {
-    @Bean
-    public CorsConfigurationSource corsConfigurationSource() {
-        CorsConfiguration config = new CorsConfiguration();
-        config.setAllowedOrigins(Arrays.asList("http://localhost:3000"));
-        config.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE"));
-        return source;
-    }
+public class EmailService {
+    public void sendEmail(String to, String message) { /* only email logic */ }
+}
+
+// Dependency Inversion Principle
+public interface PaymentProcessor {
+    void processPayment(double amount);
+}
+
+public class PayPalProcessor implements PaymentProcessor {
+    public void processPayment(double amount) { /* PayPal logic */ }
 }
 ```
 
-## 1. What are microservices?
+## 3. What are microservices?
 
-Microservices is an architectural approach where applications are built as a collection of small, independent services that communicate over well-defined APIs. Each service is responsible for a specific business function.
+**Microservices** are an architectural style where an application is built as **small, independent services**, each handling a **single business function**.
 
-- Small, independent services
-- Single business responsibility
-- Communicate via APIs (usually HTTP/REST)
-- Independently deployable
-- Technology agnostic
-- Owned by small teams
+They **communicate via APIs**, are **independently deployable**, **technology-agnostic**, and can be **developed and scaled separately**.
 
-Microservices break down monolithic applications into smaller, manageable pieces that can be developed, deployed, and scaled independently.
-
-
-## 7. What design patterns used in Microservices architecture?
-
-**Answer:**
+## 4. What design patterns used in Microservices architecture?
 
 Common design patterns in Microservices are:
 
@@ -4881,8 +4656,6 @@ Common design patterns in Microservices are:
 * **CQRS (Command Query Responsibility Segregation)** – A pattern that separates read operations from write operations.
 * **Database per Service** – Each microservice has its own dedicated database for data isolation.
 * **Bulkhead Pattern** – A pattern that isolates resources to prevent one service failure from affecting others.
-
-
 
 **Example:**
 ```java
@@ -4936,11 +4709,13 @@ public class OrderSagaService {
 }
 ```
 
-## 2. Monolithic vs Microservices Architecture
+## 5. Monolithic vs Microservices Architecture
 
-**Monolithic architecture** is where the entire application is built as a **single unit**. All components like UI, business logic, and database access are tightly coupled and deployed together. It’s simple to develop and test initially, but as the application grows, scaling and maintenance become difficult.
+**Monolithic Architecture:**
+All components (UI, business logic, database) are built and deployed as a **single unit**. It is simple to develop and deploy initially, but becomes difficult to scale and maintain as the application grows.
 
-**Microservices architecture** breaks the application into **small, independent services**, each responsible for a specific business function. These services can be developed, deployed, and scaled independently, which improves flexibility and scalability but adds complexity in communication, monitoring, and deployment.
+**Microservices Architecture:**
+The application is divided into **small, independent services** that communicate via APIs. Each service can be developed, deployed, and scaled independently, but it increases complexity in communication, monitoring, and deployment.
 
 So, **monolithic is simple but less scalable**, while **microservices are scalable and flexible but more complex**.
 
@@ -4950,7 +4725,7 @@ Trade-offs:
 - Microservices: Independent scaling, technology diversity, complex deployment
 - Choose monolithic for small teams, microservices for large organizations
 
-## 2. What are the advantages of microservices?
+## 6. What are the advantages of microservices?
 
 Microservices offer several benefits over monolithic architectures, particularly for large, complex applications and organizations.
 
@@ -4964,7 +4739,7 @@ Microservices offer several benefits over monolithic architectures, particularly
 
 These benefits enable organizations to move faster, scale better, and maintain more resilient systems.
 
-## 3. What are the challenges of microservices?
+## 7. What are the challenges of microservices?
 
 While microservices offer many benefits, they also introduce complexity and challenges that must be carefully managed.
 
@@ -4978,7 +4753,7 @@ While microservices offer many benefits, they also introduce complexity and chal
 
 Organizations need proper tooling, processes, and expertise to handle these challenges effectively.
 
-## 3. How did microservices communicate with each other?**
+## 8. How microservices communicate with each other?**
 
 **Spoken Answer:**
 
@@ -4987,20 +4762,129 @@ Organizations need proper tooling, processes, and expertise to handle these chal
 >
 > For asynchronous communication, especially for event-based workflows, we used **Kafka**. This helped us reduce tight coupling and improve scalability.
 
-**Example Code (Feign Client):**
+> Microservices communicate in two ways:
+
+1. **Synchronous (REST, Feign, WebClient)** – Request/Response model
+2. **Asynchronous (Kafka, RabbitMQ)** – Event-driven model
+
+**Synchronous Communication**
+
+
+**Using Feign Client**
+
+`- Step 1: Configure Feign Client`
+
+```java
+<dependency>
+    <groupId>org.springframework.cloud</groupId>
+    <artifactId>spring-cloud-starter-openfeign</artifactId>
+</dependency>
+```java
+
+`- Step 2: Enable Feign Client`
+
+```java
+
+import org.springframework.cloud.openfeign.EnableFeignClients;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+@SpringBootApplication
+@EnableFeignClients
+public class OrderServiceApplication {
+    public static void main(String[] args) {
+        SpringApplication.run(OrderServiceApplication.class, args);
+    }
+}
+```
+
+`- Step 3: Create Feign Client Interface`
 
 ```java
 @FeignClient(name = "payment-service")
 public interface PaymentClient {
 
     @GetMapping("/payments/{orderId}")
-    PaymentResponse getPayment(@PathVariable Long orderId);
+    PaymentResponse getPaymentDetails(@PathVariable("orderId") Long orderId);
 }
 ```
 
-## 4. How do you Handle Failures in Microservices?
+`- Step 4: use in controller`
+```java
+@RestController
+@RequestMapping("/orders")
+public class OrderController {
 
-Handle failures using circuit breakers to prevent cascading failures, retry mechanisms with exponential backoff, and always have fallback responses. Set timeouts so requests don't hang forever, and implement health checks for monitoring. The key is failing fast and gracefully.
+    @Autowired
+    private PaymentClient paymentClient;
+
+    @GetMapping("/{orderId}")
+    public PaymentResponse getOrder(@PathVariable Long orderId) {
+        return paymentClient.getPaymentDetails(orderId);
+    }
+}
+```
+
+**Using RestTemplate**
+
+```java
+@Configuration
+public class AppConfig {
+
+    @Bean
+    public RestTemplate restTemplate() {
+        return new RestTemplate();
+    }
+}
+```
+
+```java
+import org.springframework.web.client.RestTemplate;
+import org.springframework.boot.web.client.RestTemplateBuilder;
+
+@RestController
+@RequestMapping("/orders")
+public class OrderController {
+    @Autowired
+    private RestTemplate restTemplate;
+
+    @GetMapping("/{orderId}")
+    public PaymentResponse getOrder(@PathVariable Long orderId) {
+
+        String url = "http://localhost:8081/payments/" + orderId;
+
+        return restTemplate.getForObject(url, PaymentResponse.class);
+    }
+}
+```
+
+
+**Asynchronous Communication**
+```java
+// Producer
+@Autowired
+private KafkaTemplate<String, String> kafkaTemplate;
+
+public void sendMessage() {
+    kafkaTemplate.send("order-topic", "Order Created");
+}
+```
+
+```java
+// Consumer
+@KafkaListener(topics = "order-topic", groupId = "group1")
+public void consume(String message) {
+    System.out.println("Received: " + message);
+}
+```
+
+## 9. How do you Handle Failures in Microservices?
+
+**Answer**
+
+Failures in microservices are handled using **Circuit Breaker, Retry with backoff, Timeout, and Bulkhead patterns** to prevent cascading failures.
+
+We also use **fallback methods, health checks, centralized logging, monitoring, and API Gateway** to improve resilience and quickly detect issues.
 
 ```java
 @Component
@@ -5020,9 +4904,14 @@ public class UserServiceClient {
 
 Configuration includes failure rate thresholds, wait durations, and retry attempts to control when circuits open and close.
 
-## 5. How do you Handle Exception Handling in Spring Boot?
+## 10. How do you Handle Exception Handling in Spring Boot?
 
-Use @ControllerAdvice for global exception handling across all controllers. Create custom exception classes for different error scenarios and return proper HTTP status codes with meaningful error messages. Always log exceptions for debugging but don't expose internal details to users.
+**Answer:**
+
+In Spring Boot, exception handling is done using **@ExceptionHandler** and **@ControllerAdvice** for global exception handling.
+
+We create custom exceptions, return proper **HTTP status codes**, and provide meaningful error responses using **ResponseEntity**. This ensures clean, centralized, and consistent error handling across the application.
+
 
 ```java
 public class UserNotFoundException extends RuntimeException {
@@ -5048,7 +4937,7 @@ public class GlobalExceptionHandler {
 }
 ```
 
-## 6. What is Event-Driven Architecture in Java?
+## 11. What is Event-Driven Architecture in Java?
 
 **Event-Driven Architecture (EDA)** in microservices is a design where services **communicate by producing and consuming events** instead of calling each other directly.
 
@@ -5073,9 +4962,14 @@ public void handleOrderCreated(OrderCreatedEvent event) {
 }
 ```
 
-## 5. What is API Gateway?
+## 12. What is API Gateway?
 
-An API Gateway is a single entry point that sits between clients and multiple backend services, handling all incoming requests and routing them to the appropriate microservice.
+**Answer**
+
+An **API Gateway** is a single entry point for all client requests in a microservices architecture.
+
+It handles **routing, authentication, rate limiting, logging, and load balancing**, and forwards requests to appropriate backend services, improving security and simplifying client communication.
+
 
 **Benefits:**
 - Single entry point for clients
@@ -5100,7 +4994,7 @@ public class ApiGatewayApplication {
 }
 ```
 
-## 6. What is circuit breaker pattern?
+## 13. What is circuit breaker pattern?
 
 The **Circuit Breaker pattern** is a design pattern used in **microservices** to prevent cascading failures. When a service repeatedly fails or becomes slow, the circuit breaker **opens** and temporarily blocks calls to that service.
 
@@ -5116,11 +5010,6 @@ After a cooldown period, it moves to a **half-open** state to test if the servic
 - Faster failure detection
 - Automatic recovery
 - Improves system resilience
-
-**Popular Implementations:**
-- Netflix Hystrix (deprecated)
-- Resilience4j
-- Spring Cloud Circuit Breaker
 
 ```java
 // Circuit breaker with Resilience4j
@@ -5154,14 +5043,13 @@ resilience4j:
         sliding-window-size: 10
 ```
 
-## 6. How do you Improve Performance in Spring Boot Application?
+## 14. How do you Improve Performance in Spring Boot Application?
 
-To improve performance in a **Spring Boot application**, start by **optimizing database access** using proper indexing, pagination, and connection pooling like **HikariCP**. Reduce unnecessary queries and use **caching** with tools like Redis or Spring Cache.
+**Answer**
 
-Enable **asynchronous processing** where applicable, and tune **JVM settings** such as heap size and garbage collection. Also, use **lazy loading**, compress responses, and monitor the application using **Actuator and profiling tools** to identify bottlenecks.
+To improve performance in Spring Boot, I use **caching (Redis), connection pooling (HikariCP), proper indexing in database, async processing, and pagination for large data**.
 
-Overall, focus on **efficient DB usage, caching, async processing, and monitoring** for best performance.
-
+Enable **asynchronous processing** where applicable, I also optimize **JVM settings, reduce unnecessary logging, use efficient queries, and monitor the application using Actuator and profiling tools** to identify bottlenecks.
 
 ```java
 @Service
@@ -5180,14 +5068,7 @@ public class UserService {
 }
 ```
 
-Additional optimizations:
-- Use connection pooling (HikariCP)
-- Enable HTTP compression
-- Optimize database queries
-- Use CDN for static content
-- Monitor with APM tools
-
-## 7. Have you worked with the Java 11 HTTP Client? How does it differ from the HTTP clients used in earlier Java versions?
+## 15. Have you worked with the Java 11 HTTP Client? How does it differ from the HTTP clients used in earlier Java versions?
 
 Yes, I’ve worked with the **Java 11 HTTP Client**. It’s a modern HTTP client introduced in Java 11 under the `java.net.http` package. It supports **HTTP/1.1 and HTTP/2**, has **built-in asynchronous and non-blocking calls** using `CompletableFuture`, and provides a clean, fluent API.
 
@@ -5197,44 +5078,40 @@ So compared to older clients, the Java 11 HTTP Client is **simpler, more efficie
 
 
 ```java
-// Java 11 HTTP Client - modern approach
-HttpClient client = HttpClient.newBuilder()
-    .version(HttpClient.Version.HTTP_2)
-    .connectTimeout(Duration.ofSeconds(10))
-    .build();
+import java.net.URI;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
 
-HttpRequest request = HttpRequest.newBuilder()
-    .uri(URI.create("https://api.example.com/users"))
-    .header("Content-Type", "application/json")
-    .GET()
-    .build();
+public class Test {
+    public static void main(String[] args) throws Exception {
 
-// Synchronous
-HttpResponse<String> response = client.send(request, 
-    HttpResponse.BodyHandlers.ofString());
+        HttpClient client = HttpClient.newHttpClient();
 
-// Asynchronous
-CompletableFuture<HttpResponse<String>> futureResponse = 
-    client.sendAsync(request, HttpResponse.BodyHandlers.ofString());
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(new URI("https://example.com"))
+                .GET()
+                .build();
+
+        HttpResponse<String> response =
+                client.send(request, HttpResponse.BodyHandlers.ofString());
+
+        System.out.println(response.body());
+    }
+}
 ```
 
 The old HttpURLConnection required much more boilerplate code and didn't support modern features like HTTP/2 or reactive programming patterns.
 
-## 4. What is service discovery?
+## 16. What is service discovery?
 
-Service discovery is a mechanism that allows services to find and communicate with each other dynamically without hardcoding network locations. It's essential in microservices architectures.
+**Service Discovery** is a mechanism in microservices architecture where services automatically find and communicate with each other without hardcoding their IP addresses.
 
 **How it works:**
 - Services register themselves with discovery server
 - Services query discovery server to find other services
 - Handles dynamic IP addresses and scaling
 - Provides health checking and load balancing
-
-**Popular Tools:**
-- Netflix Eureka
-- Consul
-- Kubernetes DNS
-- AWS Service Discovery
 
 ```java
 // Service registration with Eureka
@@ -5262,7 +5139,7 @@ public class OrderController {
 }
 ```
 
-# 🔵 21. Java and Application Security
+# ✅ 22. Java and Application Security
 
 ## 1: What is Java security model?
 
@@ -5634,7 +5511,7 @@ public class SamlUserDetailsService implements SAMLUserDetailsService {
 }
 ```
 
-# ✅ 21. Java Performance and Optimization
+# ✅ 23. Java Performance and Optimization
 
 
 ## 1: How do you measure Java application performance?
@@ -6176,7 +6053,7 @@ java -XX:+PrintCompilation \      # Print compilation events
      JITExample
 ```
 
-# ✅ 22. Modern Java Features 
+# ✅ 24. Modern Java Features 
 
 ## 1. What are the new features in Java 8?
 
@@ -7260,4 +7137,4 @@ public interface ApplicationMonitorMXBean {
 }
 ```
 
-# ✅ 24. Miscellaneous
+# ✅ 25. Miscellaneous
