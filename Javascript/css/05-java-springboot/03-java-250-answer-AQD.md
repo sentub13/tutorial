@@ -2761,13 +2761,7 @@ names.forEach(name -> System.out.println(name));
 
 ## 2. What are functional interfaces?
 
-Functional interfaces are interfaces with exactly one abstract method. They can be implemented using lambda expressions and serve as the foundation for functional programming in Java.
-
-- Exactly one abstract method (SAM - Single Abstract Method)
-- Can have default and static methods
-- @FunctionalInterface annotation for safety
-- Target type for lambda expressions
-- Examples: Runnable, Callable, Comparator
+**Functional interfaces** are interfaces with exactly **one abstract method**. They can be implemented using **lambda expressions** and serve as the foundation for functional programming in Java.
 
 ```java
 @FunctionalInterface
