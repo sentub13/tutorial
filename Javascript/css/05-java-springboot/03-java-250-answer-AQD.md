@@ -4360,9 +4360,8 @@ In **`JpaRepository<Employee, Long>`**, the **first type (`Employee`)** is the *
 
 Using `Long` tells Spring Data JPA what type of value to expect when performing operations like `findById()`, `deleteById()`, or `save()`.
 
-## 19. What is Transactional  Why @Transactional Matters in Spring Boot?
-**@Transactional** is an annotation in **Spring Boot** used to manage **database transactions automatically**.
-
+## 19. What is Transactional and Why @Transactional Matters in Spring Boot?
+**@Transactional** is an annotation in **Spring Boot** used to manage **database transactions automatically**. 
 A **transaction** means a group of database operations that must **all succeed or all fail together**.
 
 
