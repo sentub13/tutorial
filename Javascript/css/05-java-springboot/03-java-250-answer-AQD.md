@@ -239,8 +239,9 @@ abstract class Animal {
 
 **transient** Used for serialization and but not saved. Used for sensitive data.
 ```java
-class Student implements Serializable {
-    transient int password;
+public class Student implements Serializable {
+    private String username;
+    private transient String password;
 }
 ```
 
@@ -309,6 +310,37 @@ class Dog extends Animal {
 }
 ```
 
+## 11. How do you read user input from the console in Java?
+```java
+import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args) {
+
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.print("Enter a string: ");
+        String input = scanner.nextLine();
+
+        System.out.println("You entered: " + input);
+
+        scanner.close();
+    }
+}
+```
+
+## 12. How do you iterate through a collection in Java?
+```java
+// Example using for-each loop:
+List<String> fruits = Arrays.asList("Apple", "Banana", "Orange");
+for (String fruit : fruits) {
+   System.out.println(fruit);
+}
+// Example using regular for loop:
+for (int i = 0; i < fruits.size(); i++) {
+   System.out.println(fruits.get(i));
+}
+```
 
 # ✅ 2. Data Types and Variables
 
@@ -1249,9 +1281,10 @@ List<String> linkedList = new LinkedList<>(); // Fast insertion/deletion
 
 ## 3. What is the difference between HashMap and TreeMap?
 
-**HashMap** uses a **hash table**, provides **O(1) average performance**, and **does not maintain order** of keys. It allows **one null key**.
+**HashMap** Unordered, allows null keys and values, O(1) average time complexity for basic operations.
 
-**TreeMap** uses a **Red-Black Tree**, provides **O(log n) performance**, and **maintains keys in sorted order**. It **does not allow null keys**.
+**TreeMap** Sorted by keys, doesn't allow null keys, O(log n) time complexity for basic operations.
+
 
 **In simple words:** Use **HashMap for faster performance**, and **TreeMap when you need sorted data.** 
 
@@ -1261,7 +1294,7 @@ Map<String, Integer> hashMap = new HashMap<>(); // Fast, unordered
 Map<String, Integer> treeMap = new TreeMap<>(); // Slower, sorted
 ```
 
-## 4. What is the difference between HashMap and Hashtable?
+## 4. What is the difference between HashMap Hashtable?
 
 **HashMap** is a Map implementation that is **not synchronized** and allows **one null key and multiple null values**, making it faster but not thread-safe.
 
@@ -1360,7 +1393,7 @@ A `WeakHashMap` stores keys as **weak references**, so entries are automatically
 
 An `IdentityHashMap` compares keys using **== (reference equality)** instead of `equals()` method.
 
-A `LinkedHashMap` maintains **insertion order** (or access order) while storing key-value pairs.
+A `LinkedHashMap` Maintains insertion order (or access order), allows null keys and values, slightly slower than HashMap.
 
 A `PriorityQueue` stores elements in **priority order** (natural order or custom comparator), not in insertion order.
 
@@ -2035,20 +2068,6 @@ List<String> lines = Files.readAllLines(Paths.get("file.txt"));
 
 **Reader** is a character-oriented class used to read **text data** (characters, strings) from a source, handling character encoding automatically.
 
-**InputStream:**
-- Handles raw bytes (binary data)
-- Abstract class for byte streams
-- Methods return int (0-255) or byte arrays
-- Used for images, videos, any binary files
-- Examples: FileInputStream, ByteArrayInputStream
-
-**Reader:**
-- Handles characters (text data)
-- Abstract class for character streams
-- Handles character encoding automatically
-- Used for text files
-- Examples: FileReader, StringReader
-
 ```java
 // InputStream - for binary data
 InputStream is = new FileInputStream("image.jpg");
@@ -2065,18 +2084,6 @@ int charData = reader.read(); // Returns character as int
 
 **BufferedWriter** is a Java class used to write text to an output stream efficiently by **buffering characters**, reducing the number of I/O operations.
 
-
-**BufferedReader:**
-- Buffers input for efficient reading
-- Provides readLine() method
-- Reduces system calls
-- Default buffer size 8192 characters
-
-**BufferedWriter:**
-- Buffers output for efficient writing
-- Provides newLine() method
-- Flushes buffer when full or explicitly called
-- Improves write performance
 
 ```java
 // BufferedReader - efficient reading
@@ -2220,7 +2227,7 @@ list.add(123); // Compile error - type mismatch
 
 ## 3. What is type erasure?
 
-Type erasure is the process where generic type information is removed during compilation. The compiler replaces generic types with their bounds or Object, maintaining backward compatibility.
+Type **erasure** is the process where generic type information is removed during compilation. The compiler replaces generic types with their bounds or Object, maintaining backward compatibility.
 
 - Generic type information removed at runtime
 - Replaced with raw types or bounds
@@ -2268,7 +2275,7 @@ Object val = integers.get(0); // OK - can read as Object
 
 ## 5. What is PECS principle?
 
-PECS stands for "Producer Extends, Consumer Super" - a guideline for choosing between extends and super wildcards based on how you use the collection.
+**PECS** stands for **"Producer Extends, Consumer Super"** - a guideline for choosing between extends and super wildcards based on how you use the collection.
 
 **Producer Extends:**
 - Use `<? extends T>` when you only read from collection
@@ -2297,7 +2304,7 @@ public void addNumbers(List<? super Integer> numbers) {
 
 ## 6. What are the limitations of generics?
 
-Generics have several limitations due to type erasure and backward compatibility requirements.
+**Generics** have several limitations due to type erasure and backward compatibility requirements.
 
 **Key Limitations:**
 - Cannot instantiate generic types: `new T()`
@@ -2360,13 +2367,7 @@ public class AppConfig {
 
 ## 1. What are annotations in Java?
 
-Annotations are metadata that provide information about code without affecting its execution. They're used by compilers, development tools, and frameworks to process code automatically.
-
-- Metadata attached to code elements
-- Start with @ symbol
-- Don't change program behavior directly
-- Used by tools and frameworks for processing
-- Can be applied to classes, methods, fields, parameters
+**Annotations** are metadata that **provide information about code without affecting its execution**. They're used by compilers, development tools, and frameworks to process code automatically.
 
 ```java
 @Override
@@ -2450,18 +2451,6 @@ Retention policy determines how long annotations are retained - in source code, 
 
 **Overloading** is **not an annotation**—it’s a **concept**. Method overloading happens when multiple methods have the **same name but different parameters** (different type, number, or order) within the same class.
 
-**@Override:**
-- Built-in annotation
-- Indicates method overrides parent method
-- Compile-time verification
-- Prevents accidental method signature mistakes
-
-**@Overload:**
-- Not a standard Java annotation
-- Method overloading happens automatically
-- No special annotation needed
-- Multiple methods with same name, different parameters
-
 ```java
 class Parent {
     public void method() { }
@@ -2480,11 +2469,6 @@ class Child extends Parent {
 
 **Reflection in Java** is a feature that allows a program to **inspect and manipulate classes, methods, fields, and constructors at runtime**, even if they are **private**, enabling **dynamic behavior** and **runtime flexibility**.
 
-- Examine class structure at runtime
-- Create objects dynamically
-- Invoke methods dynamically
-- Access private fields and methods
-- Used by frameworks like Spring, Hibernate
 
 ```java
 // Get class information
@@ -2501,7 +2485,7 @@ int length = (int) method.invoke("Hello");
 
 ## 7. When should you use reflection?
 
-Use reflection when you need dynamic behavior that cannot be achieved with normal Java code, typically in frameworks and libraries.
+Use **reflection** when you need dynamic behavior that cannot be achieved with normal Java code, typically in frameworks and libraries.
 
 **Appropriate Use Cases:**
 - Building frameworks (Spring, Hibernate)
@@ -2518,7 +2502,7 @@ Use reflection when you need dynamic behavior that cannot be achieved with norma
 
 ## 8. What are the performance implications of reflection?
 
-Reflection is significantly slower than direct method calls due to runtime type checking, security checks, and method resolution overhead.
+**Reflection** is significantly slower than direct method calls due to runtime type checking, security checks, and method resolution overhead.
 
 **Performance Issues:**
 - Method lookup is expensive
@@ -2600,7 +2584,7 @@ try {
 
 ## 11. What is Mockito?
 
-Mockito is a testing framework that creates fake objects called mocks for unit testing. You can control what these mock objects return when their methods are called, which helps isolate the code you're testing from its dependencies. It's very popular for testing Spring applications.
+**Mockito** is a testing framework that **creates fake objects** called mocks for unit testing. You can control what these mock objects return when their methods are called, which helps isolate the code you're testing from its dependencies. It's very popular for testing Spring applications.
 
 ```java
 @Mock
@@ -2621,7 +2605,7 @@ public void testGetUser() {
 
 ## 1. What is servlet in Java?
 
-A servlet is a Java class that handles HTTP requests and responses on a web server. It's like a controller that processes incoming requests, performs business logic, and sends back responses. Servlets run inside containers like Tomcat and are the foundation of Java web applications.
+A **servlet** is a Java class that **handles HTTP requests and responses** on a web server. It's like a **controller that processes incoming requests**, performs business logic, and sends back responses. Servlets run inside containers like Tomcat and are the foundation of Java web applications.
 
 ```java
 @WebServlet("/hello")
@@ -2639,7 +2623,14 @@ public class HelloServlet extends HttpServlet {
 
 ## 2. What is the servlet lifecycle?
 
-The servlet lifecycle has three main phases managed by the container. First is init() called once when the servlet loads to initialize resources. Then service() is called for every request and delegates to doGet, doPost methods. Finally destroy() is called once when the servlet unloads to clean up resources.
+The **Servlet Lifecycle** defines the stages a servlet goes through from **creation to destruction** in a servlet container like **Apache Tomcat**.
+
+**Lifecycle Phases**
+
+1. **Initialization (`init()`) :** The servlet is loaded and initialized by the container.
+2. **Request Processing (`service()`) :** The servlet handles client requests (`doGet()`, `doPost()`).
+3. **Destruction (`destroy()`) :** The servlet is removed from memory when the server shuts down.
+
 
 ```java
 public class LifecycleServlet extends HttpServlet {
@@ -2664,7 +2655,15 @@ public class LifecycleServlet extends HttpServlet {
 
 ## 3. What is JSP (JavaServer Pages)?
 
-JSP allows you to create dynamic web pages by embedding Java code directly into HTML. It's much easier than servlets for creating user interfaces because you write mostly HTML with some Java mixed in. JSP pages get automatically compiled into servlets by the container behind the scenes.
+**JavaServer Pages (JSP)** is a **server-side technology** used to create **dynamic web pages** using **Java code inside HTML**. It runs on a web server like **Apache Tomcat**.
+
+JSP is internally **converted into a servlet** by the server and then executed.
+
+* Used to build **dynamic web applications**
+* Combines **HTML + Java code**
+* Runs on the **server side**
+* Automatically converted to **Servlet**
+
 
 ```jsp
 <%@ page language="java" contentType="text/html; charset=UTF-8" %>
@@ -2690,8 +2689,8 @@ JSP allows you to create dynamic web pages by embedding Java code directly into 
 
 In short: **Servlet = logic/controller**, **JSP = view/presentation**.
 
+**Key differences:**
 
-Key differences:
 - Servlets: Java code generating HTML
 - JSP: HTML with embedded Java
 - Servlets: Better for logic
@@ -2810,13 +2809,24 @@ interface Calculator {
 }
 
 // Usage with lambda
-Calculator add = (a, b) -> a + b;
-Calculator multiply = (a, b) -> a * b;
+public class Main {
+    public static void main(String[] args) {
+
+        Calculator add = (a, b) -> a + b;
+        Calculator multiply = (a, b) -> a * b;
+
+        int result1 = calculator.add(10, 20);
+        int result2 = calculator.multiply(10, 20);
+
+        System.out.println(result1);
+        System.out.println(result2);
+    }
+}
 ```
 
 ## 3. What are method references?
 
-Method references are shorthand notation for lambda expressions that call a single method. They make code even more concise when lambda just calls an existing method.
+A **Method Reference** is a **shorthand syntax of a lambda expression** that refers to an existing method using `::` operator.
 
 **Types of Method References:**
 - Static method: `ClassName::methodName`
@@ -3027,7 +3037,7 @@ ResultSet rs = pstmt.executeQuery();
 
 ## 4. What is connection pooling and how it works internally?
 
-**Connection** pooling is a technique used to **reuse database** connections instead of creating a new connection every time a request comes.
+**Connection pooling is a technique used to reuse database connections instead of creating a new connection every time a request comes.**
 
 **How It Works Internally (Simple Explanation)**
 
@@ -3068,7 +3078,7 @@ Connection conn = dataSource.getConnection(); // From pool
 
 ## 5. What is caching and how it works inernally(Implementation)?
 
-**Caching** in Java is a technique of **storing frequently used data in memory** so that we don’t have to fetch it again from a slow source like a database or external API.
+**Caching in Java is a technique of storing frequently used data in memory so that we don’t have to fetch it again from a slow source like a database or external API.**
 
 **Types of cache in Java** are generally categorized as:
 
@@ -3077,14 +3087,24 @@ Connection conn = dataSource.getConnection(); // From pool
 3. **Persistent Cache** – stores data on **disk** to survive restarts (e.g., **Ehcache with disk store**, **Caffeine with persistence**).
 
 **Caching Levels:**
-- **In-Memory Cache:**  stores data in **RAM** for fast access (e.g., `HashMap`, `ConcurrentHashMap`, **Guava Cache**).
-- **Database level:** Caches database query results 
-- **Distributed level:** Shared across multiple applications/servers, Redis, Hazelcast, Ehcache Cluster
+- **Application level:** In-memory caches (Caffeine, Guava)
+- **Database level:** Query result caching
+- **Distributed level:** Redis, Hazelcast
 - **HTTP level:** Browser and CDN caching
 
 **How cache works internally (Steps)**
 * Application receives a request.
 * It checks the cache for the requested data.
+
+* **If cache hit:**
+  * Data is found in cache.
+  * Return data directly from cache.
+  * No database call is made.
+
+* **If cache miss:**
+  * Data is fetched from the database.
+  * Data is stored in cache as a **key-value pair**.
+  * Return the response to the user.
 
 
 **Using HashMap (Manual Cache)**
@@ -3369,7 +3389,7 @@ Design patterns are proven reusable solutions to common software design problems
 * **Strategy** – Allows selecting an algorithm’s behavior at runtime by encapsulating different algorithms in separate classes.
 * **Decorator** – Adds new functionality to an object dynamically without modifying its existing code.
 
-## 2. What is Singleton pattern?
+## 2. What is Singleton pattern and provide an example of a thread-safe implementation in Java.?
 
 Singleton pattern ensures that a class has only one instance throughout the application lifecycle and provides global access to that instance.
 
@@ -3380,16 +3400,18 @@ Singleton pattern ensures that a class has only one instance throughout the appl
 
 ```java
 public class Singleton {
-    private static Singleton instance;
-    
-    private Singleton() { } // Private constructor
-    
-    public static Singleton getInstance() {
-        if (instance == null) {
-            instance = new Singleton();
-        }
-        return instance;
-    }
+   private static volatile Singleton instance;
+   private Singleton() {}
+   public static Singleton getInstance() {
+       if (instance == null) {
+           synchronized (Singleton.class) {
+               if (instance == null) {
+                   instance = new Singleton();
+               }
+           }
+       }
+       return instance;
+   }
 }
 ```
 
@@ -3652,6 +3674,17 @@ It provides **infrastructure support**, uses **IoC and Dependency Injection**, h
 
 Spring makes Java development easier by handling common tasks and promoting best practices like loose coupling and testability.
 
+```java
+// pom.xml
+<dependencies>
+    <dependency>
+        <groupId>org.springframework</groupId>
+        <artifactId>spring-context</artifactId>
+        <version>6.1.5</version>
+    </dependency>
+</dependencies>
+```
+
 ## 282: What are the core features of Spring?
 
 * **IoC Container**: Manages object lifecycle and dependencies
@@ -3764,31 +3797,30 @@ public class UserServiceApplication {
 
 It provides **protection** against CSRF, session fixation, clickjacking, integrates with multiple authentication providers, and supports **annotation- and configuration-based security**.
 
-* Comprehensive security framework for Java applications
-* Handles authentication and authorization
-* **Authentication**: Verify user identity (login)
-* **Authorization**: Control access to resources
-* **Protection**: CSRF, session fixation, clickjacking protection
-* Integrates with various authentication providers
-* Annotation-based and configuration-based security
 
 ```java
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
+
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         return http
-            .authorizeRequests(auth -> auth
-                .requestMatchers("/public/**").permitAll()
-                .anyRequest().authenticated())
-            .formLogin().and()
-            .build();
+                .authorizeRequests(auth -> auth
+                        .requestMatchers("/public/**").permitAll()
+                        .anyRequest().authenticated())
+                .formLogin()
+                .and()
+                .build();
     }
 }
 ```
-
----
 
 ## 290: What is Spring WebFlux?
 
@@ -3796,21 +3828,23 @@ public class SecurityConfig {
 
 It’s an alternative to Spring MVC, uses **Reactive Streams** (Project Reactor), supports **functional routing**, and handles **more concurrent requests with fewer threads**.
 
-* Reactive web framework for building non-blocking applications
-* Alternative to Spring MVC for reactive programming
-* **Non-blocking**: Handles more concurrent requests with fewer threads
-* **Reactive Streams**: Built on Project Reactor
-* **Functional Programming**: Supports functional routing
-* Better performance for I/O intensive applications
 
 ```java
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RestController;
+
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
+
 @RestController
 public class UserController {
+
     @GetMapping("/users")
     public Flux<User> getUsers() {
         return userService.findAll(); // Returns Flux<User>
     }
-    
+
     @GetMapping("/users/{id}")
     public Mono<User> getUser(@PathVariable String id) {
         return userService.findById(id); // Returns Mono<User>
@@ -3849,12 +3883,6 @@ public class User implements Serializable {
 
 **Spring beans** are objects that are **created, managed, and destroyed by the Spring container**. They are defined using annotations like `@Component`, `@Service`, or through configuration files. Spring beans support **dependency injection**, making applications loosely coupled.
 
-- Objects managed by Spring container
-- Defined through configuration (XML, annotations, Java config)
-- Container handles lifecycle and dependencies
-- Can be singleton or prototype scope
-- Configured with metadata
-
 ```java
 @Component
 public class UserService { // This becomes a Spring bean
@@ -3864,6 +3892,43 @@ public class UserService { // This becomes a Spring bean
 // Or XML configuration
 <bean id="userService" class="com.example.UserService"/>
 ```
+
+## 5. What are Bean life cycle in sprintboot 
+
+The **bean lifecycle** describes the steps a bean goes through from **creation to destruction** inside the Spring **IoC container**.
+
+**Steps in Bean Lifecycle**
+
+1. **Bean Instantiation :** Spring creates the bean object.
+2. **Dependency Injection:** Required dependencies are injected using `@Autowired`.
+3. **Bean Initialization:** Initialization methods run using `@PostConstruct` or `afterPropertiesSet()`.
+4. **Bean Ready for Use:** The bean is now fully initialized and used by the application.
+5. **Bean Destruction:** When the application shuts down, cleanup happens using `@PreDestroy`.
+
+```java
+import jakarta.annotation.PostConstruct;
+import jakarta.annotation.PreDestroy;
+import org.springframework.stereotype.Component;
+
+@Component
+public class MyBean {
+
+    public MyBean() {
+        System.out.println("Bean Created");
+    }
+
+    @PostConstruct
+    public void init() {
+        System.out.println("Bean Initialized");
+    }
+
+    @PreDestroy
+    public void destroy() {
+        System.out.println("Bean Destroyed");
+    }
+}
+```
+
 
 # ✅ 19. Java Spring Boot 
 
@@ -3894,13 +3959,36 @@ Spring Boot follows principles like Convention over **Configuration, Dependency 
 
 Spring Boot eliminates most boilerplate configuration and allows developers to focus on business logic rather than setup.
 
+## 7. How does Spring Boot Works Internally?
+
+**Spring Boot** starts with `SpringApplication.run()`, which initializes the Spring context. It performs auto-configuration based on project dependencies, scans components to create beans in the IoC container, and starts an embedded server like Apache Tomcat. After that, the application becomes ready to handle requests.
+
+**Internal Flow:**
+
+1. **Application Starts :** The `main()` method calls **`SpringApplication.run()`** to start the application.
+2. **Auto Configuration** Spring Boot automatically configures beans based on dependencies using **`@EnableAutoConfiguration`**.
+3. **Component Scanning :** It scans packages for classes annotated with **`@Component`**, **`@Service`**, **`@Repository`**, and **`@Controller`**.
+4. **Bean Creation (IoC Container) :** Spring creates and manages objects (beans) inside the **Spring IoC container**.
+5. **Embedded Server Starts :** Spring Boot starts an embedded server like **Apache Tomcat**, **Jetty**, or **Undertow**.
+6. **Application Ready :** The application is ready to handle HTTP requests.
+
 ```java
-@SpringBootApplication
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+@SpringBootApplication // Combines three annotations
 public class DemoApplication {
+
     public static void main(String[] args) {
         SpringApplication.run(DemoApplication.class, args);
     }
 }
+
+// Equivalent to:
+@Configuration
+@EnableAutoConfiguration  
+@ComponentScan
+public class MyApplication { }
 ```
 
 ## 8. What is auto-configuration in Spring Boot and to disable?
@@ -3943,7 +4031,6 @@ public class CustomConfig {
 ```
 
 **How to Disable Specific Auto-Configuration Class**
-
 
 ```java
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
@@ -4096,19 +4183,7 @@ public class MyService {
 
 ## 14. What is @Primary, @Qualifier, @Component, @Configuration, @PatchMapping annotation?
 
-Great question — this is a **very common Spring interview topic**.
-I’ll answer it in a **real-time spoken style**, explaining *why and when* we use each annotation, with **short, clear code examples**.
-
-**@Component**
-
-“`@Component` is used to tell Spring that this class is a bean and should be managed by the Spring container. Spring automatically detects it during component scanning.”
-
-**When to use:**
-
-* For general-purpose beans
-* When you want Spring to auto-create the object
-
-**Example:**
+**@Component** is used to tell Spring that this class is a bean and should be managed by the Spring container. Spring automatically detects it during component scanning.”
 
 ```java
 @Component
@@ -4119,16 +4194,7 @@ public class EmailService {
 }
 ```
 
-**@Configuration**
-
-“`@Configuration` is used when we want to define beans explicitly using `@Bean` methods. It’s mainly used for Java-based configuration instead of XML.”
-
-**When to use:**
-
-* To create beans manually
-* For third-party or complex bean creation
-
-**Example:**
+**@Configuration**  is used when we want to define beans explicitly using `@Bean` methods. It’s mainly used for Java-based configuration instead of XML.”
 
 ```java
 @Configuration
@@ -4141,12 +4207,7 @@ public class AppConfig {
 }
 ```
 
-**@Primary**
-
-“When multiple beans of the same type exist and Spring gets confused, `@Primary` tells Spring which bean should be chosen by default.”
-
-**Example Scenario:**
-Two implementations of the same interface.
+**@Primary** When multiple beans of the same type exist and Spring gets confused, `@Primary` tells Spring which bean should be chosen by default.
 
 ```java
 @Component
@@ -4161,19 +4222,14 @@ public class UpiPayment implements PaymentService {
 }
 ```
 
-**@Qualifier**
-
-“`@Qualifier` is used when we want to explicitly specify which bean to inject when multiple beans of the same type are present.”
-
-**Example:**
+**@Qualifier** is used when we want to explicitly specify which bean to inject when multiple beans of the same type are present.”
 
 ```java
 @Autowired
 @Qualifier("upiPayment")
 private PaymentService paymentService;
 ```
-**@PatchMapping**
-“`@PatchMapping` is used for partial updates of a resource in REST APIs, where only specific fields are modified instead of replacing the entire object.”
+**@PatchMapping** is used for partial updates of a resource in REST APIs, where only specific fields are modified instead of replacing the entire object.”
 
 ```java
 @PatchMapping("/users/{id}")
@@ -4304,8 +4360,41 @@ In **`JpaRepository<Employee, Long>`**, the **first type (`Employee`)** is the *
 
 Using `Long` tells Spring Data JPA what type of value to expect when performing operations like `findById()`, `deleteById()`, or `save()`.
 
+## 19. What is Transactional  Why @Transactional Matters in Spring Boot?
+**@Transactional** is an annotation in **Spring Boot** used to manage **database transactions automatically**.
 
-## 19. How to implement many to many, many to one and one to many in java?
+A **transaction** means a group of database operations that must **all succeed or all fail together**.
+
+
+Why **@Transactional** Matters
+
+1. **Data Consistency**
+   Ensures all database operations are completed successfully. If one fails, everything is rolled back.
+
+2. **Automatic Rollback**
+   If an exception occurs, Spring automatically **rolls back the transaction**.
+
+3. **Simplifies Code**
+   Developers don't need to manually write **commit or rollback logic**.
+
+4. **Maintains Data Integrity**
+   Prevents partial updates in the database.
+
+```java
+@Service
+public class PaymentService {
+
+    @Transactional
+    public void transferMoney() {
+        debitAccount();
+        creditAccount();
+    }
+}
+```
+
+If **creditAccount() fails**, Spring will **rollback debitAccount()** automatically.
+
+## 20. How to implement many to many, many to one and one to many in java?
 
 **One-To-Many**
 
@@ -4317,8 +4406,9 @@ public class Order {
     @GeneratedValue
     private Long id;
 
-    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Item> items;
+
 }
 ```
 
@@ -4466,7 +4556,17 @@ It is **verbose**, supports **attributes and namespaces**, is **self-documenting
     <artifactId>jackson-dataformat-xml</artifactId>
 </dependency>
 ```
+```java
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 
+@JacksonXmlRootElement(localName = "user")
+public class User {
+    private int id;
+    private String name;
+
+    // getters setters
+}
+```
 ```java
 import org.springframework.web.bind.annotation.*;
 
@@ -4706,7 +4806,14 @@ public class ApiGatewayController {
     }
 }
 
-// 2. Circuit Breaker Pattern (with Resilience4j)
+// 2. Service Discovery Pattern, Commonly implemented using Netflix Eureka.
+@EnableEurekaClient
+@SpringBootApplication
+public class OrderServiceApplication {
+}
+restTemplate.getForObject("http://PAYMENT-SERVICE/pay", String.class);
+
+// 3. Circuit Breaker Pattern (with Resilience4j)
 @Service
 public class OrderService {
     @CircuitBreaker(name = "paymentService", fallbackMethod = "paymentFallback")
@@ -4719,7 +4826,7 @@ public class OrderService {
     }
 }
 
-// 3. Saga Pattern (Choreography)
+// 4. Saga Pattern (Choreography)
 @Service
 public class OrderSagaService {
     @Autowired
@@ -4736,6 +4843,26 @@ public class OrderSagaService {
         order.setStatus("CANCELLED");
         orderRepository.save(order);
     }
+}
+
+// 5. CQRS (Command Query Responsibility Segregation)
+// Command (Write)
+@PostMapping("/orders")
+public void createOrder(@RequestBody Order order) { }
+
+// Query (Read)
+@GetMapping("/orders/{id}")
+public Order getOrder(@PathVariable Long id) { }
+
+// 6. Database per Service
+# order-service application.properties
+spring.datasource.url=jdbc:mysql://localhost:3306/orderdb
+
+// 7. Bulkhead Pattern
+// Example (Resilience4j)
+@Bulkhead(name = "paymentService", type = Bulkhead.Type.THREADPOOL)
+public String processPayment() {
+    return "Processing payment";
 }
 ```
 
@@ -4783,7 +4910,7 @@ While microservices offer many benefits, they also introduce complexity and chal
 
 Organizations need proper tooling, processes, and expertise to handle these challenges effectively.
 
-## 8. How microservices communicate with each other?**
+## 8. How microservices communicate with each other?
 
 **Spoken Answer:**
 
@@ -4802,19 +4929,14 @@ Organizations need proper tooling, processes, and expertise to handle these chal
 
 **Using Feign Client**
 
-`- Step 1: Configure Feign Client`
-
 ```java
+// `- Step 1: Configure Feign Client`
 <dependency>
     <groupId>org.springframework.cloud</groupId>
     <artifactId>spring-cloud-starter-openfeign</artifactId>
 </dependency>
-```java
 
-`- Step 2: Enable Feign Client`
-
-```java
-
+// `- Step 2: Enable Feign Client`
 import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -4826,21 +4948,16 @@ public class OrderServiceApplication {
         SpringApplication.run(OrderServiceApplication.class, args);
     }
 }
-```
 
-`- Step 3: Create Feign Client Interface`
-
-```java
+// `- Step 3: Create Feign Client Interface`
 @FeignClient(name = "payment-service")
 public interface PaymentClient {
 
     @GetMapping("/payments/{orderId}")
     PaymentResponse getPaymentDetails(@PathVariable("orderId") Long orderId);
 }
-```
 
-`- Step 4: use in controller`
-```java
+// `- Step 4: use in controller`
 @RestController
 @RequestMapping("/orders")
 public class OrderController {
@@ -4858,6 +4975,7 @@ public class OrderController {
 **Using RestTemplate**
 
 ```java
+// Step 1: Create RestTemplate Bean
 @Configuration
 public class AppConfig {
 
@@ -4869,6 +4987,7 @@ public class AppConfig {
 ```
 
 ```java
+// Step 2: Call Payment Service
 import org.springframework.web.client.RestTemplate;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 
@@ -4917,19 +5036,74 @@ Failures in microservices are handled using **Circuit Breaker, Retry with backof
 We also use **fallback methods, health checks, centralized logging, monitoring, and API Gateway** to improve resilience and quickly detect issues.
 
 ```java
+// Steps 1: Add Dependencies (Maven)
+<dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-web</artifactId>
+</dependency>
+
+<dependency>
+    <groupId>org.springframework.cloud</groupId>
+    <artifactId>spring-cloud-starter-circuitbreaker-resilience4j</artifactId>
+</dependency>
+
+<dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-actuator</artifactId>
+</dependency>
+
+// Step 2: Configure RestTemplate Bean
+@Configuration
+public class AppConfig {
+
+    @Bean
+    public RestTemplate restTemplate() {
+        return new RestTemplate();
+    }
+}
+
+// Inject RestTemplate in Your Client
 @Component
 public class UserServiceClient {
-    
+
+    @Autowired
+    private RestTemplate restTemplate;
+
     @CircuitBreaker(name = "user-service", fallbackMethod = "fallbackUser")
     @Retry(name = "user-service")
     public User getUser(Long id) {
-        return restTemplate.getForObject("/users/" + id, User.class);
+        return restTemplate.getForObject(
+                "http://localhost:8081/users/" + id,
+                User.class);
     }
-    
+
     public User fallbackUser(Long id, Exception ex) {
         return new User(id, "Unknown User", "unknown@example.com");
     }
 }
+
+// application.yml Configuration
+resilience4j:
+  circuitbreaker:
+    instances:
+      user-service:
+        registerHealthIndicator: true
+        slidingWindowSize: 5
+        minimumNumberOfCalls: 3
+        failureRateThreshold: 50
+        waitDurationInOpenState: 10s
+
+  retry:
+    instances:
+      user-service:
+        maxAttempts: 3
+        waitDuration: 2s
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,metrics
 ```
 
 Configuration includes failure rate thresholds, wait durations, and retry attempts to control when circuits open and close.
@@ -5430,8 +5604,6 @@ It uses a **CSRF token** validated by the server, supports **SameSite cookies** 
 It defends against **Reflected, Stored, and DOM XSS** using **input validation, output encoding, sanitization, and Content Security Policy (CSP)**.
 
 
----
-
 ## 13: What is input validation?
 
 **Input validation** is the process of **checking user input for correctness and security**.
@@ -5493,7 +5665,6 @@ public class ApiController {
 }
 ```
 
----
 
 ## 15: What is SAML?
 
@@ -5573,8 +5744,6 @@ public class UserController {
     }
 }
 ```
-
----
 
 ## 2: What are the common performance bottlenecks in Java?
 
@@ -6113,10 +6282,13 @@ Optional<String> optional = Optional.ofNullable(getString());
 optional.ifPresent(System.out::println);
 
 // Default methods in interfaces
-interface Drawable {
-    void draw();
-    default void print() { System.out.println("Printing..."); }
-}
+List<String> names = Arrays.asList("Alice", "Bob", "Charlie");
+// Static method reference
+names.forEach(System.out::println);
+// Instance method reference
+names.sort(String::compareToIgnoreCase);
+// Constructor reference
+Supplier<List<String>> listSupplier = ArrayList::new;
 ```
 
 ## 2. What are the new features in Java 11?
@@ -6239,7 +6411,7 @@ Java moved to a 6-month release cycle in 2017, providing regular updates with ne
 - **Experimentation:** Try latest feature releases for new capabilities
 - **Migration strategy:** Plan upgrades around LTS releases
 
-# 🔹 CI/CD and DevOp
+# ✅ 25. CI/CD and DevOp
 
 ## 1: What is continuous integration?
 
@@ -6774,7 +6946,7 @@ server {
 }
 ```
 
-# 🔵 25. Monitoring and Logging
+# ✅ 26. Monitoring and Logging
 
 ## 1: What is application monitoring?
 
@@ -7167,4 +7339,4 @@ public interface ApplicationMonitorMXBean {
 }
 ```
 
-# ✅ 25. Miscellaneous
+# ✅ 27. Miscellaneous
