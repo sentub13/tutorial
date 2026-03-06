@@ -2671,7 +2671,7 @@ public class UserServlet extends HttpServlet {
 
 It also supports **custom queries, pagination, and sorting**, and integrates seamlessly with Spring Boot, making **database access faster, cleaner, and easier to maintain**.
 
-## 5. What is JPA and how it works?
+## 6. What is JPA and how it works?
 
 **JPA (Java Persistence API)** is a **Java specification** for managing relational data in Java applications. It allows you to **map Java objects to database tables** using annotations like `@Entity`, `@Table`, and `@Id`.
 
@@ -2716,7 +2716,7 @@ public class UserService {
 
 # ✅ 15. Java Lambda Expressions & Streams API 
 
-## 1. What are lambda expressions?
+## 0. What are lambda expressions?
 
 **Lambda expressions** in Java are a short and clear way to represent **anonymous functions** (functions without a name).
 
@@ -2737,7 +2737,7 @@ Runnable r2 = () -> System.out.println("Hello");
 List<String> names = Arrays.asList("John", "Jane");
 names.forEach(name -> System.out.println(name));
 ```
-## 0. What are the interfaces?
+## 1. What are the interfaces?
 
 **1. Normal Interface** can contain **multiple abstract methods**.
 
@@ -2785,7 +2785,7 @@ interface MarkerInterface {
 }
 ```
 
-# 4. Nested Interface** declared **inside another interface or class**.
+**4. Nested Interface** declared **inside another interface or class**.
 
 ```java
 class Outer {
