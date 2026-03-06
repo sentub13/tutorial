@@ -132,7 +132,7 @@ public class Main {
 }
 ```
 
-## 8. What is a package in Java? 
+## 4. What is a package in Java? 
 In Java, a **package** is a **namespace that groups related classes, interfaces, and sub-packages together**. It helps organize code, avoid naming conflicts, and control access to classes.
 
 ```java
@@ -145,7 +145,7 @@ public class Helper {
 }
 ```
 
-## 9. Normal, final, static, static final, volatile, abstract, transient?
+## 5. Normal, final, static, static final, volatile, abstract, transient?
 
 **Normal Variable** Declared inside a class but outside methods.
 ```java
@@ -212,7 +212,7 @@ public class Student implements Serializable {
 
 
 
-## 10. What is Instance, Static, Abstract, and Final Methods?
+## 6. What is Instance, Static, Abstract, and Final Methods?
 
 **Instance Method:** A method that belongs to an object and is called using an instance of the class.
 ```java
@@ -263,7 +263,7 @@ class Dog extends Animal {
 }
 ```
 
-## 11. How do you read user input from the console in Java?
+## 7. How do you read user input from the console in Java?
 ```java
 import java.util.Scanner;
 
@@ -282,7 +282,7 @@ public class Main {
 }
 ```
 
-## 12. How do you iterate through a collection in Java?
+## 8. How do you iterate through a collection in Java?
 ```java
 // Example using for-each loop:
 List<String> fruits = Arrays.asList("Apple", "Banana", "Orange");
