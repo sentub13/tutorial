@@ -3937,7 +3937,7 @@ public class MyBean {
 
 # ✅ 19. Java Spring Boot 
 
-## 6. What is annotations in Java?
+## 1. What is annotations in Java?
 **An annotation** is a special type of metadata in Java that provides additional information about classes, methods, or variables to the compiler or framework.
 
 **Example Annotations:**
@@ -3946,7 +3946,7 @@ public class MyBean {
 * `@Component`
 * `@Service`
 
-## 6. What is Spring Boot?
+## 2. What is Spring Boot?
 
 **Spring Boot** is a framework built on top of Spring that simplifies application development. It provides **auto-configuration**, **embedded servers**, and **starter dependencies**, allowing developers to build production-ready applications quickly with minimal configuration.
 
@@ -3964,7 +3964,7 @@ Spring Boot follows principles like Convention over **Configuration, Dependency 
 
 Spring Boot eliminates most boilerplate configuration and allows developers to focus on business logic rather than setup.
 
-## 6. How does Spring Boot Flow Architecture works?
+## 3. How does Spring Boot Flow Architecture works?
 
 Spring Boot follows a **layered architecture** where a request flows through different layers:
 
@@ -3983,7 +3983,7 @@ Spring Boot follows a **layered architecture** where a request flows through dif
 7. **Response** – Data returns back to the client.
 
 
-## 7. How does Spring Boot Works Internally?
+## 4. How does Spring Boot Works Internally?
 
 **Spring Boot** starts with `SpringApplication.run()`, which initializes the Spring context. It performs auto-configuration based on project dependencies, scans components to create beans in the IoC container, and starts an embedded server like Apache Tomcat. After that, the application becomes ready to handle requests.
 
@@ -4015,9 +4015,9 @@ public class DemoApplication {
 public class MyApplication { }
 ```
 
-## 8. What is auto-configuration in Spring Boot and to disable?
+## 5. What is auto-configuration in Spring Boot and to disable?
 
-Auto-configuration automatically configures Spring applications based on the dependencies present in the classpath. It reduces manual configuration by making intelligent assumptions.
+**Auto-configuration** automatically configures Spring applications based on the dependencies present in the classpath. It reduces manual configuration by making intelligent assumptions.
 
 - Automatic bean configuration
 - Based on classpath dependencies
@@ -4077,7 +4077,7 @@ public class Application {
 )
 ```
 
-## 9. What is @SpringBootApplication annotation?
+## 6. What is @SpringBootApplication annotation?
 
 @SpringBootApplication is a convenience annotation that combines three commonly used annotations: @Configuration, @EnableAutoConfiguration, and @ComponentScan.
 
@@ -4098,7 +4098,7 @@ public class MyApplication { }
 
 It's the standard annotation for Spring Boot main classes and enables all essential Spring Boot features.
 
-## 10. What is the difference between @Component, @Service, and @Repository?
+## 7. What is the difference between @Component, @Service, and @Repository?
 
 These are stereotype annotations that mark classes as Spring beans, but they serve different purposes and provide semantic meaning.
 
@@ -4130,7 +4130,7 @@ public class UserService { } // Business logic
 public class UserRepository { } // Data access
 ```
 
-## 11. What is @Autowired annotation?
+## 8. What is @Autowired annotation?
 
 `@Autowired` is an annotation in **Spring Framework** that enables **automatic dependency injection (DI)**.
 It tells the Spring container to automatically inject a required bean into a class.
@@ -4156,7 +4156,7 @@ public class OrderService {
 }
 ```
 
-## 12. What is @Qualifier annotation?
+## 9. What is @Qualifier annotation?
 
 `@Qualifier` is a Spring annotation used **along with `@Autowired`** to resolve ambiguity when **multiple beans of the same type** exist in the Spring container.
 
@@ -4178,7 +4178,7 @@ public class SmsSender implements MessageSender { }
 
 Without @Qualifier, Spring would throw an exception due to multiple beans of type MessageSender.
 
-## 13. What is ApplicationContext?
+## 10. What is ApplicationContext?
 
 `ApplicationContext` is a **Spring container** that manages the lifecycle of Spring beans. It loads configuration, creates objects, injects dependencies, and provides advanced features like **event handling, internationalization, and AOP**. It’s an enhanced version of `BeanFactory` and is commonly used in Spring applications.
 
@@ -4205,7 +4205,7 @@ public class MyService {
 }
 ```
 
-## 14. What is @Primary, @Qualifier, @Component, @Configuration, @PatchMapping annotation?
+## 11. What is @Primary, @Qualifier, @Component, @Configuration, @PatchMapping annotation?
 
 **@Component** is used to tell Spring that this class is a bean and should be managed by the Spring container. Spring automatically detects it during component scanning.”
 
@@ -4266,7 +4266,7 @@ public ResponseEntity<User> updateEmail(
 }
 ```
 
-## 15. Explain Spring Boot Actuator endpoints.
+## 12. Explain Spring Boot Actuator endpoints.
 
 **Answer:**
 Actuator provides production-ready features like health checks, metrics, and monitoring endpoints. Common endpoints: `/health`, `/metrics`, `/info`, `/env`.
@@ -4300,7 +4300,7 @@ public class CustomHealthIndicator implements HealthIndicator {
 }
 ```
 
-## 16. How do you secure a Java Spring Boot application?
+## 13. How do you secure a Java Spring Boot application?
 
 To secure a **Spring Boot application**, you can use **Spring Security** to handle authentication and authorization. Common practices include:
 
@@ -4338,7 +4338,7 @@ public class SecureController {
     }
 }
 ```
-## 17. What is Lombok in Java and and whe can we use?
+## 14. What is Lombok in Java and and whe can we use?
 
 **Lombok** is a Java library that reduces boilerplate code by automatically generating getters, setters, constructors, and other methods using annotations.
 
@@ -4379,12 +4379,12 @@ org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
 com.example.MyAutoConfiguration
 ```
 
-## 18. Why do we use Long in JpaRepository<Employee, Long>?
+## 15. Why do we use Long in JpaRepository<Employee, Long>?
 In **`JpaRepository<Employee, Long>`**, the **first type (`Employee`)** is the **entity class** the repository manages, and the **second type (`Long`)** is the **type of the entity’s primary key (`@Id`)**.
 
 Using `Long` tells Spring Data JPA what type of value to expect when performing operations like `findById()`, `deleteById()`, or `save()`.
 
-## 19. What is Transactional and Why @Transactional Matters in Spring Boot?
+## 16. What is Transactional and Why @Transactional Matters in Spring Boot?
 **@Transactional** is an annotation in **Spring Boot** used to manage **database transactions automatically**. 
 A **transaction** means a group of database operations that must **all succeed or all fail together**.
 
@@ -4417,7 +4417,7 @@ public class PaymentService {
 
 If **creditAccount() fails**, Spring will **rollback debitAccount()** automatically.
 
-## 20. How to implement many to many, many to one and one to many in java?
+## 17. How to implement many to many, many to one and one to many in java?
 
 **One-To-Many**
 
