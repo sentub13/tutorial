@@ -4545,14 +4545,14 @@ public class CorsConfig {
 * **WebSocket API** – Enables real-time, two-way communication.
 
 
-## 1. What are RESTful web services?
+## 3. What are RESTful web services?
 
 **RESTful web services** are **web services based on REST architecture** they use **HTTP methods (GET, POST, PUT, DELETE)** to operate on **resources identified by URLs**.
 
 They are **stateless, platform-independent**, and typically exchange data in **JSON or XML** format.
 
 
-## 2. What are the principles of REST?
+## 4. What are the principles of REST?
 
 REST (Representational State Transfer) is based on six key architectural principles that guide the design of web services.
 
@@ -4567,7 +4567,7 @@ REST (Representational State Transfer) is based on six key architectural princip
 These principles ensure scalability, reliability, and maintainability of web services.
 
 
-## 275: What is XML how to return XML in response?
+## 5: What is XML how to return XML in response?
 
 **XML (eXtensible Markup Language)** is a **markup language** for representing data using **tags**.
 
@@ -4614,7 +4614,7 @@ public class StudentController {
 ```
 
 
-## 3. What are HTTP methods and their usage?
+## 6. What are HTTP methods and their usage?
 
 **HTTP** methods define the type of operation to be performed on a resource. Each method has a specific purpose and semantic meaning in RESTful services.
 
@@ -4646,7 +4646,7 @@ public class UserController {
 }
 ```
 
-## 4. What is the difference between PUT and POST?
+## 7. What is the difference between PUT and POST?
 
 **PUT:**
 - Updates or replaces entire resource
@@ -4679,7 +4679,7 @@ PUT /users/123
 // Response: 200 OK or 204 No Content
 ```
 
-## 5. What is idempotency in REST?
+## 8. What is idempotency in REST?
 
 Idempotency means that making the same request multiple times produces the same result as making it once. It's a crucial property for reliable and predictable web services.
 
@@ -4706,7 +4706,7 @@ POST /users {"name": "John"}  // Creates user with ID 1
 POST /users {"name": "John"}  // Creates user with ID 2
 ```
 
-## 6. What are HTTP status codes?
+## 9. What are HTTP status codes?
 
 HTTP status codes indicate the result of an HTTP request. They're grouped into categories and provide standardized way to communicate request outcomes.
 
