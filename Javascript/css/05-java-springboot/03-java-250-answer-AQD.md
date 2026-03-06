@@ -41,7 +41,7 @@ JVM = Runtime execution environment
 * **Abstraction:** Abstraction means hiding internal implementation and showing only necessary details using abstract class or interface.
 
 
-- **1. Encapsulation: Data is **private** and accessed using **getter and setter methods**.
+- **1. Encapsulation:** Data is `private` and accessed using `getter and setter methods`.
 
 ```java
 class Person {
@@ -65,7 +65,7 @@ public class Main {
 }
 ```
 
-- **2. Inheritance: Child class **inherits properties from parent class** using `extends`.**
+- **2. Inheritance:** Child class `inherits properties from parent class` using `extends`.
 
 ```java
 class Animal {
@@ -89,7 +89,7 @@ public class Main {
 }
 ```
 
-- **3. Polymorphism // Method Overloading**
+- **3. Polymorphism:** Method Overloading
 
 ```java
 class Calculator {
