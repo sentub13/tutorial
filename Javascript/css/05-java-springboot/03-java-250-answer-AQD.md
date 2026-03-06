@@ -910,19 +910,11 @@ abstract class Animal {
 
 ## 3. What is the difference between interface and abstract class?
 
-**Interface:**
-- Multiple inheritance supported
-- Only public abstract methods (before Java 8)
-- Variables are public, static, final
-- No constructors allowed
-- 100% abstraction (before default methods)
+**Interface** is used to define a **contract**, where a class must implement all the declared methods. It mainly supports **multiple inheritance** and contains method declarations (and default/static methods).
 
-**Abstract Class:**
-- Single inheritance only
-- Can have any access modifier methods
-- Can have instance variables
-- Can have constructors
-- 0-100% abstraction
+**Abstract Class** is used to provide **partial abstraction**, where a class can have both **abstract methods and concrete methods**, along with variables and constructors.
+
+The main difference is that **an interface defines what a class should do, while an abstract class defines what a class is and provides shared functionality.**
 
 ```java
 // Interface - contract
@@ -940,7 +932,7 @@ abstract class Bird {
 
 ## 4. What are default methods in interfaces?
 
-Default methods are methods with implementation in interfaces, introduced in Java 8. They allow adding new methods to interfaces without breaking existing implementations.
+**Default methods** are methods with implementation in interfaces, introduced in Java 8. They allow adding new methods to interfaces without breaking existing implementations.
 
 - Provide default implementation in interface
 - Use 'default' keyword
@@ -973,7 +965,7 @@ In short: **`static` means the member belongs to the class, not to individual ob
 
 ## 5. What are static methods in interfaces?
 
-Static methods in interfaces belong to the interface itself, not to implementing classes. They're called using the interface name and cannot be overridden.
+**Static methods** in interfaces **belong to the interface itself**, not to implementing classes. They're called using the interface name and cannot be overridden.
 
 - Called using interface name
 - Cannot be overridden in implementing classes
@@ -995,12 +987,7 @@ int result = MathUtils.add(5, 3); // Called on interface
 
 ## 6. What is marker interface?
 
-A marker interface is an empty interface with no methods or fields. It's used to mark or tag classes to indicate they have special behavior or properties.
-
-- Contains no methods or variables
-- Used for metadata purposes
-- JVM or frameworks treat marked classes specially
-- Examples: Serializable, Cloneable, Remote
+A **marker interface** is an **empty interface with no methods or fields**. It's used to mark or tag classes to indicate they have special behavior or properties.
 
 ```java
 // Marker interface
@@ -1016,12 +1003,7 @@ class Student implements Serializable {
 
 ## 7. What is functional interface?
 
-A functional interface has exactly one abstract method and can be used with lambda expressions. It represents a single unit of functionality.
-
-- Exactly one abstract method
-- Can have default and static methods
-- Used with lambda expressions
-- @FunctionalInterface annotation for safety
+A **functional interface** has exactly one abstract method and can be used with lambda expressions. It represents a single unit of functionality.
 
 ```java
 @FunctionalInterface
@@ -1038,12 +1020,7 @@ int result = add.calculate(5, 3);
 
 ## 8. Can an interface extend another interface?
 
-Yes, an interface can extend one or more interfaces using the 'extends' keyword. The child interface inherits all methods from parent interfaces.
-
-- Use 'extends' keyword (not implements)
-- Can extend multiple interfaces
-- Inherits all abstract, default, and static methods
-- Implementing class must implement all inherited abstract methods
+Yes, an **interface** can extend one or more interfaces using the **'extends'** keyword. The child interface inherits all methods from parent interfaces.
 
 ```java
 interface Animal {
@@ -1073,12 +1050,7 @@ class Eagle implements Bird {
 
 ## 1. What is an exception in Java?
 
-An exception is an unexpected event that occurs during program execution and disrupts the normal flow of the program. It's Java's way of handling runtime errors gracefully.
-
-- Represents abnormal conditions during execution
-- Allows programs to handle errors without crashing
-- Provides information about what went wrong
-- Can be caught and handled using try-catch blocks
+An **exception** is an unexpected event that occurs during program execution and disrupts the normal flow of the program. It's Java's way of **handling runtime errors** gracefully.
 
 ```java
 int result = 10 / 0; // ArithmeticException occurs
@@ -1088,7 +1060,7 @@ int length = text.length(); // NullPointerException occurs
 
 ## 2. What is the exception hierarchy in Java?
 
-Java's exception hierarchy starts with Throwable class, which has two main branches: Error and Exception. Exception further divides into checked and unchecked exceptions.
+Java's **exception hierarchy** starts with Throwable class, which has two main branches: Error and Exception. Exception further divides into checked and unchecked exceptions.
 
 ```
 Throwable
@@ -1199,7 +1171,7 @@ try (FileReader file = new FileReader("data.txt")) {
 
 ## 7. How do you create custom exceptions?
 
-Custom exceptions are created by extending Exception class for checked exceptions or RuntimeException for unchecked exceptions. They provide specific error information for your application.
+**Custom exceptions** are created by extending Exception class for checked exceptions or RuntimeException for unchecked exceptions. They provide specific error information for your application.
 
 - Extend Exception (checked) or RuntimeException (unchecked)
 - Provide constructors for different scenarios
@@ -1226,7 +1198,7 @@ class InsufficientBalanceException extends RuntimeException {
 
 ## 8. What is exception chaining?
 
-Exception chaining links exceptions together, preserving the original cause when wrapping exceptions. It helps maintain the complete error trail for better debugging.
+**Exception chaining** links exceptions together, preserving the original cause when wrapping exceptions. It helps maintain the complete error trail for better debugging.
 
 - Preserves original exception information
 - Uses initCause() method or constructor parameter
@@ -1252,11 +1224,11 @@ throw re;
 
 ## 1. What is Java Collections Framework?
 
-Java Collections Framework is a unified architecture for storing and manipulating groups of objects. It provides interfaces, implementations, and algorithms to work with collections efficiently.
+**Java Collections** Framework is a unified architecture for storing and manipulating groups of objects. It provides interfaces, implementations, and algorithms to work with collections efficiently.
 
-- Provides common interfaces like List, Set, Map
-- Ready-to-use implementations like ArrayList, HashMap
-- Algorithms for sorting, searching, shuffling
+- Provides common interfaces **like List, Set, Map**
+- Ready-to-use implementations like **ArrayList, HashMap**
+- Algorithms for **sorting, searching, shuffling**
 - Reduces programming effort and increases performance
 
 ```java
@@ -1284,7 +1256,6 @@ List<String> linkedList = new LinkedList<>(); // Fast insertion/deletion
 **HashMap** Unordered, allows null keys and values, O(1) average time complexity for basic operations.
 
 **TreeMap** Sorted by keys, doesn't allow null keys, O(log n) time complexity for basic operations.
-
 
 **In simple words:** Use **HashMap for faster performance**, and **TreeMap when you need sorted data.** 
 
@@ -1405,6 +1376,18 @@ Queue<Integer> priorityQueue = new PriorityQueue<>(); // Heap-based, processed b
 ```
 
 # ✅ 8. Java Multithreading & Synchronization 
+
+## What is thread and what are life cycle?
+
+A **thread** is the **smallest unit of execution in a program** that allows multiple tasks to run simultaneously. In **Java**, threads are used for **multithreading** to improve performance and responsiveness.
+
+**Thread Life Cycle:**
+
+1. **New** – Thread object is created.
+2. **Runnable** – Thread is ready to run after calling `start()`.
+3. **Running** – Thread is executing.
+4. **Waiting / Blocked** – Thread waits for a resource or another thread.
+5. **Terminated (Dead)** – Thread execution is completed.
 
 ## 1. What is multithreading?
 
@@ -2794,6 +2777,77 @@ Runnable r2 = () -> System.out.println("Hello");
 List<String> names = Arrays.asList("John", "Jane");
 names.forEach(name -> System.out.println(name));
 ```
+## 0. What are the interfaces?
+
+**1. Normal Interface** can contain **multiple abstract methods**.
+
+```java
+interface Animal {
+    void eat();
+    void sleep();
+}
+```
+
+```java
+class Dog implements Animal {
+    public void eat() {
+        System.out.println("Dog is eating");
+    }
+
+    public void sleep() {
+        System.out.println("Dog is sleeping");
+    }
+}
+```
+
+**2. Functional Interface** contains **only one abstract method**.
+It is mainly used with **lambda expressions** introduced in **Java 8**.
+
+```java
+@FunctionalInterface
+interface Calculator {
+    int add(int a, int b);
+}
+```
+
+Using Lambda:
+
+```java
+Calculator calc = (a, b) -> a + b;
+System.out.println(calc.add(5,3));
+```
+
+**3. Marker Interface** is an interface **without any methods**.
+It is used to **mark a class** so JVM or frameworks treat it differently.
+
+```java
+interface MarkerInterface {
+}
+```
+
+# 4. Nested Interface** declared **inside another interface or class**.
+
+```java
+class Outer {
+    interface Inner {
+        void show();
+    }
+}
+
+class Test implements Outer.Inner {
+    public void show() {
+        System.out.println("Nested Interface Method");
+    }
+}
+```
+
+| Type                 | Description                      |
+| -------------------- | -------------------------------- |
+| Normal Interface     | Multiple abstract methods        |
+| Functional Interface | Only one abstract method         |
+| Marker Interface     | No methods                       |
+| Nested Interface     | Interface inside class/interface |
+
 
 ## 2. What are functional interfaces?
 
@@ -3685,7 +3739,7 @@ Spring makes Java development easier by handling common tasks and promoting best
 </dependencies>
 ```
 
-## 282: What are the core features of Spring?
+## 2: What are the core features of Spring?
 
 * **IoC Container**: Manages object lifecycle and dependencies
 * **Dependency Injection**: Automatic wiring of dependencies
@@ -3704,7 +3758,7 @@ public class AppConfig {
 }
 ```
 
-## 2. What is Inversion of Control (IoC)?
+## 3. What is Inversion of Control (IoC)?
 
 **Inversion of Control (IoC)** is a design principle where the control of object creation and dependency management is transferred from the program to a container or framework.
 
@@ -3712,7 +3766,7 @@ Instead of a class creating its own dependencies, they are injected from outside
 
 In simple terms: **IoC means the framework controls the flow and object creation, not your code.**
 
-## 3. What is Dependency Injection?
+## 4. What is Dependency Injection?
 
 **Dependency Injection (DI)** is a design pattern where an object’s **dependencies are provided externally** rather than the object creating them itself.
 
@@ -3738,7 +3792,7 @@ class OrderService {
     }
 }
 ```
-## 287: What is Spring Data JPA?
+## 5: What is Spring Data JPA?
 
 **Spring Data JPA** is a Spring module that **simplifies JPA-based data access**.
 
@@ -3763,7 +3817,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
 ---
 
-## 288: What is Spring Cloud? - asked
+## 6: What is Spring Cloud? - asked
 
 **Spring Cloud** is a framework for **building distributed systems and microservices**.
 
@@ -3791,7 +3845,7 @@ public class UserServiceApplication {
 
 ---
 
-## 289: What is Spring Security?
+## 7: What is Spring Security?
 
 **Spring Security** is a **Java security framework** that handles **authentication** (user identity) and **authorization** (access control).
 
@@ -3822,7 +3876,7 @@ public class SecurityConfig {
 }
 ```
 
-## 290: What is Spring WebFlux?
+## 8: What is Spring WebFlux?
 
 **Spring WebFlux** is a **reactive, non-blocking web framework** for building high-performance applications.
 
@@ -3852,7 +3906,7 @@ public class UserController {
 }
 ```
 
-## 4. What is BeanFactory?
+## 9. What is BeanFactory?
 
 **BeanFactory** is the **basic IoC container in Spring** that creates and manages beans and performs **dependency injection**.
 It uses **lazy initialization**, so beans are created **only when requested**.
@@ -3864,7 +3918,7 @@ BeanFactory factory = new XmlBeanFactory(new FileSystemResource("beans.xml"));
 UserService userService = (UserService) factory.getBean("userService");
 ```
 
-## 4. What is a Java Bean?
+## 10. What is a Java Bean?
 
 A **Java Bean** is a simple Java class that follows certain rules: it has a **no-argument constructor**, **private fields**, and **public getter and setter methods**. Java Beans are mainly used to **encapsulate data** and are reusable components.
 
@@ -3879,7 +3933,7 @@ public class User implements Serializable {
 }
 ```
 
-## 5. What are Spring beans?
+## 11. What are Spring beans?
 
 **Spring beans** are objects that are **created, managed, and destroyed by the Spring container**. They are defined using annotations like `@Component`, `@Service`, or through configuration files. Spring beans support **dependency injection**, making applications loosely coupled.
 
@@ -3893,7 +3947,7 @@ public class UserService { // This becomes a Spring bean
 <bean id="userService" class="com.example.UserService"/>
 ```
 
-## 5. What are Bean life cycle in sprintboot 
+## 12. What are Bean life cycle in sprintboot 
 
 The **bean lifecycle** describes the steps a bean goes through from **creation to destruction** inside the Spring **IoC container**.
 
@@ -3958,6 +4012,25 @@ Spring Boot follows principles like Convention over **Configuration, Dependency 
 - Minimal configuration required
 
 Spring Boot eliminates most boilerplate configuration and allows developers to focus on business logic rather than setup.
+
+## 6. How does Spring Boot Flow Architecture works?
+
+Spring Boot follows a **layered architecture** where a request flows through different layers:
+
+**Flow:**
+
+**Client → DispatcherServlet → Controller → Service → Repository → Database → Response**
+
+**Short Explanation:**
+
+1. **Client** – Sends HTTP request (browser/Postman).
+2. **DispatcherServlet** (from Spring MVC) – Receives the request and routes it.
+3. **Controller** – Handles the API request.
+4. **Service** – Contains business logic.
+5. **Repository/DAO** – Interacts with the database using Spring Data JPA.
+6. **Database** – Stores and retrieves data.
+7. **Response** – Data returns back to the client.
+
 
 ## 7. How does Spring Boot Works Internally?
 
@@ -5173,12 +5246,42 @@ An **API Gateway** is a single entry point for all client requests in a microser
 
 It handles **routing, authentication, rate limiting, logging, and load balancing**, and forwards requests to appropriate backend services, improving security and simplifying client communication.
 
+```
+Client
+   |
+API Gateway
+ |    |    |
+MS1  MS2  MS3
+```
 
-**Benefits:**
-- Single entry point for clients
-- Centralized cross-cutting concerns
-- Simplified client code
-- Better security and monitoring
+
+**Basic Configuration (application.yml)**
+
+```xml
+<dependency>
+    <groupId>org.springframework.cloud</groupId>
+    <artifactId>spring-cloud-starter-gateway</artifactId>
+</dependency>
+```
+
+```yaml
+server:
+  port: 8080
+
+spring:
+  cloud:
+    gateway:
+      routes:
+        - id: user-service
+          uri: http://localhost:8081
+          predicates:
+            - Path=/users/**
+
+        - id: order-service
+          uri: http://localhost:8082
+          predicates:
+            - Path=/orders/**
+```
 
 ```java
 // API Gateway with Spring Cloud Gateway
@@ -5358,6 +5461,8 @@ public class OrderController {
 
 ```java
 // Security Manager example
+import java.lang.SecurityManager;
+
 public class MySecurityManager extends SecurityManager {
     @Override
     public void checkRead(String file) {
@@ -5486,6 +5591,18 @@ byte[] decrypted = cipher.doFinal(encrypted);
 They use a **handshake process** and **certificates** to establish trust, supported by **JSSE**, with **KeyStore and TrustStore** for managing keys and certificates.
 
 ```java
+<dependency>
+    <groupId>org.springframework</groupId>
+    <artifactId>spring-web</artifactId>
+</dependency>
+
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.SSLSocket;
+import javax.net.ssl.SSLSocketFactory;
+
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.client.RestTemplate;
+
 // SSL/TLS client example
 SSLContext sslContext = SSLContext.getInstance("TLS");
 sslContext.init(null, null, null);
