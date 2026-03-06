@@ -31,152 +31,108 @@ JVM = Runtime execution environment
 
 ## 3. What are the main principles of Object-Oriented Programming?
 
-Object-Oriented Programming is based on four fundamental principles that promote code reusability, maintainability, and modularity.
+**Object-Oriented Programming** is based on four fundamental principles that promote code reusability, maintainability, and modularity.
 
 **Four OOP Principles:**
 
-- **Encapsulation**: is the process of **wrapping data (variables) and methods (functions) together into a single unit called a class**, and **restricting direct access to the data** using access modifiers (`private`, `protected`, `public`).
+* **Encapsulation:** Encapsulation means binding data and methods together and protecting data using access modifiers (`private`, `protected`, `public`) and access using getters and setters.
+* **Inheritance:** Inheritance means a child class can use properties and methods of a parent class using `extends`.
+* **Polymorphism:** Polymorphism means one method can perform different actions using overloading or overriding.
+* **Abstraction:** Abstraction means hiding internal implementation and showing only necessary details using abstract class or interface.
 
-- **Inheritance**: The ability of a class to inherit the properties and behaviors of another class. And  class (child/subclass) access the properties and behaviors of another class (parent/superclass)** using the `extends` keyword.
+If you want, I can also give **a very short 1-line version (10–12 words)** that sounds **more confident in interviews**.
 
-- **Polymorphism**: means **"many forms"**. It allows the same method or object to behave differently in different situations. (e.g., method overloading, method overriding).
-
-- **Abstraction**: is the concept of **hiding internal implementation details and showing only essential features to the user**.
-
-
-## 4. What is polymorphism? Explain with examples.
-
-Polymorphism means "many forms" - the ability of objects to take multiple forms. The same method call can behave differently depending on the object type.
+**1. Encapsulation: Data is **private** and accessed using **getter and setter methods**.
 
 ```java
-// Runtime polymorphism - method overriding
+class Person {
+    private String name;   // private variable
+
+    public void setName(String name) {   // setter
+        this.name = name;
+    }
+
+    public String getName() {   // getter
+        return name;
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Person p = new Person();
+        p.setName("John");
+        System.out.println(p.getName());
+    }
+}
+```
+
+---
+
+**2. Inheritance: Child class **inherits properties from parent class** using `extends`.**
+
+```java
 class Animal {
-    public void makeSound() {
-        System.out.println("Animal makes sound");
+    void eat() {
+        System.out.println("Animal is eating");
     }
 }
 
 class Dog extends Animal {
-    @Override
-    public void makeSound() {
-        System.out.println("Dog barks");
+    void bark() {
+        System.out.println("Dog is barking");
     }
 }
 
-class Cat extends Animal {
-    @Override
-    public void makeSound() {
-        System.out.println("Cat meows");
-    }
-}
-
-// Usage
-Animal animal1 = new Dog();
-Animal animal2 = new Cat();
-animal1.makeSound(); // "Dog barks"
-animal2.makeSound(); // "Cat meows"
-```
-
-## 5. What is encapsulation and how is it implemented in Java?
-
-Encapsulation is the bundling of data and methods that operate on that data within a single unit, while hiding the internal implementation details from outside access.
-
-```java
-public class BankAccount {
-    private double balance; // Private field - encapsulated
-    private String accountNumber;
-    
-    // Public methods provide controlled access
-    public double getBalance() {
-        return balance;
-    }
-    
-    public void deposit(double amount) {
-        if (amount > 0) {
-            balance += amount;
-        }
-    }
-    
-    public boolean withdraw(double amount) {
-        if (amount > 0 && amount <= balance) {
-            balance -= amount;
-            return true;
-        }
-        return false;
+public class Main {
+    public static void main(String[] args) {
+        Dog d = new Dog();
+        d.eat();   // inherited method
+        d.bark();
     }
 }
 ```
 
-## 6. What is inheritance and what are its types?
-
-Inheritance is a mechanism where a new class acquires properties and behaviors of an existing class. It promotes code reusability and establishes an "is-a" relationship.
+**3. Polymorphism // Method Overloading**
 
 ```java
-// Single inheritance
-class Vehicle {
-    protected String brand;
-    
-    public void start() {
-        System.out.println("Vehicle started");
+class Calculator {
+    int add(int a, int b) {
+        return a + b;
     }
+
+    int add(int a, int b, int c) {
+        return a + b + c;
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Calculator c = new Calculator();
+        System.out.println(c.add(5, 10));
+        System.out.println(c.add(5, 10, 15));
+    }
+}
+```
+
+**4. Abstraction** abstract class or interface
+
+```java
+abstract class Vehicle {
+    abstract void start();   // abstract method
 }
 
 class Car extends Vehicle {
-    private int doors;
-    
-    public void honk() {
-        System.out.println("Car honks");
+    void start() {
+        System.out.println("Car starts with key");
     }
 }
 
-// Multilevel inheritance
-class SportsCar extends Car {
-    public void turboBoost() {
-        System.out.println("Turbo activated");
+public class Main {
+    public static void main(String[] args) {
+        Vehicle v = new Car();
+        v.start();
     }
 }
-```
-
-## 7. What is an abstract class?
-
-An abstract class is a class that cannot be instantiated and may contain both abstract methods (without implementation) and concrete methods (with implementation). It's used to provide a common base for related classes.
-
-```java
-abstract class Shape {
-    protected String color;
-    
-    // Constructor
-    public Shape(String color) {
-        this.color = color;
-    }
-    
-    // Abstract method - must be implemented by subclasses
-    public abstract double calculateArea();
-    
-    // Concrete method - inherited by subclasses
-    public void displayColor() {
-        System.out.println("Color: " + color);
-    }
-}
-
-class Circle extends Shape {
-    private double radius;
-    
-    public Circle(String color, double radius) {
-        super(color);
-        this.radius = radius;
-    }
-    
-    @Override
-    public double calculateArea() {
-        return Math.PI * radius * radius;
-    }
-}
-
-// Usage
-// Shape shape = new Shape("red"); // Error - cannot instantiate
-Circle circle = new Circle("blue", 5.0); // OK
-double area = circle.calculateArea();
 ```
 
 ## 8. What is a package in Java? 
