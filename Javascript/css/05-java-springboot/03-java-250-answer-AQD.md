@@ -40,9 +40,8 @@ JVM = Runtime execution environment
 * **Polymorphism:** Polymorphism means one method can perform different actions using overloading or overriding.
 * **Abstraction:** Abstraction means hiding internal implementation and showing only necessary details using abstract class or interface.
 
-If you want, I can also give **a very short 1-line version (10–12 words)** that sounds **more confident in interviews**.
 
-**1. Encapsulation: Data is **private** and accessed using **getter and setter methods**.
+- **1. Encapsulation: Data is **private** and accessed using **getter and setter methods**.
 
 ```java
 class Person {
@@ -66,9 +65,7 @@ public class Main {
 }
 ```
 
----
-
-**2. Inheritance: Child class **inherits properties from parent class** using `extends`.**
+- **2. Inheritance: Child class **inherits properties from parent class** using `extends`.**
 
 ```java
 class Animal {
@@ -92,7 +89,7 @@ public class Main {
 }
 ```
 
-**3. Polymorphism // Method Overloading**
+- **3. Polymorphism // Method Overloading**
 
 ```java
 class Calculator {
@@ -114,7 +111,7 @@ public class Main {
 }
 ```
 
-**4. Abstraction** abstract class or interface
+- **4. Abstraction** abstract class or interface
 
 ```java
 abstract class Vehicle {
