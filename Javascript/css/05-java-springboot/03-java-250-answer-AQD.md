@@ -893,7 +893,7 @@ class Bank {
 }
 ```
 
-## 2. What is an abstract class?
+## 3. What is an abstract class?
 
 An abstract class is a class that cannot be instantiated and may contain both abstract and concrete methods. It's used when you want to share code among related classes.
 
@@ -915,7 +915,7 @@ abstract class Animal {
 }
 ```
 
-## 3. What is the difference between interface and abstract class?
+## 4. What is the difference between interface and abstract class?
 
 **Interface** is used to define a **contract**, where a class must implement all the declared methods. It mainly supports **multiple inheritance** and contains method declarations (and default/static methods).
 
@@ -937,7 +937,7 @@ abstract class Bird {
 }
 ```
 
-## 4. What are default methods in interfaces?
+## 5. What are default methods in interfaces?
 
 **Default methods** are methods with implementation in interfaces, introduced in Java 8. They allow adding new methods to interfaces without breaking existing implementations.
 
@@ -961,7 +961,7 @@ class Car implements Vehicle {
 }
 ```
 
-## 5. What is the static keyword?
+## 6. What is the static keyword?
 
 The **`static` keyword** in Java is used to define **class-level members** that belong to the class rather than any specific instance.
 
@@ -970,7 +970,7 @@ For example, a **static variable** is shared across all objects, a **static meth
 In short: **`static` means the member belongs to the class, not to individual objects**.
 
 
-## 5. What are static methods in interfaces?
+## 7. What are static methods in interfaces?
 
 **Static methods** in interfaces **belong to the interface itself**, not to implementing classes. They're called using the interface name and cannot be overridden.
 
@@ -992,7 +992,7 @@ interface MathUtils {
 int result = MathUtils.add(5, 3); // Called on interface
 ```
 
-## 6. What is marker interface?
+## 8. What is marker interface?
 
 A **marker interface** is an **empty interface with no methods or fields**. It's used to mark or tag classes to indicate they have special behavior or properties.
 
@@ -1008,7 +1008,7 @@ class Student implements Serializable {
 }
 ```
 
-## 7. What is functional interface?
+## 9. What is functional interface?
 
 A **functional interface** has exactly one abstract method and can be used with lambda expressions. It represents a single unit of functionality.
 
@@ -1025,7 +1025,7 @@ Calculator add = (a, b) -> a + b;
 int result = add.calculate(5, 3);
 ```
 
-## 8. Can an interface extend another interface?
+## 10. Can an interface extend another interface?
 
 Yes, an **interface** can extend one or more interfaces using the **'extends'** keyword. The child interface inherits all methods from parent interfaces.
 
