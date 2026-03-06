@@ -5325,14 +5325,11 @@ public class UserService {
 }
 ```
 
-## 15. Have you worked with the Java 11 HTTP Client? How does it differ from the HTTP clients used in earlier Java versions?
+## 15. How do you implement an HTTP request using the Java 11 HttpClient API, and how does it differ from earlier Java versions?
 
-Yes, I’ve worked with the **Java 11 HTTP Client**. It’s a modern HTTP client introduced in Java 11 under the `java.net.http` package. It supports **HTTP/1.1 and HTTP/2**, has **built-in asynchronous and non-blocking calls** using `CompletableFuture`, and provides a clean, fluent API.
+In **Java 11**, the `HttpClient` API was introduced in the `java.net.http` package to simplify making HTTP requests. It supports **HTTP/1.1 and HTTP/2**, provides a **clean and fluent API**, and allows both **synchronous and asynchronous requests** using `CompletableFuture`.
 
-In earlier Java versions, developers typically used **`HttpURLConnection`**, which was **blocking, verbose, and hard to use**, or relied on **third-party libraries** like Apache HttpClient or OkHttp for advanced features.
-
-So compared to older clients, the Java 11 HTTP Client is **simpler, more efficient, async-friendly, and officially supported by the JDK**.
-
+For example, we create an `HttpClient`, build an `HttpRequest`, and then send it using the `send()` method.
 
 ```java
 import java.net.URI;
@@ -5340,13 +5337,13 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 
-public class Test {
+public class Main {
     public static void main(String[] args) throws Exception {
 
         HttpClient client = HttpClient.newHttpClient();
 
         HttpRequest request = HttpRequest.newBuilder()
-                .uri(new URI("https://example.com"))
+                .uri(URI.create("https://api.example.com"))
                 .GET()
                 .build();
 
@@ -5358,17 +5355,9 @@ public class Test {
 }
 ```
 
-The old HttpURLConnection required much more boilerplate code and didn't support modern features like HTTP/2 or reactive programming patterns.
-
 ## 16. What is service discovery?
 
 **Service Discovery** is a mechanism in microservices architecture where services automatically find and communicate with each other without hardcoding their IP addresses.
-
-**How it works:**
-- Services register themselves with discovery server
-- Services query discovery server to find other services
-- Handles dynamic IP addresses and scaling
-- Provides health checking and load balancing
 
 ```java
 // Service registration with Eureka
