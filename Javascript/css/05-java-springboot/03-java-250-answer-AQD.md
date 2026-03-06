@@ -708,14 +708,30 @@ class NoMain {
 
 ## 1. Why doesn't Java support multiple inheritance?
 
-Java doesn't support multiple inheritance of classes to avoid complexity and ambiguity. If a class inherited from two classes with the same method, Java wouldn't know which one to use.
+Java does not support **multiple inheritance with classes** mainly to avoid complexity and ambiguity, especially the **diamond problem**, where a class could inherit the same method from multiple parent classes and the compiler wouldn’t know which one to use.
 
-- Prevents diamond problem confusion
-- Keeps language simple and clean
-- Avoids method resolution conflicts
-- Maintains single inheritance hierarchy
+To keep the language simpler and more maintainable, Java allows **multiple inheritance through interfaces instead of classes**, so a class can implement multiple interfaces without inheriting conflicting implementations.
 
-Java provides interfaces to achieve multiple inheritance of behavior without the problems of multiple class inheritance.
+```java
+class A {
+    void show() {
+        System.out.println("From class A");
+    }
+}
+
+class B extends A {
+}
+
+class C extends A {
+}
+
+class D extends B, C {   // ❌ Not allowed in Java
+    public static void main(String[] args) {
+        D obj = new D();
+        obj.show();  // Which show()? From B or C?
+    }
+}
+```
 
 ## 2. What is the diamond problem?
 
@@ -733,12 +749,8 @@ If classes B and C both override a method from A, and D inherits from both B and
 
 ## 3. How does Java solve the diamond problem?
 
-Java solves the diamond problem by not allowing multiple class inheritance but supporting multiple interface inheritance with default methods.
+Java solves the **diamond problem** by not allowing multiple class inheritance but supporting multiple interface inheritance with **default methods**.
 
-- Single class inheritance only
-- Multiple interface inheritance allowed
-- Default methods in interfaces (Java 8+)
-- Explicit override required for conflicts
 
 ```java
 interface A { default void method() { } }
@@ -754,12 +766,7 @@ class C implements A, B {
 
 ## 4. Can you override static methods?
 
-No, you cannot override static methods in Java. Static methods belong to the class, not instances, so they're resolved at compile time based on the reference type.
-
-- Static methods are class-level, not instance-level
-- Method hiding occurs instead of overriding
-- Resolved at compile time (static binding)
-- No polymorphism with static methods
+No, you cannot override static methods in Java. **Static methods belong to the class, not instances,** so they're resolved at compile time based on the reference type.
 
 ```java
 class Parent {
