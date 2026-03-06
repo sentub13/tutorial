@@ -3092,12 +3092,12 @@ Connection conn = dataSource.getConnection(); // From pool
 
 ## 5. What is caching and how it works inernally(Implementation)?
 
-**Caching in Java is a technique of storing frequently used data in memory so that we don’t have to fetch it again from a slow source like a database or external API.**
+**Caching** in Java is a technique of **storing frequently used data in memory** so that we don’t have to fetch it again from a slow source like a database or external API.
 
 
 In Java, caching can be broadly categorized into **three main types** based on where the data is stored.
 
-**Local Cache (In-Memory Cache): ** Data is stored **inside the application memory** for fast access. Example using Caffeine
+- **Local Cache (In-Memory Cache): ** Data is stored **inside the application memory** for fast access. Example using Caffeine
 
 ```java
 <dependency>
@@ -3121,7 +3121,7 @@ public class Main {
 }
 ```
 
-**Distributed Cache :** Cache is **shared across multiple servers or applications**.  Shared across **multiple servers**. Example using Redis with Spring Boot.
+- **Distributed Cache :** Cache is **shared across multiple servers or applications**.  Shared across **multiple servers**. Example using Redis with Spring Boot.
 
 ```java
 @Cacheable("users")
@@ -3131,7 +3131,7 @@ public User getUser(Long id) {
 }
 ```
 
-**Database Cache :**Data is cached **at the database level** to reduce repeated queries.
+- **Database Cache :**Data is cached **at the database level** to reduce repeated queries.
 Example using Hibernate second-level cache.
 
 ```java
