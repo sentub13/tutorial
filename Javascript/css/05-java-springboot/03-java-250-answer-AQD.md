@@ -3403,35 +3403,38 @@ Design patterns are proven reusable solutions to common software design problems
 * **Strategy** – Allows selecting an algorithm’s behavior at runtime by encapsulating different algorithms in separate classes.
 * **Decorator** – Adds new functionality to an object dynamically without modifying its existing code.
 
-## 2. What is Singleton pattern and provide an example of a thread-safe implementation in Java.?
+## 2. What is Singleton pattern?
 
-Singleton pattern ensures that a class has only one instance throughout the application lifecycle and provides global access to that instance.
-
-- Only one instance of the class
-- Global access point
-- Lazy or eager initialization
-- Used for logging, database connections, caching
+**Singleton Pattern** is a design pattern that ensures a **class has only one object (instance)** and provides a **global access point** to that instance.
 
 ```java
-public class Singleton {
-   private static volatile Singleton instance;
-   private Singleton() {}
-   public static Singleton getInstance() {
-       if (instance == null) {
-           synchronized (Singleton.class) {
-               if (instance == null) {
-                   instance = new Singleton();
-               }
-           }
-       }
-       return instance;
-   }
+class Singleton {
+
+    private static Singleton instance;
+
+    private Singleton() { }   // private constructor
+
+    public static Singleton getInstance() {
+        if (instance == null) {
+            instance = new Singleton();
+        }
+        return instance;
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Singleton s1 = Singleton.getInstance();
+        Singleton s2 = Singleton.getInstance();
+
+        System.out.println(s1 == s2); // true (same object)
+    }
 }
 ```
 
 ## 3. How do you implement thread-safe Singleton?
 
-Thread-safe Singleton can be implemented using synchronization, double-checked locking, or enum approach to prevent multiple instances in multithreaded environments.
+**Thread-safe Singleton** can be implemented using synchronization, double-checked locking, or enum approach to prevent multiple instances in multithreaded environments.
 
 **Methods:**
 - Synchronized method (simple but slow)
@@ -3442,8 +3445,7 @@ Thread-safe Singleton can be implemented using synchronization, double-checked l
 ```java
 // Double-checked locking
 public class ThreadSafeSingleton {
-    private static volatile ThreadSafeSingleton instance;
-    
+    private static volatile ThreadSafeSingleton instance;    
     private ThreadSafeSingleton() { }
     
     public static ThreadSafeSingleton getInstance() {
@@ -3460,20 +3462,14 @@ public class ThreadSafeSingleton {
 
 // Enum singleton - best approach
 public enum EnumSingleton {
-    INSTANCE;
-    
+    INSTANCE;    
     public void doSomething() { }
 }
 ```
 
 ## 4. What is Factory pattern?
 
-Factory pattern creates objects without specifying their exact classes. It provides an interface for creating objects but lets subclasses decide which class to instantiate.
-
-- Creates objects without exposing creation logic
-- Refers to newly created objects through common interface
-- Promotes loose coupling
-- Easy to extend with new types
+**Factory pattern** creates objects without specifying their exact classes. It provides an interface for creating objects but lets subclasses decide which class to instantiate.
 
 ```java
 // Product interface
@@ -3504,12 +3500,7 @@ class AnimalFactory {
 
 ## 5. What is Observer pattern?
 
-Observer pattern defines a one-to-many dependency between objects. When one object changes state, all dependent objects are notified and updated automatically.
-
-- Subject maintains list of observers
-- Observers are notified of state changes
-- Loose coupling between subject and observers
-- Used in event handling, MVC architecture
+**Observer pattern** defines a one-to-many dependency between objects. When one object changes state, all dependent objects are notified and updated automatically.
 
 ```java
 // Observer interface
@@ -3546,7 +3537,7 @@ class NewsChannel implements Observer {
 
 ## 6. What is Strategy pattern?
 
-Strategy pattern defines a family of algorithms, encapsulates each one, and makes them interchangeable. It lets the algorithm vary independently from clients that use it.
+**Strategy pattern** defines a family of algorithms, encapsulates each one, and makes them interchangeable. It lets the algorithm vary independently from clients that use it.
 
 ```java
 // Strategy interface
@@ -3583,7 +3574,7 @@ class ShoppingCart {
 
 ## 7. What is Adapter pattern?
 
-Adapter pattern allows incompatible interfaces to work together. It acts as a bridge between two incompatible interfaces by wrapping an existing class with a new interface.
+**Adapter pattern** allows incompatible interfaces to work together. It acts as a bridge between two incompatible interfaces by wrapping an existing class with a new interface.
 
 ```java
 // Target interface (what client expects)
@@ -3622,7 +3613,7 @@ class MediaAdapter implements MediaPlayer {
 
 ## 8. What is Decorator pattern?
 
-Decorator pattern allows behavior to be added to objects dynamically without altering their structure. It provides a flexible alternative to subclassing for extending functionality.
+**Decorator pattern** allows behavior to be added to objects dynamically without altering their structure. It provides a flexible alternative to subclassing for extending functionality.
 
 ```java
 // Component interface
