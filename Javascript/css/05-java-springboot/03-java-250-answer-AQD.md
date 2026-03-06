@@ -3097,7 +3097,7 @@ Connection conn = dataSource.getConnection(); // From pool
 
 In Java, caching can be broadly categorized into **three main types** based on where the data is stored.
 
-- **Local Cache (In-Memory Cache): ** Data is stored **inside the application memory** for fast access. Example using Caffeine
+- **Local Cache (In-Memory Cache):** Data is stored **inside the application memory** for fast access. Example using Caffeine
 
 ```java
 <dependency>
@@ -3131,7 +3131,7 @@ public User getUser(Long id) {
 }
 ```
 
-- **Database Cache :**Data is cached **at the database level** to reduce repeated queries.
+- **Database Cache :** Data is cached **at the database level** to reduce repeated queries.
 Example using Hibernate second-level cache.
 
 ```java
