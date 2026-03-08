@@ -790,7 +790,10 @@ class Car {
 
 ## 1. What is an interface in Java?
 
-An **interface** in Java is a blueprint of a class that defines a contract of abstract methods which implementing classes must provide, used to achieve abstraction and multiple inheritance.
+**An Interface in Java** is a **blueprint that defines a set of methods without implementation**.
+
+Any class that implements the interface **must provide the implementation for those methods**, and it is mainly used to achieve **abstraction and multiple inheritance**.
+
 
 ```java
 interface Animal {
@@ -1041,17 +1044,7 @@ Throwable
 
 ## 3. What are checked and unchecked exceptions?
 
-**Checked exceptions** must be handled at compile time, while **unchecked exceptions** occur at runtime and don't require mandatory handling.
-
-**Checked Exceptions:**
-- Must be caught or declared with throws
-- Compile-time enforcement
-- Examples: IOException, SQLException
-
-**Unchecked Exceptions:**
-- Runtime exceptions, optional handling
-- Inherit from RuntimeException
-- Examples: NullPointerException, ArithmeticException
+**Checked exceptions** must be handled at compile time(IOException, SQLExcepti), while **unchecked exceptions** occur at runtime(NullPointerException, ArithmeticException) and don't require mandatory handling.
 
 ```java
 // Checked - must handle
@@ -1337,7 +1330,7 @@ Queue<Integer> priorityQueue = new PriorityQueue<>(); // Heap-based, processed b
 
 # ✅ 8. Java Multithreading & Synchronization 
 
-## What is thread and what are life cycle?
+## 0. What is thread and what are life cycle?
 
 A **thread** is the **smallest unit of execution in a program** that allows multiple tasks to run simultaneously. In **Java**, threads are used for **multithreading** to improve performance and responsiveness.
 
@@ -1354,6 +1347,32 @@ A **thread** is the **smallest unit of execution in a program** that allows mult
 **Multithreading** allows a program to run **multiple threads concurrently** within the same memory space, improving **CPU utilization, performance, and responsiveness**. Threads can **share data** and the **JVM handles scheduling**.
 
 **In simple words:** It lets a program do **many tasks at the same time** efficiently.
+
+```java
+// Realtime example
+class PrintTask extends Thread {
+    public void run() {
+        System.out.println("Printing document...");
+    }
+}
+
+class SaveTask extends Thread {
+    public void run() {
+        System.out.println("Saving document...");
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+
+        PrintTask t1 = new PrintTask();
+        SaveTask t2 = new SaveTask();
+
+        t1.start();   // Thread for printing
+        t2.start();   // Thread for saving
+    }
+}
+```
 
 ## 2. How do you create threads in Java?
 
@@ -4367,7 +4386,72 @@ public class PaymentService {
 
 If **creditAccount() fails**, Spring will **rollback debitAccount()** automatically.
 
-## 17. How to implement many to many, many to one and one to many in java?
+## 17. What is Distributed Tracing?
+
+**Distributed Tracing** is a technique used in **microservices architecture** to track and monitor a request as it travels across multiple services.
+
+It helps developers **identify performance issues, delays, and failures** by showing the **complete flow of a request across different services in a system**.
+
+**Real-Time Example**
+
+1. **API Gateway** receives request
+2. **Order Service** processes order
+3. **Payment Service** processes payment
+4. **Inventory Service** updates stock
+5. **Notification Service** sends email/SMS
+
+**Tools Used**
+
+* **Zipkin**
+* **Jaeger**
+* **OpenTelemetry**
+* **Spring Cloud Sleuth**
+
+## 18. What is Spring Scheduler?
+
+**Spring Scheduler** is a feature in **Spring Framework** used to **run tasks automatically at a scheduled time or at fixed intervals**.
+
+It is commonly used for **background jobs** like sending emails, cleaning logs, or running periodic tasks using the `@Scheduled` annotation.
+
+**Real-Time Example**
+
+* Sending **daily reports**
+* **Cleaning temporary data** every night
+* **Sending scheduled emails**
+* **Database backup every day**
+
+**Enable Scheduling**
+
+```java
+@EnableScheduling
+@SpringBootApplication
+public class Application {
+    public static void main(String[] args) {
+        SpringApplication.run(Application.class, args);
+    }
+}
+```
+
+**Create Scheduled Task**
+
+```java
+@Component
+public class MyScheduler {
+
+    @Scheduled(fixedRate = 5000)
+    public void runTask() {
+        System.out.println("Task running every 5 seconds");
+    }
+}
+
+//Output
+Task running every 5 seconds
+Task running every 5 seconds
+Task running every 5 seconds
+```
+
+
+## 19. How to implement many to many, many to one and one to many in java?
 
 **One-To-Many**
 
@@ -4709,6 +4793,30 @@ public class UserController {
 
 # ✅ 21. Java Microservices 
 
+## 0. What are CQRS principles?
+**CQRS (Command Query Responsibility Segregation)** is an architectural pattern that **separates read operations (queries) from write operations (commands)** in an application.
+
+* **Command** → Used to **create, update, or delete data**
+* **Query** → Used to **read or retrieve data**
+
+**Why Use CQRS?**
+
+* Improves **performance**
+* Allows **separate scaling of read and write operations**
+* Makes the system **more maintainable**
+
+```java
+// Command (Write)
+public void createUser(User user) {
+    userRepository.save(user);
+}
+
+// Query (Read)
+public User getUser(Long id) {
+    return userRepository.findById(id).orElse(null);
+}
+```
+
 ## 1. What are SOLID principles?
 
 **Answer:**
@@ -4887,12 +4995,12 @@ Organizations need proper tooling, processes, and expertise to handle these chal
 
 **Spoken Answer:**
 
-> In our system, microservices mainly communicated using **REST APIs over HTTP**.
-> For synchronous communication, we used **Feign Client** with service discovery through **Eureka**.
->
-> For asynchronous communication, especially for event-based workflows, we used **Kafka**. This helped us reduce tight coupling and improve scalability.
+In our system, microservices mainly communicated using **REST APIs over HTTP**.
+For synchronous communication, we used **Feign Client** with service discovery through **Eureka**.
 
-> Microservices communicate in two ways:
+For asynchronous communication, especially for event-based workflows, we used **Kafka**. This helped us reduce tight coupling and improve scalability.
+
+Microservices communicate in two ways:
 
 1. **Synchronous (REST, Feign, WebClient)** – Request/Response model
 2. **Asynchronous (Kafka, RabbitMQ)** – Event-driven model
@@ -5249,6 +5357,90 @@ resilience4j:
         wait-duration-in-open-state: 30s
         sliding-window-size: 10
 ```
+
+## 14. Saga Pattern or How do you handle payment failure?
+
+Saga Pattern is used in **microservices architecture** to manage transactions across multiple services.
+
+Instead of one big transaction, the process is divided into **multiple small local transactions**.
+Each service completes its own step.
+
+If any step fails, the system performs **compensating actions** to undo the previous steps and keep data consistent.
+
+**Example:**
+In an online order system:
+Order Created → Payment Done → Inventory Reserved.
+
+If inventory fails, Saga will **refund payment and cancel the order**.
+
+There are **two ways to implement Saga**:
+**Choreography** – services communicate using events.
+**Orchestration** – a central service controls the workflow.
+
+Order Created → Payment Done → Inventory Reserved
+If **inventory fails → refund payment + cancel order**
+
+```java
+@Service
+public class OrderSagaService {
+    @Autowired
+    private PaymentService paymentService;
+
+    @Autowired
+    private InventoryService inventoryService;
+
+    @Autowired
+    private OrderService orderService;
+
+    public void placeOrder(Order order) {
+        orderService.createOrder(order);
+        try {
+            paymentService.charge(order);        // Step 1
+            inventoryService.reserve(order);     // Step 2
+            orderService.updateStatus(order, "COMPLETED");
+
+        } catch (Exception e) {
+            // Compensation actions
+            paymentService.refund(order);
+            orderService.cancelOrder(order);
+            System.out.println("Order failed, rollback completed");
+        }
+    }
+}
+```
+
+**Payment Service**
+```java
+@Service
+public class PaymentService {
+    public void charge(Order order) {
+        System.out.println("Payment charged for order " + order.getId());
+    }
+
+    public void refund(Order order) {
+        System.out.println("Payment refunded for order " + order.getId());
+    }
+}
+```
+
+**Inventory Service**
+```java
+@Service
+public class InventoryService {
+    public void reserve(Order order) {
+        System.out.println("Inventory reserved for order " + order.getId());
+        
+        // simulate failure
+        throw new RuntimeException("Inventory not available");
+    }
+}
+```
+
+**Flow**
+1. Create Order
+2. Charge Payment
+3. Reserve Inventory
+4. If inventory fails → **Refund Payment + Cancel Order**
 
 ## 14. How do you Improve Performance in Spring Boot Application?
 
@@ -7345,4 +7537,251 @@ public interface ApplicationMonitorMXBean {
 }
 ```
 
-# ✅ 27. Miscellaneous
+# ✅ 27.  Common Issues
+
+## 1. What are common Java performance issues?
+
+Common **Java performance issues** include **memory leaks** (objects not garbage collected), **CPU bottlenecks** (inefficient code or blocking calls), **database problems** (slow queries or connection pool issues), and **thread contention** (threads competing for shared resources).
+
+* **Memory leaks** - Objects are created but not released from memory, so the Garbage Collector cannot remove them. Over time, memory usage increases and may cause OutOfMemoryError.
+* **CPU bottlenecks/Inefficient Algorithms** - Using slow algorithms or unnecessary loops increases CPU usage and slows the application.
+* **Database issues** - Slow queries or improper connection pool handling can slow down the entire application.
+* **Thread contention** - Multiple threads competing for resources
+* **Too Many Object Creationsv** - Creating many objects repeatedly can increase memory usage and GC overhead.
+* **Garbage Collection Overhead** - If the application creates many short-lived objects, Garbage Collection runs frequently, which can pause the application.
+* **Blocking I/O Operations** - Operations like file reading, network calls, or API calls may block threads and reduce throughput.
+
+```java
+// Memory leak example
+public class LeakExample {
+    private static List<String> cache = new ArrayList<>();
+    
+    public void addToCache(String data) {
+        cache.add(data); // Never cleared - memory leak
+    }
+}
+```
+
+## 2. What are common Java memory issues?
+* **OutOfMemoryError :** - This happens when the JVM heap memory is full and cannot allocate new objects.
+* **Memory leaks :** - A memory leak happens when objects are no longer needed but are still referenced, so the Garbage Collector cannot remove them.
+* **Excessive Object Creation :** - Creating too many objects repeatedly increases memory usage and garbage collection activity, which slows down the application.
+* **Metaspace issues :** - In some applications (like servers), classes loaded by a ClassLoader are not released, causing Metaspace memory issues. Too many classes loaded
+* **Improper Cache Management :** - If caching is implemented without limits, cached objects can keep growing and consume memory.
+
+```java
+// Stack overflow example
+public void recursiveMethod() {
+    recursiveMethod(); // No base case - stack overflow
+}
+
+// Memory optimization
+List<String> list = new ArrayList<>(1000); // Pre-size collections
+```
+
+## 3. What are common Java concurrency issues?
+
+Common **Java concurrency issues** occur when multiple threads work on shared resources without proper coordination. This can cause incorrect results, slow performance, or application crashes.
+
+**1. race condition :** -  happens when multiple threads access and modify shared data at the same time, and the final result depends on the order of execution.
+
+**2. Deadlock :** -   occurs when two or more threads are waiting for each other’s resources, and none of them can proceed.
+
+**3. Thread Starvation :** -  happens when a thread does not get enough CPU time because other threads with higher priority keep running.
+
+**4. Livelock :** -  threads keep responding to each other and changing states, but no thread makes progress.
+
+**5. Thread Contention :** -  This happens when multiple threads try to access the same resource simultaneously, causing threads to wait and reducing performance.
+
+**6. Visibility Issues :** -  Changes made by one thread may **not be visible to other threads** due to CPU caching. Solution often involves using `volatile` or synchronization.
+
+**7. Improper Synchronization**
+Using too many or incorrect `synchronized` blocks can lead to **performance issues or inconsistent data**.
+
+
+```java
+// Race condition fix
+private volatile boolean flag = false;
+private final Object lock = new Object();
+
+public void safeMethod() {
+    synchronized(lock) {
+        // Thread-safe operation
+        flag = !flag;
+    }
+}
+```
+
+## 4. What are common Java deployment issues?
+
+Common **Java deployment issues :** -  occur when an application runs correctly in development but fails or behaves differently in production.
+
+**1. Dependency Conflicts :** - 
+Different versions of libraries may cause **ClassNotFoundException** or **NoSuchMethodError** during deployment.
+
+**2. Environment Configuration Issues :** - 
+Application may fail if **environment variables, configuration files, or profiles** are not set correctly.
+
+**3. Port Conflicts :** - 
+If the application tries to start on a **port already used by another service**, it will fail to start.
+
+**4. Database Connection Issues :** - 
+Incorrect **database credentials, network restrictions, or connection pool configuration** can cause deployment failures.
+
+
+**5. Missing Resources :** - 
+Required files like **configuration files, certificates, or static resources** may not be included in the deployment package.
+
+**6. JVM Configuration Problems :** - 
+Improper **JVM memory settings** (`-Xms`, `-Xmx`) can cause performance issues or application crashes.
+
+**7. Server Compatibility Issues :** - 
+Sometimes the **Java version or application server version** in production is different from development.
+
+```java
+// Check classpath at runtime
+String classpath = System.getProperty("java.class.path");
+System.out.println("Classpath: " + classpath);
+```
+
+## 5. What are common Java security issues?
+Common **Java security issues :** -  occur when applications are not properly protected from attacks or sensitive data exposure.
+
+**1. SQL Injection**
+This happens when **user input is directly used in SQL queries :** - , allowing attackers to manipulate the query and access or modify database data.
+
+**2. Cross-Site Scripting (XSS)**
+Attackers inject **malicious scripts into web pages :** - , which execute in other users’ browsers.
+
+**3. Cross-Site Request Forgery (CSRF) :** - 
+An attacker tricks a user into performing **unwanted actions** on a web application where the user is already authenticated.
+
+**4. Insecure Deserialization :** - 
+If an application **deserializes untrusted data**, attackers may execute malicious code.
+
+**5. Sensitive Data Exposure :** - 
+Passwords, API keys, or personal data may be **stored or transmitted without proper encryption**
+
+**6. Improper Authentication and Authorization :** - 
+Weak authentication or incorrect access control may allow **unauthorized users to access secure resources**.
+
+**7. Using Outdated Libraries :** - 
+Old dependencies may contain **known security vulnerabilities**.
+
+```java
+// Prevent SQL injection
+String sql = "SELECT * FROM users WHERE id = ?";
+PreparedStatement stmt = conn.prepareStatement(sql);
+stmt.setInt(1, userId);
+```
+
+## 6. What are debugging strategies?
+
+**Debugging strategies** are techniques used to **identify, analyze, and fix errors (bugs)** in a program.
+
+**Common Debugging Strategies**
+
+1. **Log Analysis :**
+   Check application logs to identify errors or unusual behavior.
+
+2. **Using Debugger Tools :**
+   Use IDE debuggers to add **breakpoints**, step through code, and inspect variables.
+
+3. **Reproduce the Issue :**
+   Try to recreate the bug in the same conditions to understand the problem.
+
+4. **Divide and Conquer :**
+   Break the code into smaller parts to isolate where the problem occurs.
+
+5. **Check Recent Changes :**
+   Review recently modified code because bugs often come from recent updates.
+
+6. **Use Monitoring Tools :**
+   Tools help analyze performance, memory usage, and thread activity.
+
+```java
+// Strategic logging
+logger.debug("Processing user: {}, status: {}", userId, status);
+```
+
+## 7. What are problem-solving methodologies?
+
+**Problem-solving methodologies** are structured approaches used to **analyze and resolve technical problems effectively.**
+
+**Common Methodologies**
+
+1. **Define the Problem :**
+   Clearly understand what the issue is.
+
+2. **Analyze the Root Cause :**
+   Identify why the problem occurred.
+
+3. **Develop Possible Solutions :**
+   Consider multiple ways to fix the issue.
+
+4. **Implement the Solution :**
+   Apply the best solution.
+
+5. **Test the Solution :**
+   Verify that the issue is resolved.
+
+6. **Document the Solution :**
+   Record the fix for future reference.
+
+
+## 8. What are root cause analysis techniques?
+
+**Root Cause Analysis (RCA)** techniques help identify the **main reason behind a problem** instead of only fixing the symptoms.
+
+**Common RCA Techniques**
+
+1. **5 Whys Technique :**
+   Ask **“Why?” multiple times** until the root cause is found.
+
+2. **Fishbone Diagram (Ishikawa) :**
+   A diagram used to identify possible causes in categories like **process, people, technology, and environment**.
+
+3. **Pareto Analysis (80/20 Rule) :**
+   Focus on the **20% of causes that create 80% of problems**.
+
+4. **Fault Tree Analysis :**
+   A diagram used to trace the **chain of events leading to a failure**.
+
+5. **Log and Data Analysis :**
+   Analyze logs, metrics, and system data to identify the root cause.
+
+```java
+// Add diagnostic information
+try {
+    processData();
+} catch (Exception e) {
+    logger.error("Failed processing at step: {}, data: {}", 
+                currentStep, data, e);
+    throw e;
+}
+```
+
+# ✅ 28. Miscellaneous
+
+## 1: What is IaaS vs PaaS vs SaaS?
+
+**IaaS (Infrastructure as a Service)**: Rent virtual machines, storage, networks. You manage OS, runtime, apps.
+
+**PaaS (Platform as a Service)**: Managed platform for deploying apps. Provider manages OS, runtime.
+
+**SaaS (Software as a Service)**: Ready-to-use software. Provider manages everything.
+
+**Example:**
+```
+IaaS: AWS EC2, Azure VMs
+- You install Java, Tomcat, deploy app
+- Full control, more management
+
+PaaS: AWS Elastic Beanstalk, Azure App Service
+- Upload JAR, platform handles deployment
+- Less control, less management
+
+SaaS: Gmail, Salesforce, Office 365
+- Just use the software
+- No control, no management
+```
