@@ -74,6 +74,7 @@ public class StreamExamples {
         List<Integer> numbers = Arrays.asList(1,2,3,4,5,6);
         List<Integer> even = numbers.stream().filter(n->n%2==0).toList();
         System.out.println(even);
+        // Output: [2, 4, 6]
     }
 
     //2 Find Maximum in a List
@@ -81,6 +82,7 @@ public class StreamExamples {
         List<Integer> numbers = Arrays.asList(10,20,30,40,50);
         int max = numbers.stream().max(Integer::compare).orElseThrow();
         System.out.println(max);
+        // Output: 50
     }
 
     //3 Sort a List
@@ -90,6 +92,7 @@ public class StreamExamples {
                 .sorted(Comparator.reverseOrder())
                 .toList();
         System.out.println(sorted);
+        // Output: [5, 4, 3, 2, 1]
     }
 
     //4 Count Strings with Specific Prefix
@@ -97,6 +100,7 @@ public class StreamExamples {
         List<String> names = Arrays.asList("Alice","Bob","Annie","Alex","Charlie");
         long count = names.stream().filter(n->n.startsWith("A")).count();
         System.out.println(count);
+        // Output: 3
     }
 
     //5 Find First Non-Repeated Character in a String
@@ -107,12 +111,14 @@ public class StreamExamples {
                 .filter(c->input.indexOf(c)==input.lastIndexOf(c))
                 .findFirst().orElse(null);
         System.out.println(ch);
+        // Output: w
     }
 
     //6 Convert List of Strings to Uppercase
     static void convertUpperCase() {
         List<String> names = Arrays.asList("java","stream","api");
         System.out.println(names.stream().map(String::toUpperCase).toList());
+        // Output: [JAVA, STREAM, API]
     }
 
     //7 Sum of Numbers in a List
@@ -120,6 +126,7 @@ public class StreamExamples {
         List<Integer> numbers = Arrays.asList(1,2,3,4,5);
         int sum = numbers.stream().mapToInt(Integer::intValue).sum();
         System.out.println(sum);
+        // Output: 15
     }
 
     //8 Check if Any String Matches a Condition
@@ -127,6 +134,7 @@ public class StreamExamples {
         List<String> list = Arrays.asList("Java","Stream API","Lambda");
         boolean result = list.stream().anyMatch(s->s.contains("API"));
         System.out.println(result);
+        // Output: true
     }
 
     //9 Find Duplicate Elements in a List
@@ -137,6 +145,7 @@ public class StreamExamples {
                 .filter(n->!unique.add(n))
                 .collect(Collectors.toSet());
         System.out.println(dup);
+        // Output: [1, 2]
     }
 
     //10 Group Strings by Length
@@ -145,6 +154,7 @@ public class StreamExamples {
         Map<Integer,List<String>> map =
                 words.stream().collect(Collectors.groupingBy(String::length));
         System.out.println(map);
+        // Output: {3=[API], 4=[Java], 5=[Stream], 7=[Development]}
     }
 
     //11 Flatten a List of Lists
@@ -158,6 +168,7 @@ public class StreamExamples {
                 .flatMap(List::stream)
                 .toList();
         System.out.println(result);
+        // Output: [1, 2, 3, 4, 5, 6, 7, 8]
     }
 
     //12 Concatenate Strings
@@ -165,6 +176,7 @@ public class StreamExamples {
         List<String> words = Arrays.asList("Stream","API","is","powerful");
         String s = words.stream().reduce("",(a,b)->a+" "+b).trim();
         System.out.println(s);
+        // Output: Stream API is powerful
     }
 
     //13 Find the Longest String
@@ -174,6 +186,7 @@ public class StreamExamples {
                 .max(Comparator.comparingInt(String::length))
                 .orElse(null);
         System.out.println(longest);
+        // Output: Development
     }
 
     //14 Count Frequency of Characters in a String
@@ -183,6 +196,7 @@ public class StreamExamples {
                 .mapToObj(c->(char)c)
                 .collect(Collectors.groupingBy(c->c,Collectors.counting()));
         System.out.println(freq);
+        // Output: {s=3, u=1, c=2, e=1}
     }
 
     //15 Parallel Stream to Compute Sum
@@ -190,6 +204,7 @@ public class StreamExamples {
         List<Integer> numbers = Arrays.asList(1,2,3,4,5);
         int sum = numbers.parallelStream().mapToInt(Integer::intValue).sum();
         System.out.println(sum);
+        // Output: 15
     }
 
     //16 Create Custom Collector
@@ -197,12 +212,14 @@ public class StreamExamples {
         List<String> words = Arrays.asList("Java","Stream","API");
         String joined = words.stream().collect(Collectors.joining(", "));
         System.out.println(joined);
+        // Output: Java, Stream, API
     }
 
     //17 Remove Null Values
     static void removeNulls() {
         List<String> words = Arrays.asList("Java",null,"Stream",null,"API");
         System.out.println(words.stream().filter(Objects::nonNull).toList());
+        // Output: [Java, Stream, API]
     }
 
     //18 Calculate Average of Numbers
@@ -210,6 +227,7 @@ public class StreamExamples {
         List<Integer> numbers = Arrays.asList(10,20,30,40,50);
         double avg = numbers.stream().mapToInt(Integer::intValue).average().orElse(0);
         System.out.println(avg);
+        // Output: 30.0
     }
 
     //19 Collect Map from List
@@ -218,6 +236,7 @@ public class StreamExamples {
         Map<String,Integer> map = words.stream()
                 .collect(Collectors.toMap(w->w,String::length));
         System.out.println(map);
+        // Output: {Java=4, Stream=6, API=3}
     }
 
     //20 Partition Numbers into Even and Odd
@@ -226,6 +245,7 @@ public class StreamExamples {
         Map<Boolean,List<Integer>> map =
                 numbers.stream().collect(Collectors.partitioningBy(n->n%2==0));
         System.out.println(map);
+        // Output: {false=[1, 3, 5], true=[2, 4, 6]}
     }
 
     //21 Find Nth Largest Element in a List
@@ -234,6 +254,7 @@ public class StreamExamples {
         int val = numbers.stream().sorted(Comparator.reverseOrder())
                 .skip(2).findFirst().orElseThrow();
         System.out.println(val);
+        // Output: 30
     }
 
     //22 Find All Palindromic Strings
@@ -243,6 +264,7 @@ public class StreamExamples {
                 .filter(w->w.equals(new StringBuilder(w).reverse().toString()))
                 .toList();
         System.out.println(result);
+        // Output: [radar, level]
     }
 
     //23 Reverse Each String in a List
@@ -251,6 +273,7 @@ public class StreamExamples {
         System.out.println(words.stream()
                 .map(w->new StringBuilder(w).reverse().toString())
                 .toList());
+        // Output: [avaJ, maertS, IPA]
     }
 
     //24 Filter and Convert Map to List
@@ -261,12 +284,14 @@ public class StreamExamples {
                 .map(Map.Entry::getKey)
                 .toList();
         System.out.println(keys);
+        // Output: [B, C, D]
     }
 
     //25 Remove Duplicates Without Collectors
     static void removeDuplicates() {
         List<Integer> numbers = Arrays.asList(1,2,3,2,4,3,5);
         System.out.println(numbers.stream().distinct().toList());
+        // Output: [1, 2, 3, 4, 5]
     }
 
     //26 Find the Most Frequent Character in a String
@@ -278,6 +303,7 @@ public class StreamExamples {
                 .max(Map.Entry.comparingByValue())
                 .get().getKey();
         System.out.println(c);
+        // Output: s
     }
 
     //27 Find Common Elements Between Two Lists
@@ -285,6 +311,7 @@ public class StreamExamples {
         List<Integer> a = Arrays.asList(1,2,3,4,5);
         List<Integer> b = Arrays.asList(3,4,5,6);
         System.out.println(a.stream().filter(b::contains).toList());
+        // Output: [3, 4, 5]
     }
 
     //28 Find the Sum of Squares of Even Numbers
@@ -294,6 +321,7 @@ public class StreamExamples {
                 .filter(n->n%2==0)
                 .mapToInt(n->n*n).sum();
         System.out.println(sum);
+        // Output: 56
     }
 
     //29 Partition Strings by Palindrome
@@ -304,12 +332,14 @@ public class StreamExamples {
                         w->w.equals(new StringBuilder(w).reverse().toString())
                 ));
         System.out.println(map);
+        // Output: {false=[java, stream], true=[radar, level]}
     }
 
     //30 Skip and Limit Elements
     static void skipLimit() {
         List<Integer> numbers = Arrays.asList(1,2,3,4,5,6,7);
         System.out.println(numbers.stream().skip(3).limit(2).toList());
+        // Output: [4, 5]
     }
 
     //31 Find the Longest Word from a Sentence
@@ -318,6 +348,7 @@ public class StreamExamples {
         String longest = Arrays.stream(sentence.split(" "))
                 .max(Comparator.comparingInt(String::length)).orElse(null);
         System.out.println(longest);
+        // Output: powerful
     }
 
     //32 Compute Cartesian Product of Two Lists
@@ -328,6 +359,7 @@ public class StreamExamples {
                 .flatMap(i->b.stream().map(j->"("+i+","+j+")"))
                 .toList();
         System.out.println(res);
+        // Output: [(1, 4), (1, 5), (2, 4), (2, 5), (3, 4), (3, 5)]
     }
 
     //33 Find Top N Highest Scoring Students
@@ -345,6 +377,7 @@ public class StreamExamples {
                 .toList();
 
         System.out.println(top);
+        // Output: [Bob, Charlie]
     }
 
     //34 Group by First Character
@@ -353,6 +386,7 @@ public class StreamExamples {
         Map<Character,List<String>> map =
                 words.stream().collect(Collectors.groupingBy(w->w.charAt(0)));
         System.out.println(map);
+        // Output: {a=[apple, avocado], b=[banana]}
     }
 
     //35 Custom Reduce to Concatenate Strings
@@ -360,6 +394,7 @@ public class StreamExamples {
         List<String> words = Arrays.asList("Stream","API","is","awesome");
         String s = words.stream().reduce((a,b)->b+" "+a).orElse("");
         System.out.println(s);
+        // Output: awesome is API Stream
     }
 
     //36 Find Median of a List
@@ -368,6 +403,7 @@ public class StreamExamples {
         List<Integer> sorted = numbers.stream().sorted().toList();
         double median = sorted.get(sorted.size()/2);
         System.out.println(median);
+        // Output: 3
     }
 
     //37 Collect Nested Map by Grouping
@@ -381,6 +417,7 @@ public class StreamExamples {
         Map<String,List<Employee>> map =
                 list.stream().collect(Collectors.groupingBy(Employee::getDepartment));
         System.out.println(map);
+        // Output: {HR=[Alice, Charlie], IT=[Bob]}
     }
 
     // 38 Detect Cycles in a Graph-Like Structure
@@ -404,6 +441,7 @@ public class StreamExamples {
                         .anyMatch(n -> n.id == node.id));
 
         System.out.println("Cycle detected: " + hasCycle);
+        // Output: Cycle detected: true
     }
 
     // 39 Find the Word with Maximum Vowels
@@ -416,6 +454,7 @@ public class StreamExamples {
                 )).orElse("");
 
         System.out.println("Word with most vowels: " + result);
+        // Output: Word with most vowels: programming
     }
 
     // 40 Compute Running Sum
@@ -428,6 +467,7 @@ public class StreamExamples {
                 .collect(Collectors.toList());
 
         System.out.println("Running sum: " + sum);
+        // Output: Running sum: [1, 3, 6, 10, 15]
     }
 
     // 41 Generate Fibonacci Sequence Using Streams
@@ -441,6 +481,7 @@ public class StreamExamples {
                 .collect(Collectors.toList());
 
         System.out.println("Fibonacci: " + fib);
+        // Output: Fibonacci: [0, 1, 1, 2, 3, 5, 8, 13, 21, 34]
     }
 
     // 42 Find Employees with Highest Salary in Each Department
@@ -479,6 +520,7 @@ public class StreamExamples {
                 ));
 
         System.out.println("Highest salary by dept: " + result);
+        // Output: {HR= Dave, IT= Bob}
     }
 
     // 43 Group Words by Length and Sort Them
@@ -495,6 +537,7 @@ public class StreamExamples {
                 ));
 
         System.out.println("Grouped words: " + map);
+        // Output: {3=[api, code], 4=[java, main], 7=[example], 8=[programming]}
     }
 
     // 44 Calculate the Product of All Numbers
@@ -504,6 +547,7 @@ public class StreamExamples {
         int product = numbers.stream().reduce(1,(a,b)->a*b);
 
         System.out.println("Product: " + product);
+        // Output: Product: 120
     }
 
     // 45 Sliding Window of N Elements
@@ -516,6 +560,7 @@ public class StreamExamples {
                         .collect(Collectors.toList());
 
         System.out.println("Sliding windows: " + windows);
+        // Output: [[1, 2, 3], [2, 3, 4], [3, 4, 5], [4, 5, 6]]
     }
 
     // 46 Detect Anagrams in a List
@@ -530,6 +575,7 @@ public class StreamExamples {
                 ));
 
         System.out.println("Anagrams: " + map);
+        // Output: Anagrams: {eilnst=[listen, silent, enlist], egglno=[google], beloqw=[elbow, below]}
     }
 
     // 47 Generate a Pyramid Pattern
@@ -545,6 +591,11 @@ public class StreamExamples {
                         ).collect(Collectors.toList());
 
         pyramid.forEach(System.out::println);
+        // Output:     1
+        //            1 2
+        //           1 2 3
+        //          1 2 3 4
+        //         1 2 3 4 5
     }
 
     // 48 Find Maximum Path Sum in a Triangle
@@ -568,6 +619,7 @@ public class StreamExamples {
                         ).orElse(Collections.emptyList()).get(0);
 
         System.out.println("Max path sum: " + max);
+        // Output: Max path sum: 23 (3 + 7 + 4 + 9)
     }
 
     // 49 Find Non-Repeating Characters in a String
@@ -580,6 +632,7 @@ public class StreamExamples {
                         .collect(Collectors.toList());
 
         System.out.println("Non repeating: " + list);
+        // Output: Non repeating: [s, w, i]
     }
 
     // 50 Find All Subsequences of a String
@@ -596,6 +649,7 @@ public class StreamExamples {
                         ).collect(Collectors.toList());
 
         System.out.println("Subsequences: " + subs);
+        // Output: Subsequences: [, a, b, ab, c, ac, bc, abc]
     }
 
     // 51 Count Frequency of Characters in a String
@@ -607,6 +661,7 @@ public class StreamExamples {
                         .collect(Collectors.groupingBy(c->c,Collectors.counting()));
 
         System.out.println("Char frequency: " + map);
+        // Output: Char frequency: {s=3, u=1, c=2, e=1}
     }
 
     // 52 Flatten a Nested List
@@ -618,6 +673,7 @@ public class StreamExamples {
                 nested.stream().flatMap(List::stream).collect(Collectors.toList());
 
         System.out.println("Flatten list: " + flat);
+        // Output: Flatten list: [1, 2, 3, 4, 5, 6]
     }
 
     // 53 Find Duplicate Elements in a List
@@ -630,6 +686,7 @@ public class StreamExamples {
                         .collect(Collectors.toSet());
 
         System.out.println("Duplicates: " + duplicates);
+        // Output: Duplicates: [2, 3]
     }
 
     // 54 Convert Map to List of Key-Value Pairs
@@ -642,6 +699,7 @@ public class StreamExamples {
                         .collect(Collectors.toList());
 
         System.out.println("Key value pairs: " + list);
+        // Output: [A=1, B=2, C=3]
     }
 
     // 55 Check if a List is Sorted
@@ -653,6 +711,7 @@ public class StreamExamples {
                         .allMatch(i -> numbers.get(i)<=numbers.get(i+1));
 
         System.out.println("Is sorted: " + sorted);
+        //Output: Is sorted: true
     }
 
     // 56 Find All Subarrays of a List
@@ -667,6 +726,7 @@ public class StreamExamples {
                         ).collect(Collectors.toList());
 
         System.out.println("Subarrays: " + subarrays);
+        // Output: [[1], [1, 2], [1, 2, 3], [2], [2, 3], [3]]
     }
 
     // 57 Combine Two Lists into a Map
@@ -679,6 +739,7 @@ public class StreamExamples {
                         .collect(Collectors.toMap(keys::get,values::get));
 
         System.out.println("Combined map: " + map);
+        // Output: {A=1, B=2, C=3}
     }
 
     // 58 Find Pair of Numbers with a Given Sum
@@ -695,6 +756,7 @@ public class StreamExamples {
                         ).collect(Collectors.toList());
 
         System.out.println("Pairs: " + pairs);
+        // Output: [[1, 5], [2, 4]]
     }
 
     // 59 Generate Random Numbers Using Stream
@@ -705,6 +767,7 @@ public class StreamExamples {
                         .collect(Collectors.toList());
 
         System.out.println("Random numbers: " + nums);
+        // output: [23, 45, 67, 12, 89] (example random numbers between 1 and 100)
     }
 
     // 60 Find Longest Increasing Subsequence
@@ -721,6 +784,7 @@ public class StreamExamples {
         });
 
         System.out.println("LIS: " + lis);
+        // Output: [2, 3, 7, 18] (one of the longest increasing subsequences)
     }
 
     // 61 Sort a List Based on Frequency of Elements
@@ -734,6 +798,7 @@ public class StreamExamples {
                         .collect(Collectors.toList());
 
         System.out.println("Sorted by frequency: " + sorted);
+        // Output: [4, 5, 6, 3] (4 and 5 appear twice, 6 and 3 appear once)
     }
 
     // 62 Convert List of Strings to Sentence Case
@@ -746,6 +811,7 @@ public class StreamExamples {
                         .collect(Collectors.toList());
 
         System.out.println("Sentence case: " + result);
+        // Output: [Java, Stream, Api]
     }
     
 }
