@@ -13,10 +13,14 @@ public class StreamExamples {
         // sumNumbers();
         // checkContainsAPI();
         // findDuplicates();
-        // groupByLength();
+        // longestString();
+        // commonElements();
+        // longestWordSentence();
+        // topStudents();
+        
         // flattenList();
         // concatenateStrings();
-        // longestString();
+        // groupByLength();
         // charFrequency();
         // parallelSum();
         // joinStrings();
@@ -30,13 +34,13 @@ public class StreamExamples {
         // mapFilterKeys();
         // removeDuplicates();
         // mostFrequentChar();
-        // commonElements();
+        // flattenList(); === 
         // sumOfSquares();
         // partitionPalindrome();
         // skipLimit();
-        // longestWordSentence();
+        // concatenateStrings(); === 
         // cartesianProduct();
-        // topStudents();
+        // groupByLength(); == 
         // groupByFirstChar();
         // reverseConcat();
         // median();
@@ -148,38 +152,7 @@ public class StreamExamples {
         // Output: [1, 2]
     }
 
-    //10 Group Strings by Length
-    static void groupByLength() {
-        List<String> words = Arrays.asList("Java","Stream","API","Code","Fun");
-        Map<Integer,List<String>> map =
-                words.stream().collect(Collectors.groupingBy(String::length));
-        System.out.println(map);
-        // Output: {3=[API], 4=[Java], 5=[Stream], 7=[Development]}
-    }
-
-    //11 Flatten a List of Lists
-    static void flattenList() {
-        List<List<Integer>> lists = Arrays.asList(
-                Arrays.asList(1,2,3),
-                Arrays.asList(4,5),
-                Arrays.asList(6,7,8)
-        );
-        List<Integer> result = lists.stream()
-                .flatMap(List::stream)
-                .toList();
-        System.out.println(result);
-        // Output: [1, 2, 3, 4, 5, 6, 7, 8]
-    }
-
-    //12 Concatenate Strings
-    static void concatenateStrings() {
-        List<String> words = Arrays.asList("Stream","API","is","powerful");
-        String s = words.stream().reduce("",(a,b)->a+" "+b).trim();
-        System.out.println(s);
-        // Output: Stream API is powerful
-    }
-
-    //13 Find the Longest String
+    //10 Find the Longest String
     static void longestString() {
         List<String> words = Arrays.asList("Java","Stream","API","Development");
         String longest = words.stream()
@@ -187,6 +160,41 @@ public class StreamExamples {
                 .orElse(null);
         System.out.println(longest);
         // Output: Development
+    }
+
+    //11 Find Common Elements Between Two Lists
+    static void commonElements() {
+        List<Integer> a = Arrays.asList(1,2,3,4,5);
+        List<Integer> b = Arrays.asList(3,4,5,6);
+        System.out.println(a.stream().filter(b::contains).toList());
+        // Output: [3, 4, 5]
+    }
+
+    //12 Find the Longest Word from a Sentence
+    static void longestWordSentence() {
+        String sentence="Java Stream API is very powerful";
+        String longest = Arrays.stream(sentence.split(" "))
+                .max(Comparator.comparingInt(String::length)).orElse(null);
+        System.out.println(longest);
+        // Output: powerful
+    }
+
+    //13 Find Top N Highest Scoring Students
+    static void topStudents() {
+        List<Student> list = Arrays.asList(
+                new Student("Alice",85),
+                new Student("Bob",92),
+                new Student("Charlie",88)
+        );
+
+        List<String> top = list.stream()
+                .sorted(Comparator.comparingInt(Student::getScore).reversed())
+                .limit(2)
+                .map(Student::getName)
+                .toList();
+
+        System.out.println(top);
+        // Output: [Bob, Charlie]
     }
 
     //14 Count Frequency of Characters in a String
@@ -306,12 +314,18 @@ public class StreamExamples {
         // Output: s
     }
 
-    //27 Find Common Elements Between Two Lists
-    static void commonElements() {
-        List<Integer> a = Arrays.asList(1,2,3,4,5);
-        List<Integer> b = Arrays.asList(3,4,5,6);
-        System.out.println(a.stream().filter(b::contains).toList());
-        // Output: [3, 4, 5]
+    //27 Flatten a List of Lists
+    static void flattenList() {
+        List<List<Integer>> lists = Arrays.asList(
+                Arrays.asList(1,2,3),
+                Arrays.asList(4,5),
+                Arrays.asList(6,7,8)
+        );
+        List<Integer> result = lists.stream()
+                .flatMap(List::stream)
+                .toList();
+        System.out.println(result);
+        // Output: [1, 2, 3, 4, 5, 6, 7, 8]
     }
 
     //28 Find the Sum of Squares of Even Numbers
@@ -342,14 +356,13 @@ public class StreamExamples {
         // Output: [4, 5]
     }
 
-    //31 Find the Longest Word from a Sentence
-    static void longestWordSentence() {
-        String sentence="Java Stream API is very powerful";
-        String longest = Arrays.stream(sentence.split(" "))
-                .max(Comparator.comparingInt(String::length)).orElse(null);
-        System.out.println(longest);
-        // Output: powerful
-    }
+    //31 Concatenate Strings
+    static void concatenateStrings() {
+        List<String> words = Arrays.asList("Stream","API","is","powerful");
+        String s = words.stream().reduce("",(a,b)->a+" "+b).trim();
+        System.out.println(s);
+        // Output: Stream API is powerful
+    } 
 
     //32 Compute Cartesian Product of Two Lists
     static void cartesianProduct() {
@@ -362,22 +375,13 @@ public class StreamExamples {
         // Output: [(1, 4), (1, 5), (2, 4), (2, 5), (3, 4), (3, 5)]
     }
 
-    //33 Find Top N Highest Scoring Students
-    static void topStudents() {
-        List<Student> list = Arrays.asList(
-                new Student("Alice",85),
-                new Student("Bob",92),
-                new Student("Charlie",88)
-        );
-
-        List<String> top = list.stream()
-                .sorted(Comparator.comparingInt(Student::getScore).reversed())
-                .limit(2)
-                .map(Student::getName)
-                .toList();
-
-        System.out.println(top);
-        // Output: [Bob, Charlie]
+    //33 Group Strings by Length
+    static void groupByLength() {
+        List<String> words = Arrays.asList("Java","Stream","API","Code","Fun");
+        Map<Integer,List<String>> map =
+                words.stream().collect(Collectors.groupingBy(String::length));
+        System.out.println(map);
+        // Output: {3=[API], 4=[Java], 5=[Stream], 7=[Development]}
     }
 
     //34 Group by First Character
