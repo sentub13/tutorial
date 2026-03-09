@@ -18,7 +18,6 @@ public class StreamExamples {
         // longestWordSentence();
         // topStudents();
         
-        // flattenList();
         // concatenateStrings();
         // groupByLength();
         // charFrequency();
@@ -34,13 +33,11 @@ public class StreamExamples {
         // mapFilterKeys();
         // removeDuplicates();
         // mostFrequentChar();
-        // flattenList(); === 
+        // flattenList(); 
         // sumOfSquares();
         // partitionPalindrome();
         // skipLimit();
-        // concatenateStrings(); === 
         // cartesianProduct();
-        // groupByLength(); == 
         // groupByFirstChar();
         // reverseConcat();
         // median();
@@ -58,8 +55,6 @@ public class StreamExamples {
         // maxPathTriangle();
         // nonRepeatingCharacters();
         // allSubsequences();
-        // charFrequency();
-        // flattenList();
         // duplicateElements();
         // mapToKeyValuePairs();
         // checkSorted();
@@ -654,30 +649,6 @@ public class StreamExamples {
 
         System.out.println("Subsequences: " + subs);
         // Output: Subsequences: [, a, b, ab, c, ac, bc, abc]
-    }
-
-    // 51 Count Frequency of Characters in a String
-    static void charFrequency() {
-        String input="success";
-
-        Map<Character,Long> map =
-                input.chars().mapToObj(c -> (char)c)
-                        .collect(Collectors.groupingBy(c->c,Collectors.counting()));
-
-        System.out.println("Char frequency: " + map);
-        // Output: Char frequency: {s=3, u=1, c=2, e=1}
-    }
-
-    // 52 Flatten a Nested List
-    static void flattenList() {
-        List<List<Integer>> nested =
-                Arrays.asList(Arrays.asList(1,2,3),Arrays.asList(4,5),Arrays.asList(6,7));
-
-        List<Integer> flat =
-                nested.stream().flatMap(List::stream).collect(Collectors.toList());
-
-        System.out.println("Flatten list: " + flat);
-        // Output: Flatten list: [1, 2, 3, 4, 5, 6]
     }
 
     // 53 Find Duplicate Elements in a List
