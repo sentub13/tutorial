@@ -4713,34 +4713,7 @@ PUT /users/123
 // Response: 200 OK or 204 No Content
 ```
 
-## 8. What is idempotency in REST?
-
-Idempotency means that making the same request multiple times produces the same result as making it once. It's a crucial property for reliable and predictable web services.
-
-**Idempotent Methods:**
-- **GET:** Always returns same data
-- **PUT:** Same update result
-- **DELETE:** Resource remains deleted
-- **HEAD, OPTIONS:** Same metadata
-
-**Non-Idempotent Methods:**
-- **POST:** Creates new resource each time
-
-```java
-// Idempotent - GET always returns same user
-GET /users/123  // Returns user data
-GET /users/123  // Returns same user data
-
-// Idempotent - PUT produces same result
-PUT /users/123 {"name": "John"}  // Updates user
-PUT /users/123 {"name": "John"}  // Same result
-
-// Non-idempotent - POST creates new resource each time
-POST /users {"name": "John"}  // Creates user with ID 1
-POST /users {"name": "John"}  // Creates user with ID 2
-```
-
-## 9. What are HTTP status codes?
+## 8. What are HTTP status codes?
 
 HTTP status codes indicate the result of an HTTP request. They're grouped into categories and provide standardized way to communicate request outcomes.
 
@@ -5442,62 +5415,7 @@ public class InventoryService {
 3. Reserve Inventory
 4. If inventory fails → **Refund Payment + Cancel Order**
 
-## 14. How do you Improve Performance in Spring Boot Application?
-
-**Answer**
-
-To improve performance in Spring Boot, I use **caching (Redis), connection pooling (HikariCP), proper indexing in database, async processing, and pagination for large data**.
-
-Enable **asynchronous processing** where applicable, I also optimize **JVM settings, reduce unnecessary logging, use efficient queries, and monitor the application using Actuator and profiling tools** to identify bottlenecks.
-
-```java
-@Service
-public class UserService {
-    
-    @Cacheable("users")
-    public User findById(Long id) {
-        return userRepository.findById(id);
-    }
-    
-    @Async
-    public CompletableFuture<Void> sendEmailAsync(String email) {
-        emailService.sendEmail(email);
-        return CompletableFuture.completedFuture(null);
-    }
-}
-```
-
-## 15. How do you implement an HTTP request using the Java 11 HttpClient API, and how does it differ from earlier Java versions?
-
-In **Java 11**, the `HttpClient` API was introduced in the `java.net.http` package to simplify making HTTP requests. It supports **HTTP/1.1 and HTTP/2**, provides a **clean and fluent API**, and allows both **synchronous and asynchronous requests** using `CompletableFuture`.
-
-For example, we create an `HttpClient`, build an `HttpRequest`, and then send it using the `send()` method.
-
-```java
-import java.net.URI;
-import java.net.http.HttpClient;
-import java.net.http.HttpRequest;
-import java.net.http.HttpResponse;
-
-public class Main {
-    public static void main(String[] args) throws Exception {
-
-        HttpClient client = HttpClient.newHttpClient();
-
-        HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create("https://api.example.com"))
-                .GET()
-                .build();
-
-        HttpResponse<String> response =
-                client.send(request, HttpResponse.BodyHandlers.ofString());
-
-        System.out.println(response.body());
-    }
-}
-```
-
-## 16. What is service discovery?
+## 15. What is service discovery?
 
 **Service Discovery** is a mechanism in microservices architecture where services automatically find and communicate with each other without hardcoding their IP addresses.
 
@@ -5523,6 +5441,36 @@ public class OrderController {
             discoveryClient.getInstances("user-service");
         String url = instances.get(0).getUri().toString();
         // Make HTTP call to user service
+    }
+}
+```
+
+## 16. How do you implement an HTTP request using the Java 11 HttpClient API, and how does it differ from earlier Java versions?
+
+In **Java 11**, the `HttpClient` API was introduced in the `java.net.http` package to simplify making HTTP requests. It supports **HTTP/1.1 and HTTP/2**, provides a **clean and fluent API**, and allows both **synchronous and asynchronous requests** using `CompletableFuture`.
+
+For example, we create an `HttpClient`, build an `HttpRequest`, and then send it using the `send()` method.
+
+```java
+import java.net.URI;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
+
+public class Main {
+    public static void main(String[] args) throws Exception {
+
+        HttpClient client = HttpClient.newHttpClient();
+
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create("https://api.example.com"))
+                .GET()
+                .build();
+
+        HttpResponse<String> response =
+                client.send(request, HttpResponse.BodyHandlers.ofString());
+
+        System.out.println(response.body());
     }
 }
 ```
@@ -6452,7 +6400,7 @@ java -XX:+PrintCompilation \      # Print compilation events
 
 # ✅ 24. Modern Java Features 
 
-## 1. What are the new features in Java 8?
+## 1. What are the features in Java 8?
 
 Java 8 was a major release that introduced functional programming features and significantly changed how Java code is written. It's one of the most important Java releases.
 
@@ -6489,7 +6437,7 @@ names.sort(String::compareToIgnoreCase);
 Supplier<List<String>> listSupplier = ArrayList::new;
 ```
 
-## 2. What are the new features in Java 11?
+## 2. What are the features in Java 11?
 
 Java 11 is an LTS (Long Term Support) release that introduced several useful features and improvements, particularly for modern development practices.
 
@@ -6528,7 +6476,7 @@ String content = Files.readString(Paths.get("file.txt"));
 Files.writeString(Paths.get("output.txt"), "Hello World");
 ```
 
-## 3. What are the new features in Java 17?
+## 3. What are the features in Java 17?
 
 Java 17 is the latest LTS release with several language enhancements and performance improvements, making Java more modern and developer-friendly.
 
@@ -7144,6 +7092,83 @@ server {
 }
 ```
 
+## 16. What rate limit and how it works?
+
+**Rate limiting** is a technique used in APIs or servers to **control how many requests a user or client can make in a specific time period**. It prevents system overload, abuse, and ensures fair usage.
+
+**100 requests per minute per user** If a user sends more than 100 requests in 1 minute, the server blocks the extra requests
+
+Server usually returns: **HTTP Status Code:** `429 Too Many Requests
+
+**Why Rate Limiting is Used**
+
+1. Prevent **API abuse**
+2. Protect **server resources**
+3. Avoid **DDoS attacks**
+4. Ensure **fair usage for all users**
+5. Control **traffic load**
+
+
+**How Rate Limiting Works**
+
+1. Client sends request to API
+2. Server checks **how many requests this user/IP has made**
+3. Server compares with **allowed limit**
+4. If limit not exceeded → request allowed
+5. If limit exceeded → request blocked (`429 error`)
+
+```xml
+<dependency>
+    <groupId>com.bucket4j</groupId>
+    <artifactId>bucket4j-core</artifactId>
+    <version>8.0.0</version>
+</dependency>
+```
+
+```java
+import io.github.bucket4j.*;
+import javax.servlet.*;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.time.Duration;
+
+public class RateLimitFilter implements Filter {
+
+    private final Bucket bucket;
+
+    public RateLimitFilter() {
+        Bandwidth limit = Bandwidth.simple(10, Duration.ofMinutes(1));
+        this.bucket = Bucket.builder().addLimit(limit).build();
+    }
+
+    public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
+            throws IOException, ServletException {
+
+        if (bucket.tryConsume(1)) {
+            chain.doFilter(request, response);
+        } else {
+            HttpServletResponse httpResponse = (HttpServletResponse) response;
+            httpResponse.setStatus(429);
+            httpResponse.getWriter().write("Too many requests");
+        }
+    }
+}
+```
+
+**Where Rate Limiting is Implemented**
+1. **API Gateway** (Most common)
+
+   * Kong API Gateway
+   * NGINX
+   * Spring Cloud Gateway
+
+2. **Application level** (Spring Boot filter/interceptor)
+3. **Load balancer level**
+4. **Cloud services**
+   * Amazon Web Services API Gateway
+   * Microsoft Azure API Management
+
+
 # ✅ 26. Monitoring and Logging
 
 ## 1: What is application monitoring?
@@ -7539,7 +7564,7 @@ public interface ApplicationMonitorMXBean {
 
 # ✅ 27.  Common Issues
 
-## 1. What are common Java performance issues?
+## 0. What are common Java performance issues?
 
 Common **Java performance issues** include **memory leaks** (objects not garbage collected), **CPU bottlenecks** (inefficient code or blocking calls), **database problems** (slow queries or connection pool issues), and **thread contention** (threads competing for shared resources).
 
@@ -7562,6 +7587,23 @@ public class LeakExample {
 }
 ```
 
+## 1. How do you Improve Performance in Spring Boot Application?
+Here are **key points with one-line explanations** for improving performance in a **Spring Boot application**:
+
+1. **Optimize Database Queries** – Write efficient queries, use indexes, and avoid unnecessary joins to reduce database load.
+2. **Use Caching** – Store frequently accessed data in cache (e.g., **Redis**) to reduce repeated database calls.
+3. **Enable Connection Pooling** – Use connection pools like **HikariCP** to reuse database connections efficiently.
+4. **Use Pagination** – Load data in smaller chunks instead of fetching large datasets at once.
+5. **Enable Asynchronous Processing** – Use `@Async` to execute time-consuming tasks in background threads.
+6. **Avoid N+1 Query Problem** – Use proper fetching strategies in **Hibernate** to prevent multiple unnecessary queries.
+7. **Use DTOs Instead of Entities** – Transfer only required fields instead of full entity objects.
+8. **Enable HTTP Compression** – Compress API responses to reduce network payload and improve response time.
+9. **Reduce Logging in Production** – Use appropriate log levels to avoid performance overhead.
+10. **Monitor Application Performance** – Use tools like **Spring Boot Actuator** to identify bottlenecks.
+11. **Optimize Thread Pool Configuration** – Configure server thread pools to handle concurrent requests efficiently.
+12. **Use Lazy Initialization** – Load objects only when needed to reduce memory usage and startup time.
+
+
 ## 2. What are common Java memory issues?
 * **OutOfMemoryError :** - This happens when the JVM heap memory is full and cannot allocate new objects.
 * **Memory leaks :** - A memory leak happens when objects are no longer needed but are still referenced, so the Garbage Collector cannot remove them.
@@ -7583,19 +7625,13 @@ List<String> list = new ArrayList<>(1000); // Pre-size collections
 
 Common **Java concurrency issues** occur when multiple threads work on shared resources without proper coordination. This can cause incorrect results, slow performance, or application crashes.
 
-**1. race condition :** -  happens when multiple threads access and modify shared data at the same time, and the final result depends on the order of execution.
-
-**2. Deadlock :** -   occurs when two or more threads are waiting for each other’s resources, and none of them can proceed.
-
-**3. Thread Starvation :** -  happens when a thread does not get enough CPU time because other threads with higher priority keep running.
-
-**4. Livelock :** -  threads keep responding to each other and changing states, but no thread makes progress.
-
-**5. Thread Contention :** -  This happens when multiple threads try to access the same resource simultaneously, causing threads to wait and reducing performance.
-
-**6. Visibility Issues :** -  Changes made by one thread may **not be visible to other threads** due to CPU caching. Solution often involves using `volatile` or synchronization.
-
-**7. Improper Synchronization**
+1. **race condition :** -  happens when multiple threads access and modify shared data at the same time, and the final result depends on the order of execution.
+2. **Deadlock :** -   occurs when two or more threads are waiting for each other’s resources, and none of them can proceed.
+3. **Thread Starvation :** -  happens when a thread does not get enough CPU time because other threads with higher priority keep running.
+4. **Livelock :** -  threads keep responding to each other and changing states, but no thread makes progress.
+5. **Thread Contention :** -  This happens when multiple threads try to access the same resource simultaneously, causing threads to wait and reducing performance.
+6. **Visibility Issues :** -  Changes made by one thread may **not be visible to other threads** due to CPU caching. Solution often involves using `volatile` or synchronization.
+7. **Improper Synchronization**
 Using too many or incorrect `synchronized` blocks can lead to **performance issues or inconsistent data**.
 
 
@@ -7616,26 +7652,19 @@ public void safeMethod() {
 
 Common **Java deployment issues :** -  occur when an application runs correctly in development but fails or behaves differently in production.
 
-**1. Dependency Conflicts :** - 
+1. **Dependency Conflicts :** - 
 Different versions of libraries may cause **ClassNotFoundException** or **NoSuchMethodError** during deployment.
-
-**2. Environment Configuration Issues :** - 
+2. **Environment Configuration Issues :** - 
 Application may fail if **environment variables, configuration files, or profiles** are not set correctly.
-
-**3. Port Conflicts :** - 
+3. **Port Conflicts :** - 
 If the application tries to start on a **port already used by another service**, it will fail to start.
-
-**4. Database Connection Issues :** - 
+4. **Database Connection Issues :** - 
 Incorrect **database credentials, network restrictions, or connection pool configuration** can cause deployment failures.
-
-
-**5. Missing Resources :** - 
+5. **Missing Resources :** - 
 Required files like **configuration files, certificates, or static resources** may not be included in the deployment package.
-
-**6. JVM Configuration Problems :** - 
+6. **JVM Configuration Problems :** - 
 Improper **JVM memory settings** (`-Xms`, `-Xmx`) can cause performance issues or application crashes.
-
-**7. Server Compatibility Issues :** - 
+7. **Server Compatibility Issues :** - 
 Sometimes the **Java version or application server version** in production is different from development.
 
 ```java
@@ -7647,25 +7676,19 @@ System.out.println("Classpath: " + classpath);
 ## 5. What are common Java security issues?
 Common **Java security issues :** -  occur when applications are not properly protected from attacks or sensitive data exposure.
 
-**1. SQL Injection**
+1. **SQL Injection**
 This happens when **user input is directly used in SQL queries :** - , allowing attackers to manipulate the query and access or modify database data.
-
-**2. Cross-Site Scripting (XSS)**
+2. **Cross-Site Scripting (XSS)**
 Attackers inject **malicious scripts into web pages :** - , which execute in other users’ browsers.
-
-**3. Cross-Site Request Forgery (CSRF) :** - 
+3. **Cross-Site Request Forgery (CSRF) :** - 
 An attacker tricks a user into performing **unwanted actions** on a web application where the user is already authenticated.
-
-**4. Insecure Deserialization :** - 
+4. **Insecure Deserialization :** - 
 If an application **deserializes untrusted data**, attackers may execute malicious code.
-
-**5. Sensitive Data Exposure :** - 
+5. **Sensitive Data Exposure :** - 
 Passwords, API keys, or personal data may be **stored or transmitted without proper encryption**
-
-**6. Improper Authentication and Authorization :** - 
+6. **Improper Authentication and Authorization :** - 
 Weak authentication or incorrect access control may allow **unauthorized users to access secure resources**.
-
-**7. Using Outdated Libraries :** - 
+7. **Using Outdated Libraries :** - 
 Old dependencies may contain **known security vulnerabilities**.
 
 ```java
@@ -7679,23 +7702,18 @@ stmt.setInt(1, userId);
 
 **Debugging strategies** are techniques used to **identify, analyze, and fix errors (bugs)** in a program.
 
-**Common Debugging Strategies**
+**Common Debugging Strategies :**
 
 1. **Log Analysis :**
    Check application logs to identify errors or unusual behavior.
-
 2. **Using Debugger Tools :**
    Use IDE debuggers to add **breakpoints**, step through code, and inspect variables.
-
 3. **Reproduce the Issue :**
    Try to recreate the bug in the same conditions to understand the problem.
-
 4. **Divide and Conquer :**
    Break the code into smaller parts to isolate where the problem occurs.
-
 5. **Check Recent Changes :**
    Review recently modified code because bugs often come from recent updates.
-
 6. **Use Monitoring Tools :**
    Tools help analyze performance, memory usage, and thread activity.
 
@@ -7708,23 +7726,18 @@ logger.debug("Processing user: {}, status: {}", userId, status);
 
 **Problem-solving methodologies** are structured approaches used to **analyze and resolve technical problems effectively.**
 
-**Common Methodologies**
+**Common Methodologies :**
 
 1. **Define the Problem :**
    Clearly understand what the issue is.
-
 2. **Analyze the Root Cause :**
    Identify why the problem occurred.
-
 3. **Develop Possible Solutions :**
    Consider multiple ways to fix the issue.
-
 4. **Implement the Solution :**
    Apply the best solution.
-
 5. **Test the Solution :**
    Verify that the issue is resolved.
-
 6. **Document the Solution :**
    Record the fix for future reference.
 
@@ -7733,20 +7746,15 @@ logger.debug("Processing user: {}, status: {}", userId, status);
 
 **Root Cause Analysis (RCA)** techniques help identify the **main reason behind a problem** instead of only fixing the symptoms.
 
-**Common RCA Techniques**
-
+**Common RCA Techniques :**
 1. **5 Whys Technique :**
    Ask **“Why?” multiple times** until the root cause is found.
-
 2. **Fishbone Diagram (Ishikawa) :**
    A diagram used to identify possible causes in categories like **process, people, technology, and environment**.
-
 3. **Pareto Analysis (80/20 Rule) :**
    Focus on the **20% of causes that create 80% of problems**.
-
 4. **Fault Tree Analysis :**
    A diagram used to trace the **chain of events leading to a failure**.
-
 5. **Log and Data Analysis :**
    Analyze logs, metrics, and system data to identify the root cause.
 
@@ -7761,27 +7769,22 @@ try {
 }
 ```
 
-# ✅ 28. Miscellaneous
+# ✅ 28.Real Production Scenario 
 
-## 1: What is IaaS vs PaaS vs SaaS?
+## 1. Your production API response time suddenly increases. What steps will you take?
 
-**IaaS (Infrastructure as a Service)**: Rent virtual machines, storage, networks. You manage OS, runtime, apps.
+## 2. Your microservice starts failing under heavy load. What will you do?
 
-**PaaS (Platform as a Service)**: Managed platform for deploying apps. Provider manages OS, runtime.
+## 3. A critical bug appears in production. How do you manage it?
 
-**SaaS (Software as a Service)**: Ready-to-use software. Provider manages everything.
+## 4. Your system experiences high memory usage. How do you debug it?
 
-**Example:**
-```
-IaaS: AWS EC2, Azure VMs
-- You install Java, Tomcat, deploy app
-- Full control, more management
+## 5. A deployment breaks the production environment. What is your response?
 
-PaaS: AWS Elastic Beanstalk, Azure App Service
-- Upload JAR, platform handles deployment
-- Less control, less management
+## 6. Your frontend app becomes slow after a new release. What will you investigate?
 
-SaaS: Gmail, Salesforce, Office 365
-- Just use the software
-- No control, no management
-```
+## 7. A security vulnerability is discovered. What steps will you take?
+
+## 8. How do you handle major production outages?
+
+# ✅ 29. Miscellaneous
