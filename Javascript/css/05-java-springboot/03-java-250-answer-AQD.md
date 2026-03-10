@@ -7092,7 +7092,45 @@ server {
 }
 ```
 
-## 16. What rate limit and how it works?
+## 1️6. How do you monitor application health in production?
+
+In production, we monitor application health using tools like **Spring Boot Actuator, Prometheus, and Grafana**.
+Actuator provides health endpoints to check the status of the application. Prometheus collects metrics like CPU, memory, and request count, and Grafana shows dashboards and alerts.
+We also monitor logs and set alerts to detect issues quickly.
+
+## 17. How do you handle rollback strategies?
+
+Rollback strategy means reverting to the previous stable version if the new deployment fails.
+We usually keep the previous version ready in **Docker or Kubernetes**.
+If an issue occurs, we quickly redeploy the last stable version.
+CI/CD tools like **Jenkins or GitHub Actions** also help automate rollback.
+
+
+## 18. How do you manage database migrations?
+
+Database migrations are managed using tools like **Flyway or Liquibase**.
+These tools maintain versioned SQL scripts.
+Whenever we deploy a new application version, the migration scripts automatically update the database schema without manual work.
+
+
+## 19. How do you ensure zero downtime deployments?
+
+Zero downtime deployment means users should not experience service interruption during deployment.
+We use strategies like **Blue-Green Deployment or Rolling Deployment** in Kubernetes.
+New instances start first, then traffic gradually shifts to them while old instances are removed.
+
+## 20. How do you manage logs across microservices?
+
+In microservices, logs from multiple services are centralized using tools like **ELK Stack (Elasticsearch, Logstash, Kibana)** or **Grafana Loki**.
+All services send logs to a central system where we can search, analyze, and monitor them easily.
+
+## 21. How do you implement auto-scaling?
+
+Auto-scaling automatically increases or decreases application instances based on traffic.
+In cloud environments like AWS or Kubernetes, we configure auto-scaling based on metrics such as **CPU usage, memory usage, or request count**.
+This helps maintain performance during high traffic.
+
+## 22. What rate limit and how it works?
 
 **Rate limiting** is a technique used in APIs or servers to **control how many requests a user or client can make in a specific time period**. It prevents system overload, abuse, and ensures fair usage.
 
