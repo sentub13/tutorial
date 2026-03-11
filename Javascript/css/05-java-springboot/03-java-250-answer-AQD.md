@@ -4872,7 +4872,6 @@ Organizations need proper tooling, processes, and expertise to handle these chal
 
 ## 8. How microservices communicate with each other?
 
-**Spoken Answer:**
 
 In our system, microservices mainly communicated using **REST APIs over HTTP**.
 For synchronous communication, we used **Feign Client** with service discovery through **Eureka**.
@@ -6979,7 +6978,6 @@ Application health in production is monitored using **monitoring and logging too
 
 ## **17. How do you handle rollback strategies?**
 
-**Spoken Answer:**
 
 In production deployments, rollback strategies are important in case a new release causes issues.
 We usually use **CI/CD pipelines with versioned deployments**. If a deployment fails or causes errors, we quickly **roll back to the previous stable version**.
@@ -6992,7 +6990,6 @@ This ensures the system is restored quickly with minimal downtime.
 
 ## **18. How do you manage database migrations?**
 
-**Spoken Answer:**
 
 We manage database migrations using tools like **Flyway or Liquibase**.
 These tools allow us to maintain **version-controlled SQL scripts** for schema changes.
@@ -7010,7 +7007,6 @@ V2__add_email_column.sql
 
 ## **19. How do you ensure zero downtime deployments?**
 
-**Spoken Answer:**
 
 To ensure zero downtime deployments, we use **rolling deployments or blue-green deployments**.
 
@@ -7030,7 +7026,6 @@ In cloud environments like Kubernetes, we configure **readiness and liveness pro
 
 ## **20. How do you manage logs across microservices?**
 
-**Spoken Answer:**
 
 In microservices, logs are distributed across multiple services, so we use **centralized logging**.
 
@@ -7042,7 +7037,6 @@ This helps in debugging and monitoring the system efficiently.
 
 ## **21. How do you implement auto-scaling?**
 
-**Spoken Answer:**
 
 Auto-scaling automatically increases or decreases the number of service instances based on traffic.
 
@@ -7061,7 +7055,6 @@ scale when CPU 70%
 
 ## **22. What is Rate Limiting and how does it work? Where do you implement it?**
 
-**Spoken Answer:**
 
 Rate limiting is used to **control how many requests a client can send to an API within a specific time period**.
 
