@@ -6977,42 +6977,104 @@ Application health in production is monitored using **monitoring and logging too
 * New Relic – APM monitoring
 
 
-## 17. How do you handle rollback strategies?
+## **17. How do you handle rollback strategies?**
 
-Rollback strategies are used to **restore the system to a previous stable version if a deployment fails**. This can be done by **reverting to the previous application version, restoring database changes if needed, and redeploying the stable build** to keep the system running smoothly.
+**Spoken Answer:**
 
+In production deployments, rollback strategies are important in case a new release causes issues.
+We usually use **CI/CD pipelines with versioned deployments**. If a deployment fails or causes errors, we quickly **roll back to the previous stable version**.
 
-## 18. How do you manage database migrations?
+In Kubernetes or Docker environments, we use commands like **deployment rollback** to restore the last working version.
+For database-related changes, we maintain **backup scripts and migration rollback scripts**.
 
-Database migrations are managed using tools like **Flyway** or **Liquibase**. These tools **version and automate database schema changes**, ensuring the database is updated consistently across environments during deployments.
-
-
-## 19. How do you ensure zero downtime deployments?
-
-Zero downtime deployments are ensured using techniques like **Blue-Green deployment, rolling updates, or canary releases**. These methods deploy the **new version alongside the existing version**, and traffic is gradually shifted to the new version without stopping the application.
-
-## 20. How do you manage logs across microservices?
-
-Logs across microservices are managed using **centralized logging**. All services send their logs to a **central logging system** like **ELK stack (Elasticsearch, Logstash, Kibana)** or **Splunk**, where logs can be **searched, monitored, and analyzed easily**. We also use **correlation IDs** to trace requests across multiple services.
+This ensures the system is restored quickly with minimal downtime.
 
 
-## 21. How do you implement auto-scaling?
+## **18. How do you manage database migrations?**
 
-Auto-scaling is implemented by **defining scaling rules based on metrics like CPU usage, memory, or request count**. When the load increases, the system **automatically adds more instances**, and when the load decreases, it **removes extra instances to save resources**.
+**Spoken Answer:**
 
-Tools:
+We manage database migrations using tools like **Flyway or Liquibase**.
+These tools allow us to maintain **version-controlled SQL scripts** for schema changes.
 
-* Kubernetes **HPA (Horizontal Pod Autoscaler)**
-* Amazon Web Services **Auto Scaling Groups**
+During application startup or deployment, the migration tool automatically applies pending changes to the database.
+This ensures **consistent schema across all environments like dev, QA, and production**.
 
-## 22. What is Rate Limiting and how it works and where to implements?
+**Example**
 
-**Rate Limiting** is a technique used to **limit the number of requests a client can make to an API within a specific time period**. It helps **prevent system overload, abuse, and DDoS attacks**.
+```
+V1__create_user_table.sql
+V2__add_email_column.sql
+```
 
-It works by **tracking the number of requests from a user or IP**, and if the limit is exceeded, the system **rejects or delays further requests**.
 
-Rate limiting is usually implemented at the **API Gateway, Load Balancer, or application level (like in Spring Boot filters or interceptors)**.
+## **19. How do you ensure zero downtime deployments?**
 
+**Spoken Answer:**
+
+To ensure zero downtime deployments, we use **rolling deployments or blue-green deployments**.
+
+In rolling deployment, new instances of the application are gradually started while old instances are terminated one by one.
+This ensures that the system is always available.
+
+In cloud environments like Kubernetes, we configure **readiness and liveness probes** so traffic is only sent to healthy pods.
+
+**Key Techniques**
+
+* Rolling Deployment
+* Blue-Green Deployment
+* Canary Deployment
+* Load balancers
+* Health checks
+
+
+## **20. How do you manage logs across microservices?**
+
+**Spoken Answer:**
+
+In microservices, logs are distributed across multiple services, so we use **centralized logging**.
+
+All services send logs to a central logging system like **ELK Stack (Elasticsearch, Logstash, Kibana)** or **CloudWatch**.
+
+We also use **correlation IDs** to trace a request across multiple services.
+This helps in debugging and monitoring the system efficiently.
+
+
+## **21. How do you implement auto-scaling?**
+
+**Spoken Answer:**
+
+Auto-scaling automatically increases or decreases the number of service instances based on traffic.
+
+In Kubernetes, we use **Horizontal Pod Autoscaler (HPA)**, which scales pods based on metrics like **CPU usage or request count**.
+
+In AWS, we configure **Auto Scaling Groups** to scale EC2 instances when traffic increases.
+
+**Example**
+
+```
+min replicas = 2
+max replicas = 10
+scale when CPU 70%
+```
+
+
+## **22. What is Rate Limiting and how does it work? Where do you implement it?**
+
+**Spoken Answer:**
+
+Rate limiting is used to **control how many requests a client can send to an API within a specific time period**.
+
+It helps protect the system from **abuse, DDoS attacks, and excessive traffic**.
+
+Rate limiting can be implemented at different levels:
+
+* **API Gateway**
+* **Load balancer**
+* **Application layer**
+
+For example, we can limit a user to **100 requests per minute**.
+If the limit is exceeded, the API returns **HTTP 429 – Too Many Requests**.
 
 
 # ✅ 26. Monitoring and Logging
