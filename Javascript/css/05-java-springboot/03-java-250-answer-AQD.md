@@ -919,33 +919,45 @@ class Car implements Vehicle {
 
 ## 6. What is the static keyword?
 
-The **`static` keyword** in Java is used to define **class-level members** that belong to the class rather than any specific instance.
+**`static`** is a keyword in **Java** used to declare variables, methods, or blocks that **belong to the class instead of an object**, so they can be accessed without creating an instance.
 
-For example, a **static variable** is shared across all objects, a **static method** can be called without creating an object, and a **static block** runs once when the class is loaded.
+```java
+class Example {
+    static int count = 0;
 
-In short: **`static` means the member belongs to the class, not to individual objects**.
+    static void show() {
+        System.out.println("Static method");
+    }
+}
+
+public class Test {
+    public static void main(String[] args) {
+        Example.show();   // No object needed
+    }
+}
+```
+
+`static` members are **shared by all objects and can be accessed using the class name**.
 
 
 ## 7. What are static methods in interfaces?
 
-**Static methods** in interfaces **belong to the interface itself**, not to implementing classes. They're called using the interface name and cannot be overridden.
-
-- Called using interface name
-- Cannot be overridden in implementing classes
-- Provide utility methods related to interface
-- Introduced in Java 8
+**Static methods in interfaces** are methods declared with the **`static`** keyword inside an interface in **Java**.
+They **belong to the interface itself and are called using the interface name**, not by implementing classes.
 
 ```java
-interface MathUtils {
-    static int add(int a, int b) {
-        return a + b;
+interface MyInterface {
+
+    static void show() {
+        System.out.println("Static method in interface");
     }
-    
-    void calculate(); // abstract method
 }
 
-// Usage
-int result = MathUtils.add(5, 3); // Called on interface
+public class Test {
+    public static void main(String[] args) {
+        MyInterface.show();  // called using interface name
+    }
+}
 ```
 
 ## 8. What is marker interface?
@@ -953,6 +965,8 @@ int result = MathUtils.add(5, 3); // Called on interface
 A **marker interface** is an **empty interface with no methods or fields**. It's used to mark or tag classes to indicate they have special behavior or properties.
 
 ```java
+import java.io.Serializable;
+
 // Marker interface
 interface Serializable {
     // Empty - just marks the class
@@ -983,29 +997,18 @@ int result = add.calculate(5, 3);
 
 ## 10. Can an interface extend another interface?
 
-Yes, an **interface** can extend one or more interfaces using the **'extends'** keyword. The child interface inherits all methods from parent interfaces.
+Yes, in **Java**, an **interface can extend another interface** using the `extends` keyword.
+A child interface inherits all methods from the parent interface.
+
+### Example
 
 ```java
-interface Animal {
-    void eat();
+interface A {
+    void methodA();
 }
 
-interface Mammal extends Animal {
-    void breathe();
-}
-
-interface Flyable {
-    void fly();
-}
-
-interface Bird extends Animal, Flyable { // Multiple inheritance
-    void chirp();
-}
-
-class Eagle implements Bird {
-    public void eat() { }
-    public void fly() { }
-    public void chirp() { }
+interface B extends A {
+    void methodB();
 }
 ```
 
@@ -1080,7 +1083,7 @@ public void readFile() throws IOException {
 
 ## 5. What is try-catch-finally block?
 
-Try-catch-finally is Java's exception handling mechanism where try contains risky code, catch handles exceptions, and finally executes cleanup code regardless of exceptions.
+**Try-catch-finally** is Java's **exception handling** mechanism where try contains risky code, catch handles exceptions, and finally executes cleanup code regardless of exceptions.
 
 - **try:** Contains code that might throw exceptions
 - **catch:** Handles specific exceptions
@@ -1096,16 +1099,10 @@ try {
 }
 ```
 
-Multiple catch blocks can handle different exception types, and finally runs even if exceptions occur.
-
 ## 6. What is try-with-resources?
 
-**Try-with-resources** is a feature in Java that automatically closes resources (like files or database connections) after use.
+**Try-with-resources** in **Java** is a feature used to **automatically close resources** (like files or database connections) after the program finishes using them.
 
-- Automatically closes resources
-- Resources must implement AutoCloseable
-- Cleaner code, no explicit close() calls
-- Introduced in Java 7
 
 ```java
 // Old way
@@ -1117,10 +1114,11 @@ try {
 }
 
 // Try-with-resources
-try (FileReader file = new FileReader("data.txt")) {
-    // Use file
+try (BufferedReader br = new BufferedReader(new FileReader("file.txt"))) {
+    System.out.println(br.readLine());
 } // Automatically closed
 ```
+
 
 ## 7. How do you create custom exceptions?
 
@@ -1196,7 +1194,8 @@ Map<String, Integer> map = new HashMap<>();
 
 **LinkedList** uses a **doubly linked list**, so it has **slower access (O(n))**, but **faster insertions/deletions** since no shifting is required.
 
-**In simple words:** Use **ArrayList for reading/searching**, and **LinkedList for frequent insert/delete operations.** 🚀
+* **O(1) – Constant Time:** Execution time **does not change with input size**.
+* **O(n) – Linear Time:** Execution time **increases proportionally with input size**.
 
 
 ```java
@@ -1224,7 +1223,6 @@ Map<String, Integer> treeMap = new TreeMap<>(); // Slower, sorted
 
 **Hashtable** is a Map implementation that is **synchronized** and does **not allow any null key or null value**, making it thread-safe but slower.
 
-**In simple words:** Use **HashMap in single-threaded applications**, and **Hashtable in multi-threaded scenarios** (though nowadays we prefer ConcurrentHashMap).
 
 ```java
 Map<String, Integer> hashMap = new HashMap<>(); // Modern, faster
@@ -1270,26 +1268,7 @@ map.put("Aa", 1);
 map.put("BB", 2); // Collision - stored in same bucket as linked list
 ```
 
-## 7. What is the difference between fail-fast and fail-safe iterators?
-
-**Fail-fast iterator** detects changes in the collection during iteration and throws a **ConcurrentModificationException**. It works on the **original collection**.
-(Examples: ArrayList, HashMap)
-
-**Fail-safe iterator** allows modifications during iteration because it works on a **separate copy** of the collection. It does not throw an exception.
-(Examples: ConcurrentHashMap, CopyOnWriteArrayList)
-
-**In simple words:** Fail-fast throws exception on modification, fail-safe allows it safely.
-
-
-```java
-List<String> list = new ArrayList<>();
-Iterator<String> failFast = list.iterator(); // Throws exception if modified
-
-ConcurrentHashMap<String, Integer> map = new ConcurrentHashMap<>();
-Iterator<String> failSafe = map.keySet().iterator(); // Safe for modifications
-```
-
-## 8. What is the difference between Comparable and Comparator?
+## 7. What is the difference between Comparable and Comparator?
 
 **Comparable** is used for **natural sorting** and defines the `compareTo()` method inside the same class. It allows **only one sorting logic**.
 
@@ -1311,15 +1290,12 @@ Comparator<Student> ageComparator = (s1, s2) -> s1.age - s2.age;
 Collections.sort(students, ageComparator);
 ```
 
-## 9. What is WeakHashMap, IdentityHashMap, LinkedHashMap, PriorityQueue?
+## 8. What is WeakHashMap, IdentityHashMap, LinkedHashMap, PriorityQueue?
 
-A `WeakHashMap` stores keys as **weak references**, so entries are automatically removed when the key is no longer referenced elsewhere (used for caching).
-
-An `IdentityHashMap` compares keys using **== (reference equality)** instead of `equals()` method.
-
-A `LinkedHashMap` Maintains insertion order (or access order), allows null keys and values, slightly slower than HashMap.
-
-A `PriorityQueue` stores elements in **priority order** (natural order or custom comparator), not in insertion order.
+* **WeakHashMap** – A map where keys are stored with **weak references**, so entries can be removed automatically by the **Java Garbage Collector** when keys are no longer used.
+* **IdentityHashMap** – A map that compares keys using **reference equality (`==`) instead of `equals()`**.
+* **LinkedHashMap** – A map that **maintains insertion order** using a linked list along with a hash table.
+* **PriorityQueue** – A queue that **orders elements based on priority (natural order or comparator)** instead of insertion order.
 
 ```java
 Map<String, Integer> weakMap = new WeakHashMap<>(); // GC-friendly, Used for: caching
@@ -1425,12 +1401,11 @@ class MyThread extends Thread { // Cannot extend anything else
 
 A thread goes through various states during its lifecycle: **NEW, RUNNABLE, BLOCKED, WAITING, TIMED_WAITING, and TERMINATED**.
 
-- **NEW:** Thread created but not started
-- **RUNNABLE:** Thread executing or ready to execute
-- **BLOCKED:** Thread blocked waiting for monitor lock
-- **WAITING:** Thread waiting indefinitely for another thread
-- **TIMED_WAITING:** Thread waiting for specified time period
-- **TERMINATED:** Thread completed execution
+1. **New** – Thread object is created.
+2. **Runnable** – Thread is ready to run after calling `start()`.
+3. **Running** – Thread is executing.
+4. **Waiting / Blocked** – Thread waits for a resource or another thread.
+5. **Terminated (Dead)** – Thread execution is completed.
 
 ```java
 Thread t = new Thread(() -> {}); // NEW state
@@ -1468,11 +1443,10 @@ public void decrement() {
 **Deadlock** happens when **two or more threads wait forever** for resources held by each other, causing the program to **freeze**.
 
 **Prevention strategies:**
-- Avoid nested locks
-- Use timeout for lock acquisition
-- Order locks consistently
-- Use concurrent collections
-- Implement deadlock detection
+* **Avoid nested locks** – Do not lock multiple resources unnecessarily.
+* **Use consistent lock order** – Always acquire locks in the same order.
+* **Use timeout locks** – Use `tryLock()` to avoid waiting forever.
+* **Minimize synchronized blocks** – Keep lock scope as small as possible.
 
 ```java
 // Deadlock scenario
@@ -1488,12 +1462,6 @@ Thread2: lock(A) -> lock(B)
 
 **Volatile** keyword ensures that a variable's value is **always read from and written to main memory**, not from thread's local cache. It provides visibility guarantee across threads.
 
-- Ensures visibility of changes across threads
-- Prevents compiler optimizations
-- No atomicity guarantee for compound operations
-- Lighter alternative to synchronization for simple cases
-- Used for flags and status variables
-
 ```java
 class SharedData {
     private volatile boolean flag = false;
@@ -1508,56 +1476,11 @@ class SharedData {
 }
 ```
 
-## 8. What is the difference between synchronized and volatile?
+## 8. What is race condition and atomic operation?
 
-**`synchronized`** is a keyword used to control **access to a block or method** by multiple threads, ensuring **mutual exclusion** and **thread safety**.
+A **race condition** in **Java** occurs when **multiple threads access and modify shared data at the same time**, causing unpredictable or incorrect results.
 
-**`volatile`** is a keyword used with variables to ensure that **changes made by one thread are visible to all other threads immediately**, but it **does not provide mutual exclusion**.
-
-
-**Synchronized:**
-- Provides both visibility and atomicity
-- Blocks other threads (mutual exclusion)
-- Can be used with methods and blocks
-- Heavier performance overhead
-- Prevents race conditions completely
-
-**Volatile:**
-- Provides only visibility, not atomicity
-- No blocking of threads
-- Only for variables
-- Lighter performance overhead
-- Prevents visibility issues only
-
-```java
-// Synchronized - full protection
-private int count = 0;
-public synchronized void increment() {
-    count++; // Atomic and visible
-}
-
-// Volatile - visibility only
-private volatile boolean ready = false;
-public void setReady() {
-    ready = true; // Visible but not atomic for compound operations
-}
-```
-
-## 9. What is race condition and atomic operation?
-
-**Race condition** occurs when multiple threads access shared data simultaneously and the outcome depends on thread scheduling. **Atomic operation** is indivisible and completes without interruption.
-
-**Race Condition:**
-- Multiple threads modify shared data
-- Unpredictable results due to timing
-- Causes data corruption
-- Prevented by synchronization
-
-**Atomic Operation:**
-- Indivisible operation
-- Either completes fully or not at all
-- Thread-safe by nature
-- Examples: reading/writing primitive variables (except long/double)
+An **atomic operation** is an operation that **executes completely in a single step without interruption**, so no other thread can interfere during its execution.
 
 ```java
 // Race condition example
@@ -1583,11 +1506,22 @@ public void increment() {
 * Java provides the **`Thread` class** and **`Runnable` interface** to create and manage concurrent tasks.
 
 ```java
+// Method 1: extends Thread
 class MyTask extends Thread {
     public void run() {
         System.out.println("Task running in thread: " + Thread.currentThread().getName());
     }
 }
+
+// Method 2: Implementing Runnable
+
+class MyTask implements Runnable {
+    public void run() {
+        System.out.println("Task running");
+    }
+}
+Thread t = new Thread(new MyTask());
+t.start();
 
 public class Main {
     public static void main(String[] args) {
@@ -1607,8 +1541,6 @@ public class Main {
 * **Concurrent collections** – thread-safe collections like `ConcurrentHashMap`.
 * **CompletableFuture (Java 8+)** – **asynchronous computation** with callbacks and chaining.
 
-
----
 
 * **Concurrency vs Parallelism**
 
@@ -1634,59 +1566,25 @@ executor.shutdown(); // Graceful shutdown
 
 ## 2. What are the types of thread pools?
 
-Java provides several predefined thread pool types through Executors class, each optimized for different use cases.
+* **Fixed Thread Pool** – A fixed number of threads handle tasks.
+* **Cached Thread Pool** – Creates new threads when needed and reuses existing ones.
+* **Single Thread Pool** – Uses only one thread to execute tasks sequentially.
+* **Scheduled Thread Pool** – Executes tasks after a delay or periodically.
 
 **Types of thread pools in Java** (via `Executors`) are:
 
-* **Fixed Thread Pool** – a **fixed number of threads** for executing tasks.
  ```java
+    // Fixed Thread Pool
    ExecutorService fixedPool = Executors.newFixedThreadPool(3);
-```
-
-* **Cached Thread Pool** – **creates threads as needed** and **reuses idle threads**.
-```java
+   // Cached Thread Pool
    ExecutorService cachedPool = Executors.newCachedThreadPool();
-```
-
-* **Single Thread Pool** – **only one thread** executes tasks sequentially.
-```java
+   // Single Thread Pool
    ExecutorService singlePool = Executors.newSingleThreadExecutor();
-```
-
-* **Scheduled Thread Pool** – **executes tasks after a delay or periodically**.
-```java
+   // Scheduled Thread Pool
    ScheduledExecutorService scheduledPool = Executors.newScheduledThreadPool(2);
 ```
 
-## 3. What is Future and CompletableFuture?
-
-**Future** represents the result of an asynchronous computation, while **CompletableFuture** is an enhanced version that supports functional programming and chaining operations.
-
-**Future:**
-- Represents pending result
-- Blocking get() method
-- Limited functionality
-- Cannot be completed manually
-
-**CompletableFuture:**
-- Non-blocking operations
-- Supports chaining and composition
-- Can be completed manually
-- Functional programming support
-
-```java
-// Future - basic async result
-Future<String> future = executor.submit(() -> "Hello");
-String result = future.get(); // Blocking call
-
-// CompletableFuture - enhanced async programming
-CompletableFuture<String> cf = CompletableFuture
-    .supplyAsync(() -> "Hello")
-    .thenApply(s -> s + " World")
-    .thenCompose(s -> CompletableFuture.completedFuture(s.toUpperCase()));
-```
-
-## 4. What is CountDownLatch?
+## 3. What is CountDownLatch?
 
 **CountDownLatch** is a **synchronization utility** that **blocks threads until a set count reaches zero**, using **countDown() to decrement** and **await() to wait**, and is **one-time use**.
 
@@ -1706,7 +1604,7 @@ latch.await(); // Wait for all tasks to complete
 System.out.println("All tasks finished");
 ```
 
-## 5. What is ReentrantLock?
+## 4. What is ReentrantLock?
 
 **ReentrantLock** is a class in Java (`java.util.concurrent.locks`) that provides an explicit and more flexible locking mechanism than `synchronized`.
 
@@ -1741,28 +1639,13 @@ public void method2() {
 }
 ```
 
-## 6. What is the difference between ReentrantLock and synchronized?
+## 5. What is the difference between ReentrantLock and synchronized?
 
-Both **`synchronized`** and **`ReentrantLock`** are used for **thread synchronization** in Java, but there are differences:
+Both **`synchronized`** and **ReentrantLock** are used to **control access to shared resources by multiple threads** in **Java**.
 
-* **`synchronized`** is a **built-in keyword**. It’s simple to use, automatically releases the lock, and blocks threads until the lock is available.
-* **`ReentrantLock`** is a **class from `java.util.concurrent`**. It offers more flexibility, like **tryLock()**, **lockInterruptibly()**, and **fair locking**. You must **manually release the lock** using `unlock()`.
+* **`synchronized`** – Simple keyword, automatically locks and unlocks, blocks threads until available.
+* **`ReentrantLock`** – A class that gives **more control**, like checking if a lock is available (`tryLock`) or interrupting waiting threads, but you have to **unlock manually**.
 
-In short: **synchronized is simpler**, while **ReentrantLock provides advanced features and greater control**.
-
-**ReentrantLock:**
-- Explicit lock/unlock
-- Supports fairness, timeout, interruption
-- More flexible but requires manual management
-- Can check if lock is held
-- Better performance under high contention
-
-**Synchronized:**
-- Implicit lock/unlock
-- Simpler syntax
-- Automatic lock release
-- JVM optimized
-- Cannot be interrupted
 
 ```java
 // ReentrantLock - explicit control
@@ -1940,24 +1823,12 @@ In Java, **Garbage Collectors (GC)** are responsible for **automatically reclaim
 
 ## 6. What is generational garbage collection?
 
-**Generational Garbage Collection** is a memory management strategy in JVM where the heap is divided into multiple generations based on the assumption that **most objects die young**.
+**Generational Garbage Collection** in **Java** is a technique where the **heap is divided into generations** to improve GC efficiency:
 
-**Young Generation:**
-- Eden space (new objects)
-- Survivor spaces (S0, S1)
-- Frequent, fast collection
+* **Young Generation** – Stores newly created objects. Collected frequently (minor GC). Most objects die here quickly.
+* **Old/Tenured Generation** – Stores long-lived objects that survived multiple GCs. Collected less frequently (major GC).
+* **Permanent/Metaspace** – Stores class metadata and static information.
 
-**Old Generation:**
-- Long-lived objects
-- Less frequent collection
-- More expensive cleanup
-
-**Collection Process:**
-- Objects start in Eden
-- Survivors move to Old generation
-- Different algorithms for each generation
-
-This approach optimizes GC performance by focusing on areas where most garbage exists.
 
 ## 7. What is the difference between minor GC and major GC?
 
@@ -1965,19 +1836,6 @@ A **Minor GC** occurs in the **Young Generation** of the heap and cleans up shor
 
 A **Major GC** (also called **Full GC**) runs on the **Old Generation** and removes long-lived objects that are no longer needed. It happens less often but takes more time and can significantly impact application performance.
 
-**Minor GC:**
-- Cleans Young Generation only
-- Fast and frequent
-- Typically takes milliseconds
-- Triggered when Eden space fills up
-- Most objects are collected here
-
-**Major GC:**
-- Cleans Old Generation (and sometimes entire heap)
-- Slower and less frequent
-- Can cause application pauses
-- Triggered when Old Generation fills up
-- Also called Full GC when entire heap is cleaned
 
 ```java
 // Objects that survive multiple minor GCs get promoted to Old Generation
@@ -1987,7 +1845,7 @@ String temp = "temporary"; // Likely collected in minor GC
 
 ## 8. What are GC roots?
 
-GC roots are objects that are always reachable and serve as starting points for garbage collection reachability analysis. Objects reachable from GC roots are considered live.
+**GC roots** are objects that are always reachable and serve as starting points for garbage collection reachability analysis. Objects reachable from GC roots are considered live.
 
 ```java
 public class Example {
@@ -3292,8 +3150,58 @@ CompletableFuture.runAsync(() ->
 ```java
 Map<String, WeakReference<Data>> cache = new ConcurrentHashMap<>();
 ```
+## 9. What is application.properties file and how value read from there?
 
-## 9. What is Cursor?
+`application.properties` is a **configuration file in Spring Boot** used to store **application settings**, such as database URLs, server ports, or custom values.
+
+**Example (`application.properties`):**
+
+```properties id="0z5kqg"
+server.port=8080
+spring.datasource.url=jdbc:mysql://localhost:3306/mydb
+app.name=MySpringApp
+```
+
+**Read Values from `application.properties`**
+
+**1. Using `@Value`**
+
+```java id="4y9qmr"
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
+
+@Component
+public class AppConfig {
+
+    @Value("${app.name}")
+    private String appName;
+
+    public void printName() {
+        System.out.println("Application Name: " + appName);
+    }
+}
+```
+
+**2. Using `@ConfigurationProperties`**
+
+```java id="1sy8y7"
+import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.stereotype.Component;
+
+@Component
+@ConfigurationProperties(prefix = "app")
+public class AppProperties {
+
+    private String name;
+
+    // getter and setter
+    public String getName() { return name; }
+    public void setName(String name) { this.name = name; }
+}
+```
+
+
+## 19. What is Cursor?
 
 A **cursor** fetches records **one by one (or in small chunks)** instead of loading the entire result into memory.
 
@@ -3320,7 +3228,7 @@ public void processProducts() {
 }
 ```
 
-## 10. What is Batch Processing?
+## 11. What is Batch Processing?
 
 Processing records in **small fixed-size chunks** (like 1000 records per batch)
 
@@ -3735,7 +3643,6 @@ public interface UserRepository extends JpaRepository<User, Long> {
 }
 ```
 
----
 
 ## 6: What is Spring Cloud? - asked
 
@@ -3763,7 +3670,6 @@ public class UserServiceApplication {
 }
 ```
 
----
 
 ## 7: What is Spring Security?
 
@@ -5445,7 +5351,7 @@ public class OrderController {
 }
 ```
 
-## 16. How do you implement an HTTP request using the Java 11 HttpClient API, and how does it differ from earlier Java versions?
+## 16. Java 11 HttpClient API, and how does it differ from earlier Java versions?
 
 In **Java 11**, the `HttpClient` API was introduced in the `java.net.http` package to simplify making HTTP requests. It supports **HTTP/1.1 and HTTP/2**, provides a **clean and fluent API**, and allows both **synchronous and asynchronous requests** using `CompletableFuture`.
 
@@ -5525,7 +5431,6 @@ public class MyApplet extends Applet {
 }
 ```
 
----
 
 ## 3: What is bytecode verification?
 
@@ -5568,7 +5473,6 @@ grant {
 };
 ```
 
----
 
 ## 5: What are digital signatures in Java?
 
@@ -5589,7 +5493,6 @@ signature.update(data);
 boolean isValid = signature.verify(digitalSignature);
 ```
 
----
 
 ## 6: What is encryption and decryption in Java?
 
@@ -5612,7 +5515,6 @@ cipher.init(Cipher.DECRYPT_MODE, secretKey);
 byte[] decrypted = cipher.doFinal(encrypted);
 ```
 
----
 
 ## 7: What is SSL/TLS in Java?
 
@@ -5646,10 +5548,7 @@ ResponseEntity<String> response = restTemplate.getForEntity(
     "https://api.example.com/data", String.class);
 ```
 
-🔹 **Application Security**
-
 ## 8: What is authentication vs authorization?
-
 
 * **Authentication**: Verifies "who you are" - identity verification
 * **Authorization**: Determines "what you can do" - access control
@@ -5675,7 +5574,6 @@ public ResponseEntity<String> authenticate(@RequestBody LoginRequest request) {
 public List<User> getUsers() { return userService.getAllUsers(); }
 ```
 
----
 
 ## 9: What is OAuth?
 
@@ -5704,7 +5602,6 @@ public class OAuth2Config {
 }
 ```
 
----
 
 ## 10: What is JWT (JSON Web Token)?
 
@@ -5734,7 +5631,6 @@ public class JwtService {
 }
 ```
 
----
 
 ## 11: What is CSRF protection?
 
@@ -5910,7 +5806,6 @@ public class PerformanceBottlenecks {
 }
 ```
 
----
 
 ## 3: How do you optimize Java code for performance?
 
@@ -5952,7 +5847,6 @@ public class OptimizedUserService {
 }
 ```
 
----
 
 ## 4: What is profiling in Java?
 
@@ -5993,7 +5887,6 @@ public class ProfiledService {
 }
 ```
 
----
 
 ## 5: What is JVM tuning?
 
@@ -6027,7 +5920,6 @@ java -Xms2g -Xmx4g \
 -XX:G1HeapRegionSize=16m
 ```
 
----
 
 ## 6: What are the JVM parameters for performance tuning?
 
@@ -6058,7 +5950,6 @@ java -Xms2g -Xmx4g \
 -XX:+UseStringDeduplication
 ```
 
----
 
 ## 7: What is memory profiling?
 
@@ -6073,7 +5964,6 @@ It helps identify **heap usage, object retention, memory leaks**, and uses tools
 * **Tools**: Eclipse MAT, JProfiler, VisualVM, JConsole
 * **Heap Dumps**: Snapshots of memory for offline analysis
 
----
 
 ## 8: What is CPU profiling?
 
@@ -6090,7 +5980,6 @@ It tracks **time spent in methods, call hierarchy**, uses **sampling or instrume
 * **Tools**: JProfiler, async-profiler, Java Flight Recorder
 
 
----
 
 ## 9: What is application performance monitoring (APM)?
 
@@ -6127,7 +6016,6 @@ public class MonitoredController {
 }
 ```
 
----
 
 ## 10: What is code profiling?
 
@@ -6163,7 +6051,6 @@ public class ProfiledCodeService {
 }
 ```
 
----
 
 ## 11: What is database optimization?
 
@@ -6196,7 +6083,6 @@ public class OptimizedUserRepository {
 }
 ```
 
----
 
 ## 12: What is query optimization?
 
@@ -6233,7 +6119,6 @@ public class OptimizedQueryRepository {
 }
 ```
 
----
 
 ## 13: What is lazy loading?
 
@@ -6280,7 +6165,6 @@ public class UserService {
 }
 ```
 
----
 
 ## 14: What is eager loading?
 
@@ -6318,7 +6202,6 @@ public class OrderRepository extends JpaRepository<Order, Long> {
 }
 ```
 
----
 
 ## 15: What is pagination?
 
@@ -6592,7 +6475,6 @@ jobs:
       run: ./mvnw package
 ```
 
----
 
 ## 2: What is continuous deployment?
 
@@ -6620,7 +6502,6 @@ deploy:
   when: manual  # or 'on_success' for full automation
 ```
 
----
 
 ## 3: What is Jenkins?
 
@@ -6668,7 +6549,6 @@ pipeline {
 }
 ```
 
----
 
 ## 4: What is Git?
 
@@ -6695,7 +6575,6 @@ git push origin main              # Push to remote
 git pull origin main              # Pull from remote
 ```
 
----
 
 ## 5: What is version control?
 
@@ -6721,7 +6600,6 @@ git tag v1.0.0               # Tag release version
 git revert abc123            # Revert specific commit
 ```
 
----
 
 ## 6: What is infrastructure as code?
 
@@ -6771,7 +6649,6 @@ resource "aws_instance" "web" {
 }
 ```
 
----
 
 ## 7: What is deployment strategies?
 
@@ -6805,7 +6682,6 @@ spec:
         image: myapp:v2.0.0
 ```
 
----
 
 ## 8: What is blue-green deployment?
 
@@ -6836,7 +6712,6 @@ spec:
   - port: 80
     targetPort: 8080
 
----
 # Green deployment (new version)
 apiVersion: apps/v1
 kind: Deployment
@@ -6859,7 +6734,6 @@ spec:
         image: myapp:v2.0.0
 ```
 
----
 
 ## 9: What is canary deployment?
 
@@ -6941,7 +6815,6 @@ EXPOSE 8080
 ENTRYPOINT ["java", "-jar", "/app.jar"]
 ```
 
----
 
 ## 11: What is Docker?
 
@@ -7092,119 +6965,54 @@ server {
 }
 ```
 
-## 1️6. How do you monitor application health in production?
+## 16. How do you monitor application health in production?
 
-In production, we monitor application health using tools like **Spring Boot Actuator, Prometheus, and Grafana**.
-Actuator provides health endpoints to check the status of the application. Prometheus collects metrics like CPU, memory, and request count, and Grafana shows dashboards and alerts.
-We also monitor logs and set alerts to detect issues quickly.
+Application health in production is monitored using **monitoring and logging tools** like **Spring Boot Actuator, Prometheus, Grafana, or CloudWatch**. These tools track **metrics like CPU usage, memory, response time, error rates, and logs** to detect issues and ensure the application runs smoothly.
+
+**Monitoring Tools**
+
+* Prometheus – collects metrics
+* Grafana – visual dashboards
+* Spring Boot Actuator – health endpoints
+* New Relic – APM monitoring
+
 
 ## 17. How do you handle rollback strategies?
 
-Rollback strategy means reverting to the previous stable version if the new deployment fails.
-We usually keep the previous version ready in **Docker or Kubernetes**.
-If an issue occurs, we quickly redeploy the last stable version.
-CI/CD tools like **Jenkins or GitHub Actions** also help automate rollback.
+Rollback strategies are used to **restore the system to a previous stable version if a deployment fails**. This can be done by **reverting to the previous application version, restoring database changes if needed, and redeploying the stable build** to keep the system running smoothly.
 
 
 ## 18. How do you manage database migrations?
 
-Database migrations are managed using tools like **Flyway or Liquibase**.
-These tools maintain versioned SQL scripts.
-Whenever we deploy a new application version, the migration scripts automatically update the database schema without manual work.
+Database migrations are managed using tools like **Flyway** or **Liquibase**. These tools **version and automate database schema changes**, ensuring the database is updated consistently across environments during deployments.
 
 
 ## 19. How do you ensure zero downtime deployments?
 
-Zero downtime deployment means users should not experience service interruption during deployment.
-We use strategies like **Blue-Green Deployment or Rolling Deployment** in Kubernetes.
-New instances start first, then traffic gradually shifts to them while old instances are removed.
+Zero downtime deployments are ensured using techniques like **Blue-Green deployment, rolling updates, or canary releases**. These methods deploy the **new version alongside the existing version**, and traffic is gradually shifted to the new version without stopping the application.
 
 ## 20. How do you manage logs across microservices?
 
-In microservices, logs from multiple services are centralized using tools like **ELK Stack (Elasticsearch, Logstash, Kibana)** or **Grafana Loki**.
-All services send logs to a central system where we can search, analyze, and monitor them easily.
+Logs across microservices are managed using **centralized logging**. All services send their logs to a **central logging system** like **ELK stack (Elasticsearch, Logstash, Kibana)** or **Splunk**, where logs can be **searched, monitored, and analyzed easily**. We also use **correlation IDs** to trace requests across multiple services.
+
 
 ## 21. How do you implement auto-scaling?
 
-Auto-scaling automatically increases or decreases application instances based on traffic.
-In cloud environments like AWS or Kubernetes, we configure auto-scaling based on metrics such as **CPU usage, memory usage, or request count**.
-This helps maintain performance during high traffic.
+Auto-scaling is implemented by **defining scaling rules based on metrics like CPU usage, memory, or request count**. When the load increases, the system **automatically adds more instances**, and when the load decreases, it **removes extra instances to save resources**.
 
-## 22. What rate limit and how it works?
+Tools:
 
-**Rate limiting** is a technique used in APIs or servers to **control how many requests a user or client can make in a specific time period**. It prevents system overload, abuse, and ensures fair usage.
+* Kubernetes **HPA (Horizontal Pod Autoscaler)**
+* Amazon Web Services **Auto Scaling Groups**
 
-**100 requests per minute per user** If a user sends more than 100 requests in 1 minute, the server blocks the extra requests
+## 22. What is Rate Limiting and how it works and where to implements?
 
-Server usually returns: **HTTP Status Code:** `429 Too Many Requests
+**Rate Limiting** is a technique used to **limit the number of requests a client can make to an API within a specific time period**. It helps **prevent system overload, abuse, and DDoS attacks**.
 
-**Why Rate Limiting is Used**
+It works by **tracking the number of requests from a user or IP**, and if the limit is exceeded, the system **rejects or delays further requests**.
 
-1. Prevent **API abuse**
-2. Protect **server resources**
-3. Avoid **DDoS attacks**
-4. Ensure **fair usage for all users**
-5. Control **traffic load**
+Rate limiting is usually implemented at the **API Gateway, Load Balancer, or application level (like in Spring Boot filters or interceptors)**.
 
-
-**How Rate Limiting Works**
-
-1. Client sends request to API
-2. Server checks **how many requests this user/IP has made**
-3. Server compares with **allowed limit**
-4. If limit not exceeded → request allowed
-5. If limit exceeded → request blocked (`429 error`)
-
-```xml
-<dependency>
-    <groupId>com.bucket4j</groupId>
-    <artifactId>bucket4j-core</artifactId>
-    <version>8.0.0</version>
-</dependency>
-```
-
-```java
-import io.github.bucket4j.*;
-import javax.servlet.*;
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.time.Duration;
-
-public class RateLimitFilter implements Filter {
-
-    private final Bucket bucket;
-
-    public RateLimitFilter() {
-        Bandwidth limit = Bandwidth.simple(10, Duration.ofMinutes(1));
-        this.bucket = Bucket.builder().addLimit(limit).build();
-    }
-
-    public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
-            throws IOException, ServletException {
-
-        if (bucket.tryConsume(1)) {
-            chain.doFilter(request, response);
-        } else {
-            HttpServletResponse httpResponse = (HttpServletResponse) response;
-            httpResponse.setStatus(429);
-            httpResponse.getWriter().write("Too many requests");
-        }
-    }
-}
-```
-
-**Where Rate Limiting is Implemented**
-1. **API Gateway** (Most common)
-
-   * Kong API Gateway
-   * NGINX
-   * Spring Cloud Gateway
-
-2. **Application level** (Spring Boot filter/interceptor)
-3. **Load balancer level**
-4. **Cloud services**
-   * Amazon Web Services API Gateway
-   * Microsoft Azure API Management
 
 
 # ✅ 26. Monitoring and Logging
@@ -7244,7 +7052,6 @@ public class UserController {
 }
 ```
 
----
 
 ## 2: What is logging framework?
 
@@ -7277,7 +7084,6 @@ public class UserService {
 }
 ```
 
----
 
 ## 3: What is Log4j?
 
@@ -7308,7 +7114,6 @@ It provides hierarchical loggers, multiple appenders (console, file, etc.), flex
 </Configuration>
 ```
 
----
 
 ## 4: What is SLF4J?
 
@@ -7350,48 +7155,28 @@ public class OrderService {
 }
 ```
 
----
 
 ## 5: What is Logback?
 
-**Logback** is a logging framework and the native implementation of the SLF4J API, designed as the successor to Log4j 1.x.
+**Logback** is a logging framework and the native implementation of SLF4J, designed as the successor to Log4j.
+It provides **better performance, flexible configuration, and is the default logging framework in Spring Boot.**
 
-It offers better performance, flexible configuration, automatic reload support, and is the default logging framework in Spring Boot.
-
+**Simple Configuration :**
 ```xml
-<!-- logback-spring.xml configuration -->
+// logback-spring.xml
 <configuration>
-    <springProfile name="dev">
-        <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
-            <encoder>
-                <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
-            </encoder>
-        </appender>
-        <root level="DEBUG">
-            <appender-ref ref="CONSOLE"/>
-        </root>
-    </springProfile>
-    
-    <springProfile name="prod">
-        <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
-            <file>logs/application.log</file>
-            <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-                <fileNamePattern>logs/application.%d{yyyy-MM-dd}.%i.gz</fileNamePattern>
-                <maxFileSize>100MB</maxFileSize>
-                <maxHistory>30</maxHistory>
-            </rollingPolicy>
-            <encoder>
-                <pattern>%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n</pattern>
-            </encoder>
-        </appender>
-        <root level="INFO">
-            <appender-ref ref="FILE"/>
-        </root>
-    </springProfile>
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%d{HH:mm:ss} %-5level %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <root level="INFO">
+        <appender-ref ref="CONSOLE"/>
+    </root>
 </configuration>
 ```
 
----
 
 ## 6: What is structured logging?
 
@@ -7436,7 +7221,6 @@ public class PaymentService {
 }
 ```
 
----
 
 ## 7: What is centralized logging?
 
@@ -7504,51 +7288,6 @@ public class LoggingConfig {
 
 It includes system metrics (CPU, memory), application metrics (response time, error rate), and business metrics, and is commonly done using tools like **Micrometer**, **Prometheus**, **InfluxDB**, and **Amazon CloudWatch**.
 
-```java
-// Metrics collection with Micrometer
-@Component
-public class MetricsCollector {
-    
-    private final MeterRegistry meterRegistry;
-    private final Counter orderCounter;
-    private final Timer orderProcessingTimer;
-    private final Gauge activeUsers;
-    
-    public MetricsCollector(MeterRegistry meterRegistry) {
-        this.meterRegistry = meterRegistry;
-        
-        // Counter for total orders
-        this.orderCounter = Counter.builder("orders.total")
-            .description("Total number of orders")
-            .tag("status", "created")
-            .register(meterRegistry);
-            
-        // Timer for processing duration
-        this.orderProcessingTimer = Timer.builder("orders.processing.time")
-            .description("Order processing time")
-            .register(meterRegistry);
-            
-        // Gauge for active users
-        this.activeUsers = Gauge.builder("users.active")
-            .description("Number of active users")
-            .register(meterRegistry, this, MetricsCollector::getActiveUserCount);
-    }
-    
-    public void recordOrderCreated() {
-        orderCounter.increment();
-    }
-    
-    public void recordOrderProcessingTime(Duration duration) {
-        orderProcessingTimer.record(duration);
-    }
-    
-    private double getActiveUserCount() {
-        return userService.getActiveUserCount();
-    }
-}
-```
-
----
 
 ## 9: What is JMX monitoring?
 
@@ -7556,63 +7295,22 @@ public class MetricsCollector {
 
 It uses **MBeans** to expose metrics and operations, and tools like **JConsole** allow local or remote monitoring and management of running JVM applications.
 
-```java
-// Custom MBean for monitoring
-@Component
-public class ApplicationMonitorMBean implements ApplicationMonitorMXBean {
-    
-    private final UserService userService;
-    private final OrderService orderService;
-    
-    @Override
-    public long getTotalUsers() {
-        return userService.getTotalUserCount();
-    }
-    
-    @Override
-    public long getActiveOrders() {
-        return orderService.getActiveOrderCount();
-    }
-    
-    @Override
-    public double getAverageResponseTime() {
-        return performanceService.getAverageResponseTime();
-    }
-    
-    @Override
-    public void clearCache() {
-        cacheService.clearAll();
-    }
-    
-    @Override
-    public String getApplicationStatus() {
-        return healthService.getOverallStatus();
-    }
-}
-
-// MBean interface
-public interface ApplicationMonitorMXBean {
-    long getTotalUsers();
-    long getActiveOrders();
-    double getAverageResponseTime();
-    void clearCache();
-    String getApplicationStatus();
-}
-```
 
 # ✅ 27.  Common Issues
 
 ## 0. What are common Java performance issues?
 
 Common **Java performance issues** include **memory leaks** (objects not garbage collected), **CPU bottlenecks** (inefficient code or blocking calls), **database problems** (slow queries or connection pool issues), and **thread contention** (threads competing for shared resources).
+Here is a **simple one-line explanation for each point**:
 
-* **Memory leaks** - Objects are created but not released from memory, so the Garbage Collector cannot remove them. Over time, memory usage increases and may cause OutOfMemoryError.
-* **CPU bottlenecks/Inefficient Algorithms** - Using slow algorithms or unnecessary loops increases CPU usage and slows the application.
-* **Database issues** - Slow queries or improper connection pool handling can slow down the entire application.
-* **Thread contention** - Multiple threads competing for resources
-* **Too Many Object Creationsv** - Creating many objects repeatedly can increase memory usage and GC overhead.
-* **Garbage Collection Overhead** - If the application creates many short-lived objects, Garbage Collection runs frequently, which can pause the application.
-* **Blocking I/O Operations** - Operations like file reading, network calls, or API calls may block threads and reduce throughput.
+* **Memory Leaks** – Objects stay in memory and are not removed by the Java Garbage Collector, increasing memory usage over time.
+* **CPU Bottlenecks / Inefficient Algorithms** – Poor algorithms or unnecessary loops increase CPU usage and slow the application.
+* **Database Issues** – Slow queries or poor connection pool management delay database responses.
+* **Thread Contention** – Multiple threads compete for the same resource, causing delays and blocking.
+* **Too Many Object Creations** – Creating many objects increases memory usage and garbage collection work.
+* **Garbage Collection Overhead** – Frequent garbage collection pauses the application and affects performance.
+* **Blocking I/O Operations** – File, network, or API calls block threads and reduce application throughput.
+
 
 ```java
 // Memory leak example
@@ -7642,7 +7340,7 @@ Here are **key points with one-line explanations** for improving performance in 
 12. **Use Lazy Initialization** – Load objects only when needed to reduce memory usage and startup time.
 
 
-## 2. What are common Java memory issues?
+## 2. What are Java memory issues?
 * **OutOfMemoryError :** - This happens when the JVM heap memory is full and cannot allocate new objects.
 * **Memory leaks :** - A memory leak happens when objects are no longer needed but are still referenced, so the Garbage Collector cannot remove them.
 * **Excessive Object Creation :** - Creating too many objects repeatedly increases memory usage and garbage collection activity, which slows down the application.
@@ -7659,7 +7357,7 @@ public void recursiveMethod() {
 List<String> list = new ArrayList<>(1000); // Pre-size collections
 ```
 
-## 3. What are common Java concurrency issues?
+## 3. What are Java concurrency issues?
 
 Common **Java concurrency issues** occur when multiple threads work on shared resources without proper coordination. This can cause incorrect results, slow performance, or application crashes.
 
@@ -7686,9 +7384,9 @@ public void safeMethod() {
 }
 ```
 
-## 4. What are common Java deployment issues?
+## 4. What are Java deployment issues?
 
-Common **Java deployment issues :** -  occur when an application runs correctly in development but fails or behaves differently in production.
+**Java deployment issues :** -  occur when an application runs correctly in development but fails or behaves differently in production.
 
 1. **Dependency Conflicts :** - 
 Different versions of libraries may cause **ClassNotFoundException** or **NoSuchMethodError** during deployment.
@@ -7711,7 +7409,7 @@ String classpath = System.getProperty("java.class.path");
 System.out.println("Classpath: " + classpath);
 ```
 
-## 5. What are common Java security issues?
+## 5. What are Java security issues?
 Common **Java security issues :** -  occur when applications are not properly protected from attacks or sensitive data exposure.
 
 1. **SQL Injection**
@@ -7780,49 +7478,198 @@ logger.debug("Processing user: {}, status: {}", userId, status);
    Record the fix for future reference.
 
 
-## 8. What are root cause analysis techniques?
-
-**Root Cause Analysis (RCA)** techniques help identify the **main reason behind a problem** instead of only fixing the symptoms.
-
-**Common RCA Techniques :**
-1. **5 Whys Technique :**
-   Ask **“Why?” multiple times** until the root cause is found.
-2. **Fishbone Diagram (Ishikawa) :**
-   A diagram used to identify possible causes in categories like **process, people, technology, and environment**.
-3. **Pareto Analysis (80/20 Rule) :**
-   Focus on the **20% of causes that create 80% of problems**.
-4. **Fault Tree Analysis :**
-   A diagram used to trace the **chain of events leading to a failure**.
-5. **Log and Data Analysis :**
-   Analyze logs, metrics, and system data to identify the root cause.
-
-```java
-// Add diagnostic information
-try {
-    processData();
-} catch (Exception e) {
-    logger.error("Failed processing at step: {}, data: {}", 
-                currentStep, data, e);
-    throw e;
-}
-```
-
-# ✅ 28.Real Production Scenario 
+# ✅ 28. Real Production Scenario 
 
 ## 1. Your production API response time suddenly increases. What steps will you take?
 
+**Answer:** Check monitoring dashboards for CPU/memory spikes, review recent deployments, analyze slow query logs, check database connection pools, verify external API dependencies, and enable APM tracing to identify bottlenecks.
+
+**Example:**
+```javascript
+// Add performance monitoring
+const startTime = Date.now();
+app.use((req, res, next) => {
+  res.on('finish', () => {
+    const duration = Date.now() - startTime;
+    if (duration > 1000) {
+      logger.warn(`Slow request: ${req.path} took ${duration}ms`);
+    }
+  });
+  next();
+});
+
+// Database query optimization
+const users = await User.find({ status: 'active' })
+  .select('name email')
+  .limit(100)
+  .lean(); // Use lean() for faster queries
+```
+
 ## 2. Your microservice starts failing under heavy load. What will you do?
+
+**Answer:** Implement circuit breakers, add rate limiting, enable auto-scaling, optimize database queries, add caching layer (Redis), implement request queuing, and use load balancers to distribute traffic.
+
+**Example:**
+```javascript
+// Circuit breaker pattern
+const circuitBreaker = require('opossum');
+
+const options = {
+  timeout: 3000,
+  errorThresholdPercentage: 50,
+  resetTimeout: 30000
+};
+
+const breaker = circuitBreaker(fetchUserData, options);
+
+breaker.fallback(() => ({ cached: true, data: getCachedData() }));
+
+// Rate limiting
+const rateLimit = require('express-rate-limit');
+const limiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: 100
+});
+app.use('/api/', limiter);
+```
 
 ## 3. A critical bug appears in production. How do you manage it?
 
-## 4. Your system experiences high memory usage. How do you debug it?
+**Answer:** Assess impact immediately, notify stakeholders, rollback to previous stable version if severe, apply hotfix with minimal changes, test in staging, deploy with feature flags, monitor closely, and conduct post-mortem analysis.
+
+**Example:**
+```javascript
+// Feature flag for quick rollback
+const featureFlags = {
+  newPaymentFlow: process.env.ENABLE_NEW_PAYMENT === 'true'
+};
+
+app.post('/payment', (req, res) => {
+  if (featureFlags.newPaymentFlow) {
+    return newPaymentHandler(req, res);
+  }
+  return legacyPaymentHandler(req, res); // Fallback
+});
+
+// Hotfix deployment script
+// package.json
+{
+  "scripts": {
+    "hotfix": "git checkout main && git pull && npm run build && pm2 reload all"
+  }
+}
+```
+
+## 4. Your system experiences high memory usage. How do you debug it and tools?
+
+**Answer:** Use heap dumps, profiling tools (Node.js: clinic.js, Java: JProfiler), check for memory leaks, analyze garbage collection logs, review large object allocations, and monitor with tools like New Relic or DataDog.
+
+**Example:**
+```javascript
+// Memory monitoring
+const v8 = require('v8');
+const heapStats = v8.getHeapStatistics();
+
+setInterval(() => {
+  const used = process.memoryUsage();
+  console.log({
+    rss: `${Math.round(used.rss / 1024 / 1024)}MB`,
+    heapUsed: `${Math.round(used.heapUsed / 1024 / 1024)}MB`,
+    external: `${Math.round(used.external / 1024 / 1024)}MB`
+  });
+  
+  if (used.heapUsed > 500 * 1024 * 1024) {
+    logger.error('High memory usage detected');
+  }
+}, 60000);
+
+// Fix memory leak - clear event listeners
+class DataProcessor {
+  constructor() {
+    this.listeners = [];
+  }
+  
+  cleanup() {
+    this.listeners.forEach(l => l.removeAllListeners());
+    this.listeners = [];
+  }
+}
+```
 
 ## 5. A deployment breaks the production environment. What is your response?
 
-## 6. Your frontend app becomes slow after a new release. What will you investigate?
+**Answer:** Immediately rollback to last stable version, check deployment logs and error traces, verify configuration changes, test rollback success, identify root cause, fix in staging, implement better CI/CD checks, and use blue-green deployment strategy.
 
-## 7. A security vulnerability is discovered. What steps will you take?
+**Example:**
+```javascript
+// Blue-Green deployment with health checks
+const express = require('express');
+const app = express();
 
-## 8. How do you handle major production outages?
+app.get('/health', (req, res) => {
+  const health = {
+    uptime: process.uptime(),
+    status: 'OK',
+    timestamp: Date.now(),
+    version: process.env.APP_VERSION
+  };
+  res.json(health);
+});
+
+// Rollback script
+// deploy.sh
+#!/bin/bash
+if ! curl -f http://localhost:3000/health; then
+  echo "Health check failed, rolling back..."
+  git revert HEAD
+  npm install
+  pm2 restart all
+  exit 1
+fi
+```
+
+## 6. A security vulnerability is discovered. What steps will you take?
+
+**Answer:** Assess severity (CVSS score), isolate affected systems, patch immediately, rotate credentials/tokens, audit logs for exploitation, notify security team and users if data breach, update dependencies, run security scans, and document incident.
+
+**Example:**
+```javascript
+// Immediate security patches
+// Update vulnerable dependencies
+npm audit fix --force
+
+// Rotate API keys
+const rotateApiKeys = async () => {
+  const newKey = generateSecureKey();
+  await db.apiKeys.update({ active: false });
+  await db.apiKeys.create({ key: newKey, active: true });
+  await notifyClients(newKey);
+};
+
+// Add security headers
+const helmet = require('helmet');
+app.use(helmet());
+
+// Audit logging
+const auditLog = (action, user, details) => {
+  logger.security({
+    timestamp: new Date(),
+    action,
+    user,
+    ip: details.ip,
+    severity: 'HIGH'
+  });
+};
+
+// Input validation to prevent injection
+const validator = require('validator');
+app.post('/api/user', (req, res) => {
+  if (!validator.isEmail(req.body.email)) {
+    return res.status(400).json({ error: 'Invalid email' });
+  }
+  // Process request
+});
+```
+
 
 # ✅ 29. Miscellaneous

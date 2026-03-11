@@ -417,6 +417,7 @@ public class StreamExamples {
                 list.stream().collect(Collectors.groupingBy(Employee::getDepartment));
         System.out.println(map);
         // Output: {HR=[Alice, Charlie], IT=[Bob]}
+
     }
 
     // 38 Detect Cycles in a Graph-Like Structure
